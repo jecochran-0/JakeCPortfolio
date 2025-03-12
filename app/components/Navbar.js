@@ -7,7 +7,7 @@ export default function Navbar() {
   const pathname = usePathname(); // ✅ Get the current path
 
   return (
-    <nav className="bg-neutral-800 mb-20 mt-5 flex justify-center gap-7 rounded-full mx-auto w-fit pl-5 pr-5 py-2 border-1">
+    <nav className="fixed top-0 inset-x-0 z-10 bg-neutral-800 mb-20 mt-5 flex justify-center gap-7 rounded-full mx-auto w-fit pl-5 pr-5 py-2 border-1">
       <Link href="/">
         <span className={pathname === "/" ? "active-link" : "nav-link"}>
           Home

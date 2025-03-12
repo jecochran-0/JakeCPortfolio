@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, memo } from "react";
+import React, { useState } from "react";
 // Import icons individually to reduce bundle size
 import { FaHtml5 } from "react-icons/fa";
 import { FaCss3Alt } from "react-icons/fa";
@@ -22,8 +22,8 @@ import { MdDesignServices } from "react-icons/md";
 import { TbBrandOpenai } from "react-icons/tb";
 import { BsDatabaseCheck } from "react-icons/bs";
 
-// Memoized rating component to prevent unnecessary re-renders
-const SkillRating = memo(({ level }) => {
+// Simple rating component without memo or animations
+const SkillRating = ({ level }) => {
   return (
     <div className="flex">
       {[...Array(5)].map((_, i) => (
@@ -34,33 +34,10 @@ const SkillRating = memo(({ level }) => {
       ))}
     </div>
   );
-});
-
-SkillRating.displayName = "SkillRating";
+};
 
 const Skills = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const element = document.getElementById("skills-section");
-      if (element) {
-        const position = element.getBoundingClientRect();
-        if (position.top < window.innerHeight * 0.75) {
-          setIsVisible(true);
-          // Remove scroll listener once visible
-          window.removeEventListener("scroll", handleScroll);
-        }
-      }
-    };
-
-    // Use passive event listener for better scroll performance
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Check initially
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const skillsData = [
     {
@@ -204,7 +181,7 @@ const Skills = () => {
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`px-4 py-2 rounded-md transition-all duration-300 ${
+                className={`px-4 py-2 rounded-md transition-colors ${
                   selectedCategory === category.id
                     ? "bg-white text-neutral-900"
                     : "text-gray-300 hover:bg-neutral-700"
@@ -216,24 +193,11 @@ const Skills = () => {
           </div>
         </div>
 
-        <div
-          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-opacity duration-1000 ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          {filteredSkills.map((skill, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredSkills.map((skill) => (
             <div
               key={skill.name}
-              className="bg-neutral-800 border border-neutral-700 rounded-lg p-6 shadow-md hover:shadow-white/5 transition-all duration-300 transform hover:-translate-y-1"
-              style={{
-                animationDelay: isVisible
-                  ? `${Math.min(index * 0.05, 0.5)}s`
-                  : "0s",
-                animation: isVisible
-                  ? `fadeIn 0.3s ease forwards ${Math.min(index * 0.05, 0.5)}s`
-                  : "none",
-                opacity: 0,
-              }}
+              className="bg-neutral-800 border border-neutral-700 rounded-lg p-6 shadow-md hover:shadow-white/5 transition-colors"
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
@@ -246,19 +210,6 @@ const Skills = () => {
           ))}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </section>
   );
 };

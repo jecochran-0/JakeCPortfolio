@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, memo } from "react";
+import React from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 
-// Memoize the project card component to prevent unnecessary re-renders
-const ProjectCard = memo(({ project, index, isVisible, placeholderImage }) => {
+// Simple project card without animations or memo
+const ProjectCard = ({ project, index }) => {
   // Calculate the grid span based on whether the project is featured
   let gridClasses = "";
 
@@ -23,25 +23,20 @@ const ProjectCard = memo(({ project, index, isVisible, placeholderImage }) => {
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-xl bg-neutral-800 border border-neutral-700 hover:border-white/20 transition-all duration-300 ${gridClasses}`}
-      style={{
-        animationDelay: isVisible ? `${Math.min(index * 0.05, 0.4)}s` : "0s",
-        animation: isVisible
-          ? `fadeIn 0.3s ease forwards ${Math.min(index * 0.05, 0.4)}s`
-          : "none",
-        opacity: 0,
-        willChange: "opacity, transform",
-      }}
+      className={`group relative overflow-hidden rounded-xl bg-neutral-800 border border-neutral-700 hover:border-white/20 transition-colors ${gridClasses}`}
     >
       {/* Project Image */}
       <div className="absolute inset-0 bg-neutral-800 z-0">
         <img
-          src={project.image || placeholderImage}
+          src={
+            project.image ||
+            `/api/placeholder/400/300?text=Project+${project.id}`
+          }
           alt={project.title}
-          loading="lazy"
+          loading="eager" // Force eager loading
           width="400"
           height="300"
-          className="w-full h-full object-cover opacity-60 group-hover:opacity-30 transition-opacity duration-300"
+          className="w-full h-full object-cover opacity-60 group-hover:opacity-30 transition-opacity"
         />
       </div>
 
@@ -61,7 +56,7 @@ const ProjectCard = memo(({ project, index, isVisible, placeholderImage }) => {
       </div>
 
       {/* Expanded Content (visible on hover) */}
-      <div className="absolute inset-0 p-4 bg-neutral-900/90 flex flex-col justify-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 z-20">
+      <div className="absolute inset-0 p-4 bg-neutral-900/90 flex flex-col justify-center opacity-0 group-hover:opacity-100 translate-y-0 group-hover:translate-y-0 transition-opacity z-20">
         <h3 className="text-xl font-bold mb-3">{project.title}</h3>
         <p className="text-neutral-300 mb-4">{project.description}</p>
         <div className="flex flex-wrap gap-2 mb-4">
@@ -95,36 +90,9 @@ const ProjectCard = memo(({ project, index, isVisible, placeholderImage }) => {
       </div>
     </div>
   );
-});
-
-// Add display name for the memo component
-ProjectCard.displayName = "ProjectCard";
+};
 
 const Projects = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const element = document.getElementById("projects-section");
-      if (element) {
-        const position = element.getBoundingClientRect();
-        if (position.top < window.innerHeight * 0.75) {
-          setIsVisible(true);
-          // Remove scroll listener once visible to improve performance
-          window.removeEventListener("scroll", handleScroll);
-        }
-      }
-    };
-
-    // Use passive event listener for better scroll performance
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    // Check initially
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const projects = [
     {
       id: 1,
@@ -193,45 +161,17 @@ const Projects = () => {
     },
   ];
 
-  // Function to generate placeholder image URLs with specified dimensions
-  const getPlaceholderImage = (id) => {
-    return `/api/placeholder/400/300?text=Project+${id}`;
-  };
-
   return (
     <section id="projects-section" className="py-8 bg-neutral-900 text-white">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-12">My Projects</h2>
 
-        <div
-          className={`grid grid-cols-12 auto-rows-[180px] gap-4 transition-opacity duration-1000 ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
-        >
+        <div className="grid grid-cols-12 auto-rows-[180px] gap-4">
           {projects.map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              index={index}
-              isVisible={isVisible}
-              placeholderImage={getPlaceholderImage(project.id)}
-            />
+            <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </section>
   );
 };

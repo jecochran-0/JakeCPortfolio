@@ -1,12 +1,18 @@
 function HeroButtons() {
   return (
-    <div className="flex gap-6 mt-6">
-      <button className="bg-white text-black h-[60px] w-[160px] rounded-xl text-md transition-all duration-300 ease-in-out shadow-md hover:shadow-lg hover:scale-105 hover:bg-gray-200 focus:ring-2 focus:ring-white">
+    <div className="mt-q0 flex gap-4">
+      <a
+        href="#about-me"
+        className="bg-white text-black py-3 px-6 rounded-full font-medium"
+      >
         About Me
-      </button>
-      <button className="bg-white text-black h-[60px] w-[160px] rounded-xl text-lg transition-all duration-300 ease-in-out shadow-md hover:shadow-lg hover:scale-105 hover:bg-gray-200 focus:ring-2 focus:ring-white">
+      </a>
+      <a
+        href="#projects"
+        className="bg-transparent border border-white text-white py-3 px-6 rounded-full font-medium"
+      >
         My Projects
-      </button>
+      </a>
     </div>
   );
 }

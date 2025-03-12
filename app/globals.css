@@ -24,22 +24,39 @@
   @apply bg-white flex justify-center items-center px-6 py-2 rounded-full text-black shadow-[0px_0px_10px_rgba(255,255,255,0.8)];
 }
 
-.signature-path path {
-  stroke-dasharray: 1000; /* Adjust this value to match the length of your path */
-  stroke-dashoffset: 1000;
-  animation: draw-signature 3.5s ease-in-out forwards,
-    fade-in 1s ease-in 2s forwards, glow 1.5s infinite alternate;
+.signature-svg {
+  transform: translateZ(0); /* Force hardware acceleration */
+}
 
-  filter: drop-shadow(
-    0px 0px 4px rgba(255, 255, 255, 0.6)
-  ); /* Soft glow effect */
+/* Base styles for all paths */
+.signature-path-1,
+.signature-path-2,
+.signature-path-3 {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  transform: translateZ(0);
+}
+
+/* First path animation with timing function that mimics handwriting speed variations */
+.signature-path-1 {
+  animation: draw-signature 2.2s cubic-bezier(0.35, 0, 0.45, 1) forwards;
+}
+
+/* Second path animation - starts with slight overlap for natural flow */
+.signature-path-2 {
+  animation: draw-signature 1.2s cubic-bezier(0.65, 0, 0.35, 1) 2s forwards;
+}
+
+/* Third path animation - starts with slight overlap for natural flow */
+.signature-path-3 {
+  animation: draw-signature 1.3s cubic-bezier(0.5, 0, 0.5, 1) 3s forwards;
 }
 
 @keyframes draw-signature {
-  from {
+  0% {
     stroke-dashoffset: 1000;
   }
-  to {
+  100% {
     stroke-dashoffset: 0;
   }
 }

@@ -2,20 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Metrophobic&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap");
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  font-family: "Inter", sans-serif;
+  @apply bg-neutral-900;
+  @apply text-sky-100;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Base styles for all NavLinks */
+.nav-link {
+  @apply flex justify-center rounded-full items-center px-6 py-2 transition duration-300 text-gray-300 hover:text-white;
+}
+
+.nav-link:hover {
+  @apply bg-white/50 flex justify-center items-center px-6 py-2 rounded-full text-black shadow-[0px_0px_10px_rgba(255,255,255,0.8)];
+}
+
+/* Styles for active NavLink */
+.active-link {
+  @apply bg-white flex justify-center items-center px-6 py-2 rounded-full text-black shadow-[0px_0px_10px_rgba(255,255,255,0.8)];
+}
+
+.signature-path path {
+  stroke-dasharray: 1000; /* Adjust this value to match the length of your path */
+  stroke-dashoffset: 1000;
+  animation: draw-signature 3.5s ease-in-out forwards,
+    fade-in 1s ease-in 2s forwards, glow 1.5s infinite alternate;
+
+  filter: drop-shadow(
+    0px 0px 4px rgba(255, 255, 255, 0.6)
+  ); /* Soft glow effect */
+}
+
+@keyframes draw-signature {
+  from {
+    stroke-dashoffset: 1000;
   }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  to {
+    stroke-dashoffset: 0;
+  }
 }

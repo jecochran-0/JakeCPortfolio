@@ -16,7 +16,6 @@ import { GiMountainClimbing } from "react-icons/gi";
 import { GiThink } from "react-icons/gi";
 import { IoIosRocket } from "react-icons/io";
 import { RiTeamFill } from "react-icons/ri";
-
 // Simple rating component
 const SkillRating = ({ level }) => {
   return (

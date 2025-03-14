@@ -5,7 +5,7 @@ import Hero from "./components/Hero";
 
 // Lazy load the heavier components
 const Skills = lazy(() => import("./components/Skills"));
-const SoftSkills = lazy(() => import("./components/SoftSkills"));
+const SoftSkills = lazy(() => import("./components/SoftSkills")); // Ensure this path is correct and the module exists
 const Projects = lazy(() => import("./components/Projects"));
 
 export default function Home() {
@@ -23,7 +23,9 @@ export default function Home() {
     // Pre-load components right after initial render for smoother transitions later
     const timer = setTimeout(() => {
       import("./components/Skills");
-      import("./components/SoftSkills");
+      import("./components/SoftSkills").catch((err) =>
+        console.error("Failed to load SoftSkills component", err)
+      );
       import("./components/Projects");
     }, 1000);
 

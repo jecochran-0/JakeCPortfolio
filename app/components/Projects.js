@@ -115,21 +115,21 @@ const Projects = () => {
       image: "/images/placeholder-2.jpg", // Replace with your actual image path
       tags: ["React.js", "Tailwind", "JavaScript"],
       links: {
-        live: "https://example.com",
+        live: "https://jecochran-0.github.io/BentoBox/",
         github: "https://github.com/yourusername/portfolio",
       },
       featured: true,
     },
     {
       id: 3,
-      title: "Weather Dashboard",
+      title: "BentoBox",
       description:
-        "A responsive weather application that provides real-time weather data and forecasts using a weather API.",
-      image: "/images/placeholder-3.jpg", // Replace with your actual image path
+        "A modern web application that uses AI to create beautiful, responsive Bento grid layouts from your photos. Upload 3-5 images and the app will generate three distinct grid layouts optimized for your specific photos.",
+      image: "/BentoBoxPreview.png", // Replace with your actual image path
       tags: ["JavaScript", "API", "CSS"],
       links: {
         live: "https://example.com/weather",
-        github: "https://github.com/yourusername/weather-app",
+        github: "https://github.com/jecochran-0/BentoBox/tree/main",
       },
       featured: false,
     },

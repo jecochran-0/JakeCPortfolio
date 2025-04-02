@@ -99,17 +99,17 @@ const Projects = () => {
       title: "Pizza E-Commerce Store",
       description:
         "A fully functional e-commerce prototype featuring a dynamic menu API, shopping cart system, and Redux state management.",
-      image: "/images/placeholder-1.jpg", // Replace with your actual image path
+      image: "/PizzaStorePreview.png", // Replace with your actual image path
       tags: ["React.js", "Tailwind", "Redux"],
       links: {
-        live: "https://example.com/pizza-store",
-        github: "https://github.com/yourusername/pizza-store",
+        live: "https://react-pizza-store-omega.vercel.app/",
+        github: "https://github.com/jecochran-0/React-Pizza-Store",
       },
       featured: true,
     },
     {
       id: 2,
-      title: "Portfolio Website",
+      title: "Wizards Chess",
       description:
         "A personal portfolio website showcasing my projects and skills as a software engineer and UI/UX designer.",
       image: "/images/placeholder-2.jpg", // Replace with your actual image path
@@ -128,34 +128,34 @@ const Projects = () => {
       image: "/BentoBoxPreview.png", // Replace with your actual image path
       tags: ["JavaScript", "API", "CSS"],
       links: {
-        live: "https://example.com/weather",
+        live: "https://jecochran-0.github.io/BentoBox/",
         github: "https://github.com/jecochran-0/BentoBox/tree/main",
       },
       featured: false,
     },
     {
       id: 4,
-      title: "Clicker Quest",
+      title: "Pixel Character Creator",
       description:
-        "A browser-based incremental game that dynamically generates unique pixel-art heroes and backstories using OpenAI's API.",
-      image: "/images/placeholder-4.jpg", // Replace with your actual image path
-      tags: ["HTML", "CSS", "JavaScript", "OpenAI"],
+        "A browser-based application that dynamically generates unique pixel-art heroes using OpenAI's API.",
+      image: "/PixelCharacterCreatorPreview.png", // Replace with your actual image path
+      tags: ["HTML", "CSS", "JavaScript", "OpenAI", "api"],
       links: {
-        live: "https://example.com/clicker-quest",
-        github: "https://github.com/yourusername/clicker-quest",
+        live: "https://pixel-character-generator.vercel.app/",
+        github: "https://github.com/jecochran-0/pixelCharacterGenerator",
       },
       featured: false,
     },
     {
       id: 5,
-      title: "Task Management App",
+      title: "Algorithm Visualizer",
       description:
         "A full-stack task management application with user authentication, task prioritization, and deadline tracking.",
-      image: "/images/placeholder-5.jpg", // Replace with your actual image path
+      image: "/AlgorithmVisualizerPreview.png", // Replace with your actual image path
       tags: ["React.js", "Node.js", "MongoDB"],
       links: {
-        live: "https://example.com/task-app",
-        github: "https://github.com/yourusername/task-app",
+        live: "https://jecochran-0.github.io/algorithm_visualizer/",
+        github: "https://github.com/jecochran-0/algorithm_visualizer",
       },
       featured: false,
     },

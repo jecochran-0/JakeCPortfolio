@@ -1,6 +1,6 @@
 "use client";
 
-import { lazy, useState, useEffect, useRef } from "react";
+import React, { lazy, useState, useEffect, useRef, ReactNode } from "react";
 import Hero from "./components/Hero";
 
 // Lazy load components
@@ -12,9 +12,28 @@ const SoftSkills = lazy(() => import("./components/SoftSkills"));
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Projects = lazy(() => import("./components/Projects"));
 
+// Add TypeScript interfaces for the component props
+interface ScrollRevealSectionProps {
+  children: ReactNode;
+  id?: string;
+  delay?: number;
+  className?: string;
+}
+
+interface SectionProps {
+  children: ReactNode;
+  id?: string;
+  className?: string;
+}
+
 // Clean, simple reveal animation on scroll
-const ScrollRevealSection = ({ children, id, delay = 0, className = "" }) => {
-  const sectionRef = useRef(null);
+const ScrollRevealSection = ({
+  children,
+  id,
+  delay = 0,
+  className = "",
+}: ScrollRevealSectionProps) => {
+  const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -53,7 +72,7 @@ const ScrollRevealSection = ({ children, id, delay = 0, className = "" }) => {
 };
 
 // Simple section component with clean styling
-const Section = ({ children, id, className = "" }) => {
+const Section = ({ children, id, className = "" }: SectionProps) => {
   return (
     <section id={id} className={`py-24 bg-neutral-900 ${className}`}>
       <div className="container mx-auto px-4">{children}</div>
@@ -125,7 +144,7 @@ export default function Home() {
   }, []);
 
   // Component renderer
-  const renderComponent = (name) => {
+  const renderComponent = (name: "skills" | "softSkills" | "projects") => {
     const Component = loadedComponents[name];
     const isVisible = visibleSections[name];
 

@@ -229,7 +229,7 @@ const Skills = () => {
           animate="show"
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {filteredSkills.map((skill, index) => (
+          {filteredSkills.map((skill) => (
             <motion.div
               key={skill.name}
               variants={itemVariants}

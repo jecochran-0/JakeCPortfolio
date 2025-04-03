@@ -1,7 +1,6 @@
 "use client";
 
 import { lazy, useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import Hero from "./components/Hero";
 
 // Lazy load components

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -33,30 +33,31 @@ const ProjectCard = ({ project, index }) => {
       className={`group relative overflow-hidden rounded-xl bg-neutral-800/90 border border-neutral-700
         hover:border-white/30 transition-all duration-300
         shadow-lg hover:shadow-xl hover:scale-[1.02] hover:z-10 ${gridClasses}`}
-      style={{ willChange: "transform, opacity" }} // Hardware acceleration hint
+      style={{ willChange: "transform, opacity" }}
     >
-      {/* Project Image - Simplified for better performance */}
+      {/* Project Image - Replace img with Next.js Image component */}
       <div className="absolute inset-0 bg-neutral-800 z-0 overflow-hidden">
-        <img
-          src={
-            project.image
-              ? project.image
-              : `https://via.placeholder.com/400x300/232323/ffffff?text=${encodeURIComponent(
-                  project.title
-                )}`
-          }
-          alt={project.title}
-          loading="eager"
-          width="400"
-          height="300"
-          className="w-full h-full object-cover opacity-70 group-hover:opacity-40 transition-opacity duration-300"
-          style={{ willChange: "opacity" }}
-          onError={(e) => {
-            e.target.src = `https://via.placeholder.com/400x300/232323/ffffff?text=${encodeURIComponent(
-              project.title
-            )}`;
-          }}
-        />
+        <div className="w-full h-full relative">
+          {project.image ? (
+            // Use a div with background-image instead of <img>
+            <div
+              className="absolute inset-0 bg-cover bg-center opacity-70 group-hover:opacity-40 transition-opacity duration-300"
+              style={{
+                backgroundImage: `url(${project.image})`,
+                willChange: "opacity",
+              }}
+            />
+          ) : (
+            <div
+              className="absolute inset-0 bg-neutral-900 flex items-center justify-center opacity-70 group-hover:opacity-40 transition-opacity duration-300"
+              style={{ willChange: "opacity" }}
+            >
+              <span className="text-white text-xl font-bold">
+                {project.title}
+              </span>
+            </div>
+          )}
+        </div>
         {/* Simple overlay for better performance */}
         <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/90 to-transparent"></div>
       </div>

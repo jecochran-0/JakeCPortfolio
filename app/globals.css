@@ -60,3 +60,151 @@
     stroke-dashoffset: 0;
   }
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+/* Add this for the parallax sections */
+.parallax-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  transform-origin: center top;
+}
+
+/* Gradient overlay for parallax backgrounds */
+.parallax-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(23, 23, 23, 0.7),
+    rgba(23, 23, 23, 0.9)
+  );
+  z-index: -1;
+}
+
+/* Add enhanced animations for section transitions */
+.slide-in-section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.slide-in-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* For staggered child animations */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.stagger-children.visible > *:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.stagger-children.visible > *:nth-child(2) {
+  transition-delay: 0.2s;
+}
+.stagger-children.visible > *:nth-child(3) {
+  transition-delay: 0.3s;
+}
+.stagger-children.visible > *:nth-child(4) {
+  transition-delay: 0.4s;
+}
+.stagger-children.visible > *:nth-child(5) {
+  transition-delay: 0.5s;
+}
+.stagger-children.visible > *:nth-child(6) {
+  transition-delay: 0.6s;
+}
+
+.stagger-children.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Enhanced parallax backgrounds */
+.hero-bg-gradient {
+  background: linear-gradient(45deg, #0f172a, #1e293b);
+}
+
+.skills-bg-gradient {
+  background: linear-gradient(45deg, #18181b, #27272a);
+}
+
+.softskills-bg-gradient {
+  background: linear-gradient(45deg, #0c0a1f, #1a1832);
+}
+
+.projects-bg-gradient {
+  background: linear-gradient(45deg, #134e4a, #0f766e);
+}
+
+/* Add a subtle animated gradient for more visual interest */
+.animated-gradient {
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

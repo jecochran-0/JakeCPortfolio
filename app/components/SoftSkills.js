@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 // Import icons for soft skills
 import { FaUsers } from "react-icons/fa";
 import { FaBrain } from "react-icons/fa";
@@ -127,18 +128,51 @@ const SoftSkills = () => {
       ? skillsData
       : skillsData.filter((skill) => skill.category === selectedCategory);
 
-  return (
-    <section
-      id="soft-skills-section"
-      className="py-16 bg-neutral-900 text-white"
-    >
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">Soft Skills</h2>
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
 
-        <div className="flex justify-center mb-8 overflow-x-auto pb-2">
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  return (
+    <section className="py-16 bg-neutral-900">
+      <div className="container mx-auto px-4">
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-4xl font-bold text-center mb-16 text-white"
+        >
+          Soft Skills
+        </motion.h2>
+
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+          className="flex justify-center mb-8 overflow-x-auto pb-2"
+        >
           <div className="inline-flex bg-neutral-800 p-1 rounded-lg shadow-md">
             {categories.map((category) => (
-              <button
+              <motion.button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
                 className={`px-4 py-2 rounded-md transition-colors whitespace-nowrap ${
@@ -148,15 +182,21 @@ const SoftSkills = () => {
                 }`}
               >
                 {category.name}
-              </button>
+              </motion.button>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           {filteredSkills.map((skill) => (
-            <div
+            <motion.div
               key={skill.name}
+              variants={itemVariants}
               className="bg-neutral-800 border border-neutral-700 rounded-lg p-6 shadow-md hover:shadow-white/5 transition-colors"
             >
               <div className="flex items-center justify-between mb-4">
@@ -170,9 +210,9 @@ const SoftSkills = () => {
               <p className="text-sm text-gray-400">
                 {getSkillDescription(skill.name)}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -4,8 +4,12 @@ import { lazy, useState, useEffect, useRef } from "react";
 import Hero from "./components/Hero";
 
 // Lazy load components
+// These are used through renderComponent, so disable the unused-vars rule
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Skills = lazy(() => import("./components/Skills"));
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SoftSkills = lazy(() => import("./components/SoftSkills"));
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Projects = lazy(() => import("./components/Projects"));
 
 // Clean, simple reveal animation on scroll

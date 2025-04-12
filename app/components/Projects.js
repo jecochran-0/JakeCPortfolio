@@ -10,15 +10,13 @@ const ProjectCard = ({ project, index }) => {
   // Calculate the grid span based on whether the project is featured
   let gridClasses = "";
 
-  // Featured projects take up more space
-  if (project.featured) {
-    if (index === 0) {
-      gridClasses = "col-span-12 md:col-span-8 row-span-2";
-    } else {
-      gridClasses = "col-span-12 md:col-span-4 row-span-2";
-    }
+  // First two projects (Pizza Store and Wizards Chess) take up more space
+  if (index === 0) {
+    gridClasses = "col-span-12 md:col-span-8 row-span-2";
+  } else if (index === 1) {
+    gridClasses = "col-span-12 md:col-span-4 row-span-2";
   } else {
-    // Non-featured projects
+    // Other projects
     gridClasses = "col-span-12 md:col-span-4 row-span-1";
   }
 
@@ -141,6 +139,19 @@ const Projects = () => {
   const projects = [
     {
       id: 1,
+      title: "Wizards Chess",
+      description:
+        "A chess game with integrated spells to drastically change the game. Built with React, CSS, and JavaScript.",
+      image: "/WizardChessPreview.png",
+      tags: ["React.js", "Tailwind", "JavaScript"],
+      links: {
+        live: "https://react-wizard-chess.vercel.app/",
+        github: "https://github.com/jecochran-0/React-Wizard-Chess",
+      },
+      featured: true,
+    },
+    {
+      id: 2,
       title: "Pizza E-Commerce Store",
       description:
         "A fully functional e-commerce prototype featuring a dynamic menu API, shopping cart system, and Redux state management.",
@@ -149,19 +160,6 @@ const Projects = () => {
       links: {
         live: "https://react-pizza-store-omega.vercel.app/",
         github: "https://github.com/jecochran-0/React-Pizza-Store",
-      },
-      featured: true,
-    },
-    {
-      id: 2,
-      title: "Wizards Chess",
-      description:
-        "A personal portfolio website showcasing my projects and skills as a software engineer and UI/UX designer.",
-      image: "/PixelCharacterGenerator.png",
-      tags: ["React.js", "Tailwind", "JavaScript"],
-      links: {
-        live: "https://jecochran-0.github.io/BentoBox/",
-        github: "https://github.com/yourusername/portfolio",
       },
       featured: true,
     },

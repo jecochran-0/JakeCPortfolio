@@ -74,7 +74,7 @@ const ScrollRevealSection = ({
 // Simple section component with clean styling
 const Section = ({ children, id, className = "" }: SectionProps) => {
   return (
-    <section id={id} className={`py-24 bg-neutral-900 ${className}`}>
+    <section id={id} className={`py-24 bg-white ${className}`}>
       <div className="container mx-auto px-4">{children}</div>
     </section>
   );
@@ -156,14 +156,14 @@ export default function Home() {
   };
 
   return (
-    <main className="bg-neutral-900">
-      {/* Hero Section */}
-      <Section id="hero-section" className="min-h-screen flex items-center">
+    <main className="bg-white">
+      {/* Hero Section - Full width, no padding */}
+      <div className="w-full">
         <Hero />
-      </Section>
+      </div>
 
       {/* Subtle section divider */}
-      <div className="bg-neutral-800 h-px w-full max-w-5xl mx-auto" />
+      <div className="bg-gray-200 h-px w-full max-w-5xl mx-auto" />
 
       {/* Skills Section */}
       <Section id="skills-section">
@@ -171,7 +171,7 @@ export default function Home() {
       </Section>
 
       {/* Subtle section divider */}
-      <div className="bg-neutral-800 h-px w-full max-w-5xl mx-auto" />
+      <div className="bg-gray-200 h-px w-full max-w-5xl mx-auto" />
 
       {/* Soft Skills Section */}
       <Section id="soft-skills-section">
@@ -181,7 +181,7 @@ export default function Home() {
       </Section>
 
       {/* Subtle section divider */}
-      <div className="bg-neutral-800 h-px w-full max-w-5xl mx-auto" />
+      <div className="bg-gray-200 h-px w-full max-w-5xl mx-auto" />
 
       {/* Projects Section */}
       <Section id="projects-section">

@@ -6,22 +6,22 @@
 
 :root {
   font-family: "Inter", sans-serif;
-  @apply bg-neutral-900;
-  @apply text-sky-100;
+  @apply bg-white;
+  @apply text-gray-900;
 }
 
 /* Base styles for all NavLinks */
 .nav-link {
-  @apply flex justify-center rounded-full items-center px-6 py-2 transition duration-300 text-gray-300 hover:text-white;
+  @apply flex justify-center rounded-full items-center px-6 py-2 transition duration-300 text-gray-700 hover:text-black;
 }
 
 .nav-link:hover {
-  @apply bg-white/50 flex justify-center items-center px-6 py-2 rounded-full text-black shadow-[0px_0px_10px_rgba(255,255,255,0.8)];
+  @apply bg-black/10 flex justify-center items-center px-6 py-2 rounded-full text-black shadow-[0px_0px_10px_rgba(0,0,0,0.1)];
 }
 
 /* Styles for active NavLink */
 .active-link {
-  @apply bg-white flex justify-center items-center px-6 py-2 rounded-full text-black shadow-[0px_0px_10px_rgba(255,255,255,0.8)];
+  @apply bg-black flex justify-center items-center px-6 py-2 rounded-full text-white shadow-[0px_0px_10px_rgba(0,0,0,0.2)];
 }
 
 .signature-svg {
@@ -86,16 +86,16 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #111;
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #ccc;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #444;
+  background: #aaa;
 }
 
 /* Add this for the parallax sections */
@@ -125,8 +125,8 @@ html {
   height: 100%;
   background: linear-gradient(
     to bottom,
-    rgba(23, 23, 23, 0.7),
-    rgba(23, 23, 23, 0.9)
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.9)
   );
   z-index: -1;
 }
@@ -174,21 +174,21 @@ html {
   transform: translateY(0);
 }
 
-/* Enhanced parallax backgrounds */
+/* Enhanced backgrounds */
 .hero-bg-gradient {
-  background: linear-gradient(45deg, #0f172a, #1e293b);
+  background: linear-gradient(45deg, #ffffff, #f5f5f5);
 }
 
 .skills-bg-gradient {
-  background: linear-gradient(45deg, #18181b, #27272a);
+  background: linear-gradient(45deg, #f8f8f8, #efefef);
 }
 
 .softskills-bg-gradient {
-  background: linear-gradient(45deg, #0c0a1f, #1a1832);
+  background: linear-gradient(45deg, #f5f5f5, #f0f0f0);
 }
 
 .projects-bg-gradient {
-  background: linear-gradient(45deg, #134e4a, #0f766e);
+  background: linear-gradient(45deg, #ffffff, #fafafa);
 }
 
 /* Add a subtle animated gradient for more visual interest */
@@ -207,4 +207,108 @@ html {
   100% {
     background-position: 0% 50%;
   }
+}
+
+/* Hero video styles */
+.hero-video-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: white;
+}
+
+.hero-video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  /* Prevent any filters or opacity changes */
+  opacity: 1 !important;
+  cursor: pointer; /* Show pointer cursor to indicate it's clickable */
+}
+
+/* Adjust video position on smaller screens to keep the Spotify app UI visible */
+@media (max-width: 768px) {
+  .hero-video {
+    object-position: 70% center; /* Shift focus to show the phone UI better */
+  }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 1s ease-in-out;
+}
+
+/* Content fade-in animation */
+@keyframes fadeInContent {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-content {
+  animation: fadeInContent 1s ease-out forwards;
+}
+
+/* Skip indicator animation */
+@keyframes pulseSkip {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+}
+
+.pulse-skip {
+  animation: pulseSkip 2s ease-in-out infinite;
+}
+
+/* Fast-forward indicator animation */
+@keyframes pulseFastForward {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+}
+
+.pulse-fast-forward {
+  animation: pulseFastForward 0.8s ease-in-out infinite;
+  background: rgba(0, 0, 0, 0.7); /* Darker background */
+  font-weight: 500; /* Slightly bolder text */
+}
+
+/* Fast-forwarding video effect */
+.fast-forwarding {
+  filter: brightness(1.05) contrast(1.05);
+  transition: filter 0.3s ease;
 }

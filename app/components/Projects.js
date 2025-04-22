@@ -28,18 +28,18 @@ const ProjectCard = ({ project, index }) => {
         duration: 0.5,
         delay: index * 0.1,
       }}
-      className={`group relative overflow-hidden rounded-xl bg-neutral-800/90 border border-neutral-700
-        hover:border-white/30 transition-all duration-300
-        shadow-lg hover:shadow-xl hover:scale-[1.02] hover:z-10 ${gridClasses}`}
+      className={`group relative overflow-hidden rounded-xl bg-white border border-gray-200
+        hover:border-blue-300 transition-all duration-300
+        shadow-md hover:shadow-xl hover:scale-[1.02] hover:z-10 ${gridClasses}`}
       style={{ willChange: "transform, opacity" }}
     >
       {/* Project Image - Replace img with Next.js Image component */}
-      <div className="absolute inset-0 bg-neutral-800 z-0 overflow-hidden">
+      <div className="absolute inset-0 bg-white z-0 overflow-hidden">
         <div className="w-full h-full relative">
           {project.image ? (
             // Use a div with background-image instead of <img>
             <div
-              className="absolute inset-0 bg-cover bg-center opacity-70 group-hover:opacity-40 transition-opacity duration-300"
+              className="absolute inset-0 bg-cover bg-center opacity-90 group-hover:opacity-70 transition-opacity duration-300"
               style={{
                 backgroundImage: `url(${project.image})`,
                 willChange: "opacity",
@@ -47,17 +47,17 @@ const ProjectCard = ({ project, index }) => {
             />
           ) : (
             <div
-              className="absolute inset-0 bg-neutral-900 flex items-center justify-center opacity-70 group-hover:opacity-40 transition-opacity duration-300"
+              className="absolute inset-0 bg-gray-100 flex items-center justify-center opacity-90 group-hover:opacity-70 transition-opacity duration-300"
               style={{ willChange: "opacity" }}
             >
-              <span className="text-white text-xl font-bold">
+              <span className="text-gray-800 text-xl font-bold">
                 {project.title}
               </span>
             </div>
           )}
         </div>
         {/* Simple overlay for better performance */}
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/90 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-white/90 to-transparent"></div>
       </div>
 
       {/* Accent line - simplified */}
@@ -65,18 +65,20 @@ const ProjectCard = ({ project, index }) => {
 
       {/* Base Content - always visible */}
       <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
-        <h3 className="text-xl font-bold mb-2 text-white">{project.title}</h3>
+        <h3 className="text-xl font-bold mb-2 text-gray-900">
+          {project.title}
+        </h3>
         <div className="flex flex-wrap gap-2 mb-2">
           {project.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="text-xs px-2 py-1 bg-neutral-700/70 rounded-full text-white/80"
+              className="text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-700"
             >
               {tag}
             </span>
           ))}
           {project.tags.length > 3 && (
-            <span className="text-xs px-2 py-1 bg-neutral-700/70 rounded-full text-white/80">
+            <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-700">
               +{project.tags.length - 3}
             </span>
           )}
@@ -85,23 +87,23 @@ const ProjectCard = ({ project, index }) => {
 
       {/* Expanded Content - Optimized for performance and button visibility */}
       <div
-        className="absolute inset-0 p-4 bg-neutral-900/90
+        className="absolute inset-0 p-4 bg-white/95
                    flex flex-col opacity-0 group-hover:opacity-100
                    transition-opacity duration-300 ease-out z-20"
         style={{ willChange: "opacity" }}
       >
         <div className="flex-1 overflow-auto scrollbar-hide">
-          <h3 className="text-xl font-bold mb-2 text-blue-400">
+          <h3 className="text-xl font-bold mb-2 text-blue-500">
             {project.title}
           </h3>
-          <p className="text-neutral-300 mb-4 text-sm md:text-base">
+          <p className="text-gray-700 mb-4 text-sm md:text-base">
             {project.description}
           </p>
           <div className="flex flex-wrap gap-2 mb-4">
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-xs px-2 py-1 bg-neutral-800 rounded-full text-white/80 border border-neutral-700"
+                className="text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-700 border border-gray-200"
               >
                 {tag}
               </span>
@@ -124,8 +126,8 @@ const ProjectCard = ({ project, index }) => {
             href={project.links.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-white bg-neutral-800 hover:bg-neutral-700
-                     px-3 py-1.5 rounded-lg border border-neutral-700 transition-colors duration-200 text-sm"
+            className="flex items-center gap-2 text-white bg-gray-700 hover:bg-gray-600
+                     px-3 py-1.5 rounded-lg border border-gray-600 transition-colors duration-200 text-sm"
           >
             <FaGithub size={12} /> GitHub
           </a>
@@ -139,19 +141,6 @@ const Projects = () => {
   const projects = [
     {
       id: 1,
-      title: "Wizards Chess",
-      description:
-        "A chess game with integrated spells to drastically change the game. Built with React, CSS, and JavaScript.",
-      image: "/WizardChessPreview.png",
-      tags: ["React.js", "Tailwind", "JavaScript"],
-      links: {
-        live: "https://react-wizard-chess.vercel.app/",
-        github: "https://github.com/jecochran-0/React-Wizard-Chess",
-      },
-      featured: true,
-    },
-    {
-      id: 2,
       title: "Pizza E-Commerce Store",
       description:
         "A fully functional e-commerce prototype featuring a dynamic menu API, shopping cart system, and Redux state management.",
@@ -160,6 +149,19 @@ const Projects = () => {
       links: {
         live: "https://react-pizza-store-omega.vercel.app/",
         github: "https://github.com/jecochran-0/React-Pizza-Store",
+      },
+      featured: true,
+    },
+    {
+      id: 2,
+      title: "Wizards Chess",
+      description:
+        "A chess game with integrated spells to drastically change the game. Built with React, CSS, and JavaScript.",
+      image: "/WizardChessPreview.png",
+      tags: ["React.js", "Tailwind", "JavaScript"],
+      links: {
+        live: "https://react-wizard-chess.vercel.app/",
+        github: "https://github.com/jecochran-0/React-Wizard-Chess",
       },
       featured: true,
     },
@@ -205,9 +207,9 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects-section" className="py-16 bg-neutral-900 text-white">
+    <section id="projects-section" className="py-16 bg-white text-gray-900">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-16 text-white">
+        <h2 className="text-4xl font-bold text-center mb-16 text-gray-900">
           My Projects
         </h2>
 

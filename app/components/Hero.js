@@ -84,6 +84,7 @@ function Hero() {
         src="/HeroScreen.mp4"
         muted
         playsInline
+        preload="metadata"
         onClick={handleVideoClick}
         onEnded={handleVideoEnded}
       />
@@ -135,7 +136,7 @@ function Hero() {
               About Me
             </Link>
             <Link
-              href="/#projects-section"
+              href="mailto:jake.e.cochran@gmail.com"
               className="px-6 py-3 bg-black text-white font-medium rounded-full hover:bg-gray-800 transition-colors duration-300"
             >
               Contact

@@ -32,7 +32,7 @@ export default function Navbar() {
                  shadow-lg border border-gray-200/30`}
     >
       <div className="flex items-center rounded-full">
-        <Link href="/">
+        <Link href="/" prefetch={true}>
           <div
             className={`relative py-2 px-5 sm:px-8 rounded-full transition-colors duration-300 ${
               pathname === "/"
@@ -44,7 +44,7 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <Link href="/ux-ui">
+        <Link href="/ux-ui" prefetch={true}>
           <div
             className={`relative py-2 px-5 sm:px-8 rounded-full transition-colors duration-300 ${
               pathname === "/ux-ui"
@@ -56,7 +56,7 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <Link href="/dev">
+        <Link href="/dev" prefetch={true}>
           <div
             className={`relative py-2 px-5 sm:px-8 rounded-full transition-colors duration-300 ${
               pathname === "/dev"
@@ -68,7 +68,7 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <Link href="/about">
+        <Link href="/about" prefetch={true}>
           <div
             className={`relative py-2 px-5 sm:px-8 rounded-full transition-colors duration-300 ${
               pathname === "/about"

@@ -4,6 +4,7 @@ import React from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 // Enhanced project card with advanced hover effects
 const ProjectCard = ({ project, index }) => {
@@ -30,24 +31,27 @@ const ProjectCard = ({ project, index }) => {
       }}
       className={`group relative overflow-hidden rounded-xl bg-white border border-gray-200
         hover:border-blue-300 transition-all duration-300
-        shadow-md hover:shadow-xl hover:scale-[1.02] hover:z-10 ${gridClasses}`}
+        shadow-lg hover:shadow-xl hover:scale-[1.02] hover:z-10 ${gridClasses}`}
       style={{ willChange: "transform, opacity" }}
     >
-      {/* Project Image - Replace img with Next.js Image component */}
+      {/* Project Image - Optimized with Next.js Image component */}
       <div className="absolute inset-0 bg-white z-0 overflow-hidden">
         <div className="w-full h-full relative">
           {project.image ? (
-            // Use a div with background-image instead of <img>
-            <div
-              className="absolute inset-0 bg-cover bg-center opacity-90 group-hover:opacity-70 transition-opacity duration-300"
-              style={{
-                backgroundImage: `url(${project.image})`,
-                willChange: "opacity",
-              }}
-            />
+            <div className="absolute inset-0">
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover opacity-90 group-hover:opacity-80 transition-opacity duration-300"
+                loading={index < 2 ? "eager" : "lazy"}
+                priority={index === 0}
+              />
+            </div>
           ) : (
             <div
-              className="absolute inset-0 bg-gray-100 flex items-center justify-center opacity-90 group-hover:opacity-70 transition-opacity duration-300"
+              className="absolute inset-0 bg-gray-100 flex items-center justify-center opacity-90 group-hover:opacity-80 transition-opacity duration-300"
               style={{ willChange: "opacity" }}
             >
               <span className="text-gray-800 text-xl font-bold">
@@ -56,44 +60,42 @@ const ProjectCard = ({ project, index }) => {
             </div>
           )}
         </div>
-        {/* Simple overlay for better performance */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white/90 to-transparent"></div>
+        {/* Enhanced overlay for better contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
       </div>
 
-      {/* Accent line - simplified */}
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-blue-500 opacity-0 group-hover:opacity-70 transition-opacity duration-300 z-10"></div>
+      {/* Accent line - enhanced */}
+      <div className="absolute bottom-0 left-0 w-full h-1.5 bg-blue-500 opacity-0 group-hover:opacity-80 transition-opacity duration-300 z-10"></div>
 
-      {/* Base Content - always visible */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
-        <h3 className="text-xl font-bold mb-2 text-gray-900">
-          {project.title}
-        </h3>
+      {/* Base Content - always visible with improved contrast */}
+      <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
+        <h3 className="text-xl font-bold mb-2 text-white">{project.title}</h3>
         <div className="flex flex-wrap gap-2 mb-2">
           {project.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-700"
+              className="text-xs px-2 py-1 bg-white/20 backdrop-blur-sm rounded-full text-white font-medium"
             >
               {tag}
             </span>
           ))}
           {project.tags.length > 3 && (
-            <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-700">
+            <span className="text-xs px-2 py-1 bg-white/20 backdrop-blur-sm rounded-full text-white font-medium">
               +{project.tags.length - 3}
             </span>
           )}
         </div>
       </div>
 
-      {/* Expanded Content - Optimized for performance and button visibility */}
+      {/* Expanded Content - Improved for better readability */}
       <div
-        className="absolute inset-0 p-4 bg-white/95
+        className="absolute inset-0 p-5 bg-white/95
                    flex flex-col opacity-0 group-hover:opacity-100
-                   transition-opacity duration-300 ease-out z-20"
+                   transition-opacity duration-300 ease-out z-20 backdrop-blur-sm"
         style={{ willChange: "opacity" }}
       >
         <div className="flex-1 overflow-auto scrollbar-hide">
-          <h3 className="text-xl font-bold mb-2 text-blue-500">
+          <h3 className="text-xl font-bold mb-2 text-blue-600">
             {project.title}
           </h3>
           <p className="text-gray-700 mb-4 text-sm md:text-base">
@@ -103,7 +105,7 @@ const ProjectCard = ({ project, index }) => {
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-700 border border-gray-200"
+                className="text-xs px-2 py-1 bg-blue-50 rounded-full text-blue-700 border border-blue-100 font-medium"
               >
                 {tag}
               </span>
@@ -111,14 +113,14 @@ const ProjectCard = ({ project, index }) => {
           </div>
         </div>
 
-        {/* Fixed positioning for buttons to ensure visibility */}
+        {/* Improved buttons with better styling */}
         <div className="flex gap-3 pt-2 mt-auto">
           <a
             href={project.links.live}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-white bg-blue-600 hover:bg-blue-500
-                     px-3 py-1.5 rounded-lg transition-colors duration-200 text-sm"
+                     px-4 py-2 rounded-lg transition-colors duration-200 text-sm font-medium"
           >
             <FaExternalLinkAlt size={12} /> Live Demo
           </a>
@@ -126,8 +128,8 @@ const ProjectCard = ({ project, index }) => {
             href={project.links.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-white bg-gray-700 hover:bg-gray-600
-                     px-3 py-1.5 rounded-lg border border-gray-600 transition-colors duration-200 text-sm"
+            className="flex items-center gap-2 text-gray-700 bg-gray-100 hover:bg-gray-200
+                     px-4 py-2 rounded-lg border border-gray-200 transition-colors duration-200 text-sm font-medium"
           >
             <FaGithub size={12} /> GitHub
           </a>
@@ -216,13 +218,9 @@ const Projects = () => {
   });
 
   return (
-    <section id="projects-section" className="py-16 bg-white text-gray-900">
+    <section id="projects-section" className="py-12 text-gray-900">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-16 text-gray-900">
-          My Projects
-        </h2>
-
-        <div className="grid grid-cols-12 auto-rows-[min(250px,_20vw)] gap-5">
+        <div className="grid grid-cols-12 auto-rows-[min(250px,_20vw)] gap-6">
           {orderedProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}

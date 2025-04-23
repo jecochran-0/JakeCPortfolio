@@ -1,9 +1,16 @@
 "use client";
 
-import React, { lazy, useState, useEffect, useRef, ReactNode } from "react";
-import Hero from "./components/Hero";
+import React, {
+  lazy,
+  useState,
+  useEffect,
+  useRef,
+  ReactNode,
+  Suspense,
+} from "react";
 
-// Lazy load components
+// Lazy load all components
+const Hero = lazy(() => import("./components/Hero"));
 // These are used through renderComponent, so disable the unused-vars rule
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Skills = lazy(() => import("./components/Skills"));
@@ -150,7 +157,15 @@ export default function Home() {
     <main className="bg-white">
       {/* Hero Section - Full width, no padding */}
       <div className="w-full">
-        <Hero />
+        <Suspense
+          fallback={
+            <div className="min-h-[600px] flex items-center justify-center">
+              <div className="animate-pulse text-gray-400">Loading...</div>
+            </div>
+          }
+        >
+          <Hero />
+        </Suspense>
       </div>
 
       {/* Subtle section divider */}

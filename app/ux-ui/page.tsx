@@ -41,52 +41,40 @@ export default function UXUIPage() {
       {/* UX/UI Hero Section */}
       <div className="bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4 py-20 md:py-28">
-          <div className="flex flex-col md:flex-row items-center max-w-6xl mx-auto">
-            <div className="md:w-1/2 mb-10 md:mb-0 md:pr-12">
-              <motion.h1
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
+          <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
+            <motion.h1
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
+            >
+              Creating Intuitive Digital{" "}
+              <span className="text-blue-500">Experiences</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-lg text-gray-700 mb-8 leading-relaxed"
+            >
+              I blend aesthetic sensibility with technical expertise to create
+              interfaces that are both beautiful and functional. With a
+              developer&apos;s mindset, I design systems that are intuitive for
+              users and practical to implement.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Link
+                href="#process"
+                className="inline-flex items-center px-6 py-3 bg-black text-white font-medium rounded-full hover:bg-gray-800 transition-all duration-300 shadow-md"
               >
-                Creating Intuitive Digital{" "}
-                <span className="text-blue-500">Experiences</span>
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-lg text-gray-700 mb-8 leading-relaxed"
-              >
-                I blend aesthetic sensibility with technical expertise to create
-                interfaces that are both beautiful and functional. With a
-                developer&apos;s mindset, I design systems that are intuitive
-                for users and practical to implement.
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                <Link
-                  href="#process"
-                  className="inline-flex items-center px-6 py-3 bg-black text-white font-medium rounded-full hover:bg-gray-800 transition-all duration-300 shadow-md"
-                >
-                  My Process
-                  <FaArrowRight className="ml-2" />
-                </Link>
-              </motion.div>
-            </div>
-            <div className="md:w-1/2 relative">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="relative h-80 md:h-96 w-full rounded-lg overflow-hidden shadow-xl"
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-              </motion.div>
-            </div>
+                My Process
+                <FaArrowRight className="ml-2" />
+              </Link>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -207,9 +195,9 @@ export default function UXUIPage() {
                     Research & Discovery
                   </h3>
                   <p className="text-gray-700">
-                    I begin by understanding the user&apos;s needs, business
-                    goals, and technical constraints. This includes user
-                    interviews, competitive analysis, and stakeholder workshops.
+                    I begin by asking the right questions. You cannot identify
+                    the problem if you are not asking the right questions. This
+                    includes user interviews and competitive analysis.
                   </p>
                 </div>
                 <div className="md:w-16 flex justify-center">
@@ -328,7 +316,7 @@ export default function UXUIPage() {
                   View Project
                 </Link>
                 <Link
-                  href="#"
+                  href="https://www.figma.com/design/HROuWDR5pEsbKCKsZqNSyW/Personal?node-id=112-2&t=SqzgTnrOjo0heMmc-1"
                   className="inline-flex items-center px-6 py-3 border border-gray-300 rounded-full hover:border-gray-400 transition-all duration-300"
                 >
                   View in Figma
@@ -385,11 +373,11 @@ export default function UXUIPage() {
               >
                 <h3 className="text-2xl font-bold mb-4">Project Overview</h3>
                 <p className="text-gray-700 mb-6">
-                  This Spotify redesign focuses on simplifying navigation and
-                  enhancing discovery. Through user research, I identified pain
+                  This Spotify redesign focuses on enahcning the home page on
+                  mobile and desktop. Through user research, I identified pain
                   points in the current interface and created a solution that
-                  reduces clicks while maintaining the familiar Spotify
-                  experience.
+                  reduces clicks and boosts user satisfaction while maintaining
+                  the familiar Spotify experience.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -409,8 +397,8 @@ export default function UXUIPage() {
                   <div className="bg-gray-50 p-6 rounded-xl">
                     <h4 className="font-bold mb-2">Outcome</h4>
                     <p className="text-gray-700 text-sm">
-                      30% reduction in navigation clicks, improved user
-                      satisfaction
+                      Millions of clicks saved a day, Top use cases accessible
+                      from home page, 100% increase in user satisfaction
                     </p>
                   </div>
                 </div>
@@ -430,11 +418,11 @@ export default function UXUIPage() {
             className="max-w-4xl mx-auto text-center"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              See My Work in Action
+              View my Development Work
             </h2>
             <p className="text-xl mb-10 text-blue-100">
-              Check out my development projects to see how I bridge design and
-              code in real-world applications.
+              Check out my software development projects to see how I bridge
+              design and code to be in both worlds
             </p>
             <Link
               href="/dev"

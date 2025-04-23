@@ -80,7 +80,7 @@ export default function SpotifyProjectPage() {
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-wrap gap-4 mb-12">
               <Link
-                href="https://www.figma.com"
+                href="https://www.figma.com/design/HROuWDR5pEsbKCKsZqNSyW/Personal?node-id=112-2&t=SqzgTnrOjo0heMmc-1"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-6 py-3 bg-black text-white font-medium rounded-full hover:bg-gray-800 transition-all duration-300"

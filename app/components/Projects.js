@@ -10,10 +10,10 @@ const ProjectCard = ({ project, index }) => {
   // Calculate the grid span based on whether the project is featured
   let gridClasses = "";
 
-  // First two projects (Pizza Store and Wizards Chess) take up more space
-  if (index === 0) {
+  // Make Pizza Store and Wizards Chess take up more space
+  if (project.title === "Pizza E-Commerce Store") {
     gridClasses = "col-span-12 md:col-span-8 row-span-2";
-  } else if (index === 1) {
+  } else if (project.title === "Wizards Chess") {
     gridClasses = "col-span-12 md:col-span-4 row-span-2";
   } else {
     // Other projects
@@ -206,6 +206,15 @@ const Projects = () => {
     },
   ];
 
+  // Reorder the projects to ensure Pizza Store and Wizards Chess are first
+  const orderedProjects = [...projects].sort((a, b) => {
+    if (a.title === "Pizza E-Commerce Store") return -1;
+    if (b.title === "Pizza E-Commerce Store") return 1;
+    if (a.title === "Wizards Chess") return -1;
+    if (b.title === "Wizards Chess") return 1;
+    return 0;
+  });
+
   return (
     <section id="projects-section" className="py-16 bg-white text-gray-900">
       <div className="container mx-auto px-4">
@@ -214,7 +223,7 @@ const Projects = () => {
         </h2>
 
         <div className="grid grid-cols-12 auto-rows-[min(250px,_20vw)] gap-5">
-          {projects.map((project, index) => (
+          {orderedProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>

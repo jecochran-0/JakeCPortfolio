@@ -322,7 +322,7 @@ export default function UXUIPage() {
               </p>
               <div className="flex flex-wrap gap-4 mb-10">
                 <Link
-                  href="#"
+                  href="/ux-ui/spotify"
                   className="inline-flex items-center px-6 py-3 border border-gray-300 rounded-full hover:border-gray-400 transition-all duration-300"
                 >
                   View Project

@@ -7,6 +7,7 @@ function Hero() {
   const videoRef = useRef(null);
   const [contentVisible, setContentVisible] = useState(false);
   const [isFastForwarding, setIsFastForwarding] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   // Handle video end event
   const handleVideoEnded = () => {
@@ -47,9 +48,20 @@ function Hero() {
     }
   };
 
+  // Handle video loaded data
+  const handleVideoLoaded = () => {
+    setVideoLoaded(true);
+  };
+
   // Start playing video when component mounts
   useEffect(() => {
+    // Show content immediately while video loads
+    setContentVisible(true);
+
     if (videoRef.current) {
+      // Add loaded data event listener
+      videoRef.current.addEventListener("loadeddata", handleVideoLoaded);
+
       // Play the video when it's available
       const playPromise = videoRef.current.play();
 
@@ -58,9 +70,13 @@ function Hero() {
         playPromise
           .then(() => {
             // Autoplay started successfully
+            // Only hide content once video starts playing
+            if (videoLoaded) {
+              setContentVisible(false);
+            }
           })
           .catch((error) => {
-            // Auto-play was prevented, show content immediately
+            // Auto-play was prevented, keep content visible
             console.log("Autoplay prevented:", error);
             setContentVisible(true);
           });
@@ -70,10 +86,11 @@ function Hero() {
     // Clean up
     return () => {
       if (videoRef.current) {
+        videoRef.current.removeEventListener("loadeddata", handleVideoLoaded);
         videoRef.current.pause();
       }
     };
-  }, []);
+  }, [videoLoaded]);
 
   return (
     <div className="hero-video-container bg-white">
@@ -89,8 +106,8 @@ function Hero() {
         onEnded={handleVideoEnded}
       />
 
-      {/* Skip indicator - only shown during video playback */}
-      {!contentVisible && (
+      {/* Skip indicator - only shown during video playback and when video is loaded */}
+      {!contentVisible && videoLoaded && (
         <div
           className={`absolute right-4 bottom-4 text-white text-xs px-3 py-1 rounded-full z-10 ${
             isFastForwarding ? "pulse-fast-forward" : "pulse-skip"
@@ -100,7 +117,7 @@ function Hero() {
         </div>
       )}
 
-      {/* Content overlay with conditional opacity */}
+      {/* Content overlay - initially visible, then hidden when video starts, then visible again when video ends */}
       <div
         className={`hero-content px-4 sm:px-6 md:px-8 ${
           contentVisible ? "fade-in-content" : "opacity-0 pointer-events-none"

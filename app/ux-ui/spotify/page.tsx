@@ -49,7 +49,7 @@ export default function SpotifyProjectPage() {
               {/* Desktop mockup - positioned on the left */}
               <div className="w-full md:w-[75%] z-10 md:pr-4">
                 <Image
-                  src="/Spotify_Project/Desktop-Home-Revamped.png"
+                  src="/Spotify_Project/Desktop-Home-Revamped.jpg"
                   alt="Spotify Desktop Redesign"
                   width={960}
                   height={540}
@@ -87,14 +87,6 @@ export default function SpotifyProjectPage() {
               >
                 <FaFigma className="mr-2" /> View in Figma
               </Link>
-              <Link
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 border border-gray-300 rounded-full hover:border-gray-400 transition-all duration-300"
-              >
-                <FaGithub className="mr-2" /> View Code
-              </Link>
             </div>
 
             <motion.div
@@ -104,17 +96,17 @@ export default function SpotifyProjectPage() {
             >
               <h2 className="text-3xl font-bold mb-8">Project Overview</h2>
               <p className="text-gray-700 text-lg mb-8 leading-relaxed">
-                This Spotify redesign focuses on simplifying navigation and
-                enhancing discovery. Through user research, I identified pain
-                points in the current interface and created a solution that
-                reduces clicks while maintaining the familiar Spotify
-                experience.
+                This Spotify redesign focuses on simplifying navigation,
+                enhancing discovery, and increasing personalization. Through
+                user research, I identified pain points in the current interface
+                and created a solution that reduces clicks while maintaining the
+                familiar Spotify experience.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
                 <div className="border border-gray-200 p-6 rounded-lg">
                   <h4 className="font-bold mb-2">Timeline</h4>
-                  <p className="text-gray-700">6 weeks</p>
+                  <p className="text-gray-700">3 weeks</p>
                 </div>
                 <div className="border border-gray-200 p-6 rounded-lg">
                   <h4 className="font-bold mb-2">My Role</h4>
@@ -124,9 +116,7 @@ export default function SpotifyProjectPage() {
                 </div>
                 <div className="border border-gray-200 p-6 rounded-lg">
                   <h4 className="font-bold mb-2">Tools Used</h4>
-                  <p className="text-gray-700">
-                    Figma, Sketch, Principle, UsabilityHub
-                  </p>
+                  <p className="text-gray-700">Figma, Google Forms</p>
                 </div>
               </div>
             </motion.div>
@@ -136,39 +126,14 @@ export default function SpotifyProjectPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <h2 className="text-3xl font-bold mb-6">The Challenge</h2>
+              <h2 className="text-3xl font-bold mb-6">
+                The Challenge that was found
+              </h2>
               <p className="text-gray-700 text-lg mb-8 leading-relaxed">
-                Spotify&apos;s interface, while iconic, presented several user
-                experience challenges:
+                Spotify&apos;s homepage lacks personal relevance and social
+                discovery, making it harder for users to connect with their
+                music.
               </p>
-              <ul className="list-disc pl-6 text-gray-700 text-lg mb-12 space-y-2">
-                <li>
-                  Navigation required too many clicks to access frequently used
-                  features
-                </li>
-                <li>
-                  Music discovery was hindered by an overly complex interface
-                </li>
-                <li>Mobile and desktop experiences felt disconnected</li>
-                <li>
-                  Users struggled to find their recent searches and quickly
-                  access content
-                </li>
-              </ul>
-
-              {/* Planning Image */}
-              <div className="mb-20">
-                <h3 className="text-xl font-bold mb-4">Planning Process</h3>
-                <div className="overflow-hidden border border-gray-200 rounded-lg max-w-4xl mx-auto">
-                  <Image
-                    src="/Spotify_Project/Planning.png"
-                    alt="Spotify Redesign Planning Process"
-                    width={1200}
-                    height={700}
-                    className="w-full h-auto"
-                  />
-                </div>
-              </div>
 
               <h2 className="text-3xl font-bold mb-6">The Process</h2>
               <div className="space-y-8 mb-12">
@@ -176,10 +141,9 @@ export default function SpotifyProjectPage() {
                   <h3 className="text-xl font-bold mb-3">1. Research</h3>
                   <p className="text-gray-700 leading-relaxed">
                     I conducted user interviews with 12 active Spotify users,
-                    ranging from casual to power users. Through competitive
-                    analysis of other music streaming platforms and heatmap
-                    studies, I identified key areas where users experienced
-                    friction.
+                    ranging from casual to more frequent users. I asked
+                    questions about their most frequent use cases and pain
+                    points.
                   </p>
                 </div>
 
@@ -190,21 +154,28 @@ export default function SpotifyProjectPage() {
                   <p className="text-gray-700 leading-relaxed">
                     I restructured the navigation and content hierarchy to
                     prioritize frequently used features and reduce the cognitive
-                    load. This involved card sorting exercises with users to
-                    ensure the new organization matched their mental models.
+                    load.
                   </p>
                 </div>
+
+                <Image
+                  src="/Spotify_Project/Planning.jpg"
+                  alt="Redesigned Spotify Mobile Interface Breakdown"
+                  width={500}
+                  height={300}
+                  className="w-full h-auto"
+                />
 
                 <div>
                   <h3 className="text-xl font-bold mb-3">
                     3. Wireframing & Design
                   </h3>
                   <p className="text-gray-700 leading-relaxed">
-                    Starting with low-fidelity wireframes, I explored multiple
-                    navigation patterns before settling on a streamlined
-                    approach that maintained Spotify&apos;s iconic look while
-                    improving usability. The high-fidelity designs preserved the
-                    dark theme but enhanced readability and touch targets.
+                    I explored multiple navigation patterns before settling on a
+                    streamlined approach that maintained Spotify&apos;s iconic
+                    look while improving usability. The high-fidelity designs
+                    preserved the dark theme but enhanced readability and touch
+                    targets.
                   </p>
                 </div>
 
@@ -213,11 +184,9 @@ export default function SpotifyProjectPage() {
                     4. Testing & Iteration
                   </h3>
                   <p className="text-gray-700 leading-relaxed">
-                    Prototype testing with 8 users revealed an 87% completion
-                    rate for common tasks (up from 72% with the original design)
-                    and significantly higher satisfaction scores. I made final
-                    refinements based on user feedback before delivering the
-                    final design.
+                    Prototype testing with 4 users revealed significantly higher
+                    satisfaction scores. I made final refinements based on user
+                    feedback before delivering the final design.
                   </p>
                 </div>
               </div>
@@ -247,7 +216,7 @@ export default function SpotifyProjectPage() {
                 </p>
                 <div className="mb-16 overflow-hidden border border-gray-200 rounded-lg w-full">
                   <Image
-                    src="/Spotify_Project/Desktop-Home.png"
+                    src="/Spotify_Project/Desktop-Home.jpg"
                     alt="Original Spotify Desktop Interface"
                     width={1600}
                     height={900}
@@ -256,52 +225,46 @@ export default function SpotifyProjectPage() {
                 </div>
                 <div>
                   <h4 className="text-xl font-bold mb-6">Issue Breakdown:</h4>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                    <div className="overflow-hidden border border-gray-200 rounded-lg">
-                      <Image
-                        src="/Spotify_Project/Desktop-Breakdown.png"
-                        alt="Original Spotify Desktop Interface Breakdown"
-                        width={1200}
-                        height={700}
-                        className="w-full h-auto"
-                      />
-                    </div>
+                  <Image
+                    src="/Spotify_Project/Desktop-Breakdown.jpg"
+                    alt="Original Spotify Desktop Interface Breakdown"
+                    width={1200}
+                    height={700}
+                    className="w-full h-auto"
+                  />
+                  <div className="flex flex-col md:flex-row gap-4 mt-7">
+                    <div className="overflow-hidden border border-gray-200 rounded-lg"></div>
                     <div className="space-y-6">
                       <div className="border-l-4 border-red-500 pl-4 py-2">
                         <h5 className="font-bold text-lg">
-                          Navigation Overhead
+                          Lack of Personalization
                         </h5>
                         <p className="text-gray-700">
-                          Users needed 3+ clicks to navigate to frequently used
-                          sections like search, requiring unnecessary steps and
-                          causing friction.
+                          The "Playing" footer has no personality, the only
+                          dynamic change is the album cover photo on the left
+                          side. The left section only shows your library, which
+                          is wasted space since users only repeat 3-5 playlists
+                          anyway.
                         </p>
                       </div>
                       <div className="border-l-4 border-red-500 pl-4 py-2">
                         <h5 className="font-bold text-lg">
-                          Content Discoverability
+                          Missing frequent use cases
                         </h5>
                         <p className="text-gray-700">
-                          Recommendations were hidden below the fold, making
-                          content discovery difficult for users seeking new
-                          music.
+                          Theres no option to have a lyric overlay, there are no
+                          options to browse by the user's top artists, and the
+                          social networking features are nonexistent
                         </p>
                       </div>
                       <div className="border-l-4 border-red-500 pl-4 py-2">
-                        <h5 className="font-bold text-lg">Visual Hierarchy</h5>
+                        <h5 className="font-bold text-lg">
+                          Visual Hierarchy and Spacing
+                        </h5>
                         <p className="text-gray-700">
                           Poor contrast and visual hierarchy made it difficult
                           to scan the interface quickly and locate important
-                          elements.
-                        </p>
-                      </div>
-                      <div className="border-l-4 border-red-500 pl-4 py-2">
-                        <h5 className="font-bold text-lg">
-                          Interaction Feedback
-                        </h5>
-                        <p className="text-gray-700">
-                          Limited visual feedback for interactive elements
-                          created uncertainty during user interactions.
+                          elements
                         </p>
                       </div>
                     </div>
@@ -323,7 +286,7 @@ export default function SpotifyProjectPage() {
                 </p>
                 <div className="mb-16 overflow-hidden border border-gray-200 rounded-lg w-full">
                   <Image
-                    src="/Spotify_Project/Desktop-Home-Revamped.png"
+                    src="/Spotify_Project/Desktop-Home-Revamped.jpg"
                     alt="Redesigned Spotify Desktop Interface"
                     width={1600}
                     height={900}
@@ -334,35 +297,34 @@ export default function SpotifyProjectPage() {
                   <h4 className="text-xl font-bold mb-6">
                     Improvements Breakdown:
                   </h4>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                    <div className="overflow-hidden border border-gray-200 rounded-lg">
-                      <Image
-                        src="/Spotify_Project/Desktop-Breakdown-New.png"
-                        alt="Redesigned Spotify Desktop Interface Breakdown"
-                        width={1200}
-                        height={700}
-                        className="w-full h-auto"
-                      />
-                    </div>
+                  <Image
+                    src="/Spotify_Project/Desktop-Breakdown-New.jpg"
+                    alt="Redesigned Spotify Desktop Interface Breakdown"
+                    width={1200}
+                    height={700}
+                    className="w-full h-auto"
+                  />
+                  <div className="flex flex-col md:flex-row gap-4 mt-7">
+                    <div className="overflow-hidden border border-gray-200 rounded-lg"></div>
                     <div className="space-y-6">
                       <div className="border-l-4 border-green-500 pl-4 py-2">
                         <h5 className="font-bold text-lg">
-                          Streamlined Navigation
+                          Personalized to the user
                         </h5>
                         <p className="text-gray-700">
-                          Reduced clicks needed for common tasks from 3 to just
-                          1 or 2, with search directly accessible from any
-                          screen.
+                          The additions of top artists, custom play bar, and
+                          trending with friends section makes the home page much
+                          more personal (and thus more useful) to the user
                         </p>
                       </div>
                       <div className="border-l-4 border-green-500 pl-4 py-2">
                         <h5 className="font-bold text-lg">
-                          Enhanced Discovery
+                          Wider array of use cases
                         </h5>
                         <p className="text-gray-700">
-                          Prominent placement of recommended content and a
-                          redesigned &quot;Trending With Friends&quot; section
-                          to facilitate music discovery.
+                          The lyrics overlay, top artists, and trending with
+                          friends section adds purpose to the home page. User
+                          don't have to dig to find popular features
                         </p>
                       </div>
                       <div className="border-l-4 border-green-500 pl-4 py-2">
@@ -373,16 +335,6 @@ export default function SpotifyProjectPage() {
                           Enhanced contrast and spacing for better content
                           scanning, with clearer visual hierarchy to guide users
                           through the interface.
-                        </p>
-                      </div>
-                      <div className="border-l-4 border-green-500 pl-4 py-2">
-                        <h5 className="font-bold text-lg">
-                          Contextual Actions
-                        </h5>
-                        <p className="text-gray-700">
-                          More intuitive interaction design with clearer
-                          feedback states and contextual actions based on
-                          current content.
                         </p>
                       </div>
                     </div>
@@ -412,13 +364,14 @@ export default function SpotifyProjectPage() {
                 </h3>
                 <p className="text-gray-700 mb-8">
                   The mobile interface suffered from similar navigation issues
-                  as the desktop version.
+                  as the desktop version. As well as the UI being unoptimized
+                  for the most popularuse cases.
                 </p>
                 <div className="mb-auto">
                   <div className="flex justify-center mb-16">
                     <div className="overflow-hidden border border-gray-200 rounded-lg w-[280px]">
                       <Image
-                        src="/Spotify_Project/Mobile-Home.png"
+                        src="/Spotify_Project/Mobile-Home.jpg"
                         alt="Original Spotify Mobile Interface"
                         width={300}
                         height={600}
@@ -432,7 +385,7 @@ export default function SpotifyProjectPage() {
                   <div className="grid grid-cols-1 gap-4">
                     <div className="overflow-hidden border border-gray-200 rounded-lg">
                       <Image
-                        src="/Spotify_Project/Mobile_Breakdown_Old.png"
+                        src="/Spotify_Project/Mobile-Breakdown-Old.jpg"
                         alt="Original Spotify Mobile Interface Breakdown"
                         width={800}
                         height={500}
@@ -445,17 +398,20 @@ export default function SpotifyProjectPage() {
                           Inefficient Search
                         </h5>
                         <p className="text-gray-700">
-                          Search required multiple taps and was difficult to
-                          access quickly.
+                          Searching required multiple taps and was difficult to
+                          access quickly. Doesn't make sense for the most
+                          popular use case.
                         </p>
                       </div>
                       <div className="border-l-4 border-red-500 pl-4 py-2">
                         <h5 className="font-bold text-lg">
-                          Limited Content Visibility
+                          Use Cases and Personality
                         </h5>
                         <p className="text-gray-700">
-                          Users couldn&apos;t easily see their recent searches
-                          or trending content.
+                          Sections like concerts are not a priority for the
+                          user, the space is much better used for more popular
+                          features. The play bar is also not personalized to the
+                          user via the current song.
                         </p>
                       </div>
                     </div>
@@ -473,14 +429,14 @@ export default function SpotifyProjectPage() {
                   Redesigned Mobile Interface
                 </h3>
                 <p className="text-gray-700 mb-8">
-                  The redesigned mobile interface provides a more intuitive and
-                  streamlined experience.
+                  The redesigned mobile interface provides a more intuitive,
+                  useful, and personalized experience.
                 </p>
                 <div className="mb-auto">
                   <div className="flex justify-center mb-16">
                     <div className="overflow-hidden border border-gray-200 rounded-lg w-[280px]">
                       <Image
-                        src="/Spotify_Project/Mobile-Home-Revamped.png"
+                        src="/Spotify_Project/Mobile-Home-Revamped.jpg"
                         alt="Redesigned Spotify Mobile Interface"
                         width={300}
                         height={600}
@@ -496,7 +452,7 @@ export default function SpotifyProjectPage() {
                   <div className="grid grid-cols-1 gap-4">
                     <div className="overflow-hidden border border-gray-200 rounded-lg">
                       <Image
-                        src="/Spotify_Project/Mobile-Breakdown-New.png"
+                        src="/Spotify_Project/Mobile-Breakdown-New.jpg"
                         alt="Redesigned Spotify Mobile Interface Breakdown"
                         width={800}
                         height={500}
@@ -512,12 +468,11 @@ export default function SpotifyProjectPage() {
                         </p>
                       </div>
                       <div className="border-l-4 border-green-500 pl-4 py-2">
-                        <h5 className="font-bold text-lg">
-                          Improved Content Organization
-                        </h5>
+                        <h5 className="font-bold text-lg">UI Gives Identity</h5>
                         <p className="text-gray-700">
-                          Better categorization and visibility of content with
-                          dedicated &quot;Releases For You&quot; section.
+                          The UI gives the user a sense of identity, when using
+                          the app. The background is lighter, and the play bar
+                          changes with the song being played.
                         </p>
                       </div>
                     </div>
@@ -547,26 +502,24 @@ export default function SpotifyProjectPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
                 <div className="border border-gray-200 p-8 rounded-lg">
                   <h4 className="font-bold mb-3 text-green-500 text-5xl">
-                    30%
+                    Millions
                   </h4>
                   <p className="text-gray-700 text-lg">
-                    Reduction in clicks for common tasks
+                    Of clicks/taps saved a day
                   </p>
                 </div>
                 <div className="border border-gray-200 p-8 rounded-lg">
                   <h4 className="font-bold mb-3 text-green-500 text-5xl">
-                    87%
+                    100%
                   </h4>
                   <p className="text-gray-700 text-lg">
-                    Task completion rate (up from 72%)
+                    Imrpovement in satisfaction rate
                   </p>
                 </div>
                 <div className="border border-gray-200 p-8 rounded-lg">
-                  <h4 className="font-bold mb-3 text-green-500 text-5xl">
-                    92%
-                  </h4>
+                  <h4 className="font-bold mb-3 text-green-500 text-5xl">3</h4>
                   <p className="text-gray-700 text-lg">
-                    User satisfaction rating
+                    New and popular use cases accessible from the home page
                   </p>
                 </div>
               </div>
@@ -580,16 +533,12 @@ export default function SpotifyProjectPage() {
                   Small UI improvements can lead to significant usability gains
                 </li>
                 <li>
-                  Maintaining brand identity while improving UX requires
-                  thoughtful balance
+                  Maintaining brand identity while giving the user a sense of
+                  personality requires a balance
                 </li>
                 <li>
-                  Cross-platform consistency is essential for a seamless user
-                  experience
-                </li>
-                <li>
-                  User testing reveals unexpected insights that quantitative
-                  data might miss
+                  Choosing the top use cases to include in limited space is
+                  crucial
                 </li>
               </ul>
 

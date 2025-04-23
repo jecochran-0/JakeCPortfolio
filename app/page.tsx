@@ -9,8 +9,6 @@ import Hero from "./components/Hero";
 const Skills = lazy(() => import("./components/Skills"));
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SoftSkills = lazy(() => import("./components/SoftSkills"));
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Projects = lazy(() => import("./components/Projects"));
 
 // Add TypeScript interfaces for the component props
 interface ScrollRevealSectionProps {
@@ -84,29 +82,24 @@ export default function Home() {
   const [loadedComponents, setLoadedComponents] = useState({
     skills: null,
     softSkills: null,
-    projects: null,
   });
   const [visibleSections, setVisibleSections] = useState({
     skills: false,
     softSkills: false,
-    projects: false,
   });
 
   // Load components and set up observers
   useEffect(() => {
     // Load all components immediately
     const loadComponents = async () => {
-      const [SkillsModule, SoftSkillsModule, ProjectsModule] =
-        await Promise.all([
-          import("./components/Skills"),
-          import("./components/SoftSkills"),
-          import("./components/Projects"),
-        ]);
+      const [SkillsModule, SoftSkillsModule] = await Promise.all([
+        import("./components/Skills"),
+        import("./components/SoftSkills"),
+      ]);
 
       setLoadedComponents({
         skills: SkillsModule.default,
         softSkills: SoftSkillsModule.default,
-        projects: ProjectsModule.default,
       });
     };
 
@@ -126,8 +119,6 @@ export default function Home() {
             setVisibleSections((prev) => ({ ...prev, skills: true }));
           } else if (id === "soft-skills-section") {
             setVisibleSections((prev) => ({ ...prev, softSkills: true }));
-          } else if (id === "projects-section") {
-            setVisibleSections((prev) => ({ ...prev, projects: true }));
           }
           observer.unobserve(entry.target);
         }
@@ -136,7 +127,7 @@ export default function Home() {
 
     // Observe sections
     const sections = document.querySelectorAll(
-      "#skills-section, #soft-skills-section, #projects-section"
+      "#skills-section, #soft-skills-section"
     );
     sections.forEach((section) => observer.observe(section));
 
@@ -144,7 +135,7 @@ export default function Home() {
   }, []);
 
   // Component renderer
-  const renderComponent = (name: "skills" | "softSkills" | "projects") => {
+  const renderComponent = (name: "skills" | "softSkills") => {
     const Component = loadedComponents[name];
     const isVisible = visibleSections[name];
 
@@ -167,7 +158,23 @@ export default function Home() {
 
       {/* Skills Section */}
       <Section id="skills-section">
-        <ScrollRevealSection>{renderComponent("skills")}</ScrollRevealSection>
+        <ScrollRevealSection>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-6">My Skills</h2>
+            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+              Explore a snapshot of my skills below, or visit the dedicated{" "}
+              <a href="/ux-ui" className="text-blue-500 hover:underline">
+                UX/UI
+              </a>{" "}
+              and{" "}
+              <a href="/dev" className="text-blue-500 hover:underline">
+                Development
+              </a>{" "}
+              pages for a more detailed look.
+            </p>
+          </div>
+          {renderComponent("skills")}
+        </ScrollRevealSection>
       </Section>
 
       {/* Subtle section divider */}
@@ -180,13 +187,30 @@ export default function Home() {
         </ScrollRevealSection>
       </Section>
 
-      {/* Subtle section divider */}
-      <div className="bg-gray-200 h-px w-full max-w-5xl mx-auto" />
-
-      {/* Projects Section */}
-      <Section id="projects-section">
+      {/* CTA Section */}
+      <Section className="bg-gray-50">
         <ScrollRevealSection delay={200}>
-          {renderComponent("projects")}
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-4xl font-bold mb-6">Interested in my work?</h2>
+            <p className="text-lg text-gray-700 mb-8">
+              Check out my UX/UI designs and software development projects to
+              see my skills in action.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <a
+                href="/ux-ui"
+                className="px-8 py-3 bg-blue-500 text-white font-medium rounded-full hover:bg-blue-600 transition-colors duration-300 shadow-md"
+              >
+                UX/UI Work
+              </a>
+              <a
+                href="/dev"
+                className="px-8 py-3 bg-gray-800 text-white font-medium rounded-full hover:bg-gray-700 transition-colors duration-300 shadow-md"
+              >
+                Development Projects
+              </a>
+            </div>
+          </div>
         </ScrollRevealSection>
       </Section>
 

@@ -34,7 +34,7 @@ export default function Navbar() {
       <div className="flex items-center rounded-full">
         <Link href="/">
           <div
-            className={`relative py-2 px-8 rounded-full transition-colors duration-300 ${
+            className={`relative py-2 px-5 sm:px-8 rounded-full transition-colors duration-300 ${
               pathname === "/"
                 ? "bg-black text-white"
                 : "text-gray-800 hover:text-black"
@@ -44,9 +44,33 @@ export default function Navbar() {
           </div>
         </Link>
 
+        <Link href="/ux-ui">
+          <div
+            className={`relative py-2 px-5 sm:px-8 rounded-full transition-colors duration-300 ${
+              pathname === "/ux-ui"
+                ? "bg-black text-white"
+                : "text-gray-800 hover:text-black"
+            }`}
+          >
+            UX/UI
+          </div>
+        </Link>
+
+        <Link href="/dev">
+          <div
+            className={`relative py-2 px-5 sm:px-8 rounded-full transition-colors duration-300 ${
+              pathname === "/dev"
+                ? "bg-black text-white"
+                : "text-gray-800 hover:text-black"
+            }`}
+          >
+            Development
+          </div>
+        </Link>
+
         <Link href="/about">
           <div
-            className={`relative py-2 px-8 rounded-full transition-colors duration-300 ${
+            className={`relative py-2 px-5 sm:px-8 rounded-full transition-colors duration-300 ${
               pathname === "/about"
                 ? "bg-black text-white"
                 : "text-gray-800 hover:text-black"

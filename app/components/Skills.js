@@ -20,9 +20,6 @@ import { SiTypescript } from "react-icons/si";
 import { SiRedux } from "react-icons/si";
 import { SiTailwindcss } from "react-icons/si";
 import { SiJira } from "react-icons/si";
-import { SiAdobexd } from "react-icons/si";
-import { SiAdobephotoshop } from "react-icons/si";
-import { SiSketch } from "react-icons/si";
 import { SiFramer } from "react-icons/si";
 import { BiCodeAlt } from "react-icons/bi";
 import { MdDesignServices } from "react-icons/md";
@@ -44,7 +41,7 @@ const SkillRating = ({ level }) => {
   );
 };
 
-const Skills = () => {
+const Skills = ({ showOnly }) => {
   const [selectedUXCategory, setSelectedUXCategory] = useState("all-ux");
   const [selectedDevCategory, setSelectedDevCategory] = useState("all-dev");
 
@@ -281,120 +278,134 @@ const Skills = () => {
     },
   };
 
+  // Hide the title if we're on a dedicated skills page
+  const showTitle = !showOnly;
+
   return (
     <section id="skills-section" className="py-16 bg-white text-gray-900">
       <div className="container mx-auto px-4">
-        <motion.h2
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-4xl font-bold text-center mb-16 text-gray-900"
-        >
-          My Skills
-        </motion.h2>
+        {showTitle && (
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-4xl font-bold text-center mb-16 text-gray-900"
+          >
+            My Skills
+          </motion.h2>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10">
-          {/* UX/UI Design Side */}
-          <div>
-            <h3 className="text-2xl font-bold mb-6 text-blue-500 text-center">
-              UX/UI Design
-            </h3>
+          {/* UX/UI Design Side - Only show if showOnly is undefined or "ux" */}
+          {(!showOnly || showOnly === "ux") && (
+            <div>
+              <h3 className="text-2xl font-bold mb-6 text-blue-500 text-center">
+                UX/UI Design
+              </h3>
 
-            {/* UX Category tabs */}
-            <div className="flex justify-center flex-wrap gap-2 mb-8">
-              {uxCategories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => setSelectedUXCategory(category.id)}
-                  className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors ${
-                    selectedUXCategory === category.id
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
-                >
-                  {category.name}
-                </button>
-              ))}
+              {/* UX Category tabs */}
+              <div className="flex justify-center flex-wrap gap-2 mb-8">
+                {uxCategories.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => setSelectedUXCategory(category.id)}
+                    className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors ${
+                      selectedUXCategory === category.id
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    }`}
+                  >
+                    {category.name}
+                  </button>
+                ))}
+              </div>
+
+              {/* UX/UI Skills grid */}
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                className="grid grid-cols-2 sm:grid-cols-3 gap-4"
+              >
+                {filteredUXSkills.map((skill) => (
+                  <motion.div
+                    key={skill.name}
+                    variants={itemVariants}
+                    className="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center transition-all duration-300
+                      hover:shadow-md hover:border-blue-300"
+                  >
+                    <div className="text-3xl sm:text-4xl text-blue-500 mb-2">
+                      {skill.icon}
+                    </div>
+                    <h3 className="font-medium text-sm sm:text-base mb-1">
+                      {skill.name}
+                    </h3>
+                    <SkillRating level={skill.level} />
+                  </motion.div>
+                ))}
+              </motion.div>
             </div>
+          )}
 
-            {/* UX/UI Skills grid */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="show"
-              className="grid grid-cols-2 sm:grid-cols-3 gap-4"
-            >
-              {filteredUXSkills.map((skill) => (
-                <motion.div
-                  key={skill.name}
-                  variants={itemVariants}
-                  className="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center transition-all duration-300
-                    hover:shadow-md hover:border-blue-300"
-                >
-                  <div className="text-3xl sm:text-4xl text-blue-500 mb-2">
-                    {skill.icon}
-                  </div>
-                  <h3 className="font-medium text-sm sm:text-base mb-1">
-                    {skill.name}
-                  </h3>
-                  <SkillRating level={skill.level} />
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
+          {/* Software Development Side - Only show if showOnly is undefined or "dev" */}
+          {(!showOnly || showOnly === "dev") && (
+            <div>
+              <h3 className="text-2xl font-bold mb-6 text-blue-500 text-center">
+                Software Development
+              </h3>
 
-          {/* Software Development Side */}
-          <div>
-            <h3 className="text-2xl font-bold mb-6 text-blue-500 text-center">
-              Software Development
-            </h3>
+              {/* Dev Category tabs */}
+              <div className="flex justify-center flex-wrap gap-2 mb-8">
+                {devCategories.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => setSelectedDevCategory(category.id)}
+                    className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors ${
+                      selectedDevCategory === category.id
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    }`}
+                  >
+                    {category.name}
+                  </button>
+                ))}
+              </div>
 
-            {/* Dev Category tabs */}
-            <div className="flex justify-center flex-wrap gap-2 mb-8">
-              {devCategories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => setSelectedDevCategory(category.id)}
-                  className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors ${
-                    selectedDevCategory === category.id
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
-                >
-                  {category.name}
-                </button>
-              ))}
+              {/* Dev Skills grid */}
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                className="grid grid-cols-2 sm:grid-cols-3 gap-4"
+              >
+                {filteredDevSkills.map((skill) => (
+                  <motion.div
+                    key={skill.name}
+                    variants={itemVariants}
+                    className="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center transition-all duration-300
+                      hover:shadow-md hover:border-blue-300"
+                  >
+                    <div className="text-3xl sm:text-4xl text-blue-500 mb-2">
+                      {skill.icon}
+                    </div>
+                    <h3 className="font-medium text-sm sm:text-base mb-1">
+                      {skill.name}
+                    </h3>
+                    <SkillRating level={skill.level} />
+                  </motion.div>
+                ))}
+              </motion.div>
             </div>
-
-            {/* Dev Skills grid */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="show"
-              className="grid grid-cols-2 sm:grid-cols-3 gap-4"
-            >
-              {filteredDevSkills.map((skill) => (
-                <motion.div
-                  key={skill.name}
-                  variants={itemVariants}
-                  className="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center transition-all duration-300
-                    hover:shadow-md hover:border-blue-300"
-                >
-                  <div className="text-3xl sm:text-4xl text-blue-500 mb-2">
-                    {skill.icon}
-                  </div>
-                  <h3 className="font-medium text-sm sm:text-base mb-1">
-                    {skill.name}
-                  </h3>
-                  <SkillRating level={skill.level} />
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
+          )}
         </div>
       </div>
     </section>
   );
+};
+
+// Set default props
+Skills.defaultProps = {
+  showOnly: null,
 };
 
 export default Skills;

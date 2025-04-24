@@ -5,9 +5,41 @@ import Link from "next/link";
 
 function Hero() {
   const videoRef = useRef(null);
+  const containerRef = useRef(null);
   const [contentVisible, setContentVisible] = useState(false);
   const [isFastForwarding, setIsFastForwarding] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const [deviceType, setDeviceType] = useState("desktop");
+
+  // Check for mobile device on mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const checkDevice = () => {
+      const width = window.innerWidth;
+      const isSmallMobile = width <= 375;
+      const isMediumMobile = width <= 480;
+      const isLargeMobile = width <= 768;
+
+      if (isSmallMobile) {
+        setDeviceType("small-mobile");
+      } else if (isMediumMobile) {
+        setDeviceType("medium-mobile");
+      } else if (isLargeMobile) {
+        setDeviceType("large-mobile");
+      } else {
+        setDeviceType("desktop");
+      }
+    };
+
+    // Initial check
+    checkDevice();
+
+    // Listen for resize events
+    window.addEventListener("resize", checkDevice);
+
+    return () => window.removeEventListener("resize", checkDevice);
+  }, []);
 
   // Handle video end event
   const handleVideoEnded = () => {
@@ -18,6 +50,20 @@ function Hero() {
     // Freeze on the last frame
     if (videoRef.current) {
       videoRef.current.pause();
+    }
+  };
+
+  // Get object position based on device type
+  const getObjectPosition = () => {
+    switch (deviceType) {
+      case "small-mobile":
+        return "52% center";
+      case "medium-mobile":
+        return "54% center";
+      case "large-mobile":
+        return "57% center";
+      default:
+        return "center";
     }
   };
 
@@ -90,23 +136,29 @@ function Hero() {
   }, []);
 
   return (
-    <div className="hero-video-container bg-white">
+    <div className="hero-video-container bg-white" ref={containerRef}>
       {/* Video background */}
       <video
         ref={videoRef}
-        className={`hero-video ${isFastForwarding ? "fast-forwarding" : ""}`}
+        className={`hero-video ${isFastForwarding ? "fast-forwarding" : ""} ${
+          deviceType !== "desktop" ? `mobile-hero-video ${deviceType}` : ""
+        }`}
         src="/HeroScreen.mp4"
         muted
         playsInline
         preload="auto"
         onClick={handleVideoClick}
         onEnded={handleVideoEnded}
+        style={{
+          objectFit: "cover",
+          objectPosition: getObjectPosition(),
+        }}
       />
 
       {/* Skip indicator - only shown during video playback and when video is loaded */}
       {!contentVisible && videoLoaded && (
         <div
-          className={`absolute right-4 bottom-4 text-white text-xs px-3 py-1 rounded-full z-10 ${
+          className={`absolute right-4 bottom-8 bg-black/70 text-white text-xs px-3 py-1 rounded-full z-10 ${
             isFastForwarding ? "pulse-fast-forward" : "pulse-skip"
           }`}
         >

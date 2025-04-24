@@ -223,18 +223,64 @@ html {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
   z-index: 0;
-  /* Prevent any filters or opacity changes */
   opacity: 1 !important;
   cursor: pointer; /* Show pointer cursor to indicate it's clickable */
 }
 
-/* Adjust video position on smaller screens to keep the Spotify app UI visible */
+/* Mobile-specific adjustments */
+.mobile-hero-video {
+  /* Base mobile styling */
+  object-position: 55% center !important;
+}
+
+/* Use safer viewport height definitions */
 @media (max-width: 768px) {
-  .hero-video {
-    object-position: 70% center; /* Shift focus to show the phone UI better */
+  .hero-video-container {
+    height: 100svh; /* Use small viewport height for mobile browsers */
+    max-height: -webkit-fill-available; /* Additional fix for iOS Safari */
   }
+
+  .hero-video {
+    /* Ensure video covers the container properly on mobile */
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+  }
+
+  /* Ensure video skip button is visible */
+  .pulse-skip,
+  .pulse-fast-forward {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 6px 12px;
+  }
+}
+
+/* Device-specific fine-tuning */
+@media (max-width: 375px) {
+  .mobile-hero-video {
+    object-position: 52% center !important;
+  }
+}
+
+@media (min-width: 376px) and (max-width: 480px) {
+  .mobile-hero-video {
+    object-position: 54% center !important;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .mobile-hero-video {
+    object-position: 57% center !important;
+  }
+}
+
+/* For iOS devices where video autoplay may be blocked */
+.hero-video[poster] {
+  object-fit: cover;
+  background-size: cover;
+  background-position: center;
 }
 
 .hero-content {
@@ -249,7 +295,7 @@ html {
   transition: opacity 1s ease-in-out;
 }
 
-/* Content fade-in animation */
+/* Fade in animation for content after video playback */
 @keyframes fadeInContent {
   from {
     opacity: 0;
@@ -262,7 +308,7 @@ html {
 }
 
 .fade-in-content {
-  animation: fadeInContent 1s ease-out forwards;
+  animation: fadeInContent 0.8s ease-out forwards;
 }
 
 /* Skip indicator animation */
@@ -311,4 +357,110 @@ html {
 .fast-forwarding {
   filter: brightness(1.05) contrast(1.05);
   transition: filter 0.3s ease;
+}
+
+/* Device-specific styling for hero video */
+.small-mobile {
+  object-position: 52% center !important;
+}
+
+.medium-mobile {
+  object-position: 54% center !important;
+}
+
+.large-mobile {
+  object-position: 57% center !important;
+}
+
+/* Ensure iOS Safari works properly */
+@supports (-webkit-touch-callout: none) {
+  .hero-video-container {
+    height: -webkit-fill-available;
+  }
+
+  .mobile-hero-video {
+    /* Additional adjustments specifically for iOS */
+    object-position: 55% center !important;
+  }
+
+  /* iOS device-specific overrides */
+  .small-mobile {
+    object-position: 50% center !important;
+  }
+}
+
+/* Hobby image styling in About page */
+.hobby-image-container {
+  overflow: hidden;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  aspect-ratio: 16/9;
+  position: relative;
+  background: linear-gradient(to bottom right, #e6f2ff, #f0f7ff);
+  /* Add loading animation */
+  animation: imageContainerLoad 0.5s ease-in-out;
+}
+
+@keyframes imageContainerLoad {
+  0% {
+    opacity: 0.5;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hobby-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.5s ease;
+  transform-origin: center;
+  will-change: transform;
+  /* Add loading animation for image itself */
+  animation: imageLoad 0.7s ease-in-out;
+}
+
+@keyframes imageLoad {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.hobby-image:hover {
+  transform: scale(1.05);
+}
+
+/* Add subtle overlay to make text more readable when placed over images */
+.hobby-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hobby-image-container:hover .hobby-image-overlay {
+  opacity: 1;
+}
+
+/* Responsive adjustments for hobby images */
+@media (max-width: 640px) {
+  .hobby-image-container {
+    aspect-ratio: 4/3; /* More square ratio on mobile */
+  }
+
+  .hobby-image {
+    object-position: center 30%; /* Better focus on mobile */
+  }
 }

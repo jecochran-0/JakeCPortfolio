@@ -7,8 +7,6 @@ import {
   FaBriefcase,
   FaGraduationCap,
   FaLightbulb,
-  FaMusic,
-  FaMountain,
 } from "react-icons/fa";
 import { useInView } from "../utils/performance";
 import SafeHydrate from "../components/SafeHydrate";
@@ -473,8 +471,18 @@ function AboutContent() {
                           I&apos;m a big football fan (go pats), and I also like
                           to play flag football and tennis.
                         </p>
-                        <div className="h-[250px] w-full bg-blue-100 rounded-lg flex items-center justify-center">
-                          <FaMusic className="text-blue-400 text-5xl" />
+                        <div className="hobby-image-container">
+                          <img
+                            src="/Tennis.jpg"
+                            alt="Tennis Photo"
+                            className="hobby-image"
+                            loading="lazy"
+                          />
+                          <div className="hobby-image-overlay">
+                            <p className="text-sm font-medium">
+                              Tennis at University of Wisconsin
+                            </p>
+                          </div>
                         </div>
                       </div>
 
@@ -485,8 +493,18 @@ function AboutContent() {
                         <p className="text-gray-600 mb-4">
                           I pass the time with a chess match on chess.com
                         </p>
-                        <div className="h-[250px] w-full bg-green-100 rounded-lg flex items-center justify-center">
-                          <FaMountain className="text-green-400 text-5xl" />
+                        <div className="hobby-image-container">
+                          <img
+                            src="/Chess.jpg"
+                            alt="Chess Game"
+                            className="hobby-image"
+                            loading="lazy"
+                          />
+                          <div className="hobby-image-overlay">
+                            <p className="text-sm font-medium">
+                              Chess matches are my favorite way to relax
+                            </p>
+                          </div>
                         </div>
                       </div>
 

@@ -5,6 +5,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
+// Check if in browser environment
+const isBrowser = typeof window !== "undefined";
+
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -13,6 +16,9 @@ export default function Navbar() {
 
   // Handle scroll effect
   useEffect(() => {
+    // Skip on server-side
+    if (!isBrowser) return;
+
     const handleScroll = () => {
       const isScrolled = window.scrollY > 20;
       if (isScrolled !== scrolled) {
@@ -26,6 +32,9 @@ export default function Navbar() {
 
   // Preload critical pages
   useEffect(() => {
+    // Skip on server-side
+    if (!isBrowser) return;
+
     const preloadPages = async () => {
       // Preload important routes in the background
       const routes = ["/", "/ux-ui", "/dev", "/about"];

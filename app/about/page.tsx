@@ -11,6 +11,8 @@ import {
   FaMountain,
 } from "react-icons/fa";
 import { useInView } from "../utils/performance";
+import SafeHydrate from "../components/SafeHydrate";
+import { getWindowDimensions } from "../utils/serverSafeWindow";
 
 // Lazy load components
 const Experience = lazy(() => import("../components/Experience"));
@@ -24,7 +26,11 @@ const ExperienceLoading = () => (
   </div>
 );
 
-export default function About() {
+// Check if window is defined (client-side) or not (server-side)
+const isBrowser = typeof window !== "undefined";
+
+// Wrap the entire component with SafeHydrate
+function AboutContent() {
   const [activeTab, setActiveTab] = useState("professional");
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -35,6 +41,9 @@ export default function About() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
+    // Only run on client side
+    if (!isBrowser) return;
+
     let lastUpdate = 0;
     const THROTTLE_MS = 50; // Only update every 50ms
 
@@ -56,8 +65,11 @@ export default function About() {
   // Memoize calculation to avoid unnecessary rerenders
   const calculateMovement = useMemo(() => {
     return (factor) => {
-      const xMovement = (mousePosition.x / window.innerWidth - 0.5) * factor;
-      const yMovement = (mousePosition.y / window.innerHeight - 0.5) * factor;
+      if (!isBrowser) return { x: 0, y: 0 }; // Safe default on server
+
+      const { width, height } = getWindowDimensions();
+      const xMovement = (mousePosition.x / width - 0.5) * factor;
+      const yMovement = (mousePosition.y / height - 0.5) * factor;
       return { x: xMovement, y: yMovement };
     };
   }, [mousePosition.x, mousePosition.y]);
@@ -565,5 +577,20 @@ export default function About() {
         </div>
       </motion.section>
     </div>
+  );
+}
+
+// Export a wrapper component that uses SafeHydrate
+export default function About() {
+  return (
+    <SafeHydrate
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
+      <AboutContent />
+    </SafeHydrate>
   );
 }

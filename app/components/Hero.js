@@ -172,14 +172,7 @@ function Hero() {
           contentVisible ? "fade-in-content" : "opacity-0 pointer-events-none"
         }`}
       >
-        <div className="flex flex-col items-center max-w-3xl mx-auto text-center">
-          <div className="mb-6">
-            {/* Decorative mobile device image */}
-            <div className="hidden md:block md:absolute md:left-[10%] md:transform md:-translate-y-1/2">
-              {/* This is optional, shown only on larger screens */}
-            </div>
-          </div>
-
+        <div className="flex flex-col items-center max-w-3xl mx-auto text-center mobile-hero-content">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-black mb-4">
             I&apos;m Jake Cochran
           </h1>

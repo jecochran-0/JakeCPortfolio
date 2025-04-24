@@ -216,6 +216,9 @@ html {
   height: 100vh;
   overflow: hidden;
   background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-video {
@@ -235,11 +238,33 @@ html {
   object-position: 55% center !important;
 }
 
-/* Use safer viewport height definitions */
+/* Use safer viewport height definitions and ensure proper positioning on mobile */
 @media (max-width: 768px) {
   .hero-video-container {
     height: 100svh; /* Use small viewport height for mobile browsers */
     max-height: -webkit-fill-available; /* Additional fix for iOS Safari */
+    padding-top: 4rem; /* Add padding for the navbar */
+  }
+
+  .hero-content {
+    padding-top: 0; /* Reset padding to use container's padding */
+    justify-content: center; /* Ensure vertical centering */
+  }
+
+  /* Adjust the content container for better vertical alignment */
+  .hero-content > div {
+    margin-top: -1.5rem; /* Shift the content up slightly to appear more centered */
+  }
+
+  /* Ensure proper sizing on iOS Safari */
+  @supports (-webkit-touch-callout: none) {
+    .hero-video-container {
+      height: 100vh;
+      /* Fix for iOS Safari 15+ */
+      height: -webkit-fill-available;
+      min-height: -webkit-fill-available;
+      padding-top: 4.5rem; /* Slightly more padding for iOS */
+    }
   }
 
   .hero-video {
@@ -293,6 +318,7 @@ html {
   width: 100%;
   height: 100%;
   transition: opacity 1s ease-in-out;
+  padding-top: 0; /* Reset any top padding */
 }
 
 /* Fade in animation for content after video playback */
@@ -462,5 +488,31 @@ html {
 
   .hobby-image {
     object-position: center 30%; /* Better focus on mobile */
+  }
+}
+
+/* Mobile hero content adjustments */
+.mobile-hero-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .mobile-hero-content {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  /* More space before first element on mobile */
+  .mobile-hero-content h1 {
+    margin-top: 1rem;
+  }
+
+  /* Remove decorative div on mobile to save space */
+  .mobile-hero-content > div:first-child {
+    display: none;
   }
 }

@@ -79,7 +79,7 @@ export default function DevPage() {
             animate="show"
             className="max-w-6xl mx-auto"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="flex flex-col md:flex-row gap-8">
               <motion.div
                 variants={itemVariants}
                 className="bg-white rounded-xl p-8 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"

@@ -55,8 +55,8 @@ function Hero() {
 
   // Start playing video when component mounts
   useEffect(() => {
-    // Show content immediately while video loads
-    setContentVisible(true);
+    // Start with content hidden
+    setContentVisible(false);
 
     if (videoRef.current) {
       // Add loaded data event listener
@@ -70,13 +70,10 @@ function Hero() {
         playPromise
           .then(() => {
             // Autoplay started successfully
-            // Only hide content once video starts playing
-            if (videoLoaded) {
-              setContentVisible(false);
-            }
+            // Content should remain hidden until video ends
           })
           .catch((error) => {
-            // Auto-play was prevented, keep content visible
+            // Auto-play was prevented, show content instead
             console.log("Autoplay prevented:", error);
             setContentVisible(true);
           });
@@ -90,7 +87,7 @@ function Hero() {
         videoRef.current.pause();
       }
     };
-  }, [videoLoaded]);
+  }, []);
 
   return (
     <div className="hero-video-container bg-white">
@@ -101,7 +98,7 @@ function Hero() {
         src="/HeroScreen.mp4"
         muted
         playsInline
-        preload="metadata"
+        preload="auto"
         onClick={handleVideoClick}
         onEnded={handleVideoEnded}
       />
@@ -117,7 +114,7 @@ function Hero() {
         </div>
       )}
 
-      {/* Content overlay - initially visible, then hidden when video starts, then visible again when video ends */}
+      {/* Content overlay - hidden until video ends */}
       <div
         className={`hero-content px-4 sm:px-6 md:px-8 ${
           contentVisible ? "fade-in-content" : "opacity-0 pointer-events-none"

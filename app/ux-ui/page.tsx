@@ -336,7 +336,7 @@ export default function UXUIPage() {
                   {/* Desktop mockup - positioned on the left */}
                   <div className="w-full md:w-[80%] z-10">
                     <Image
-                      src="/Desktop-Home-Revamped.png"
+                      src="/Spotify_Project/Desktop-Home-Revamped.jpg"
                       alt="Spotify Desktop Redesign"
                       width={960}
                       height={540}

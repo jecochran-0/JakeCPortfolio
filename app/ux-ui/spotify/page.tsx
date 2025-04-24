@@ -61,7 +61,7 @@ export default function SpotifyProjectPage() {
               {/* Mobile mockup - positioned on the right */}
               <div className="w-[35%] md:w-[25%] ml-auto -mt-10 md:mt-0 md:absolute md:right-0 md:top-20 z-20">
                 <Image
-                  src="/Spotify_Project/Iphone-Mockup.png"
+                  src="/Iphone-Mockup.png"
                   alt="Spotify Mobile App"
                   width={300}
                   height={600}

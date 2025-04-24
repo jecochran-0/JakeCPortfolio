@@ -50,6 +50,14 @@ function Hero() {
     // Freeze on the last frame
     if (videoRef.current) {
       videoRef.current.pause();
+
+      // Ensure video is fully stopped
+      try {
+        // Some browsers may need this to fully stop
+        videoRef.current.currentTime = videoRef.current.duration;
+      } catch {
+        // Ignore errors
+      }
     }
   };
 
@@ -72,6 +80,19 @@ function Hero() {
     if (videoRef.current && !contentVisible && !isFastForwarding) {
       setIsFastForwarding(true);
 
+      // Mobile-friendly approach - just skip to the end
+      if (deviceType !== "desktop") {
+        // For mobile devices, just skip to near the end
+        if (videoRef.current.duration) {
+          videoRef.current.currentTime = videoRef.current.duration - 0.1;
+        } else {
+          // If duration isn't available, just show content directly
+          handleVideoEnded();
+        }
+        return;
+      }
+
+      // For desktop, try to speed up first
       try {
         // Try to speed up the video by 4x
         try {
@@ -99,14 +120,25 @@ function Hero() {
     setVideoLoaded(true);
   };
 
+  // Handle time update to ensure fast-forwarding works on mobile
+  const handleTimeUpdate = () => {
+    if (isFastForwarding && videoRef.current) {
+      // If we're near the end of the video while fast-forwarding, end it
+      if (videoRef.current.currentTime >= videoRef.current.duration - 0.2) {
+        handleVideoEnded();
+      }
+    }
+  };
+
   // Start playing video when component mounts
   useEffect(() => {
     // Start with content hidden
     setContentVisible(false);
 
     if (videoRef.current) {
-      // Add loaded data event listener
+      // Add event listeners
       videoRef.current.addEventListener("loadeddata", handleVideoLoaded);
+      videoRef.current.addEventListener("timeupdate", handleTimeUpdate);
 
       // Play the video when it's available
       const playPromise = videoRef.current.play();
@@ -130,6 +162,7 @@ function Hero() {
     return () => {
       if (videoRef.current) {
         videoRef.current.removeEventListener("loadeddata", handleVideoLoaded);
+        videoRef.current.removeEventListener("timeupdate", handleTimeUpdate);
         videoRef.current.pause();
       }
     };

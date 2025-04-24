@@ -19,8 +19,11 @@ const nextConfig = {
     formats: ["image/webp"],
   },
   experimental: {
-    // Enable optimizations
-    optimizeCss: true,
+    // Enable optimizations with critters package
+    optimizeCss: {
+      minify: true,
+      inlineThreshold: 5 * 1024, // 5KB
+    },
     optimizePackageImports: ["framer-motion", "react-icons"],
   },
   compiler: {
@@ -29,10 +32,6 @@ const nextConfig = {
   },
   // Enable React strict mode for better performance practices
   reactStrictMode: true,
-  // Enable swcMinify for faster builds
-  swcMinify: true,
-  // Improve output file tracing
-  outputFileTracing: true,
 };
 
 export default nextConfig;

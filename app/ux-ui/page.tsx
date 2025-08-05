@@ -302,6 +302,23 @@ export default function UXUIPage() {
             className="max-w-5xl mx-auto"
           >
             <div className="mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+                GrammarlyGO Retention Study
+              </h2>
+              <p className="text-2xl text-gray-700 mb-6">
+                turning one-time AI users into loyal daily writers
+              </p>
+              <div className="flex flex-wrap gap-4 mb-10">
+                <Link
+                  href="/ux-ui/grammarlygo"
+                  className="inline-flex items-center px-6 py-3 border border-gray-300 rounded-full hover:border-gray-400 transition-all duration-300"
+                >
+                  View Case Study
+                </Link>
+              </div>
+            </div>
+
+            <div className="mb-12">
               <h2 className="text-4xl md:text-5xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600">
                 Spotify Redesign
               </h2>
@@ -317,6 +334,8 @@ export default function UXUIPage() {
                 </Link>
                 <Link
                   href="https://www.figma.com/design/HROuWDR5pEsbKCKsZqNSyW/Personal?node-id=112-2&t=SqzgTnrOjo0heMmc-1"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center px-6 py-3 border border-gray-300 rounded-full hover:border-gray-400 transition-all duration-300"
                 >
                   View in Figma

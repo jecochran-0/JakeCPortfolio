@@ -76,6 +76,7 @@
   animation: fadeIn 0.6s ease-out forwards;
 }
 
+/* Normal scroll behavior */
 html {
   scroll-behavior: smooth;
 }
@@ -131,7 +132,42 @@ html {
   z-index: -1;
 }
 
-/* Add enhanced animations for section transitions */
+/* Enhanced backgrounds */
+.hero-bg-gradient {
+  background: linear-gradient(45deg, #ffffff, #f5f5f5);
+}
+
+.skills-bg-gradient {
+  background: linear-gradient(45deg, #f8f8f8, #efefef);
+}
+
+.softskills-bg-gradient {
+  background: linear-gradient(45deg, #f5f5f5, #f0f0f0);
+}
+
+.projects-bg-gradient {
+  background: linear-gradient(45deg, #ffffff, #fafafa);
+}
+
+/* Add a subtle animated gradient for more visual interest */
+.animated-gradient {
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Enhanced section transitions */
 .slide-in-section {
   opacity: 0;
   transform: translateY(40px);
@@ -174,48 +210,12 @@ html {
   transform: translateY(0);
 }
 
-/* Enhanced backgrounds */
-.hero-bg-gradient {
-  background: linear-gradient(45deg, #ffffff, #f5f5f5);
-}
-
-.skills-bg-gradient {
-  background: linear-gradient(45deg, #f8f8f8, #efefef);
-}
-
-.softskills-bg-gradient {
-  background: linear-gradient(45deg, #f5f5f5, #f0f0f0);
-}
-
-.projects-bg-gradient {
-  background: linear-gradient(45deg, #ffffff, #fafafa);
-}
-
-/* Add a subtle animated gradient for more visual interest */
-.animated-gradient {
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
 /* Hero video styles */
 .hero-video-container {
   position: relative;
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -223,219 +223,133 @@ html {
 
 .hero-video {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  z-index: 0;
-  opacity: 1 !important;
-  cursor: pointer; /* Show pointer cursor to indicate it's clickable */
 }
 
-/* Mobile-specific adjustments */
 .mobile-hero-video {
-  /* Base mobile styling */
   object-position: 55% center !important;
 }
 
-/* Use safer viewport height definitions and ensure proper positioning on mobile */
-@media (max-width: 768px) {
-  .hero-video-container {
-    height: 100svh; /* Use small viewport height for mobile browsers */
-    max-height: -webkit-fill-available; /* Additional fix for iOS Safari */
-    padding-top: 4rem; /* Add padding for the navbar */
-  }
-
-  .hero-content {
-    padding-top: 0; /* Reset padding to use container's padding */
-    justify-content: center; /* Ensure vertical centering */
-  }
-
-  /* Adjust the content container for better vertical alignment */
-  .hero-content > div {
-    margin-top: -1.5rem; /* Shift the content up slightly to appear more centered */
-  }
-
-  /* Ensure proper sizing on iOS Safari */
-  @supports (-webkit-touch-callout: none) {
-    .hero-video-container {
-      height: 100vh;
-      /* Fix for iOS Safari 15+ */
-      height: -webkit-fill-available;
-      min-height: -webkit-fill-available;
-      padding-top: 4.5rem; /* Slightly more padding for iOS */
-    }
-  }
-
-  .hero-video {
-    /* Ensure video covers the container properly on mobile */
-    width: 100% !important;
-    height: 100% !important;
-    transform: none !important;
-  }
-
-  /* Ensure video skip button is visible */
-  .pulse-skip,
-  .pulse-fast-forward {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 6px 12px;
-  }
-}
-
-/* Device-specific fine-tuning */
-@media (max-width: 375px) {
-  .mobile-hero-video {
-    object-position: 52% center !important;
-  }
-}
-
-@media (min-width: 376px) and (max-width: 480px) {
-  .mobile-hero-video {
-    object-position: 54% center !important;
-  }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-  .mobile-hero-video {
-    object-position: 57% center !important;
-  }
-}
-
-/* For iOS devices where video autoplay may be blocked */
-.hero-video[poster] {
-  object-fit: cover;
-  background-size: cover;
-  background-position: center;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  transition: opacity 1s ease-in-out;
-  padding-top: 0; /* Reset any top padding */
-}
-
-/* Fade in animation for content after video playback */
-@keyframes fadeInContent {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in-content {
-  animation: fadeInContent 0.8s ease-out forwards;
-}
-
-/* Skip indicator animation */
-@keyframes pulseSkip {
-  0% {
-    opacity: 0.7;
-    transform: scale(0.98);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.02);
-  }
-  100% {
-    opacity: 0.7;
-    transform: scale(0.98);
-  }
-}
-
-.pulse-skip {
-  animation: pulseSkip 2s ease-in-out infinite;
-}
-
-/* Fast-forward indicator animation */
-@keyframes pulseFastForward {
-  0% {
-    opacity: 0.8;
-    transform: scale(0.98);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-  100% {
-    opacity: 0.8;
-    transform: scale(0.98);
-  }
-}
-
-.pulse-fast-forward {
-  animation: pulseFastForward 0.8s ease-in-out infinite;
-  background: rgba(0, 0, 0, 0.7); /* Darker background */
-  font-weight: 500; /* Slightly bolder text */
-}
-
-/* Fast-forwarding video effect */
-.fast-forwarding {
-  filter: brightness(1.05) contrast(1.05);
-  transition: filter 0.3s ease;
-}
-
-/* Device-specific styling for hero video */
+/* Device-specific fine-tuning for hero video */
 .small-mobile {
   object-position: 52% center !important;
 }
-
 .medium-mobile {
   object-position: 54% center !important;
 }
-
 .large-mobile {
   object-position: 57% center !important;
 }
 
-/* Ensure iOS Safari works properly */
+/* iOS Safari fixes */
 @supports (-webkit-touch-callout: none) {
   .hero-video-container {
+    height: 100vh;
     height: -webkit-fill-available;
+    min-height: -webkit-fill-available;
+    padding-top: 4.5rem;
   }
-
   .mobile-hero-video {
-    /* Additional adjustments specifically for iOS */
     object-position: 55% center !important;
   }
-
-  /* iOS device-specific overrides */
   .small-mobile {
     object-position: 50% center !important;
   }
 }
 
-/* Hobby image styling in About page */
-.hobby-image-container {
-  overflow: hidden;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  aspect-ratio: 16/9;
+.hero-content {
   position: relative;
-  background: linear-gradient(to bottom right, #e6f2ff, #f0f7ff);
-  /* Add loading animation */
+  z-index: 10;
+  color: white;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.fade-in-content {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.opacity-0 {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.fast-forwarding {
+  filter: brightness(1.2) contrast(1.1);
+}
+
+.skip-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.skip-indicator.show {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .hero-video-container {
+    height: 100svh;
+    max-height: -webkit-fill-available;
+    padding-top: 4rem;
+  }
+
+  .hero-content {
+    padding-top: 0;
+    justify-content: center;
+  }
+
+  .hero-content > div {
+    margin-top: -1.5rem;
+  }
+
+  .mobile-hero-content {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .mobile-hero-content > div:first-child {
+    display: none;
+  }
+}
+
+/* Hobby image styling */
+.hobby-image-container {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
   animation: imageContainerLoad 0.5s ease-in-out;
 }
 
-@keyframes imageContainerLoad {
-  0% {
-    opacity: 0.5;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.hobby-image-container:hover {
+  transform: scale(1.02);
 }
 
 .hobby-image {
@@ -443,35 +357,18 @@ html {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: transform 0.5s ease;
-  transform-origin: center;
-  will-change: transform;
-  /* Add loading animation for image itself */
+  transition: transform 0.3s ease;
   animation: imageLoad 0.7s ease-in-out;
 }
 
-@keyframes imageLoad {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.hobby-image:hover {
-  transform: scale(1.05);
-}
-
-/* Add subtle overlay to make text more readable when placed over images */
 .hobby-image-overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 1rem;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
   color: white;
+  padding: 1.5rem;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -480,39 +377,34 @@ html {
   opacity: 1;
 }
 
-/* Responsive adjustments for hobby images */
+@keyframes imageContainerLoad {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes imageLoad {
+  from {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @media (max-width: 640px) {
   .hobby-image-container {
-    aspect-ratio: 4/3; /* More square ratio on mobile */
+    aspect-ratio: 4/3;
   }
 
   .hobby-image {
-    object-position: center 30%; /* Better focus on mobile */
-  }
-}
-
-/* Mobile hero content adjustments */
-.mobile-hero-content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-@media (max-width: 768px) {
-  .mobile-hero-content {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-  }
-
-  /* More space before first element on mobile */
-  .mobile-hero-content h1 {
-    margin-top: 1rem;
-  }
-
-  /* Remove decorative div on mobile to save space */
-  .mobile-hero-content > div:first-child {
-    display: none;
+    object-position: center 30%;
   }
 }

@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import Link from "next/link";
+import { motion } from "framer-motion";
+import DynamicTextAnimation from "./DynamicTextAnimation";
 
 function Hero() {
   const videoRef = useRef(null);
@@ -199,41 +200,86 @@ function Hero() {
         </div>
       )}
 
-      {/* Content overlay - hidden until video ends */}
+      {/* Dynamic Content overlay - hidden until video ends */}
       <div
         className={`hero-content px-4 sm:px-6 md:px-8 ${
           contentVisible ? "fade-in-content" : "opacity-0 pointer-events-none"
         }`}
       >
-        <div className="flex flex-col items-center max-w-3xl mx-auto text-center mobile-hero-content">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-black mb-4">
-            I&apos;m Jake Cochran
-          </h1>
+        <div className="flex flex-col items-center max-w-4xl mx-auto text-center mobile-hero-content">
+          {/* Dynamic Text Animation */}
+          <DynamicTextAnimation />
 
-          <div className="flex items-center justify-center mb-8">
-            <span className="text-2xl sm:text-3xl text-blue-500 font-medium">
-              UX/UI Designer
-            </span>
-            <span className="mx-4 text-xl text-gray-500">|</span>
-            <span className="text-2xl sm:text-3xl text-blue-500 font-medium">
-              Software Developer
-            </span>
-          </div>
+          {/* Call to Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={
+              contentVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+            }
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="flex flex-wrap gap-4 justify-center mt-12"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
+                color: "white",
+                padding: "1rem 2rem",
+                borderRadius: "9999px",
+                fontWeight: "600",
+                fontSize: "1rem",
+                border: "none",
+                cursor: "pointer",
+                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
+                transition: "all 0.3s ease",
+              }}
+              onClick={() => (window.location.href = "/ux-ui")}
+            >
+              View My Work
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                background: "white",
+                color: "#374151",
+                padding: "1rem 2rem",
+                borderRadius: "9999px",
+                fontWeight: "600",
+                fontSize: "1rem",
+                border: "2px solid #d1d5db",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+              }}
+              onClick={() => (window.location.href = "/ux-ui")}
+            >
+              Get In Touch
+            </motion.button>
+          </motion.div>
 
-          <div className="flex flex-wrap gap-4 justify-center mt-6">
-            <Link
-              href="/about"
-              className="px-6 py-3 bg-white border-2 border-black text-black font-medium rounded-full hover:bg-black hover:text-white transition-colors duration-300"
-            >
-              About Me
-            </Link>
-            <Link
-              href="mailto:jake.e.cochran@gmail.com"
-              className="px-6 py-3 bg-black text-white font-medium rounded-full hover:bg-gray-800 transition-colors duration-300"
-            >
-              Contact
-            </Link>
-          </div>
+          {/* Floating Elements - Only green and purple particles */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={contentVisible ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 1, delay: 0.8 }}
+            className="relative mt-12"
+          >
+            <motion.div
+              animate={{ y: [10, -10, 10] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -top-8 -right-8 w-6 h-6 bg-purple-400 rounded-full opacity-60"
+            />
+            <motion.div
+              animate={{ y: [-5, 15, -5] }}
+              transition={{
+                duration: 3.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="absolute -bottom-4 left-1/2 w-3 h-3 bg-green-400 rounded-full opacity-60"
+            />
+          </motion.div>
         </div>
       </div>
     </div>

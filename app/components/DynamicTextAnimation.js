@@ -45,17 +45,17 @@ export default function DynamicTextAnimation() {
 
   return (
     <div className="text-center">
-      <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+      <h1 className="text-display mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
         Jake Cochran
       </h1>
-      <div className="text-2xl md:text-3xl text-gray-600 mb-8 h-12 flex items-center justify-center">
+      <div className="text-subtitle text-gray-600 mb-8 h-12 flex items-center justify-center">
         <span className="mr-2">I&apos;m a</span>
-        <span className="text-blue-600 font-semibold min-w-[200px] text-left">
+        <span className="text-blue-600 font-semibold min-w-[200px] text-left tracking-wide">
           {currentText}
           <span className="animate-pulse">|</span>
         </span>
       </div>
-      <p className="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+      <p className="text-subtitle text-gray-500 max-w-2xl mx-auto leading-relaxed">
         Crafting exceptional digital experiences through thoughtful design and
         innovative development
       </p>

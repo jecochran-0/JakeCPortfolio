@@ -1,6 +1,6 @@
 "use client";
 
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaCode, FaLaptopCode, FaRocket } from "react-icons/fa";
 import Link from "next/link";
@@ -9,25 +9,39 @@ import Link from "next/link";
 const Projects = lazy(() => import("../components/Projects"));
 
 export default function DevPage() {
-  // Animation variants
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Animation variants - simplified for mobile
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
+        staggerChildren: isMobile ? 0.1 : 0.15,
+        delayChildren: isMobile ? 0.1 : 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: isMobile ? 10 : 20 },
     show: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5,
+        duration: isMobile ? 0.3 : 0.5,
         ease: "easeOut",
       },
     },
@@ -40,18 +54,21 @@ export default function DevPage() {
         <div className="container mx-auto px-4 py-20 md:py-28">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
             <motion.h1
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: isMobile ? -10 : -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
+              transition={{ duration: isMobile ? 0.3 : 0.5 }}
+              className="text-headline mb-6 leading-tight"
             >
               Software <span className="text-blue-500">Development</span>
             </motion.h1>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-lg text-gray-700 mb-8 leading-relaxed"
+              transition={{
+                duration: isMobile ? 0.3 : 0.5,
+                delay: isMobile ? 0.05 : 0.1,
+              }}
+              className="text-subtitle text-gray-700 mb-8 leading-relaxed"
             >
               I build clean, efficient, and maintainable applications with a
               focus on user experience. My engineering approach prioritizes
@@ -65,10 +82,10 @@ export default function DevPage() {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-3xl font-bold text-center mb-16"
+            transition={{ duration: isMobile ? 0.3 : 0.5 }}
+            className="text-title text-center mb-16"
           >
             My Development Approach
           </motion.h2>
@@ -87,10 +104,10 @@ export default function DevPage() {
                 <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-6 mx-auto text-white">
                   <FaLaptopCode className="text-2xl" />
                 </div>
-                <h3 className="text-xl font-bold text-center mb-4">
+                <h3 className="text-xl font-semibold text-center mb-4 tracking-wide">
                   Frontend Excellence
                 </h3>
-                <p className="text-gray-600 text-center">
+                <p className="text-body text-gray-600 text-center">
                   Creating responsive, accessible interfaces with modern
                   frameworks and performance optimization techniques.
                 </p>
@@ -103,10 +120,10 @@ export default function DevPage() {
                 <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-6 mx-auto text-white">
                   <FaCode className="text-2xl" />
                 </div>
-                <h3 className="text-xl font-bold text-center mb-4">
+                <h3 className="text-xl font-semibold text-center mb-4 tracking-wide">
                   Clean Code Philosophy
                 </h3>
-                <p className="text-gray-600 text-center">
+                <p className="text-body text-gray-600 text-center">
                   Writing maintainable, tested code that scales with consistent
                   patterns and thorough documentation.
                 </p>
@@ -119,10 +136,10 @@ export default function DevPage() {
                 <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-6 mx-auto text-white">
                   <FaRocket className="text-2xl" />
                 </div>
-                <h3 className="text-xl font-bold text-center mb-4">
+                <h3 className="text-xl font-semibold text-center mb-4 tracking-wide">
                   Performance Optimization
                 </h3>
-                <p className="text-gray-600 text-center">
+                <p className="text-body text-gray-600 text-center">
                   Optimizing for speed, accessibility, and resource efficiency
                   through measured improvements and best practices.
                 </p>
@@ -148,7 +165,7 @@ export default function DevPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-4xl font-bold text-center mb-8"
+              className="text-title text-center mb-8"
             >
               My Projects
             </motion.h2>
@@ -156,7 +173,7 @@ export default function DevPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-lg text-gray-700 max-w-2xl mx-auto mb-16 text-center"
+              className="text-subtitle text-gray-700 max-w-2xl mx-auto mb-16 text-center"
             >
               A showcase of applications built with modern technologies and best
               practices in web development.
@@ -189,16 +206,14 @@ export default function DevPage() {
             transition={{ duration: 0.5 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              See My Design Work
-            </h2>
-            <p className="text-xl mb-10 text-blue-100">
+            <h2 className="text-title mb-6">See My Design Work</h2>
+            <p className="text-subtitle mb-10 text-blue-100">
               Check out my UX/UI design projects to see how I approach digital
               experiences from the design side.
             </p>
             <Link
               href="/ux-ui"
-              className="inline-flex items-center px-8 py-4 bg-white text-blue-500 font-medium rounded-full hover:bg-gray-100 transition-colors duration-300 shadow-lg"
+              className="inline-flex items-center px-8 py-4 bg-white text-blue-500 font-medium rounded-full hover:bg-gray-100 transition-colors duration-300 shadow-lg tracking-wide"
             >
               View UX/UI Projects
               <FaRocket className="ml-2" />

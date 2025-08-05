@@ -22,8 +22,21 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const currentTheme = pageThemes[pathname] || pageThemes["/"];
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Handle scroll effect
   useEffect(() => {
@@ -110,7 +123,11 @@ export default function Navbar() {
                      scrolled ? "scale-95" : "scale-100"
                    }`}
       >
-        <div className="flex items-center rounded-full p-1">
+        <div
+          className={`flex items-center rounded-full p-1 ${
+            isMobile ? "px-1" : "px-1"
+          }`}
+        >
           {navItems.map((item, index) => {
             const isActive = pathname === item.href;
             const isHovered = hoveredItem === item.href;
@@ -121,8 +138,8 @@ export default function Navbar() {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
-                onHoverStart={() => setHoveredItem(item.href)}
-                onHoverEnd={() => setHoveredItem(null)}
+                onHoverStart={() => !isMobile && setHoveredItem(item.href)}
+                onHoverEnd={() => !isMobile && setHoveredItem(null)}
                 className="relative"
               >
                 <Link
@@ -131,13 +148,14 @@ export default function Navbar() {
                   onClick={(e) => handleNavClick(e, item.href)}
                 >
                   <motion.div
-                    className={`relative py-2.5 px-5 rounded-full transition-all duration-200 cursor-pointer
+                    className={`relative rounded-full transition-all duration-200 cursor-pointer
+                               ${isMobile ? "py-2 px-3" : "py-2.5 px-5"}
                                ${
                                  isActive
                                    ? "text-white"
                                    : "text-gray-700 hover:text-gray-900"
                                }`}
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ scale: isMobile ? 1 : 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     {/* Active background */}
@@ -156,8 +174,8 @@ export default function Navbar() {
                       />
                     )}
 
-                    {/* Hover background */}
-                    {isHovered && !isActive && (
+                    {/* Hover background - only on desktop */}
+                    {isHovered && !isActive && !isMobile && (
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -169,7 +187,17 @@ export default function Navbar() {
 
                     {/* Content */}
                     <div className="relative z-10">
-                      <span className="font-medium text-sm">{item.label}</span>
+                      <span
+                        className={`font-medium tracking-wide ${
+                          isMobile ? "text-xs" : "text-sm"
+                        }`}
+                        style={{
+                          fontWeight: isActive ? 600 : 500,
+                          letterSpacing: "0.025em",
+                        }}
+                      >
+                        {item.label}
+                      </span>
                     </div>
                   </motion.div>
                 </Link>

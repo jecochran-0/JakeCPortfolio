@@ -1,10 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function ScrollIndicator() {
   const [scrollY, setScrollY] = useState(0);
   const [scrollPercentage, setScrollPercentage] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     // Only run on client side
@@ -42,10 +56,22 @@ export default function ScrollIndicator() {
   }, [scrollY]);
 
   return (
-    <div className="fixed bottom-8 right-8 z-50">
-      <div className="relative w-16 h-16">
+    <motion.div
+      className={`fixed z-50 ${
+        isMobile ? "bottom-4 right-4" : "bottom-8 right-8"
+      }`}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, delay: 0.5 }}
+    >
+      <div className={`relative ${isMobile ? "w-12 h-12" : "w-16 h-16"}`}>
         {/* Circular progress indicator */}
-        <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
+        <svg
+          className={`transform -rotate-90 ${
+            isMobile ? "w-12 h-12" : "w-16 h-16"
+          }`}
+          viewBox="0 0 36 36"
+        >
           <path
             className="text-gray-200"
             stroke="currentColor"
@@ -69,17 +95,23 @@ export default function ScrollIndicator() {
 
         {/* Percentage text */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-xs font-bold text-gray-500">
+          <span
+            className={`font-bold text-gray-500 ${
+              isMobile ? "text-xs" : "text-xs"
+            }`}
+          >
             {Math.round(scrollPercentage)}%
           </span>
         </div>
       </div>
 
-      {/* Scroll hint */}
-      <div className="mt-2 text-center">
-        <div className="text-xs text-gray-500 mb-1">Scroll</div>
-        <div className="w-0.5 h-4 bg-gray-300 mx-auto animate-pulse"></div>
-      </div>
-    </div>
+      {/* Scroll hint - only show on desktop */}
+      {!isMobile && (
+        <div className="mt-2 text-center">
+          <div className="text-xs text-gray-500 mb-1">Scroll</div>
+          <div className="w-0.5 h-4 bg-gray-300 mx-auto animate-pulse"></div>
+        </div>
+      )}
+    </motion.div>
   );
 }

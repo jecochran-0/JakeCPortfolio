@@ -7,6 +7,23 @@ export default function DynamicCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      const isMobileDevice =
+        window.innerWidth <= 768 ||
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0;
+      setIsMobile(isMobileDevice);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Throttled mouse position update
   const updateMousePosition = useCallback((e) => {
@@ -14,6 +31,9 @@ export default function DynamicCursor() {
   }, []);
 
   useEffect(() => {
+    // Don't set up mouse events on mobile
+    if (isMobile) return;
+
     let ticking = false;
 
     const handleMouseMove = (e) => {
@@ -57,7 +77,12 @@ export default function DynamicCursor() {
       window.removeEventListener("mouseover", handleMouseEnter);
       window.removeEventListener("mouseout", handleMouseLeave);
     };
-  }, [updateMousePosition]);
+  }, [updateMousePosition, isMobile]);
+
+  // Don't render cursor on mobile devices
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ScrollIndicator from "./components/ScrollIndicator";
 
@@ -10,6 +10,20 @@ const Skills = lazy(() => import("./components/Skills"));
 const SoftSkills = lazy(() => import("./components/SoftSkills"));
 
 export default function Home() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <div className="relative min-h-screen">
       {/* Hero Video Section with Dynamic Content */}
@@ -27,16 +41,16 @@ export default function Home() {
         <section className="py-32 relative">
           <div className="container mx-auto px-4">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: isMobile ? 20 : 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: isMobile ? 0.5 : 0.8 }}
               viewport={{ once: true }}
               className="text-center mb-20"
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h2 className="text-title mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Technical Expertise
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-subtitle text-gray-600 max-w-3xl mx-auto">
                 A comprehensive toolkit for creating exceptional digital
                 experiences
               </p>
@@ -54,17 +68,18 @@ export default function Home() {
         <section className="py-32 relative">
           <div className="container mx-auto px-4">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: isMobile ? 20 : 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: isMobile ? 0.5 : 0.8 }}
               viewport={{ once: true }}
               className="text-center mb-20"
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                Professional Skills
+              <h2 className="text-title mb-6 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                Soft Skills & Leadership
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                The human side of design and development
+              <p className="text-subtitle text-gray-600 max-w-3xl mx-auto">
+                Beyond technical expertise, I bring strong communication,
+                collaboration, and problem-solving skills to every project
               </p>
             </motion.div>
 

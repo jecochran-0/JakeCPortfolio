@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   FaUserFriends,
@@ -12,25 +12,39 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function UXUIPage() {
-  // Animation variants
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Animation variants - simplified for mobile
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
+        staggerChildren: isMobile ? 0.1 : 0.15,
+        delayChildren: isMobile ? 0.1 : 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: isMobile ? 10 : 20 },
     show: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5,
+        duration: isMobile ? 0.3 : 0.5,
         ease: "easeOut",
       },
     },
@@ -43,19 +57,22 @@ export default function UXUIPage() {
         <div className="container mx-auto px-4 py-20 md:py-28">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
             <motion.h1
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: isMobile ? -10 : -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
+              transition={{ duration: isMobile ? 0.3 : 0.5 }}
+              className="text-headline mb-6 leading-tight"
             >
               Creating Intuitive Digital{" "}
               <span className="text-blue-500">Experiences</span>
             </motion.h1>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-lg text-gray-700 mb-8 leading-relaxed"
+              transition={{
+                duration: isMobile ? 0.3 : 0.5,
+                delay: isMobile ? 0.05 : 0.1,
+              }}
+              className="text-subtitle text-gray-700 mb-8 leading-relaxed"
             >
               I blend aesthetic sensibility with technical expertise to create
               interfaces that are both beautiful and functional. With a
@@ -63,13 +80,16 @@ export default function UXUIPage() {
               users and practical to implement.
             </motion.p>
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{
+                duration: isMobile ? 0.3 : 0.5,
+                delay: isMobile ? 0.1 : 0.2,
+              }}
             >
               <Link
                 href="#process"
-                className="inline-flex items-center px-6 py-3 bg-black text-white font-medium rounded-full hover:bg-gray-800 transition-all duration-300 shadow-md"
+                className="inline-flex items-center px-6 py-3 bg-black text-white font-medium rounded-full hover:bg-gray-800 transition-all duration-300 shadow-md tracking-wide"
               >
                 My Process
                 <FaArrowRight className="ml-2" />
@@ -83,15 +103,13 @@ export default function UXUIPage() {
       <section className="py-24 bg-white relative">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: isMobile ? 0.3 : 0.5 }}
             className="max-w-3xl mx-auto text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              My Design Philosophy
-            </h2>
-            <p className="text-lg text-gray-700">
+            <h2 className="text-title mb-6">My Design Philosophy</h2>
+            <p className="text-subtitle text-gray-700">
               Great design happens at the intersection of aesthetics,
               functionality, and technical feasibility. Here&apos;s how I
               approach the UX/UI design process:
@@ -112,10 +130,10 @@ export default function UXUIPage() {
                 <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-6 mx-auto text-white">
                   <FaUserFriends className="text-2xl" />
                 </div>
-                <h3 className="text-xl font-bold text-center mb-4">
+                <h3 className="text-xl font-semibold text-center mb-4 tracking-wide">
                   User-Centered Design
                 </h3>
-                <p className="text-gray-600 text-center">
+                <p className="text-body text-gray-600 text-center">
                   I start with deep user research to understand needs,
                   behaviors, and pain points. Every design decision is made with
                   the end user in mind.
@@ -129,10 +147,10 @@ export default function UXUIPage() {
                 <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-6 mx-auto text-white">
                   <FaPaintBrush className="text-2xl" />
                 </div>
-                <h3 className="text-xl font-bold text-center mb-4">
+                <h3 className="text-xl font-semibold text-center mb-4 tracking-wide">
                   Aesthetic & Functional
                 </h3>
-                <p className="text-gray-600 text-center">
+                <p className="text-body text-gray-600 text-center">
                   Beautiful interfaces should also be highly usable. I create
                   designs that delight users while helping them achieve their
                   goals efficiently.
@@ -146,10 +164,10 @@ export default function UXUIPage() {
                 <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-6 mx-auto text-white">
                   <FaRocket className="text-2xl" />
                 </div>
-                <h3 className="text-xl font-bold text-center mb-4">
+                <h3 className="text-xl font-semibold text-center mb-4 tracking-wide">
                   Developer-Friendly
                 </h3>
-                <p className="text-gray-600 text-center">
+                <p className="text-body text-gray-600 text-center">
                   My background in development ensures designs are practical to
                   implement, with clean handoffs and sensible component
                   architecture.
@@ -164,9 +182,9 @@ export default function UXUIPage() {
       <section id="process" className="py-24 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: isMobile ? 0.3 : 0.5 }}
             className="max-w-3xl mx-auto text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
@@ -185,9 +203,12 @@ export default function UXUIPage() {
             <div className="relative z-10">
               {/* Process Step 1 */}
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: isMobile ? 20 : 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+                transition={{
+                  duration: isMobile ? 0.3 : 0.5,
+                  delay: isMobile ? 0.05 : 0.1,
+                }}
                 className="flex flex-col md:flex-row items-center mb-16"
               >
                 <div className="md:w-1/2 md:pr-12 mb-6 md:mb-0 md:text-right">

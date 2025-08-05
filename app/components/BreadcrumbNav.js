@@ -4,9 +4,23 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FaChevronRight, FaHome, FaArrowLeft } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
 export default function BreadcrumbNav() {
   const pathname = usePathname();
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Skip breadcrumb for home page
   if (pathname === "/") return null;
@@ -48,20 +62,28 @@ export default function BreadcrumbNav() {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.4, delay: 0.3 }}
-      className="fixed top-20 left-4 z-40 flex items-center space-x-2"
+      className={`fixed z-40 flex items-center space-x-2 ${
+        isMobile ? "top-16 left-2 right-2 justify-center" : "top-20 left-4"
+      }`}
     >
       {/* Back button */}
       <motion.div
-        whileHover={{ scale: 1.05 }}
+        whileHover={{ scale: isMobile ? 1 : 1.05 }}
         whileTap={{ scale: 0.95 }}
         className="group"
       >
         <Link
           href="/"
-          className="flex items-center justify-center w-10 h-10 bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-gray-200/50 hover:shadow-xl transition-all duration-200"
+          className={`flex items-center justify-center bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-gray-200/50 hover:shadow-xl transition-all duration-200 ${
+            isMobile ? "w-8 h-8" : "w-10 h-10"
+          }`}
           title="Back to Home"
         >
-          <FaArrowLeft className="text-gray-600 group-hover:text-gray-900 transition-colors duration-200" />
+          <FaArrowLeft
+            className={`text-gray-600 group-hover:text-gray-900 transition-colors duration-200 ${
+              isMobile ? "text-xs" : "text-sm"
+            }`}
+          />
         </Link>
       </motion.div>
 
@@ -70,7 +92,9 @@ export default function BreadcrumbNav() {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4, delay: 0.4 }}
-        className="bg-white/90 backdrop-blur-md rounded-full px-4 py-2 shadow-lg border border-gray-200/50"
+        className={`bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-gray-200/50 ${
+          isMobile ? "px-3 py-1.5" : "px-4 py-2"
+        }`}
         style={{
           boxShadow: `0 4px 20px rgba(${
             currentTheme.primary === "#7C3AED"
@@ -92,7 +116,9 @@ export default function BreadcrumbNav() {
                   className="mx-2"
                 >
                   <FaChevronRight
-                    className="text-gray-400 text-xs"
+                    className={`text-gray-400 ${
+                      isMobile ? "text-xs" : "text-xs"
+                    }`}
                     style={{ color: currentTheme.primary }}
                   />
                 </motion.div>
@@ -106,7 +132,12 @@ export default function BreadcrumbNav() {
               >
                 <Link
                   href={breadcrumb.path}
-                  className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-full transition-all duration-200 text-sm font-medium
+                  className={`flex items-center space-x-1.5 rounded-full transition-all duration-200 font-medium tracking-wide
+                             ${
+                               isMobile
+                                 ? "px-2 py-0.5 text-xs"
+                                 : "px-2.5 py-1 text-sm"
+                             }
                              ${
                                pathname === breadcrumb.path
                                  ? "text-white"
@@ -115,13 +146,22 @@ export default function BreadcrumbNav() {
                   title={
                     index === 0 ? "Go to Home" : `Go to ${breadcrumb.name}`
                   }
+                  style={{
+                    fontWeight: pathname === breadcrumb.path ? 600 : 500,
+                    letterSpacing: "0.025em",
+                  }}
                 >
                   {breadcrumb.icon && (
                     <motion.div
-                      whileHover={{ scale: 1.1, rotate: -5 }}
+                      whileHover={{
+                        scale: isMobile ? 1 : 1.1,
+                        rotate: isMobile ? 0 : -5,
+                      }}
                       transition={{ duration: 0.2 }}
                     >
-                      <breadcrumb.icon className="text-sm" />
+                      <breadcrumb.icon
+                        className={isMobile ? "text-xs" : "text-sm"}
+                      />
                     </motion.div>
                   )}
                   <span>{breadcrumb.name}</span>

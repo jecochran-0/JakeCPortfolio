@@ -8,6 +8,19 @@ export default function PageTransition({ children }) {
   const pathname = usePathname();
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentPath, setCurrentPath] = useState(pathname);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Page-specific themes
   const pageThemes = {
@@ -48,16 +61,19 @@ export default function PageTransition({ children }) {
       setIsTransitioning(true);
       setCurrentPath(pathname);
 
-      // Simulate transition delay
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 300);
+      // Simulate transition delay - shorter on mobile
+      setTimeout(
+        () => {
+          setIsTransitioning(false);
+        },
+        isMobile ? 200 : 300
+      );
     }
-  }, [pathname, currentPath]);
+  }, [pathname, currentPath, isMobile]);
 
   return (
     <>
-      {/* Page transition overlay */}
+      {/* Page transition overlay - simplified on mobile */}
       <AnimatePresence mode="wait">
         {isTransitioning && (
           <motion.div
@@ -65,40 +81,44 @@ export default function PageTransition({ children }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: isMobile ? 0.15 : 0.2 }}
             className="fixed inset-0 z-[70] pointer-events-none"
             style={{
               background: `linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.secondary})`,
             }}
           >
-            {/* Loading animation */}
+            {/* Loading animation - simplified on mobile */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              <div
+                className={`border-2 border-white/30 border-t-white rounded-full animate-spin ${
+                  isMobile ? "w-6 h-6" : "w-8 h-8"
+                }`}
+              ></div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Page content with entrance animation */}
+      {/* Page content with entrance animation - simplified on mobile */}
       <motion.div
         key={pathname}
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: isMobile ? 5 : 10 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
+        exit={{ opacity: 0, y: isMobile ? -5 : -10 }}
         transition={{
-          duration: 0.3,
-          delay: isTransitioning ? 0.15 : 0,
+          duration: isMobile ? 0.2 : 0.3,
+          delay: isTransitioning ? (isMobile ? 0.1 : 0.15) : 0,
           ease: "easeOut",
         }}
         className="relative"
       >
-        {/* Subtle background pattern */}
+        {/* Subtle background pattern - reduced opacity on mobile */}
         <div
           className="fixed inset-0 pointer-events-none z-0"
           style={{
             background: currentTheme.pattern,
-            backgroundSize: "800px 800px",
-            opacity: 0.2,
+            backgroundSize: isMobile ? "600px 600px" : "800px 800px",
+            opacity: isMobile ? 0.1 : 0.2,
           }}
         />
 

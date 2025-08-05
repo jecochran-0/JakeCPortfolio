@@ -230,6 +230,7 @@ function Hero() {
                 fontWeight: "600",
                 boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
                 transition: "all 0.3s ease",
+                letterSpacing: "0.025em",
               }}
               onClick={() => (window.location.href = "/ux-ui")}
             >
@@ -246,6 +247,7 @@ function Hero() {
                 fontWeight: "600",
                 border: "2px solid #d1d5db",
                 transition: "all 0.3s ease",
+                letterSpacing: "0.025em",
               }}
               onClick={() => (window.location.href = "/ux-ui")}
             >

@@ -67,11 +67,6 @@ export default function ScrollIndicator() {
           />
         </svg>
 
-        {/* Center icon */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-        </div>
-
         {/* Percentage text */}
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-xs font-bold text-gray-500">

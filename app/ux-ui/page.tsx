@@ -45,7 +45,7 @@ export default function UXUIPage() {
       y: 0,
       transition: {
         duration: isMobile ? 0.3 : 0.5,
-        ease: "easeOut",
+        ease: [0.25, 0.46, 0.45, 0.94],
       },
     },
   };
@@ -59,8 +59,14 @@ export default function UXUIPage() {
             <motion.h1
               initial={{ opacity: 0, y: isMobile ? -10 : -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: isMobile ? 0.3 : 0.5 }}
+              transition={{
+                duration: isMobile ? 0.3 : 0.5,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               className="text-headline mb-6 leading-tight"
+              style={{
+                willChange: "transform, opacity", // Optimize for animations
+              }}
             >
               Creating Intuitive Digital{" "}
               <span className="text-blue-500">Experiences</span>
@@ -71,8 +77,12 @@ export default function UXUIPage() {
               transition={{
                 duration: isMobile ? 0.3 : 0.5,
                 delay: isMobile ? 0.05 : 0.1,
+                ease: [0.25, 0.46, 0.45, 0.94],
               }}
               className="text-subtitle text-gray-700 mb-8 leading-relaxed"
+              style={{
+                willChange: "transform, opacity", // Optimize for animations
+              }}
             >
               I blend aesthetic sensibility with technical expertise to create
               interfaces that are both beautiful and functional. With a
@@ -85,6 +95,10 @@ export default function UXUIPage() {
               transition={{
                 duration: isMobile ? 0.3 : 0.5,
                 delay: isMobile ? 0.1 : 0.2,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              style={{
+                willChange: "transform, opacity", // Optimize for animations
               }}
             >
               <Link
@@ -105,8 +119,14 @@ export default function UXUIPage() {
           <motion.div
             initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: isMobile ? 0.3 : 0.5 }}
+            transition={{
+              duration: isMobile ? 0.3 : 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
             className="max-w-3xl mx-auto text-center mb-16"
+            style={{
+              willChange: "transform, opacity", // Optimize for animations
+            }}
           >
             <h2 className="text-title mb-6">My Design Philosophy</h2>
             <p className="text-subtitle text-gray-700">
@@ -126,6 +146,9 @@ export default function UXUIPage() {
               <motion.div
                 variants={itemVariants}
                 className="bg-white rounded-xl p-8 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                style={{
+                  willChange: "transform", // Optimize for animations
+                }}
               >
                 <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-6 mx-auto text-white">
                   <FaUserFriends className="text-2xl" />
@@ -143,6 +166,9 @@ export default function UXUIPage() {
               <motion.div
                 variants={itemVariants}
                 className="bg-white rounded-xl p-8 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                style={{
+                  willChange: "transform", // Optimize for animations
+                }}
               >
                 <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-6 mx-auto text-white">
                   <FaPaintBrush className="text-2xl" />
@@ -160,6 +186,9 @@ export default function UXUIPage() {
               <motion.div
                 variants={itemVariants}
                 className="bg-white rounded-xl p-8 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                style={{
+                  willChange: "transform", // Optimize for animations
+                }}
               >
                 <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-6 mx-auto text-white">
                   <FaRocket className="text-2xl" />
@@ -184,13 +213,17 @@ export default function UXUIPage() {
           <motion.div
             initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: isMobile ? 0.3 : 0.5 }}
+            transition={{
+              duration: isMobile ? 0.3 : 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
             className="max-w-3xl mx-auto text-center mb-16"
+            style={{
+              willChange: "transform, opacity", // Optimize for animations
+            }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              My UX/UI Process
-            </h2>
-            <p className="text-lg text-gray-700">
+            <h2 className="text-title mb-6">My UX/UI Process</h2>
+            <p className="text-subtitle text-gray-700">
               A methodical approach that starts with understanding the user and
               ends with a solution that&apos;s both beautiful and functional.
             </p>
@@ -208,8 +241,12 @@ export default function UXUIPage() {
                 transition={{
                   duration: isMobile ? 0.3 : 0.5,
                   delay: isMobile ? 0.05 : 0.1,
+                  ease: [0.25, 0.46, 0.45, 0.94],
                 }}
                 className="flex flex-col md:flex-row items-center mb-16"
+                style={{
+                  willChange: "transform, opacity", // Optimize for animations
+                }}
               >
                 <div className="md:w-1/2 md:pr-12 mb-6 md:mb-0 md:text-right">
                   <h3 className="text-2xl font-bold mb-4 text-blue-500">
@@ -243,8 +280,15 @@ export default function UXUIPage() {
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.2,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
                 className="flex flex-col md:flex-row-reverse items-center mb-16"
+                style={{
+                  willChange: "transform, opacity", // Optimize for animations
+                }}
               >
                 <div className="md:w-1/2 md:pl-12 mb-6 md:mb-0 md:text-left">
                   <h3 className="text-2xl font-bold mb-4 text-blue-500">
@@ -278,8 +322,15 @@ export default function UXUIPage() {
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.3,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
                 className="flex flex-col md:flex-row items-center"
+                style={{
+                  willChange: "transform, opacity", // Optimize for animations
+                }}
               >
                 <div className="md:w-1/2 md:pr-12 mb-6 md:mb-0 md:text-right">
                   <h3 className="text-2xl font-bold mb-4 text-blue-500">
@@ -319,14 +370,20 @@ export default function UXUIPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{
+              duration: 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
             className="max-w-5xl mx-auto"
+            style={{
+              willChange: "transform, opacity", // Optimize for animations
+            }}
           >
             <div className="mb-12">
-              <h2 className="text-4xl md:text-5xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+              <h2 className="text-title mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
                 GrammarlyGO Retention Study
               </h2>
-              <p className="text-2xl text-gray-700 mb-6">
+              <p className="text-subtitle text-gray-700 mb-6">
                 turning one-time AI users into loyal daily writers
               </p>
               <div className="flex flex-wrap gap-4 mb-10">
@@ -340,10 +397,10 @@ export default function UXUIPage() {
             </div>
 
             <div className="mb-12">
-              <h2 className="text-4xl md:text-5xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600">
+              <h2 className="text-title mb-3 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600">
                 Spotify Redesign
               </h2>
-              <p className="text-2xl text-gray-700 mb-6">
+              <p className="text-subtitle text-gray-700 mb-6">
                 millions of clicks saved a day
               </p>
               <div className="flex flex-wrap gap-4 mb-10">
@@ -368,8 +425,14 @@ export default function UXUIPage() {
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7 }}
+                transition={{
+                  duration: 0.7,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
                 className="relative"
+                style={{
+                  willChange: "transform, opacity", // Optimize for animations
+                }}
               >
                 {/* Main layout container */}
                 <div className="flex flex-col md:flex-row items-start justify-between relative">
@@ -408,8 +471,15 @@ export default function UXUIPage() {
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.3,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
                 className="mt-32 max-w-3xl mx-auto"
+                style={{
+                  willChange: "transform, opacity", // Optimize for animations
+                }}
               >
                 <h3 className="text-2xl font-bold mb-4">Project Overview</h3>
                 <p className="text-gray-700 mb-6">
@@ -454,19 +524,23 @@ export default function UXUIPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{
+              duration: 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
             className="max-w-4xl mx-auto text-center"
+            style={{
+              willChange: "transform, opacity", // Optimize for animations
+            }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              View my Development Work
-            </h2>
-            <p className="text-xl mb-10 text-blue-100">
+            <h2 className="text-title mb-6">View my Development Work</h2>
+            <p className="text-subtitle mb-10 text-blue-100">
               Check out my software development projects to see how I bridge
               design and code to be in both worlds
             </p>
             <Link
               href="/dev"
-              className="inline-flex items-center px-8 py-4 bg-white text-blue-500 font-medium rounded-full hover:bg-gray-100 transition-colors duration-300 shadow-lg"
+              className="inline-flex items-center px-8 py-4 bg-white text-blue-500 font-medium rounded-full hover:bg-gray-100 transition-colors duration-300 shadow-lg tracking-wide"
             >
               View Development Projects
               <FaArrowRight className="ml-2" />

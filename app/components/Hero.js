@@ -205,6 +205,17 @@ function Hero() {
         className={`hero-content px-4 sm:px-6 md:px-8 ${
           contentVisible ? "fade-in-content" : "opacity-0 pointer-events-none"
         }`}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 10,
+        }}
       >
         <div className="flex flex-col items-center max-w-4xl mx-auto text-center mobile-hero-content">
           {/* Dynamic Text Animation */}
@@ -216,12 +227,22 @@ function Hero() {
             animate={
               contentVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
             }
-            transition={{ duration: 0.8, delay: 0.5 }}
+            transition={{
+              duration: 0.8,
+              delay: 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94], // Custom easing for smooth animation
+            }}
             className="flex flex-wrap gap-4 justify-center mt-12"
           >
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 25,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               style={{
                 background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
                 color: "white",
@@ -229,8 +250,8 @@ function Hero() {
                 borderRadius: "9999px",
                 fontWeight: "600",
                 boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
-                transition: "all 0.3s ease",
                 letterSpacing: "0.025em",
+                willChange: "transform", // Optimize for animations
               }}
               onClick={() => (window.location.href = "/ux-ui")}
             >
@@ -239,6 +260,12 @@ function Hero() {
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 25,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               style={{
                 background: "white",
                 color: "#374151",
@@ -246,8 +273,8 @@ function Hero() {
                 borderRadius: "9999px",
                 fontWeight: "600",
                 border: "2px solid #d1d5db",
-                transition: "all 0.3s ease",
                 letterSpacing: "0.025em",
+                willChange: "transform", // Optimize for animations
               }}
               onClick={() => (window.location.href = "/ux-ui")}
             >

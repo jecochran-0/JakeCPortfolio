@@ -61,15 +61,28 @@ export default function BreadcrumbNav() {
     <motion.nav
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.4, delay: 0.3 }}
+      transition={{
+        duration: 0.4,
+        delay: 0.3,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      }}
       className={`fixed z-40 flex items-center space-x-2 ${
         isMobile ? "top-16 left-2 right-2 justify-center" : "top-20 left-4"
       }`}
+      style={{
+        willChange: "transform, opacity", // Optimize for animations
+      }}
     >
       {/* Back button */}
       <motion.div
         whileHover={{ scale: isMobile ? 1 : 1.05 }}
         whileTap={{ scale: 0.95 }}
+        transition={{
+          type: "spring",
+          stiffness: 400,
+          damping: 25,
+          ease: [0.25, 0.46, 0.45, 0.94],
+        }}
         className="group"
       >
         <Link
@@ -91,7 +104,11 @@ export default function BreadcrumbNav() {
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4, delay: 0.4 }}
+        transition={{
+          duration: 0.4,
+          delay: 0.4,
+          ease: [0.25, 0.46, 0.45, 0.94],
+        }}
         className={`bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-gray-200/50 ${
           isMobile ? "px-3 py-1.5" : "px-4 py-2"
         }`}
@@ -103,6 +120,7 @@ export default function BreadcrumbNav() {
               ? "5,150,105"
               : "220,38,38"
           }, 0.08)`,
+          willChange: "transform, opacity", // Optimize for animations
         }}
       >
         <div className="flex items-center space-x-2">
@@ -112,7 +130,11 @@ export default function BreadcrumbNav() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.2, delay: 0.5 + index * 0.1 }}
+                  transition={{
+                    duration: 0.2,
+                    delay: 0.5 + index * 0.1,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                  }}
                   className="mx-2"
                 >
                   <FaChevronRight
@@ -127,7 +149,11 @@ export default function BreadcrumbNav() {
               <motion.div
                 initial={{ opacity: 0, x: -5 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
+                transition={{
+                  duration: 0.3,
+                  delay: 0.5 + index * 0.1,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
                 className="relative"
               >
                 <Link
@@ -157,7 +183,10 @@ export default function BreadcrumbNav() {
                         scale: isMobile ? 1 : 1.1,
                         rotate: isMobile ? 0 : -5,
                       }}
-                      transition={{ duration: 0.2 }}
+                      transition={{
+                        duration: 0.2,
+                        ease: [0.25, 0.46, 0.45, 0.94],
+                      }}
                     >
                       <breadcrumb.icon
                         className={isMobile ? "text-xs" : "text-sm"}
@@ -175,7 +204,12 @@ export default function BreadcrumbNav() {
                     style={{
                       background: `linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.secondary})`,
                     }}
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
+                    transition={{
+                      type: "spring",
+                      bounce: 0.2,
+                      duration: 0.4,
+                      ease: [0.25, 0.46, 0.45, 0.94],
+                    }}
                   />
                 )}
               </motion.div>

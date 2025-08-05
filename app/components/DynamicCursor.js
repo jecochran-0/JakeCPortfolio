@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 
 export default function DynamicCursor() {
@@ -25,20 +25,49 @@ export default function DynamicCursor() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Throttled mouse position update
+  // Optimized mouse position update with RAF throttling
   const updateMousePosition = useCallback((e) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
   }, []);
+
+  // Memoized cursor variants for better performance
+  const cursorVariants = useMemo(
+    () => ({
+      default: {
+        x: mousePosition.x - 8,
+        y: mousePosition.y - 8,
+        width: 16,
+        height: 16,
+        backgroundColor: "rgba(59, 130, 246, 0.3)",
+        border: "2px solid rgba(59, 130, 246, 0.5)",
+        scale: 1,
+      },
+      hover: {
+        x: mousePosition.x - 16,
+        y: mousePosition.y - 16,
+        width: 32,
+        height: 32,
+        backgroundColor: "rgba(124, 58, 237, 0.2)",
+        border: "2px solid rgba(124, 58, 237, 0.6)",
+        scale: 1,
+      },
+      click: {
+        scale: 0.8,
+      },
+    }),
+    [mousePosition.x, mousePosition.y]
+  );
 
   useEffect(() => {
     // Don't set up mouse events on mobile
     if (isMobile) return;
 
     let ticking = false;
+    let rafId = null;
 
     const handleMouseMove = (e) => {
       if (!ticking) {
-        requestAnimationFrame(() => {
+        rafId = requestAnimationFrame(() => {
           updateMousePosition(e);
           ticking = false;
         });
@@ -49,12 +78,14 @@ export default function DynamicCursor() {
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
 
-    // Track navigation elements
+    // Optimized hover detection with event delegation
     const handleMouseEnter = (e) => {
+      const target = e.target;
       if (
-        e.target.closest("a") ||
-        e.target.closest("button") ||
-        e.target.closest('[role="button"]')
+        target.closest("a") ||
+        target.closest("button") ||
+        target.closest('[role="button"]') ||
+        target.closest('[data-cursor="hover"]')
       ) {
         setIsHovering(true);
       }
@@ -64,11 +95,12 @@ export default function DynamicCursor() {
       setIsHovering(false);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("mouseover", handleMouseEnter);
-    window.addEventListener("mouseout", handleMouseLeave);
+    // Use passive listeners for better performance
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("mousedown", handleMouseDown, { passive: true });
+    window.addEventListener("mouseup", handleMouseUp, { passive: true });
+    window.addEventListener("mouseover", handleMouseEnter, { passive: true });
+    window.addEventListener("mouseout", handleMouseLeave, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -76,6 +108,9 @@ export default function DynamicCursor() {
       window.removeEventListener("mouseup", handleMouseUp);
       window.removeEventListener("mouseover", handleMouseEnter);
       window.removeEventListener("mouseout", handleMouseLeave);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, [updateMousePosition, isMobile]);
 
@@ -89,24 +124,16 @@ export default function DynamicCursor() {
       {/* Main cursor */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[80] rounded-full mix-blend-difference"
-        animate={{
-          x: mousePosition.x - 8,
-          y: mousePosition.y - 8,
-          width: isHovering ? 32 : 16,
-          height: isHovering ? 32 : 16,
-          backgroundColor: isHovering
-            ? "rgba(124, 58, 237, 0.2)"
-            : "rgba(59, 130, 246, 0.3)",
-          border: isHovering
-            ? "2px solid rgba(124, 58, 237, 0.6)"
-            : "2px solid rgba(59, 130, 246, 0.5)",
-          scale: isClicking ? 0.8 : 1,
-        }}
+        variants={cursorVariants}
+        animate={isClicking ? "click" : isHovering ? "hover" : "default"}
         transition={{
           type: "spring",
           mass: 0.3,
           stiffness: 300,
           damping: 25,
+        }}
+        style={{
+          willChange: "transform", // Optimize for animations
         }}
       />
 
@@ -129,6 +156,9 @@ export default function DynamicCursor() {
           transition={{
             duration: 0.4,
             ease: "easeOut",
+          }}
+          style={{
+            willChange: "transform, opacity", // Optimize for animations
           }}
         />
       )}

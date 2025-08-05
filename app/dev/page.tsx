@@ -42,7 +42,7 @@ export default function DevPage() {
       y: 0,
       transition: {
         duration: isMobile ? 0.3 : 0.5,
-        ease: "easeOut",
+        ease: [0.25, 0.46, 0.45, 0.94],
       },
     },
   };
@@ -56,8 +56,14 @@ export default function DevPage() {
             <motion.h1
               initial={{ opacity: 0, y: isMobile ? -10 : -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: isMobile ? 0.3 : 0.5 }}
+              transition={{
+                duration: isMobile ? 0.3 : 0.5,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               className="text-headline mb-6 leading-tight"
+              style={{
+                willChange: "transform, opacity", // Optimize for animations
+              }}
             >
               Software <span className="text-blue-500">Development</span>
             </motion.h1>
@@ -67,8 +73,12 @@ export default function DevPage() {
               transition={{
                 duration: isMobile ? 0.3 : 0.5,
                 delay: isMobile ? 0.05 : 0.1,
+                ease: [0.25, 0.46, 0.45, 0.94],
               }}
               className="text-subtitle text-gray-700 mb-8 leading-relaxed"
+              style={{
+                willChange: "transform, opacity", // Optimize for animations
+              }}
             >
               I build clean, efficient, and maintainable applications with a
               focus on user experience. My engineering approach prioritizes
@@ -84,8 +94,14 @@ export default function DevPage() {
           <motion.h2
             initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: isMobile ? 0.3 : 0.5 }}
+            transition={{
+              duration: isMobile ? 0.3 : 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
             className="text-title text-center mb-16"
+            style={{
+              willChange: "transform, opacity", // Optimize for animations
+            }}
           >
             My Development Approach
           </motion.h2>
@@ -100,6 +116,9 @@ export default function DevPage() {
               <motion.div
                 variants={itemVariants}
                 className="bg-white rounded-xl p-8 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                style={{
+                  willChange: "transform", // Optimize for animations
+                }}
               >
                 <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-6 mx-auto text-white">
                   <FaLaptopCode className="text-2xl" />
@@ -116,6 +135,9 @@ export default function DevPage() {
               <motion.div
                 variants={itemVariants}
                 className="bg-white rounded-xl p-8 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                style={{
+                  willChange: "transform", // Optimize for animations
+                }}
               >
                 <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-6 mx-auto text-white">
                   <FaCode className="text-2xl" />
@@ -132,6 +154,9 @@ export default function DevPage() {
               <motion.div
                 variants={itemVariants}
                 className="bg-white rounded-xl p-8 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                style={{
+                  willChange: "transform", // Optimize for animations
+                }}
               >
                 <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-6 mx-auto text-white">
                   <FaRocket className="text-2xl" />
@@ -164,16 +189,29 @@ export default function DevPage() {
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{
+                duration: 0.5,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               className="text-title text-center mb-8"
+              style={{
+                willChange: "transform, opacity", // Optimize for animations
+              }}
             >
               My Projects
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.1,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               className="text-subtitle text-gray-700 max-w-2xl mx-auto mb-16 text-center"
+              style={{
+                willChange: "transform, opacity", // Optimize for animations
+              }}
             >
               A showcase of applications built with modern technologies and best
               practices in web development.
@@ -203,8 +241,14 @@ export default function DevPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{
+              duration: 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
             className="max-w-4xl mx-auto text-center"
+            style={{
+              willChange: "transform, opacity", // Optimize for animations
+            }}
           >
             <h2 className="text-title mb-6">See My Design Work</h2>
             <p className="text-subtitle mb-10 text-blue-100">

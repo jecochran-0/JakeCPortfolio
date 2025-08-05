@@ -81,10 +81,14 @@ export default function PageTransition({ children }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: isMobile ? 0.15 : 0.2 }}
+            transition={{
+              duration: isMobile ? 0.15 : 0.2,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
             className="fixed inset-0 z-[70] pointer-events-none"
             style={{
               background: `linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.secondary})`,
+              willChange: "opacity", // Optimize for animations
             }}
           >
             {/* Loading animation - simplified on mobile */}
@@ -108,9 +112,12 @@ export default function PageTransition({ children }) {
         transition={{
           duration: isMobile ? 0.2 : 0.3,
           delay: isTransitioning ? (isMobile ? 0.1 : 0.15) : 0,
-          ease: "easeOut",
+          ease: [0.25, 0.46, 0.45, 0.94],
         }}
         className="relative"
+        style={{
+          willChange: "transform, opacity", // Optimize for animations
+        }}
       >
         {/* Subtle background pattern - reduced opacity on mobile */}
         <div

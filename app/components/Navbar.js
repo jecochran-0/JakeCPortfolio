@@ -38,18 +38,25 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Handle scroll effect
+  // Handle scroll effect with throttling
   useEffect(() => {
     if (!isBrowser) return;
 
+    let ticking = false;
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 20;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const isScrolled = window.scrollY > 20;
+          if (isScrolled !== scrolled) {
+            setScrolled(isScrolled);
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [scrolled]);
 
@@ -104,6 +111,10 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{
+              duration: 0.2,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
             className="fixed inset-0 bg-white bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center"
           >
             <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
@@ -115,13 +126,19 @@ export default function Navbar() {
       <motion.nav
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{
+          duration: 0.4,
+          ease: [0.25, 0.46, 0.45, 0.94],
+        }}
         className={`fixed top-4 inset-x-0 z-50 mx-auto w-fit rounded-full 
                    bg-white/95 backdrop-blur-md
                    shadow-lg border border-gray-200/50
                    transition-all duration-200 ${
                      scrolled ? "scale-95" : "scale-100"
                    }`}
+        style={{
+          willChange: "transform, opacity", // Optimize for animations
+        }}
       >
         <div
           className={`flex items-center rounded-full p-1 ${
@@ -137,7 +154,11 @@ export default function Navbar() {
                 key={item.href}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.05,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
                 onHoverStart={() => !isMobile && setHoveredItem(item.href)}
                 onHoverEnd={() => !isMobile && setHoveredItem(null)}
                 className="relative"
@@ -157,6 +178,15 @@ export default function Navbar() {
                                }`}
                     whileHover={{ scale: isMobile ? 1 : 1.02 }}
                     whileTap={{ scale: 0.98 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 25,
+                      ease: [0.25, 0.46, 0.45, 0.94],
+                    }}
+                    style={{
+                      willChange: "transform", // Optimize for animations
+                    }}
                   >
                     {/* Active background */}
                     {isActive && (
@@ -170,6 +200,7 @@ export default function Navbar() {
                           type: "spring",
                           bounce: 0.2,
                           duration: 0.4,
+                          ease: [0.25, 0.46, 0.45, 0.94],
                         }}
                       />
                     )}
@@ -180,8 +211,11 @@ export default function Navbar() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
+                        transition={{
+                          duration: 0.15,
+                          ease: [0.25, 0.46, 0.45, 0.94],
+                        }}
                         className="absolute inset-0 rounded-full bg-gray-100"
-                        transition={{ duration: 0.15 }}
                       />
                     )}
 

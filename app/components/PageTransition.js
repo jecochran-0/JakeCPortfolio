@@ -1,136 +1,145 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+// Check if in browser environment
+const isBrowser = typeof window !== "undefined";
 
 export default function PageTransition({ children }) {
   const pathname = usePathname();
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [currentPath, setCurrentPath] = useState(pathname);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLowPower, setIsLowPower] = useState(false);
 
-  // Check if device is mobile
+  // Check device capabilities
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+    const checkDeviceCapabilities = () => {
+      const width = window.innerWidth;
+      const isMobileDevice = width <= 768;
+      const isLowPowerDevice =
+        width <= 480 ||
+        navigator.hardwareConcurrency <= 4 ||
+        /Android|iPhone|iPad|iPod/.test(navigator.userAgent);
+
+      setIsMobile(isMobileDevice);
+      setIsLowPower(isLowPowerDevice);
     };
 
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
+    checkDeviceCapabilities();
+    window.addEventListener("resize", checkDeviceCapabilities);
 
-    return () => window.removeEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkDeviceCapabilities);
   }, []);
 
-  // Page-specific themes
-  const pageThemes = {
-    "/": {
-      primary: "#000000",
-      secondary: "#3B82F6",
-      accent: "#8B5CF6",
-      pattern:
-        "radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)",
-    },
-    "/ux-ui": {
-      primary: "#7C3AED",
-      secondary: "#A855F7",
-      accent: "#EC4899",
-      pattern:
-        "radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 50%)",
-    },
-    "/dev": {
-      primary: "#059669",
-      secondary: "#10B981",
-      accent: "#3B82F6",
-      pattern:
-        "radial-gradient(circle at 50% 50%, rgba(5, 150, 105, 0.1) 0%, transparent 50%)",
-    },
-    "/about": {
-      primary: "#DC2626",
-      secondary: "#EF4444",
-      accent: "#F59E0B",
-      pattern:
-        "radial-gradient(circle at 20% 20%, rgba(220, 38, 38, 0.1) 0%, transparent 50%)",
-    },
-  };
-
-  const currentTheme = pageThemes[pathname] || pageThemes["/"];
-
+  // Smooth page transition handling
   useEffect(() => {
-    if (pathname !== currentPath) {
-      setIsTransitioning(true);
-      setCurrentPath(pathname);
+    if (!isBrowser) return;
 
-      // Simulate transition delay - shorter on mobile
-      setTimeout(
-        () => {
-          setIsTransitioning(false);
+    setIsTransitioning(true);
+
+    // Optimized timing based on device capabilities
+    const transitionDuration = isLowPower ? 300 : isMobile ? 250 : 200;
+
+    const timer = setTimeout(() => {
+      setIsTransitioning(false);
+    }, transitionDuration);
+
+    return () => clearTimeout(timer);
+  }, [pathname, isMobile, isLowPower]);
+
+  // Optimized animation variants based on research
+  const pageVariants = useMemo(
+    () => ({
+      initial: {
+        opacity: 0,
+        y: 0, // No vertical movement to prevent layout shift
+      },
+      animate: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: isLowPower ? 0.4 : isMobile ? 0.3 : 0.25,
+          ease: [0.25, 0.46, 0.45, 0.94], // Custom easing for natural feel
+          staggerChildren: 0.05,
+          delayChildren: 0.1,
         },
-        isMobile ? 200 : 300
-      );
-    }
-  }, [pathname, currentPath, isMobile]);
+      },
+      exit: {
+        opacity: 0,
+        y: 0,
+        transition: {
+          duration: isLowPower ? 0.2 : isMobile ? 0.15 : 0.1,
+          ease: [0.25, 0.46, 0.45, 0.94],
+        },
+      },
+    }),
+    [isMobile, isLowPower]
+  );
+
+  const overlayVariants = useMemo(
+    () => ({
+      initial: {
+        opacity: 0,
+        scale: 1.05,
+      },
+      animate: {
+        opacity: 1,
+        scale: 1,
+        transition: {
+          duration: isLowPower ? 0.3 : isMobile ? 0.25 : 0.2,
+          ease: [0.25, 0.46, 0.45, 0.94],
+        },
+      },
+      exit: {
+        opacity: 0,
+        scale: 0.95,
+        transition: {
+          duration: isLowPower ? 0.2 : isMobile ? 0.15 : 0.1,
+          ease: [0.25, 0.46, 0.45, 0.94],
+        },
+      },
+    }),
+    [isMobile, isLowPower]
+  );
 
   return (
     <>
-      {/* Page transition overlay - simplified on mobile */}
-      <AnimatePresence mode="wait">
-        {isTransitioning && (
-          <motion.div
-            key="transition-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{
-              duration: isMobile ? 0.15 : 0.2,
-              ease: [0.25, 0.46, 0.45, 0.94],
-            }}
-            className="fixed inset-0 z-[70] pointer-events-none"
-            style={{
-              background: `linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.secondary})`,
-              willChange: "opacity", // Optimize for animations
-            }}
-          >
-            {/* Loading animation - simplified on mobile */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div
-                className={`border-2 border-white/30 border-t-white rounded-full animate-spin ${
-                  isMobile ? "w-6 h-6" : "w-8 h-8"
-                }`}
-              ></div>
-            </div>
-          </motion.div>
-        )}
+      {/* Smooth page content transitions */}
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={pathname}
+          variants={pageVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          className="min-h-screen"
+          style={{
+            willChange: "opacity, transform",
+            transform: "translateZ(0)", // Hardware acceleration
+          }}
+        >
+          {children}
+        </motion.div>
       </AnimatePresence>
 
-      {/* Page content with entrance animation - simplified on mobile */}
-      <motion.div
-        key={pathname}
-        initial={{ opacity: 0, y: isMobile ? 5 : 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: isMobile ? -5 : -10 }}
-        transition={{
-          duration: isMobile ? 0.2 : 0.3,
-          delay: isTransitioning ? (isMobile ? 0.1 : 0.15) : 0,
-          ease: [0.25, 0.46, 0.45, 0.94],
-        }}
-        className="relative"
-        style={{
-          willChange: "transform, opacity", // Optimize for animations
-        }}
-      >
-        {/* Subtle background pattern - reduced opacity on mobile */}
-        <div
-          className="fixed inset-0 pointer-events-none z-0"
-          style={{
-            background: currentTheme.pattern,
-            backgroundSize: isMobile ? "600px 600px" : "800px 800px",
-            opacity: isMobile ? 0.1 : 0.2,
-          }}
-        />
-
-        {children}
-      </motion.div>
+      {/* Subtle transition overlay */}
+      <AnimatePresence>
+        {isTransitioning && (
+          <motion.div
+            variants={overlayVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="fixed inset-0 bg-white/60 backdrop-blur-sm z-40 pointer-events-none"
+            style={{
+              willChange: "opacity, transform",
+              transform: "translateZ(0)",
+            }}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }

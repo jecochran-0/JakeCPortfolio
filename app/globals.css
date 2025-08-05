@@ -729,7 +729,7 @@ button.bg-gradient-to-r {
   }
 }
 
-/* Enhanced mobile responsiveness */
+/* Enhanced mobile responsiveness with flicker elimination */
 @media (max-width: 768px) {
   /* Disable complex animations on mobile for better performance */
   .glass {
@@ -756,9 +756,13 @@ button.bg-gradient-to-r {
     animation: none;
   }
 
-  /* Reduce transition durations on mobile */
+  /* Optimize transitions for mobile - prevent flickering */
   * {
-    transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* Enhanced hardware acceleration for mobile */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 
   /* Optimize card hover effects for touch */
@@ -841,6 +845,67 @@ button.bg-gradient-to-r {
     font-size: var(--font-size-4xl);
     line-height: 1.2;
   }
+
+  /* Mobile-specific animation optimizations */
+  .nav-link {
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  .nav-link:hover {
+    transform: translateY(-1px) translateZ(0);
+  }
+
+  /* Optimize page transitions for mobile */
+  .page-enter,
+  .page-exit {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  /* Optimize motion components for mobile */
+  [data-framer-motion] {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  /* Reduce animation complexity for mobile */
+  .animate-fadeInUp,
+  .animate-fadeInScale,
+  .animate-slideInLeft,
+  .animate-slideInRight {
+    animation-duration: 0.3s;
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Optimize staggered animations */
+  .stagger-children > * {
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  /* Reduce transition delays on mobile */
+  .stagger-children.visible > *:nth-child(1) {
+    transition-delay: 0.05s;
+  }
+  .stagger-children.visible > *:nth-child(2) {
+    transition-delay: 0.1s;
+  }
+  .stagger-children.visible > *:nth-child(3) {
+    transition-delay: 0.15s;
+  }
+  .stagger-children.visible > *:nth-child(4) {
+    transition-delay: 0.2s;
+  }
+  .stagger-children.visible > *:nth-child(5) {
+    transition-delay: 0.25s;
+  }
+  .stagger-children.visible > *:nth-child(6) {
+    transition-delay: 0.3s;
+  }
 }
 
 /* Extra small mobile optimizations */
@@ -891,6 +956,74 @@ button.bg-gradient-to-r {
   .text-headline {
     font-size: var(--font-size-3xl);
     line-height: 1.2;
+  }
+
+  /* Ultra-optimized animations for small screens */
+  * {
+    transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateZ(0);
+  }
+
+  /* Disable complex hover effects */
+  .card-hover:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Simplify page transitions */
+  .page-enter,
+  .page-exit {
+    transition: opacity 0.2s ease;
+    transform: none;
+  }
+
+  /* Optimize motion components */
+  [data-framer-motion] {
+    transition: all 0.15s ease;
+  }
+}
+
+/* Low power device optimizations */
+@media (max-width: 480px), (max-height: 600px) {
+  /* Disable all complex animations */
+  .float,
+  .morph,
+  .pulse-glow,
+  .shimmer,
+  .particle,
+  .animated-gradient,
+  .animated-gradient-slow,
+  .particle-bg::before {
+    animation: none !important;
+  }
+
+  /* Simplify all transitions */
+  * {
+    transition: opacity 0.15s ease, color 0.15s ease,
+      background-color 0.15s ease !important;
+    transform: none !important;
+  }
+
+  /* Disable hover effects */
+  .card-hover:hover,
+  .nav-link:hover,
+  .glass:hover,
+  .glass-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Optimize page transitions */
+  .page-enter,
+  .page-exit {
+    transition: opacity 0.15s ease !important;
+    transform: none !important;
+  }
+
+  /* Simplify motion components */
+  [data-framer-motion] {
+    transition: opacity 0.15s ease !important;
+    transform: none !important;
   }
 }
 

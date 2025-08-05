@@ -1,24 +1,37 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-// Enhanced project card with advanced hover effects
+// Mobile-optimized project card with better readability
 const ProjectCard = ({ project, index }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   // Calculate the grid span based on whether the project is featured
   let gridClasses = "";
 
-  // Make Pizza Store and Wizards Chess take up more space
+  // Make Pizza Store and Wizards Chess take up more space on desktop
   if (project.title === "Pizza E-Commerce Store") {
-    gridClasses = "col-span-12 md:col-span-8 row-span-2";
+    gridClasses = "md:col-span-8 md:row-span-2";
   } else if (project.title === "Wizards Chess") {
-    gridClasses = "col-span-12 md:col-span-4 row-span-2";
+    gridClasses = "md:col-span-4 md:row-span-2";
   } else {
     // Other projects
-    gridClasses = "col-span-12 md:col-span-4 row-span-1";
+    gridClasses = "md:col-span-4 md:row-span-1";
   }
 
   return (
@@ -31,107 +44,92 @@ const ProjectCard = ({ project, index }) => {
       }}
       className={`group relative overflow-hidden rounded-xl bg-white border border-gray-200
         hover:border-blue-300 transition-all duration-300
-        shadow-lg hover:shadow-xl hover:scale-[1.02] hover:z-10 ${gridClasses}`}
+        shadow-lg hover:shadow-xl ${gridClasses}`}
       style={{ willChange: "transform, opacity" }}
     >
-      {/* Project Image - Optimized with Next.js Image component */}
-      <div className="absolute inset-0 bg-white z-0 overflow-hidden">
-        <div className="w-full h-full relative">
-          {project.image ? (
-            <div className="absolute inset-0">
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover opacity-90 group-hover:opacity-80 transition-opacity duration-300"
-                loading={index < 2 ? "eager" : "lazy"}
-                priority={index === 0}
-              />
-            </div>
-          ) : (
-            <div
-              className="absolute inset-0 bg-gray-100 flex items-center justify-center opacity-90 group-hover:opacity-80 transition-opacity duration-300"
-              style={{ willChange: "opacity" }}
-            >
-              <span className="text-gray-800 text-xl font-bold">
-                {project.title}
-              </span>
-            </div>
-          )}
-        </div>
-        {/* Enhanced overlay for better contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+      {/* Project Image */}
+      <div className="relative h-48 md:h-64 overflow-hidden">
+        {project.image ? (
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+            loading={index < 2 ? "eager" : "lazy"}
+            priority={index === 0}
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+            <span className="text-gray-800 text-xl font-bold">
+              {project.title}
+            </span>
+          </div>
+        )}
       </div>
 
-      {/* Accent line - enhanced */}
-      <div className="absolute bottom-0 left-0 w-full h-1.5 bg-blue-500 opacity-0 group-hover:opacity-80 transition-opacity duration-300 z-10"></div>
+      {/* Content - Always visible on mobile, hover effect on desktop */}
+      <div
+        className={`p-4 ${
+          isMobile ? "bg-white" : "bg-white group-hover:bg-gray-50"
+        } transition-colors duration-300`}
+      >
+        {/* Title - Always visible and readable */}
+        <h3 className="text-lg md:text-xl font-bold mb-2 text-gray-900 line-clamp-2">
+          {project.title}
+        </h3>
 
-      {/* Base Content - always visible with improved contrast */}
-      <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
-        <h3 className="text-xl font-bold mb-2 text-white">{project.title}</h3>
-        <div className="flex flex-wrap gap-2 mb-2">
+        {/* Description - Always visible on mobile, smooth fade on desktop */}
+        <p
+          className={`text-gray-700 mb-3 text-sm leading-relaxed transition-opacity duration-300 ${
+            isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+          }`}
+        >
+          {project.description}
+        </p>
+
+        {/* Tags - Always visible */}
+        <div className="flex flex-wrap gap-2 mb-4">
           {project.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="text-xs px-2 py-1 bg-white/20 backdrop-blur-sm rounded-full text-white font-medium"
+              className="text-xs px-2 py-1 bg-blue-50 text-blue-700 rounded-full font-medium border border-blue-100"
             >
               {tag}
             </span>
           ))}
           {project.tags.length > 3 && (
-            <span className="text-xs px-2 py-1 bg-white/20 backdrop-blur-sm rounded-full text-white font-medium">
+            <span className="text-xs px-2 py-1 bg-gray-50 text-gray-600 rounded-full font-medium border border-gray-200">
               +{project.tags.length - 3}
             </span>
           )}
         </div>
-      </div>
 
-      {/* Expanded Content - Improved for better readability */}
-      <div
-        className="absolute inset-0 p-5 bg-white/95
-                   flex flex-col opacity-0 group-hover:opacity-100
-                   transition-opacity duration-300 ease-out z-20 backdrop-blur-sm"
-        style={{ willChange: "opacity" }}
-      >
-        <div className="flex-1 overflow-auto scrollbar-hide">
-          <h3 className="text-xl font-bold mb-2 text-blue-600">
-            {project.title}
-          </h3>
-          <p className="text-gray-700 mb-4 text-sm md:text-base">
-            {project.description}
-          </p>
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-xs px-2 py-1 bg-blue-50 rounded-full text-blue-700 border border-blue-100 font-medium"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Improved buttons with better styling */}
-        <div className="flex gap-3 pt-2 mt-auto">
+        {/* Buttons - Always visible with smooth hover effects */}
+        <div className="flex gap-2">
           <a
             href={project.links.live}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-white bg-blue-600 hover:bg-blue-500
-                     px-4 py-2 rounded-lg transition-colors duration-200 text-sm font-medium"
+                     px-3 py-2 rounded-lg transition-all duration-200 text-sm font-medium flex-1 justify-center
+                     transform hover:scale-105 active:scale-95"
           >
-            <FaExternalLinkAlt size={12} /> Live Demo
+            <FaExternalLinkAlt size={12} />
+            <span className="hidden sm:inline">Live Demo</span>
+            <span className="sm:hidden">Demo</span>
           </a>
           <a
             href={project.links.github}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-gray-700 bg-gray-100 hover:bg-gray-200
-                     px-4 py-2 rounded-lg border border-gray-200 transition-colors duration-200 text-sm font-medium"
+                     px-3 py-2 rounded-lg border border-gray-200 transition-all duration-200 text-sm font-medium flex-1 justify-center
+                     transform hover:scale-105 active:scale-95"
           >
-            <FaGithub size={12} /> GitHub
+            <FaGithub size={12} />
+            <span className="hidden sm:inline">GitHub</span>
+            <span className="sm:hidden">Code</span>
           </a>
         </div>
       </div>
@@ -218,9 +216,9 @@ const Projects = () => {
   });
 
   return (
-    <section id="projects-section" className="py-12 text-gray-900">
+    <section id="projects-section" className="py-8 md:py-12 text-gray-900">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-12 auto-rows-[min(250px,_20vw)] gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 auto-rows-auto">
           {orderedProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}

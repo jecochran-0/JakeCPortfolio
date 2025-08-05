@@ -5,7 +5,9 @@ import Navbar from "./components/Navbar";
 import PageTransition from "./components/PageTransition";
 import DynamicCursor from "./components/DynamicCursor";
 import BreadcrumbNav from "./components/BreadcrumbNav";
+import ScrollIndicator from "./components/ScrollIndicator";
 import { initPerformanceOptimizations } from "./utils/performance";
+import { initMobileOptimizations } from "./utils/mobileOptimizations";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -54,6 +56,7 @@ export default function RootLayout({
   // Initialize performance optimizations on client side
   if (typeof window !== "undefined") {
     initPerformanceOptimizations();
+    initMobileOptimizations();
   }
 
   return (
@@ -94,6 +97,7 @@ export default function RootLayout({
         <PageTransition>{children}</PageTransition>
         <DynamicCursor />
         <BreadcrumbNav />
+        <ScrollIndicator />
       </body>
     </html>
   );

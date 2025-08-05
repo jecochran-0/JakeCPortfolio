@@ -67,7 +67,7 @@ export default function BreadcrumbNav() {
         ease: [0.25, 0.46, 0.45, 0.94],
       }}
       className={`fixed z-40 flex items-center space-x-2 ${
-        isMobile ? "top-16 left-2 right-2 justify-center" : "top-20 left-4"
+        isMobile ? "top-24 left-2 right-2 justify-center" : "top-20 left-4"
       }`}
       style={{
         willChange: "transform, opacity", // Optimize for animations

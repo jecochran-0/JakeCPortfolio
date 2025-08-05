@@ -2,7 +2,6 @@
 
 import { Suspense, lazy } from "react";
 import { motion } from "framer-motion";
-import ParticleSystem from "./components/ParticleSystem";
 import ScrollIndicator from "./components/ScrollIndicator";
 
 // Lazy load components
@@ -13,9 +12,6 @@ const SoftSkills = lazy(() => import("./components/SoftSkills"));
 export default function Home() {
   return (
     <div className="relative min-h-screen">
-      {/* Particle System Background */}
-      <ParticleSystem />
-
       {/* Hero Video Section with Dynamic Content */}
       <section className="relative">
         <Suspense

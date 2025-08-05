@@ -56,7 +56,7 @@ export default function ScrollIndicator() {
               a 15.9155 15.9155 0 0 1 0 -31.831"
           />
           <path
-            className="text-blue-500 transition-all duration-300 ease-out"
+            className="text-gray-400 transition-all duration-300 ease-out"
             stroke="currentColor"
             strokeWidth="2"
             strokeDasharray={`${scrollPercentage}, 100`}
@@ -69,12 +69,12 @@ export default function ScrollIndicator() {
 
         {/* Center icon */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
         </div>
 
         {/* Percentage text */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-xs font-bold text-gray-600">
+          <span className="text-xs font-bold text-gray-500">
             {Math.round(scrollPercentage)}%
           </span>
         </div>

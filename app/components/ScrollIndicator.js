@@ -97,47 +97,44 @@ export default function ScrollIndicator() {
       initial="initial"
       animate="animate"
       transition={{ duration: 0.5, delay: 0.5 }}
-      style={{
-        willChange: "transform, opacity", // Optimize for animations
-      }}
     >
       <div className={`relative ${isMobile ? "w-12 h-12" : "w-16 h-16"}`}>
+        {/* Brutalist background */}
+        <div className="absolute inset-0 bg-white border-4 border-black rounded-full" />
+
         {/* Circular progress indicator */}
         <svg
           className={`transform -rotate-90 ${
             isMobile ? "w-12 h-12" : "w-16 h-16"
-          }`}
+          } relative z-10`}
           viewBox="0 0 36 36"
         >
           <path
-            className="text-gray-200"
+            className="text-gray-300"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="3"
             fill="none"
             d="M18 2.0845
               a 15.9155 15.9155 0 0 1 0 31.831
               a 15.9155 15.9155 0 0 1 0 -31.831"
           />
           <path
-            className="text-gray-400 transition-all duration-300 ease-out"
+            className="text-primary transition-all duration-300 ease-out"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="3"
             strokeDasharray={`${scrollPercentage}, 100`}
             fill="none"
             d="M18 2.0845
               a 15.9155 15.9155 0 0 1 0 31.831
               a 15.9155 15.9155 0 0 1 0 -31.831"
-            style={{
-              willChange: "stroke-dasharray", // Optimize for animations
-            }}
           />
         </svg>
 
         {/* Percentage text */}
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center z-20">
           <span
-            className={`font-bold text-gray-500 ${
-              isMobile ? "text-xs" : "text-xs"
+            className={`font-bold text-black ${
+              isMobile ? "text-xs" : "text-sm"
             }`}
           >
             {Math.round(scrollPercentage)}%
@@ -147,10 +144,28 @@ export default function ScrollIndicator() {
 
       {/* Scroll hint - only show on desktop */}
       {!isMobile && (
-        <div className="mt-2 text-center">
-          <div className="text-xs text-gray-500 mb-1">Scroll</div>
-          <div className="w-0.5 h-4 bg-gray-300 mx-auto animate-pulse"></div>
-        </div>
+        <motion.div
+          className="mt-3 text-center"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.5 }}
+        >
+          <div className="text-xs text-black/70 mb-1 font-bold uppercase tracking-wide">
+            Scroll
+          </div>
+          <motion.div
+            className="w-1 h-6 bg-black mx-auto"
+            animate={{
+              scaleY: [1, 1.5, 1],
+              opacity: [0.5, 1, 0.5],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        </motion.div>
       )}
     </motion.div>
   );

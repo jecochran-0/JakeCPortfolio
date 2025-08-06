@@ -1,88 +1,53 @@
-import Link from "next/link";
-import { useState } from "react";
+"use client";
 
-function HeroButtons() {
-  // Track which button is being pressed for active state styling
-  const [activeButton, setActiveButton] = useState(null);
+import { motion } from "framer-motion";
 
-  // Handle mouse down and up events for press effect
-  const handleMouseDown = (buttonId) => {
-    setActiveButton(buttonId);
-  };
-
-  const handleMouseUp = () => {
-    setActiveButton(null);
-  };
-
+export default function HeroButtons() {
   return (
-    <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4 w-full">
-      <Link
-        href="/about"
-        className={`relative overflow-hidden bg-transparent border border-white text-white py-2 sm:py-3 px-5 sm:px-6 rounded-full font-medium text-sm sm:text-base text-center
-                    transition-all duration-300 ease-out
-                    hover:shadow-[0_5px_15px_rgba(255,255,255,0.2)] hover:scale-105
-                    active:scale-95 active:shadow-inner
-                    before:absolute before:inset-0 before:w-full before:h-full before:bg-white/10
-                    before:translate-y-[100%] hover:before:translate-y-0 before:transition-transform before:duration-300
-                    ${
-                      activeButton === "about"
-                        ? "transform scale-95 shadow-inner"
-                        : "transform translate-y-0 shadow-lg"
-                    }`}
-        onMouseDown={() => handleMouseDown("about")}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onTouchStart={() => handleMouseDown("about")}
-        onTouchEnd={handleMouseUp}
+    <>
+      <motion.button
+        className="btn-brutal btn-brutal-interactive text-sm sm:text-base lg:text-lg px-4 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-4"
+        whileHover={{
+          scale: 1.05,
+          y: -4,
+        }}
+        whileTap={{
+          scale: 0.95,
+          y: 0,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 400,
+          damping: 25,
+        }}
+        onClick={() => (window.location.href = "/ux-ui")}
       >
-        About Me
-      </Link>
+        View My Work
+      </motion.button>
 
-      <Link
-        href="/about"
-        className={`relative overflow-hidden bg-white text-black py-2 sm:py-3 px-5 sm:px-6 rounded-full font-medium text-sm sm:text-base text-center
-                   transition-all duration-300 ease-out
-                   hover:shadow-[0_5px_15px_rgba(255,255,255,0.2)] hover:scale-105
-                   active:scale-95 active:shadow-inner active:bg-gray-100
-                   before:absolute before:inset-0 before:w-full before:h-full before:bg-black/5
-                   before:translate-y-[100%] hover:before:translate-y-0 before:transition-transform before:duration-300
-                   ${
-                     activeButton === "skills"
-                       ? "transform scale-95 shadow-inner bg-gray-100"
-                       : "transform translate-y-0 shadow-lg"
-                   }`}
-        onMouseDown={() => handleMouseDown("skills")}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onTouchStart={() => handleMouseDown("skills")}
-        onTouchEnd={handleMouseUp}
+      <motion.button
+        className="btn-brutal btn-brutal-interactive text-sm sm:text-base lg:text-lg px-4 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-4"
+        style={{
+          background: "var(--color-white)",
+          color: "var(--color-black)",
+        }}
+        whileHover={{
+          scale: 1.05,
+          y: -4,
+        }}
+        whileTap={{
+          scale: 0.95,
+          y: 0,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 400,
+          damping: 25,
+        }}
+        onClick={() => window.open("mailto:jake.e.cochran@gmail.com", "_blank")}
       >
-        Skills
-      </Link>
-
-      <Link
-        href="/dev"
-        className={`relative overflow-hidden bg-white text-black py-2 sm:py-3 px-5 sm:px-6 rounded-full font-medium text-sm sm:text-base text-center
-                   transition-all duration-300 ease-out
-                   hover:shadow-[0_5px_15px_rgba(255,255,255,0.2)] hover:scale-105 
-                   active:scale-95 active:shadow-inner active:bg-gray-100
-                   before:absolute before:inset-0 before:w-full before:h-full before:bg-black/5
-                   before:translate-y-[100%] hover:before:translate-y-0 before:transition-transform before:duration-300
-                   ${
-                     activeButton === "projects"
-                       ? "transform scale-95 shadow-inner bg-gray-100"
-                       : "transform translate-y-0 shadow-lg"
-                   }`}
-        onMouseDown={() => handleMouseDown("projects")}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onTouchStart={() => handleMouseDown("projects")}
-        onTouchEnd={handleMouseUp}
-      >
-        My Projects
-      </Link>
-    </div>
+        Get In Touch
+      </motion.button>
+    </>
   );
 }
-
-export default HeroButtons;

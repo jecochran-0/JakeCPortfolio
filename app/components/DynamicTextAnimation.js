@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { motion } from "framer-motion";
 
 export default function DynamicTextAnimation() {
   const [currentText, setCurrentText] = useState("");
@@ -65,15 +66,48 @@ export default function DynamicTextAnimation() {
 
   return (
     <div className="text-center">
-      <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-gray-900">
+      <motion.h1
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 text-white relative"
+        style={{
+          background:
+            "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
+          backgroundSize: "200% 200%",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+          animation: "gradientShift 3s ease infinite",
+          textShadow: "0 0 30px rgba(102, 126, 234, 0.3)",
+        }}
+      >
         Jake Cochran
-      </h1>
-      <div className="text-xl md:text-2xl lg:text-3xl text-gray-600 mb-8">
-        <span className="inline-block min-w-[200px] md:min-w-[300px] lg:min-w-[400px]">
+      </motion.h1>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.8,
+          delay: 0.3,
+          ease: [0.25, 0.46, 0.45, 0.94],
+        }}
+        className="text-xl md:text-2xl lg:text-3xl text-white/90 mb-8 relative"
+      >
+        <span className="inline-block min-w-[200px] md:min-w-[300px] lg:min-w-[400px] relative">
           {currentText}
-          <span className="animate-pulse">|</span>
+          <motion.span
+            animate={{ opacity: [1, 0, 1] }}
+            transition={{ duration: 1, repeat: Infinity }}
+            className="text-white ml-1"
+            style={{
+              textShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
+            }}
+          >
+            |
+          </motion.span>
         </span>
-      </div>
+      </motion.div>
     </div>
   );
 }

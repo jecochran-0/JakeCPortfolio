@@ -3,17 +3,14 @@
 import { motion } from "framer-motion";
 import { FaReact, FaNodeJs, FaFigma, FaMobile, FaGitAlt } from "react-icons/fa";
 import { SiTailwindcss } from "react-icons/si";
-import {
-  optimizedAnimationVariants,
-  getOptimizedViewport,
-} from "../utils/performance";
 
 const skills = [
   {
     category: "Frontend Development",
     icon: FaReact,
     skills: ["React.js", "JavaScript", "HTML5", "CSS3", "TypeScript", "Redux"],
-    color: "from-blue-500 to-cyan-500",
+    color: "#ff6b35",
+    iconColor: "#61DAFB",
   },
   {
     category: "Design & Prototyping",
@@ -26,7 +23,8 @@ const skills = [
       "Prototyping",
       "User Research",
     ],
-    color: "from-purple-500 to-pink-500",
+    color: "#4ecdc4",
+    iconColor: "#F24E1E",
   },
   {
     category: "Backend & APIs",
@@ -38,7 +36,8 @@ const skills = [
       "Database Design",
       "API Integration",
     ],
-    color: "from-green-500 to-emerald-500",
+    color: "#45b7d1",
+    iconColor: "#68A063",
   },
   {
     category: "Styling & Frameworks",
@@ -50,13 +49,15 @@ const skills = [
       "CSS Grid",
       "Flexbox",
     ],
-    color: "from-orange-500 to-red-500",
+    color: "#f7b731",
+    iconColor: "#06B6D4",
   },
   {
     category: "Version Control & Tools",
     icon: FaGitAlt,
     skills: ["Git", "GitHub", "Agile", "Jira", "Project Management"],
-    color: "from-indigo-500 to-blue-500",
+    color: "#26de81",
+    iconColor: "#F05032",
   },
   {
     category: "Additional Skills",
@@ -67,64 +68,84 @@ const skills = [
       "Cross-browser Testing",
       "Accessibility",
     ],
-    color: "from-teal-500 to-green-500",
+    color: "#fc5c65",
+    iconColor: "#00D4AA",
   },
 ];
 
 export default function Skills() {
   return (
-    <motion.div
-      variants={optimizedAnimationVariants.container}
-      initial="hidden"
-      whileInView="visible"
-      viewport={getOptimizedViewport()}
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-      style={{ willChange: "transform, opacity" }}
-    >
-      {skills.map((skillGroup) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {skills.map((skillGroup, index) => (
         <motion.div
           key={skillGroup.category}
-          variants={optimizedAnimationVariants.item}
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.6,
+            delay: index * 0.1,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
+          viewport={{ once: true, margin: "-50px" }}
           whileHover={{
             scale: 1.02,
-            transition: { duration: 0.2 },
+            y: -8,
+            transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] },
           }}
-          className="glass-card p-8 rounded-2xl"
-          style={{ willChange: "transform" }}
+          className="card-brutal group cursor-pointer relative overflow-hidden"
         >
+          {/* Brutalist accent line */}
+          <div
+            className="absolute top-0 left-0 right-0 h-2"
+            style={{ background: skillGroup.color }}
+          />
+
+          {/* Icon and Title */}
           <div className="flex items-center mb-6">
             <div
-              className={`w-14 h-14 rounded-xl bg-gradient-to-r ${skillGroup.color} flex items-center justify-center mr-4`}
+              className="w-12 h-12 rounded-lg flex items-center justify-center mr-4 border-4 border-black"
+              style={{ background: skillGroup.color }}
             >
-              <skillGroup.icon className="text-white text-2xl" />
+              <skillGroup.icon
+                className="text-white text-xl"
+                style={{ color: "#ffffff" }}
+              />
             </div>
-            <h3 className="text-xl font-bold text-gray-900">
+            <h3 className="text-lg font-bold text-black">
               {skillGroup.category}
             </h3>
           </div>
 
-          <motion.div
-            variants={optimizedAnimationVariants.container}
-            initial="hidden"
-            animate="visible"
-            className="space-y-3"
-          >
-            {skillGroup.skills.map((skill) => (
+          {/* Skills List */}
+          <div className="space-y-3">
+            {skillGroup.skills.map((skill, skillIndex) => (
               <motion.div
                 key={skill}
-                variants={optimizedAnimationVariants.skillItem}
-                className="flex items-center"
-                style={{ willChange: "transform, opacity" }}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{
+                  delay: skillIndex * 0.1,
+                  duration: 0.4,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                viewport={{ once: true }}
+                className="flex items-center group/item"
               >
                 <div
-                  className={`w-2 h-2 rounded-full bg-gradient-to-r ${skillGroup.color} mr-3`}
+                  className="w-3 h-3 mr-3 flex-shrink-0 border-2 border-black"
+                  style={{ background: skillGroup.color }}
                 />
-                <span className="text-gray-700 font-medium">{skill}</span>
+                <span className="text-black font-semibold text-sm group-hover/item:text-gray-700 transition-colors duration-200">
+                  {skill}
+                </span>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
+
+          {/* Hover effect overlay */}
+          <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
         </motion.div>
       ))}
-    </motion.div>
+    </div>
   );
 }

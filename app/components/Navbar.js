@@ -1,280 +1,243 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect, useMemo, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-
-// Check if in browser environment
-const isBrowser = typeof window !== "undefined";
+import { usePathname } from "next/navigation";
+import {
+  FaHome,
+  FaUser,
+  FaCode,
+  FaPalette,
+  FaBars,
+  FaTimes,
+} from "react-icons/fa";
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
-  const [scrolled, setScrolled] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isLowPower, setIsLowPower] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navbarRef = useRef(null);
+  const { scrollY } = useScroll();
 
-  // Check device capabilities
-  useEffect(() => {
-    const checkDeviceCapabilities = () => {
-      const width = window.innerWidth;
-      const isMobileDevice = width <= 768;
-      const isLowPowerDevice =
-        width <= 480 ||
-        navigator.hardwareConcurrency <= 4 ||
-        /Android|iPhone|iPad|iPod/.test(navigator.userAgent);
-
-      setIsMobile(isMobileDevice);
-      setIsLowPower(isLowPowerDevice);
-    };
-
-    checkDeviceCapabilities();
-    window.addEventListener("resize", checkDeviceCapabilities);
-
-    return () => window.removeEventListener("resize", checkDeviceCapabilities);
-  }, []);
-
-  // Optimized scroll handler
-  useEffect(() => {
-    if (!isBrowser) return;
-
-    let ticking = false;
-    let rafId = null;
-
-    const handleScroll = () => {
-      if (!ticking) {
-        rafId = requestAnimationFrame(() => {
-          const isScrolled = window.scrollY > 20;
-          if (isScrolled !== scrolled) {
-            setScrolled(isScrolled);
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-      }
-    };
-  }, [scrolled]);
-
-  // Efficient navigation handler
-  const handleNavClick = useCallback(
-    (e, href) => {
-      if (href === pathname) {
-        e.preventDefault();
-        return;
-      }
-
-      e.preventDefault();
-      setIsMobileMenuOpen(false);
-
-      // Let the PageTransition component handle the transition
-      router.push(href);
-    },
-    [pathname, router]
-  );
+  // Transform values for scroll-based animations
+  const navbarHeight = useTransform(scrollY, [0, 100], [120, 80]);
+  const navbarOpacity = useTransform(scrollY, [0, 50], [0, 1]);
+  const navbarBlur = useTransform(scrollY, [0, 100], [0, 20]);
 
   const navItems = [
-    { href: "/", label: "Home" },
-    { href: "/ux-ui", label: "UX/UI" },
-    { href: "/dev", label: "Dev" },
-    { href: "/about", label: "About" },
+    { name: "home", path: "/", icon: FaHome, label: "Home" },
+    { name: "about", path: "/about", icon: FaUser, label: "About" },
+    { name: "dev", path: "/dev", icon: FaCode, label: "Development" },
+    { name: "ux-ui", path: "/ux-ui", icon: FaPalette, label: "UX/UI" },
   ];
 
-  // Efficient animation variants
-  const navVariants = useMemo(
-    () => ({
-      initial: {
-        y: -10,
-        opacity: 0,
-      },
-      animate: {
-        y: 0,
-        opacity: 1,
-        transition: {
-          duration: isLowPower ? 0.3 : isMobile ? 0.25 : 0.2,
-          ease: [0.25, 0.46, 0.45, 0.94],
-        },
-      },
-    }),
-    [isMobile, isLowPower]
-  );
+  // Handle mounting to prevent hydration issues
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  const itemVariants = useMemo(
-    () => ({
-      hover: {
-        y: -1,
-        transition: {
-          duration: 0.15,
-          ease: [0.25, 0.46, 0.45, 0.94],
-        },
-      },
-    }),
-    []
-  );
+  // Scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
 
-  const mobileMenuVariants = useMemo(
-    () => ({
-      closed: {
-        opacity: 0,
-        y: -10,
-        transition: {
-          duration: 0.15,
-          ease: [0.25, 0.46, 0.45, 0.94],
-        },
-      },
-      open: {
-        opacity: 1,
-        y: 0,
-        transition: {
-          duration: 0.2,
-          ease: [0.25, 0.46, 0.45, 0.94],
-          staggerChildren: 0.03,
-        },
-      },
-    }),
-    []
-  );
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  if (!mounted) {
+    return null; // Prevent hydration mismatch
+  }
 
   return (
-    <motion.nav
-      initial="initial"
-      animate="animate"
-      variants={navVariants}
-      className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 ${
-        isMobile ? "w-[calc(100%-2rem)] max-w-sm" : "w-auto"
-      }`}
-      style={{
-        willChange: "transform, opacity",
-      }}
-    >
-      {/* Sleek Navbar Container */}
-      <div
-        className={`relative ${
-          isMobile
-            ? "bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/30 p-3"
-            : "bg-white/90 backdrop-blur-md rounded-full shadow-xl border border-gray-200/40 p-2"
-        }`}
+    <>
+      {/* Floating Navigation Bar */}
+      <motion.nav
+        ref={navbarRef}
+        style={{
+          height: navbarHeight,
+          opacity: isScrolled ? navbarOpacity : 1,
+          backdropFilter: `blur(${navbarBlur}px)`,
+          background: isScrolled ? "rgba(0, 0, 0, 0.9)" : "transparent",
+        }}
+        className="fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-1">
-          {navItems.map((item) => (
-            <motion.div
-              key={item.href}
-              variants={itemVariants}
-              whileHover="hover"
-              className="relative"
-            >
-              <Link
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
-                className={`relative flex items-center px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-150 ${
-                  pathname === item.href
-                    ? "bg-gray-900 text-white shadow-sm"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/80"
-                }`}
-                style={{
-                  fontWeight: 500,
-                  letterSpacing: "0.025em",
-                }}
-              >
-                {item.label}
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+        <div className="max-w-7xl mx-auto flex items-center justify-end">
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-4">
+            {navItems.map((item) => {
+              const isActive = pathname === item.path;
+              const Icon = item.icon;
 
-        {/* Mobile Navigation */}
-        <div className="md:hidden flex items-center justify-between">
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="flex items-center px-3 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100/80 transition-colors duration-150"
-          >
-            <span className="mr-2">Menu</span>
-            <svg
-              className={`w-4 h-4 transition-transform duration-150 ${
-                isMobileMenuOpen ? "rotate-180" : ""
-              }`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
-
-          {/* Active Page Indicator */}
-          <div className="flex items-center px-3 py-2 rounded-xl text-sm font-medium bg-gray-900 text-white shadow-sm">
-            <span>
-              {navItems.find((item) => item.href === pathname)?.label || "Home"}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu Dropdown */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            variants={mobileMenuVariants}
-            initial="closed"
-            animate="open"
-            exit="closed"
-            className="md:hidden absolute bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/30 overflow-hidden z-30"
-            style={{
-              top: "calc(100% + 4rem)",
-              left: "0",
-              right: "0",
-              marginTop: "1rem",
-            }}
-          >
-            <div className="py-2">
-              {navItems.map((item, index) => (
+              return (
                 <motion.div
-                  key={item.href}
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    delay: index * 0.03,
-                    duration: 0.15,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
+                  key={item.name}
+                  className="relative"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <Link
-                    href={item.href}
-                    onClick={(e) => handleNavClick(e, item.href)}
-                    className={`flex items-center px-4 py-3 mx-2 rounded-xl text-sm font-medium transition-colors duration-150 ${
-                      pathname === item.href
-                        ? "bg-gray-900 text-white shadow-sm"
-                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/80"
+                    href={item.path}
+                    className={`flex items-center space-x-3 px-6 py-3 rounded-lg transition-all duration-300 font-bold nav-item-hover ${
+                      isActive
+                        ? "nav-active"
+                        : "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm"
                     }`}
-                    style={{
-                      fontWeight: 500,
-                      letterSpacing: "0.025em",
-                    }}
                   >
-                    {item.label}
+                    <Icon className="text-lg" />
+                    <span className="font-bold uppercase tracking-wide">
+                      {item.label}
+                    </span>
                   </Link>
+
+                  {/* Active indicator */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNav"
+                      className="absolute inset-0 bg-white border-4 border-black rounded-lg -z-10"
+                      initial={false}
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 30,
+                      }}
+                    />
+                  )}
                 </motion.div>
-              ))}
-            </div>
+              );
+            })}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <motion.button
+            className="lg:hidden card-brutal p-3 text-black btn-brutal-interactive"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <AnimatePresence mode="wait">
+              {isOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <FaTimes size={20} />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <FaBars size={20} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
+        </div>
+      </motion.nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 lg:hidden"
+          >
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              onClick={() => setIsOpen(false)}
+            />
+
+            {/* Menu Content */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="absolute right-0 top-0 h-full w-80 bg-white shadow-2xl"
+            >
+              <div className="p-8">
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-black mb-2">
+                    Navigation
+                  </h2>
+                  <p className="text-gray-600">Choose your destination</p>
+                </div>
+
+                <div className="space-y-4">
+                  {navItems.map((item, index) => {
+                    const isActive = pathname === item.path;
+                    const Icon = item.icon;
+
+                    return (
+                      <motion.div
+                        key={item.name}
+                        initial={{ x: 50, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: index * 0.1 }}
+                      >
+                        <Link
+                          href={item.path}
+                          onClick={() => setIsOpen(false)}
+                          className={`flex items-center space-x-4 p-4 rounded-lg transition-all duration-300 ${
+                            isActive
+                              ? "card-brutal text-black shadow-lg"
+                              : "text-gray-700 hover:bg-gray-100"
+                          }`}
+                        >
+                          <Icon className="text-xl" />
+                          <span className="font-semibold">{item.label}</span>
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+
+                {/* Contact Info */}
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  className="mt-12 card-brutal p-6"
+                >
+                  <h3 className="font-semibold text-black mb-2">
+                    Get in Touch
+                  </h3>
+                  <a
+                    href="mailto:jake.e.cochran@gmail.com"
+                    className="text-primary hover:underline"
+                  >
+                    jake.e.cochran@gmail.com
+                  </a>
+                </motion.div>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </>
   );
 }

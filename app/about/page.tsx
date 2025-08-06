@@ -1,6 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, Suspense, lazy } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  Suspense,
+  lazy,
+  useRef,
+} from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   FaUserCircle,
@@ -8,7 +15,6 @@ import {
   FaGraduationCap,
   FaLightbulb,
 } from "react-icons/fa";
-import { useInView } from "../utils/performance";
 import SafeHydrate from "../components/SafeHydrate";
 import { getWindowDimensions } from "../utils/serverSafeWindow";
 
@@ -26,6 +32,48 @@ const ExperienceLoading = () => (
 
 // Check if window is defined (client-side) or not (server-side)
 const isBrowser = typeof window !== "undefined";
+
+// Simple useInView hook implementation
+const useInView = (
+  options: {
+    root?: Element | null;
+    rootMargin?: string;
+    threshold?: number;
+  } = {}
+) => {
+  const [isInView, setIsInView] = useState(false);
+  const [hasBeenInView, setHasBeenInView] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const currentRef = ref.current;
+    if (!currentRef) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+        if (entry.isIntersecting && !hasBeenInView) {
+          setHasBeenInView(true);
+        }
+      },
+      {
+        root: options.root || null,
+        rootMargin: options.rootMargin || "0px",
+        threshold: options.threshold || 0.1,
+      }
+    );
+
+    observer.observe(currentRef);
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [options.root, options.rootMargin, options.threshold, hasBeenInView]);
+
+  return { ref, isInView, hasBeenInView };
+};
 
 // Wrap the entire component with SafeHydrate
 function AboutContent() {

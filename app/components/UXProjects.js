@@ -150,7 +150,7 @@ const UXProjects = () => {
         "Design Systems",
       ],
       links: {
-        caseStudy: "/ux/spotify",
+        caseStudy: "/ux-ui/spotify",
         external: "https://spotify.com",
       },
       featured: true,

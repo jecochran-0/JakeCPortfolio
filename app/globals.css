@@ -482,7 +482,8 @@ button.bg-gradient-to-r {
 .page-enter-active {
   opacity: 1;
   transform: translateY(0) translateZ(0);
-  transition: opacity 0.5s, transform 0.5s;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  will-change: opacity, transform;
 }
 
 .page-exit {
@@ -493,7 +494,8 @@ button.bg-gradient-to-r {
 .page-exit-active {
   opacity: 0;
   transform: translateY(-20px) translateZ(0);
-  transition: opacity 0.5s, transform 0.5s;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  will-change: opacity, transform;
 }
 
 /* Dynamic cursor styles */
@@ -527,7 +529,8 @@ button.bg-gradient-to-r {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
+  transition: width 0.6s ease, height 0.6s ease;
+  will-change: width, height;
 }
 
 .btn-animate:hover::before {
@@ -540,6 +543,7 @@ button.bg-gradient-to-r {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s infinite;
+  will-change: background-position;
 }
 
 @keyframes skeleton-loading {
@@ -564,6 +568,7 @@ button.bg-gradient-to-r {
   animation: textReveal 0.8s ease forwards;
   opacity: 0;
   transform: translateY(100%) translateZ(0);
+  will-change: opacity, transform;
 }
 
 @keyframes textReveal {
@@ -611,7 +616,7 @@ button.bg-gradient-to-r {
 @keyframes fadeInScale {
   from {
     opacity: 0;
-    transform: scale(0.96) translateZ(0);
+    transform: scale(0.95) translateZ(0);
   }
   to {
     opacity: 1;
@@ -622,7 +627,7 @@ button.bg-gradient-to-r {
 @keyframes slideInLeft {
   from {
     opacity: 0;
-    transform: translateX(-25px) translateZ(0);
+    transform: translateX(-30px) translateZ(0);
   }
   to {
     opacity: 1;
@@ -633,7 +638,7 @@ button.bg-gradient-to-r {
 @keyframes slideInRight {
   from {
     opacity: 0;
-    transform: translateX(25px) translateZ(0);
+    transform: translateX(30px) translateZ(0);
   }
   to {
     opacity: 1;
@@ -731,27 +736,17 @@ button.bg-gradient-to-r {
 
 /* Enhanced mobile responsiveness with flicker elimination */
 @media (max-width: 768px) {
-  /* Disable complex animations on mobile for better performance */
+  /* Optimize glass effects for mobile */
   .glass {
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
   }
 
-  .float {
-    animation: none;
-  }
-
-  .morph {
-    animation: none;
-  }
-
-  .pulse-glow {
-    animation: none;
-  }
-
-  .shimmer {
-    animation: none;
-  }
-
+  /* Disable complex animations on mobile for better performance */
+  .float,
+  .morph,
+  .pulse-glow,
+  .shimmer,
   .particle-bg::before {
     animation: none;
   }
@@ -759,7 +754,6 @@ button.bg-gradient-to-r {
   /* Optimize transitions for mobile - prevent flickering */
   * {
     transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    /* Enhanced hardware acceleration for mobile */
     transform: translateZ(0);
     backface-visibility: hidden;
     perspective: 1000px;
@@ -767,8 +761,8 @@ button.bg-gradient-to-r {
 
   /* Optimize card hover effects for touch */
   .card-hover:hover {
-    transform: translateY(-4px) translateZ(0);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px) translateZ(0);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   }
 
   /* Reduce text animation complexity */
@@ -780,7 +774,7 @@ button.bg-gradient-to-r {
 
   /* Optimize button animations */
   .btn-animate::before {
-    transition: width 0.3s, height 0.3s;
+    transition: width 0.3s ease, height 0.3s ease;
   }
 
   .btn-animate:hover::before {
@@ -811,13 +805,13 @@ button.bg-gradient-to-r {
   .glass,
   .glass-dark,
   .glass-card {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 
   .glass:hover,
   .glass-dark:hover,
   .glass-card:hover {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
   }
 
   /* Mobile typography adjustments */
@@ -906,84 +900,43 @@ button.bg-gradient-to-r {
   .stagger-children.visible > *:nth-child(6) {
     transition-delay: 0.3s;
   }
+
+  /* Optimize hero video for mobile */
+  .hero-video-container {
+    height: 100vh;
+    height: 100svh;
+    max-height: -webkit-fill-available;
+    padding-top: 0;
+  }
+
+  .hero-content {
+    padding: 0 1rem;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .hero-content > div {
+    margin-top: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .mobile-hero-content {
+    padding: 2rem 1rem;
+    width: 100%;
+  }
+
+  .mobile-hero-content > div:first-child {
+    display: block;
+  }
 }
 
 /* Extra small mobile optimizations */
-@media (max-width: 480px) {
-  /* Further reduce animations */
-  .nav-link::before {
-    display: none;
-  }
-
-  .interactive-hover::before {
-    display: none;
-  }
-
-  /* Reduce padding and margins */
-  .p-golden {
-    padding: 1rem;
-  }
-
-  .mb-golden {
-    margin-bottom: 1.5rem;
-  }
-
-  .mt-golden {
-    margin-top: 1.5rem;
-  }
-
-  /* Optimize text sizes */
-  .text-reveal {
-    font-size: 0.9em;
-  }
-
-  /* Extra small mobile typography */
-  h1 {
-    font-size: var(--font-size-3xl);
-    line-height: 1.1;
-  }
-
-  h2 {
-    font-size: var(--font-size-2xl);
-    line-height: 1.2;
-  }
-
-  .text-display {
-    font-size: var(--font-size-4xl);
-    line-height: 1.1;
-  }
-
-  .text-headline {
-    font-size: var(--font-size-3xl);
-    line-height: 1.2;
-  }
-
-  /* Ultra-optimized animations for small screens */
-  * {
-    transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    transform: translateZ(0);
-  }
-
-  /* Disable complex hover effects */
-  .card-hover:hover {
-    transform: none;
-    box-shadow: none;
-  }
-
-  /* Simplify page transitions */
-  .page-enter,
-  .page-exit {
-    transition: opacity 0.2s ease;
-    transform: none;
-  }
-
-  /* Optimize motion components */
-  [data-framer-motion] {
-    transition: all 0.15s ease;
-  }
-}
-
-/* Low power device optimizations */
 @media (max-width: 480px), (max-height: 600px) {
   /* Disable all complex animations */
   .float,
@@ -1024,6 +977,33 @@ button.bg-gradient-to-r {
   [data-framer-motion] {
     transition: opacity 0.15s ease !important;
     transform: none !important;
+  }
+
+  /* Optimize hero section for very small screens */
+  .hero-video-container {
+    height: 100vh;
+    height: 100svh;
+  }
+
+  .hero-content {
+    padding: 1rem;
+  }
+
+  .mobile-hero-content {
+    padding: 1rem;
+  }
+
+  /* Reduce font sizes for very small screens */
+  h1 {
+    font-size: 2rem !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  h3 {
+    font-size: 1.25rem !important;
   }
 }
 

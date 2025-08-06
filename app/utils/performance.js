@@ -3,11 +3,12 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 
 /**
- * A hook to throttle expensive calculations
+ * A hook to throttle expensive calculations with improved memory management
  */
 export function useThrottle(value, delay) {
   const [throttledValue, setThrottledValue] = useState(value);
   const lastUpdated = useRef(Date.now());
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
     const now = Date.now();
@@ -17,13 +18,22 @@ export function useThrottle(value, delay) {
       setThrottledValue(value);
       lastUpdated.current = now;
     } else {
-      const timerId = setTimeout(() => {
+      // Clear existing timeout to prevent memory leaks
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      timeoutRef.current = setTimeout(() => {
         setThrottledValue(value);
         lastUpdated.current = Date.now();
       }, delay - (now - lastUpdated.current));
-
-      return () => clearTimeout(timerId);
     }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   }, [value, delay]);
 
   return throttledValue;
@@ -36,6 +46,7 @@ export function useInView(options = {}) {
   const [isInView, setIsInView] = useState(false);
   const [hasBeenInView, setHasBeenInView] = useState(false);
   const ref = useRef(null);
+  const observerRef = useRef(null);
 
   const callback = useCallback(
     (entries) => {
@@ -51,19 +62,26 @@ export function useInView(options = {}) {
 
   useEffect(() => {
     const currentRef = ref.current;
-    const observer = new IntersectionObserver(callback, {
-      root: options.root || null,
-      rootMargin: options.rootMargin || "0px",
-      threshold: options.threshold || 0.1,
-    });
 
     if (currentRef) {
-      observer.observe(currentRef);
+      // Clean up existing observer
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+
+      observerRef.current = new IntersectionObserver(callback, {
+        root: options.root || null,
+        rootMargin: options.rootMargin || "0px",
+        threshold: options.threshold || 0.1,
+      });
+
+      observerRef.current.observe(currentRef);
     }
 
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+        observerRef.current = null;
       }
     };
   }, [callback, options.root, options.rootMargin, options.threshold]);
@@ -76,9 +94,17 @@ export function useInView(options = {}) {
  */
 export function useDynamicLoading(callback, dependencies = []) {
   const hasLoaded = useRef(false);
+  const isMounted = useRef(true);
 
   useEffect(() => {
-    if (!hasLoaded.current) {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoaded.current && isMounted.current) {
       callback();
       hasLoaded.current = true;
     }
@@ -89,63 +115,72 @@ export function useDynamicLoading(callback, dependencies = []) {
 }
 
 /**
- * Custom hook for progressive image loading
+ * Optimized animation variants for better performance
  */
-export function useProgressiveImage(lowQualitySrc, highQualitySrc) {
-  const [src, setSrc] = useState(lowQualitySrc || highQualitySrc);
+export const optimizedAnimationVariants = {
+  // Container variants for staggered animations
+  container: {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.06, // Further reduced for better performance
+        delayChildren: 0.03, // Further reduced for better performance
+      },
+    },
+  },
 
-  useEffect(() => {
-    if (highQualitySrc) {
-      const img = new Image();
-      img.src = highQualitySrc;
-      img.onload = () => {
-        setSrc(highQualitySrc);
-      };
-    }
-  }, [highQualitySrc]);
+  // Card/item variants
+  item: {
+    hidden: { opacity: 0, y: 12 }, // Reduced movement
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.3, // Further reduced duration
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
+  },
 
-  return src;
-}
+  // Skill item variants
+  skillItem: {
+    hidden: { opacity: 0, x: -2 }, // Reduced movement
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.2, // Further reduced duration
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
+  },
+
+  // Fade in variants
+  fadeIn: {
+    hidden: { opacity: 0, y: 8 }, // Reduced movement
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.35, // Reduced duration
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
+  },
+};
 
 /**
- * Memoize expensive calculations
+ * Get optimized viewport settings for better performance
  */
-export function memoizeCalculation(calculation) {
-  const cache = new Map();
+export function getOptimizedViewport(deviceType = "desktop") {
+  const isMobile = deviceType !== "desktop";
 
-  return (...args) => {
-    const key = JSON.stringify(args);
-    if (cache.has(key)) {
-      return cache.get(key);
-    }
-
-    const result = calculation(...args);
-    cache.set(key, result);
-    return result;
+  return {
+    once: true,
+    margin: isMobile ? "-30px" : "-50px", // Reduced margin for better performance
+    amount: isMobile ? 0.2 : 0.3, // Reduced amount for better performance
   };
-}
-
-/**
- * Deferred operations until browser is idle
- */
-export function scheduleIdleTask(task, timeout = 2000) {
-  return new Promise((resolve) => {
-    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-      window.requestIdleCallback(
-        () => {
-          const result = task();
-          resolve(result);
-        },
-        { timeout }
-      );
-    } else {
-      // Fallback for browsers that don't support requestIdleCallback
-      setTimeout(() => {
-        const result = task();
-        resolve(result);
-      }, 1);
-    }
-  });
 }
 
 /**
@@ -153,18 +188,103 @@ export function scheduleIdleTask(task, timeout = 2000) {
  */
 export function getStaggeredAnimationProps(
   index,
-  baseDelay = 0.1,
-  staggerBy = 0.05
+  baseDelay = 0.03, // Further reduced from 0.05
+  staggerBy = 0.02 // Further reduced from 0.03
 ) {
   return {
-    initial: { opacity: 0, y: 15 },
+    initial: { opacity: 0, y: 8 }, // Reduced movement
     animate: { opacity: 1, y: 0 },
     transition: {
-      duration: 0.4,
+      duration: 0.3, // Further reduced from 0.35
       delay: baseDelay + index * staggerBy,
-      ease: [0.25, 0.1, 0.25, 1], // Custom easing for better performance
+      ease: [0.25, 0.46, 0.45, 0.94],
     },
     // Use hardware acceleration for animations
     style: { willChange: "opacity, transform" },
   };
 }
+
+/**
+ * Custom hook for progressive image loading with better memory management
+ */
+export function useProgressiveImage(lowQualitySrc, highQualitySrc) {
+  const [src, setSrc] = useState(lowQualitySrc || highQualitySrc);
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (highQualitySrc && isMounted.current) {
+      const img = new Image();
+      img.src = highQualitySrc;
+      img.onload = () => {
+        if (isMounted.current) {
+          setSrc(highQualitySrc);
+        }
+      };
+      img.onerror = () => {
+        // Fallback to low quality if high quality fails
+        if (isMounted.current && lowQualitySrc) {
+          setSrc(lowQualitySrc);
+        }
+      };
+    }
+  }, [highQualitySrc, lowQualitySrc]);
+
+  return src;
+}
+
+/**
+ * Performance monitoring utilities
+ */
+export const performanceUtils = {
+  // Check if device is low power
+  isLowPowerDevice: () => {
+    if (typeof window === "undefined") return false;
+
+    return (
+      window.innerWidth <= 480 ||
+      navigator.hardwareConcurrency <= 4 ||
+      /Android|iPhone|iPad|iPod/.test(navigator.userAgent)
+    );
+  },
+
+  // Check if device supports reduced motion
+  prefersReducedMotion: () => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  },
+
+  // Get optimized animation settings based on device capabilities
+  getAnimationSettings: () => {
+    const isLowPower = performanceUtils.isLowPowerDevice();
+    const prefersReduced = performanceUtils.prefersReducedMotion();
+
+    if (prefersReduced) {
+      return {
+        duration: 0.1,
+        ease: "easeOut",
+        disableComplex: true,
+      };
+    }
+
+    if (isLowPower) {
+      return {
+        duration: 0.25,
+        ease: [0.25, 0.46, 0.45, 0.94],
+        disableComplex: true,
+      };
+    }
+
+    return {
+      duration: 0.3,
+      ease: [0.25, 0.46, 0.45, 0.94],
+      disableComplex: false,
+    };
+  },
+};

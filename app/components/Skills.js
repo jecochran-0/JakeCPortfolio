@@ -3,6 +3,10 @@
 import { motion } from "framer-motion";
 import { FaReact, FaNodeJs, FaFigma, FaMobile, FaGitAlt } from "react-icons/fa";
 import { SiTailwindcss } from "react-icons/si";
+import {
+  optimizedAnimationVariants,
+  getOptimizedViewport,
+} from "../utils/performance";
 
 const skills = [
   {
@@ -69,19 +73,24 @@ const skills = [
 
 export default function Skills() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {skills.map((skillGroup, index) => (
+    <motion.div
+      variants={optimizedAnimationVariants.container}
+      initial="hidden"
+      whileInView="visible"
+      viewport={getOptimizedViewport()}
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      style={{ willChange: "transform, opacity" }}
+    >
+      {skills.map((skillGroup) => (
         <motion.div
           key={skillGroup.category}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: index * 0.1 }}
-          viewport={{ once: true }}
+          variants={optimizedAnimationVariants.item}
           whileHover={{
             scale: 1.02,
-            transition: { duration: 0.3 },
+            transition: { duration: 0.2 },
           }}
           className="glass-card p-8 rounded-2xl"
+          style={{ willChange: "transform" }}
         >
           <div className="flex items-center mb-6">
             <div
@@ -94,18 +103,18 @@ export default function Skills() {
             </h3>
           </div>
 
-          <div className="space-y-3">
-            {skillGroup.skills.map((skill, skillIndex) => (
+          <motion.div
+            variants={optimizedAnimationVariants.container}
+            initial="hidden"
+            animate="visible"
+            className="space-y-3"
+          >
+            {skillGroup.skills.map((skill) => (
               <motion.div
                 key={skill}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{
-                  duration: 0.4,
-                  delay: index * 0.1 + skillIndex * 0.05,
-                }}
-                viewport={{ once: true }}
+                variants={optimizedAnimationVariants.skillItem}
                 className="flex items-center"
+                style={{ willChange: "transform, opacity" }}
               >
                 <div
                   className={`w-2 h-2 rounded-full bg-gradient-to-r ${skillGroup.color} mr-3`}
@@ -113,9 +122,9 @@ export default function Skills() {
                 <span className="text-gray-700 font-medium">{skill}</span>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 }

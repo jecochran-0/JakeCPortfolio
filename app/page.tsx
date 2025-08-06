@@ -44,13 +44,13 @@ export default function Home() {
               initial={{ opacity: 0, y: isMobile ? 20 : 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{
-                duration: isMobile ? 0.5 : 0.8,
+                duration: isMobile ? 0.4 : 0.6, // Reduced from 0.5/0.8
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-50px" }} // Reduced from -100px
               className="text-center mb-20"
               style={{
-                willChange: "transform, opacity", // Optimize for animations
+                willChange: "transform, opacity",
               }}
             >
               <h2 className="text-title mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -77,13 +77,13 @@ export default function Home() {
               initial={{ opacity: 0, y: isMobile ? 20 : 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{
-                duration: isMobile ? 0.5 : 0.8,
+                duration: isMobile ? 0.4 : 0.6, // Reduced from 0.5/0.8
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-50px" }} // Reduced from -100px
               className="text-center mb-20"
               style={{
-                willChange: "transform, opacity", // Optimize for animations
+                willChange: "transform, opacity",
               }}
             >
               <h2 className="text-title mb-6 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">

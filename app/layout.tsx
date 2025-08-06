@@ -6,23 +6,20 @@ import PageTransition from "./components/PageTransition";
 import DynamicCursor from "./components/DynamicCursor";
 import BreadcrumbNav from "./components/BreadcrumbNav";
 import ScrollIndicator from "./components/ScrollIndicator";
-import { initPerformanceOptimizations } from "./utils/performance";
-import { initMobileOptimizations } from "./utils/mobileOptimizations";
+import PerformanceMonitor from "./components/PerformanceMonitor";
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap", // Optimize font loading
-  preload: true,
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Jake Cochran - UX Designer & Full Stack Developer",
   description:
-    "Portfolio showcasing UX/UI design and full-stack development work. Creating exceptional digital experiences through thoughtful design and innovative development.",
+    "Portfolio of Jake Cochran, a UX Designer and Full Stack Developer specializing in creating exceptional digital experiences through thoughtful design and innovative development.",
   keywords: [
     "UX Designer",
     "UI Designer",
     "Full Stack Developer",
+    "React",
+    "Next.js",
     "Portfolio",
     "Web Development",
     "User Experience",
@@ -30,22 +27,50 @@ export const metadata: Metadata = {
   authors: [{ name: "Jake Cochran" }],
   creator: "Jake Cochran",
   publisher: "Jake Cochran",
-  robots: "index, follow",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://jakecochran.com"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Jake Cochran - UX Designer & Full Stack Developer",
     description:
-      "Portfolio showcasing UX/UI design and full-stack development work.",
-    type: "website",
+      "Portfolio of Jake Cochran, a UX Designer and Full Stack Developer specializing in creating exceptional digital experiences.",
+    url: "https://jakecochran.com",
+    siteName: "Jake Cochran Portfolio",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Jake Cochran Portfolio",
+      },
+    ],
     locale: "en_US",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Jake Cochran - UX Designer & Full Stack Developer",
     description:
-      "Portfolio showcasing UX/UI design and full-stack development work.",
+      "Portfolio of Jake Cochran, a UX Designer and Full Stack Developer specializing in creating exceptional digital experiences.",
+    images: ["/og-image.jpg"],
   },
-  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
-  themeColor: "#3B82F6",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -53,12 +78,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Initialize performance optimizations on client side
-  if (typeof window !== "undefined") {
-    initPerformanceOptimizations();
-    initMobileOptimizations();
-  }
-
   return (
     <html lang="en" className={inter.className}>
       <head>
@@ -93,6 +112,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
       <body className="antialiased">
+        <PerformanceMonitor />
         <Navbar />
         <PageTransition>{children}</PageTransition>
         <DynamicCursor />

@@ -39,8 +39,8 @@ const ProjectCard = ({ project, index }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
-        duration: 0.5,
-        delay: index * 0.1,
+        duration: 0.4, // Reduced from 0.5
+        delay: index * 0.05, // Reduced from 0.1
       }}
       className={`group relative overflow-hidden rounded-xl bg-white border border-gray-200
         hover:border-blue-300 transition-all duration-300
@@ -81,7 +81,7 @@ const ProjectCard = ({ project, index }) => {
 
         {/* Description - Always visible on mobile, smooth fade on desktop */}
         <p
-          className={`text-gray-700 mb-3 text-sm leading-relaxed transition-opacity duration-300 ${
+          className={`text-gray-700 mb-6 text-sm leading-relaxed transition-opacity duration-300 ${
             isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
           }`}
         >

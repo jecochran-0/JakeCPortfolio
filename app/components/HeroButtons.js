@@ -38,8 +38,8 @@ function HeroButtons() {
         About Me
       </Link>
 
-      <a
-        href="#skills"
+      <Link
+        href="/about"
         className={`relative overflow-hidden bg-white text-black py-2 sm:py-3 px-5 sm:px-6 rounded-full font-medium text-sm sm:text-base text-center
                    transition-all duration-300 ease-out
                    hover:shadow-[0_5px_15px_rgba(255,255,255,0.2)] hover:scale-105
@@ -58,10 +58,10 @@ function HeroButtons() {
         onTouchEnd={handleMouseUp}
       >
         Skills
-      </a>
+      </Link>
 
-      <a
-        href="#projects"
+      <Link
+        href="/dev"
         className={`relative overflow-hidden bg-white text-black py-2 sm:py-3 px-5 sm:px-6 rounded-full font-medium text-sm sm:text-base text-center
                    transition-all duration-300 ease-out
                    hover:shadow-[0_5px_15px_rgba(255,255,255,0.2)] hover:scale-105 
@@ -80,7 +80,7 @@ function HeroButtons() {
         onTouchEnd={handleMouseUp}
       >
         My Projects
-      </a>
+      </Link>
     </div>
   );
 }

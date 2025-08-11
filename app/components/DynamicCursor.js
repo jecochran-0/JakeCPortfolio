@@ -8,6 +8,7 @@ export default function DynamicCursor() {
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isMouseInViewport, setIsMouseInViewport] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -26,6 +27,14 @@ export default function DynamicCursor() {
 
   const updateMousePosition = useCallback((e) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
+
+    // Check if mouse is within viewport boundaries
+    const isInViewport =
+      e.clientX >= 0 &&
+      e.clientX <= window.innerWidth &&
+      e.clientY >= 0 &&
+      e.clientY <= window.innerHeight;
+    setIsMouseInViewport(isInViewport);
   }, []);
 
   // Brutalist theme variants using CSS variables
@@ -40,6 +49,7 @@ export default function DynamicCursor() {
         border: "3px solid var(--color-black)",
         borderRadius: 0,
         scale: 1,
+        opacity: isMouseInViewport ? 1 : 0,
       },
       hover: {
         x: mousePosition.x - 18,
@@ -50,31 +60,113 @@ export default function DynamicCursor() {
         border: "3px solid var(--color-black)",
         borderRadius: "50%",
         scale: 1,
+        opacity: isMouseInViewport ? 1 : 0,
       },
       click: {
         scale: 0.9,
+        opacity: isMouseInViewport ? 1 : 0,
       },
     }),
-    [mousePosition.x, mousePosition.y]
+    [mousePosition.x, mousePosition.y, isMouseInViewport]
   );
 
   useEffect(() => {
     if (isMobile) return;
 
-    // Add global CSS to hide default cursor on all clickable elements
-    const style = document.createElement("style");
-    style.textContent = `
-      a, button, [role="button"], .btn-brutal,
-      input[type="button"], input[type="submit"], input[type="reset"],
-      select, [onclick], .clickable {
-        cursor: none !important;
+    // Comprehensive cursor hiding system
+    const hideCursorEverywhere = () => {
+      // Add global CSS to hide default cursor on all elements
+      const existingStyle = document.getElementById("cursor-hide-styles");
+      if (existingStyle) existingStyle.remove();
+
+      const style = document.createElement("style");
+      style.id = "cursor-hide-styles";
+      style.textContent = `
+        *, *::before, *::after {
+          cursor: none !important;
+        }
+        
+        html, body {
+          cursor: none !important;
+        }
+        
+        a, button, input, textarea, select, video, audio, canvas,
+        [role="button"], [tabindex], [onclick], [onmouseover],
+        .btn-brutal, .clickable, .hover\\:cursor-pointer,
+        *:hover, *:focus, *:active, *:visited {
+          cursor: none !important;
+        }
+        
+        /* Specific overrides for common cursor-setting elements */
+        iframe, embed, object, applet {
+          cursor: none !important;
+        }
+        
+        /* Override any inline cursor styles */
+        [style*="cursor"] {
+          cursor: none !important;
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Force cursor none on document body
+      document.body.style.cursor = "none";
+      document.documentElement.style.cursor = "none";
+    };
+
+    // Mutation observer to handle dynamically added elements
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            // Force cursor none on new elements
+            if (node.style) {
+              node.style.cursor = "none";
+            }
+            // Also handle children
+            const children =
+              node.querySelectorAll && node.querySelectorAll("*");
+            if (children) {
+              children.forEach((child) => {
+                if (child.style) {
+                  child.style.cursor = "none";
+                }
+              });
+            }
+          }
+        });
+      });
+    });
+
+    // Periodic cursor check to ensure it stays hidden
+    const cursorMonitor = setInterval(() => {
+      // Re-apply cursor hiding if needed
+      if (document.body.style.cursor !== "none") {
+        document.body.style.cursor = "none";
       }
-      
-      a *, button *, [role="button"] *, .btn-brutal * {
-        cursor: none !important;
+      if (document.documentElement.style.cursor !== "none") {
+        document.documentElement.style.cursor = "none";
       }
-    `;
-    document.head.appendChild(style);
+
+      // Check all elements and force cursor none if needed
+      const elementsWithCursor = document.querySelectorAll(
+        '[style*="cursor"]:not([style*="cursor: none"])'
+      );
+      elementsWithCursor.forEach((el) => {
+        el.style.cursor = "none";
+      });
+    }, 100); // Check every 100ms
+
+    // Initialize cursor hiding
+    hideCursorEverywhere();
+
+    // Start observing
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["style", "class"],
+    });
 
     let ticking = false;
     let rafId = null;
@@ -92,6 +184,17 @@ export default function DynamicCursor() {
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
 
+    // Handle mouse entering/leaving the viewport
+    const handleMouseEnterViewport = () => {
+      setIsMouseInViewport(true);
+    };
+
+    const handleMouseLeaveViewport = () => {
+      setIsMouseInViewport(false);
+      setIsHovering(false);
+      setIsClicking(false);
+    };
+
     // Enhanced hover detection
     const handleMouseEnter = (e) => {
       const target = e.target;
@@ -104,7 +207,9 @@ export default function DynamicCursor() {
         target.closest("input[type='submit']") ||
         target.closest("input[type='reset']") ||
         target.closest("[onclick]") ||
-        target.closest(".clickable")
+        target.closest(".clickable") ||
+        target.closest("video") ||
+        target.closest("audio")
       ) {
         setIsHovering(true);
       }
@@ -114,6 +219,13 @@ export default function DynamicCursor() {
       setIsHovering(false);
     };
 
+    // Add viewport entry/exit detection
+    document.addEventListener("mouseenter", handleMouseEnterViewport, {
+      passive: true,
+    });
+    document.addEventListener("mouseleave", handleMouseLeaveViewport, {
+      passive: true,
+    });
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     window.addEventListener("mousedown", handleMouseDown, { passive: true });
     window.addEventListener("mouseup", handleMouseUp, { passive: true });
@@ -121,8 +233,13 @@ export default function DynamicCursor() {
     window.addEventListener("mouseout", handleMouseLeave, { passive: true });
 
     return () => {
-      // Clean up the injected style
-      document.head.removeChild(style);
+      // Clean up
+      const style = document.getElementById("cursor-hide-styles");
+      if (style) style.remove();
+      observer.disconnect();
+      clearInterval(cursorMonitor);
+      document.removeEventListener("mouseenter", handleMouseEnterViewport);
+      document.removeEventListener("mouseleave", handleMouseLeaveViewport);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
@@ -143,11 +260,11 @@ export default function DynamicCursor() {
         className="fixed top-0 left-0 pointer-events-none z-[80]"
         style={{
           willChange:
-            "transform, width, height, backgroundColor, border-radius",
+            "transform, width, height, backgroundColor, border-radius, opacity",
           boxShadow: isHovering
             ? "6px 6px 0 rgba(0,0,0,0.9)"
             : "4px 4px 0 rgba(0,0,0,0.9)",
-          transition: "box-shadow 0.2s ease",
+          transition: "box-shadow 0.2s ease, opacity 0.1s ease",
         }}
         variants={cursorVariants}
         animate={isClicking ? "click" : isHovering ? "hover" : "default"}
@@ -155,7 +272,7 @@ export default function DynamicCursor() {
       />
 
       {/* Click ripple effect - orange and square */}
-      {isClicking && (
+      {isClicking && isMouseInViewport && (
         <motion.div
           className="fixed top-0 left-0 pointer-events-none z-[78]"
           initial={{

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   motion,
   useScroll,
@@ -29,10 +29,38 @@ export default function UXUIPage() {
   const [isProcessPlaying, setIsProcessPlaying] = useState(false);
   const [mounted, setMounted] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+  const spotifyVideoRef = useRef(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Intersection Observer for video autoplay
+  useEffect(() => {
+    const videoElement = spotifyVideoRef.current;
+    if (!videoElement) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videoElement.play().catch(() => {
+              // Autoplay failed, which is expected for some browsers
+            });
+          } else {
+            videoElement.pause();
+          }
+        });
+      },
+      { threshold: 0.5 } // Play when 50% of video is visible
+    );
+
+    observer.observe(videoElement);
+
+    return () => {
+      observer.unobserve(videoElement);
+    };
+  }, [mounted]);
 
   // Optimized parallax effects with mobile considerations
   const heroY = useTransform(
@@ -697,14 +725,18 @@ export default function UXUIPage() {
                       navigation improvements and enhanced user experience.
                     </p>
 
-                    <div className="mb-6 sm:mb-8 card-brutal p-4 sm:p-6 relative overflow-hidden">
-                      <Image
-                        src="/Spotify_Project/Desktop-Home-Revamped.jpg"
-                        alt="Spotify Desktop"
-                        width={400}
-                        height={250}
-                        className="w-full h-32 sm:h-40 object-cover"
-                      />
+                    <div className="mb-6 sm:mb-8 card-brutal p-4 sm:p-6 relative overflow-hidden h-48 sm:h-64 md:h-80 lg:h-96">
+                      <video
+                        ref={spotifyVideoRef}
+                        className="w-full h-full object-cover rounded-sm"
+                        controls
+                        poster="/Spotify_Project/Desktop-Home-Revamped.jpg"
+                        preload="metadata"
+                        muted
+                      >
+                        <source src="/HeroScreen.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">

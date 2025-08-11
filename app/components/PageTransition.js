@@ -1,15 +1,100 @@
 "use client";
 
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState, createContext, useContext } from "react";
+
+// Navigation Context for handling smooth transitions
+const NavigationContext = createContext({
+  isNavigating: false,
+  navigate: () => {},
+});
+
+export const useNavigation = () => useContext(NavigationContext);
+
+export function NavigationProvider({ children }) {
+  const [isNavigating, setIsNavigating] = useState(false);
+  const [pendingPath, setPendingPath] = useState(null);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const navigate = (path) => {
+    if (path === pathname) return; // Don't navigate to same page
+
+    setIsNavigating(true);
+    setPendingPath(path);
+
+    // Start navigation after transition overlay appears
+    setTimeout(() => {
+      router.push(path);
+    }, 200); // Small delay to ensure overlay is visible
+  };
+
+  // Reset navigation state when route actually changes
+  useEffect(() => {
+    if (pendingPath && pathname === pendingPath) {
+      const timer = setTimeout(() => {
+        setIsNavigating(false);
+        setPendingPath(null);
+      }, 1200); // Keep transition visible long enough
+
+      return () => clearTimeout(timer);
+    }
+  }, [pathname, pendingPath]);
+
+  return (
+    <NavigationContext.Provider value={{ isNavigating, navigate }}>
+      {children}
+    </NavigationContext.Provider>
+  );
+}
+
+// Custom Link component that uses our navigation system
+export function SmoothLink({ href, children, className, ...props }) {
+  const { navigate } = useNavigation();
+  const pathname = usePathname();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+
+    // Handle hash links (same page anchors)
+    if (href.startsWith("#")) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+      return;
+    }
+
+    // Handle external links
+    if (
+      href.startsWith("http") ||
+      href.startsWith("mailto:") ||
+      href.startsWith("tel:")
+    ) {
+      window.open(href, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    // Handle internal navigation
+    if (href !== pathname) {
+      navigate(href);
+    }
+  };
+
+  return (
+    <a href={href} onClick={handleClick} className={className} {...props}>
+      {children}
+    </a>
+  );
+}
 
 export default function PageTransition({ children }) {
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(true);
-  const [isNavigating, setIsNavigating] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+  const { isNavigating } = useNavigation();
 
   // Detect mobile device
   useEffect(() => {
@@ -35,43 +120,32 @@ export default function PageTransition({ children }) {
     return () => clearTimeout(timer);
   }, [isMobile]);
 
-  // Handle route changes - optimized timing
-  useEffect(() => {
-    setIsNavigating(true);
-    const timer = setTimeout(
-      () => {
-        setIsNavigating(false);
-      },
-      isMobile ? 1000 : 1400
-    ); // Balanced timing
-
-    return () => clearTimeout(timer);
-  }, [pathname, isMobile]);
-
   return (
     <>
-      {/* Initial Load Transition - Award-Winning Design */}
-      <AnimatePresence>
+      {/* Initial Loading Screen - Neo-Brutalist */}
+      <AnimatePresence mode="wait">
         {isLoading && (
           <motion.div
-            className="fixed inset-0 z-[9999] bg-black flex items-center justify-center overflow-hidden"
-            initial={{ opacity: 1 }}
+            key="loading"
+            className="fixed inset-0 z-[80] bg-white flex flex-col items-center justify-center overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{
-              duration: shouldReduceMotion ? 0.3 : isMobile ? 0.8 : 1.2,
+              duration: shouldReduceMotion ? 0.1 : isMobile ? 0.6 : 0.8,
               ease: [0.25, 0.46, 0.45, 0.94],
             }}
           >
-            {/* Animated Background Grid - Subtle personality */}
-            {!shouldReduceMotion && (
-              <div className="absolute inset-0 opacity-10">
-                {[...Array(isMobile ? 6 : 12)].map((_, i) => (
+            {/* Brutalist Background Pattern */}
+            <div className="absolute inset-0 overflow-hidden">
+              {/* Grid Pattern */}
+              <div className="absolute inset-0 bg-black/5">
+                {[...Array(isMobile ? 8 : 16)].map((_, i) => (
                   <motion.div
-                    key={i}
-                    className="absolute border-l border-orange-500/20"
+                    key={`vertical-${i}`}
+                    className="absolute h-full w-[2px] bg-black/10"
                     style={{
-                      left: `${(i + 1) * (100 / (isMobile ? 6 : 12))}%`,
-                      height: "100%",
+                      left: `${(i + 1) * (100 / (isMobile ? 8 : 16))}%`,
                     }}
                     initial={{ scaleY: 0 }}
                     animate={{ scaleY: 1 }}
@@ -82,380 +156,339 @@ export default function PageTransition({ children }) {
                     }}
                   />
                 ))}
+                {[...Array(isMobile ? 6 : 12)].map((_, i) => (
+                  <motion.div
+                    key={`horizontal-${i}`}
+                    className="absolute w-full h-[2px] bg-black/10"
+                    style={{ top: `${(i + 1) * (100 / (isMobile ? 6 : 12))}%` }}
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{
+                      duration: 0.8,
+                      delay: i * 0.07,
+                      ease: "easeOut",
+                    }}
+                  />
+                ))}
               </div>
-            )}
 
+              {/* Floating Brutalist Elements */}
+              {!shouldReduceMotion && (
+                <>
+                  <motion.div
+                    className="absolute top-20 left-20 w-16 h-16 bg-orange-500 border-4 border-black shadow-brutal"
+                    initial={{ x: -100, y: -100, rotate: 0 }}
+                    animate={{ x: 0, y: 0, rotate: 360 }}
+                    transition={{
+                      duration: 1.5,
+                      delay: 0.5,
+                      ease: "easeOut",
+                    }}
+                  />
+                  <motion.div
+                    className="absolute top-40 right-32 w-12 h-12 bg-black border-4 border-orange-500 shadow-brutal"
+                    initial={{ x: 100, y: -100, rotate: 0 }}
+                    animate={{ x: 0, y: 0, rotate: -180 }}
+                    transition={{
+                      duration: 1.5,
+                      delay: 0.7,
+                      ease: "easeOut",
+                    }}
+                  />
+                  <motion.div
+                    className="absolute bottom-32 left-40 w-20 h-8 bg-primary border-4 border-black shadow-brutal"
+                    initial={{ x: -100, y: 100, rotate: 0 }}
+                    animate={{ x: 0, y: 0, rotate: 45 }}
+                    transition={{
+                      duration: 1.5,
+                      delay: 0.9,
+                      ease: "easeOut",
+                    }}
+                  />
+                  <motion.div
+                    className="absolute bottom-20 right-20 w-14 h-14 bg-secondary border-4 border-black shadow-brutal rounded-full"
+                    initial={{ x: 100, y: 100, scale: 0 }}
+                    animate={{ x: 0, y: 0, scale: 1 }}
+                    transition={{
+                      duration: 1.2,
+                      delay: 1.1,
+                      ease: "backOut",
+                    }}
+                  />
+                </>
+              )}
+            </div>
+
+            {/* Central Loading Card - Enhanced Brutalist */}
             <motion.div
-              className="text-center relative z-10 px-4"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
+              className="relative card-brutal p-8 sm:p-12 md:p-16 text-center max-w-lg mx-4"
+              initial={{ scale: 0.8, y: 50, rotate: -5 }}
+              animate={{ scale: 1, y: 0, rotate: 0 }}
+              exit={{ scale: 0.9, y: -30, rotate: 5 }}
               transition={{
-                duration: shouldReduceMotion ? 0.3 : isMobile ? 0.8 : 1.0,
-                delay: shouldReduceMotion ? 0 : isMobile ? 0.3 : 0.4,
+                duration: shouldReduceMotion ? 0.1 : isMobile ? 0.7 : 0.9,
+                delay: shouldReduceMotion ? 0 : 0.3,
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
             >
-              {/* Neo-Brutalist Logo Container - Enhanced */}
+              {/* Logo/Brand - Brutalist Typography */}
               <motion.div
-                className="relative mb-8 sm:mb-12 flex justify-center"
-                initial={{ rotateY: -90 }}
-                animate={{ rotateY: 0 }}
+                className="mb-8 sm:mb-10"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: shouldReduceMotion ? 0.3 : isMobile ? 0.8 : 1.2,
-                  delay: shouldReduceMotion ? 0 : isMobile ? 0.4 : 0.6,
+                  duration: shouldReduceMotion ? 0.1 : 0.6,
+                  delay: shouldReduceMotion ? 0 : 0.6,
                   ease: [0.25, 0.46, 0.45, 0.94],
                 }}
               >
-                {/* Main Logo Card Container */}
-                <div className="relative">
-                  {/* Background Shadow Layers - Improved Alignment */}
-                  <motion.div
-                    className="absolute w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 bg-orange-500 rounded-xl sm:rounded-2xl"
-                    style={{
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                    }}
-                    initial={{ x: 0, y: 0 }}
-                    animate={{ x: 6, y: 6 }}
-                    transition={{
-                      duration: shouldReduceMotion ? 0 : isMobile ? 0.6 : 0.8,
-                      delay: shouldReduceMotion ? 0 : isMobile ? 0.7 : 0.9,
-                      ease: "easeOut",
-                    }}
-                  />
-                  <motion.div
-                    className="absolute w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 bg-red-500 rounded-xl sm:rounded-2xl"
-                    style={{
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                    }}
-                    initial={{ x: 0, y: 0 }}
-                    animate={{ x: 3, y: 3 }}
-                    transition={{
-                      duration: shouldReduceMotion ? 0 : isMobile ? 0.6 : 0.8,
-                      delay: shouldReduceMotion ? 0 : isMobile ? 0.8 : 1.0,
-                      ease: "easeOut",
-                    }}
-                  />
-
-                  {/* Main Logo - Perfect Centering */}
-                  <motion.div
-                    className="relative bg-white border-4 border-black rounded-xl sm:rounded-2xl w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 flex items-center justify-center shadow-2xl"
-                    whileHover={
-                      shouldReduceMotion
-                        ? {}
-                        : {
-                            scale: 1.05,
-                            rotate: 2,
-                            transition: { duration: 0.2 },
-                          }
-                    }
-                  >
-                    <motion.span
-                      className="text-black font-black text-xl sm:text-2xl md:text-4xl tracking-wider"
-                      initial={{ opacity: 0, scale: 0.5 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{
-                        delay: shouldReduceMotion ? 0 : isMobile ? 0.8 : 1.1,
-                        duration: shouldReduceMotion ? 0.3 : 0.5,
-                        ease: "backOut",
-                      }}
-                    >
-                      JC
-                    </motion.span>
-                  </motion.div>
-                </div>
+                <h1 className="text-6xl sm:text-7xl md:text-8xl font-black text-black mb-4 tracking-tight uppercase leading-none">
+                  JAKE
+                </h1>
+                <div className="w-20 h-2 bg-orange-500 mx-auto border-2 border-black shadow-brutal" />
               </motion.div>
 
-              {/* Staggered Text Animation - Mobile Optimized */}
+              {/* Loading Animation - Brutalist Blocks */}
               <motion.div
-                className="space-y-4 sm:space-y-6 max-w-lg mx-auto"
+                className="flex justify-center items-center space-x-3 sm:space-x-4 mb-8"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{
-                  delay: shouldReduceMotion ? 0 : isMobile ? 0.6 : 0.8,
-                  duration: 0.6,
+                  duration: shouldReduceMotion ? 0.1 : 0.4,
+                  delay: shouldReduceMotion ? 0 : 0.8,
                 }}
               >
-                <motion.h1
-                  className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-wide px-2"
-                  initial={{ y: 30, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{
-                    duration: shouldReduceMotion ? 0.3 : 0.8,
-                    delay: shouldReduceMotion ? 0 : isMobile ? 0.7 : 0.9,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                >
-                  JAKE COCHRAN
-                </motion.h1>
-
-                <motion.p
-                  className="text-orange-400 font-bold text-lg sm:text-xl tracking-wider px-2"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{
-                    duration: shouldReduceMotion ? 0.3 : 0.6,
-                    delay: shouldReduceMotion ? 0 : isMobile ? 0.9 : 1.1,
-                  }}
-                >
-                  UX/UI DESIGNER & DEVELOPER
-                </motion.p>
+                {[0, 1, 2].map((index) => (
+                  <motion.div
+                    key={index}
+                    className="relative"
+                    animate={
+                      shouldReduceMotion
+                        ? {}
+                        : {
+                            y: [0, -20, 0],
+                            transition: {
+                              duration: 1.5,
+                              repeat: Infinity,
+                              delay: index * 0.2,
+                              ease: "easeInOut",
+                            },
+                          }
+                    }
+                  >
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-black border-4 border-orange-500 shadow-brutal" />
+                    <motion.div
+                      className="absolute inset-0 w-6 h-6 sm:w-8 sm:h-8 bg-orange-500 border-4 border-black shadow-brutal"
+                      animate={
+                        shouldReduceMotion
+                          ? {}
+                          : {
+                              scale: [1, 0.8, 1],
+                              opacity: [1, 0.5, 1],
+                              transition: {
+                                duration: 1.5,
+                                repeat: Infinity,
+                                delay: index * 0.2,
+                                ease: "easeInOut",
+                              },
+                            }
+                      }
+                    />
+                  </motion.div>
+                ))}
               </motion.div>
 
-              {/* Dynamic Loading Progress - Mobile Optimized */}
-              {!shouldReduceMotion && (
-                <motion.div
-                  className="mt-8 sm:mt-12 relative max-w-sm mx-auto"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
+              {/* Tagline - Brutalist Style */}
+              <motion.p
+                className="text-base sm:text-lg font-black text-black uppercase tracking-widest"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                  duration: shouldReduceMotion ? 0.1 : 0.6,
+                  delay: shouldReduceMotion ? 0 : 1.0,
+                }}
+              >
+                Loading Experience
+              </motion.p>
+            </motion.div>
+
+            {/* Loading Status Card - Bottom Right */}
+            <motion.div
+              className="absolute bottom-8 sm:bottom-12 md:bottom-16 right-8 sm:right-12 md:right-16"
+              initial={{ x: 100, y: 50, opacity: 0 }}
+              animate={{ x: 0, y: 0, opacity: 1 }}
+              exit={{ x: 50, y: -50, opacity: 0 }}
+              transition={{
+                duration: shouldReduceMotion ? 0.1 : isMobile ? 0.5 : 0.7,
+                delay: shouldReduceMotion ? 0 : 1.2,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+            >
+              <div className="card-brutal p-4 sm:p-6 bg-orange-500">
+                <motion.p
+                  className="text-black font-black text-xs sm:text-sm tracking-widest uppercase"
+                  initial={{ opacity: 0.7 }}
+                  animate={{ opacity: [0.7, 1, 0.7] }}
                   transition={{
-                    delay: isMobile ? 1.0 : 1.2,
-                    duration: 0.5,
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
                   }}
                 >
-                  {/* Progress Container - Responsive Width */}
-                  <div className="relative w-full max-w-64 h-2 bg-gray-800 mx-auto rounded-full overflow-hidden border-2 border-gray-700">
-                    <motion.div
-                      className="h-full bg-gradient-to-r from-orange-500 via-red-500 to-orange-600 rounded-full"
-                      initial={{ width: "0%", x: "-100%" }}
-                      animate={{ width: "100%", x: "0%" }}
-                      transition={{
-                        width: {
-                          duration: isMobile ? 1.2 : 1.8,
-                          delay: isMobile ? 1.1 : 1.3,
-                          ease: "easeOut",
-                        },
-                        x: {
-                          duration: 0.3,
-                          delay: isMobile ? 2.3 : 3.1,
-                          ease: "easeInOut",
-                        },
-                      }}
-                    />
-
-                    {/* Progress Glow Effect */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-300/50 to-transparent rounded-full"
-                      initial={{ x: "-100%" }}
-                      animate={{ x: "100%" }}
-                      transition={{
-                        duration: 1.5,
-                        delay: isMobile ? 1.1 : 1.3,
-                        ease: "easeInOut",
-                      }}
-                    />
-                  </div>
-
-                  {/* Loading Text */}
-                  <motion.div
-                    className="mt-4 text-white/60 text-sm font-mono tracking-widest"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: [0, 1, 1, 0] }}
-                    transition={{
-                      duration: isMobile ? 1.4 : 2.0,
-                      delay: isMobile ? 1.1 : 1.3,
-                      times: [0, 0.1, 0.9, 1],
-                    }}
-                  >
-                    LOADING...
-                  </motion.div>
-                </motion.div>
-              )}
+                  LOADING
+                </motion.p>
+              </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Page Navigation Transition - Award-Winning Personality */}
-      <AnimatePresence>
+      {/* Navigation Transition Screen - Neo-Brutalist */}
+      <AnimatePresence mode="wait">
         {isNavigating && (
           <motion.div
-            className="fixed inset-0 z-[9998] pointer-events-none"
+            key="navigating"
+            className="fixed inset-0 z-[80] bg-white flex flex-col items-center justify-center overflow-hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: shouldReduceMotion ? 0.1 : 0.4 }}
+            transition={{
+              duration: shouldReduceMotion ? 0.1 : 0.3,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
           >
-            {/* Sliding Panel Transition */}
+            {/* Minimal Sliding Panel */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"
-              initial={{ clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)" }}
-              animate={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
-              exit={{
-                clipPath: "polygon(100% 0, 100% 0, 100% 100%, 100% 100%)",
-              }}
+              className="absolute inset-0 bg-orange-500"
+              initial={{ x: "-100%" }}
+              animate={{ x: "0%" }}
+              exit={{ x: "100%" }}
               transition={{
-                duration: shouldReduceMotion ? 0.1 : isMobile ? 0.6 : 0.8,
+                duration: shouldReduceMotion ? 0.1 : 0.5,
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
             />
 
-            {/* Geometric Pattern Overlay - Fixed Alignment */}
-            {!shouldReduceMotion && (
-              <div className="absolute inset-0 flex items-center justify-center p-4">
-                <motion.div
-                  className="relative flex items-center justify-center"
-                  initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
-                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                  exit={{ opacity: 0, scale: 1.5, rotate: 45 }}
-                  transition={{
-                    duration: isMobile ? 0.5 : 0.7,
-                    delay: 0.1,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                >
-                  {/* Central Navigation Icon Container - Fixed Sizing */}
-                  <div className="relative">
-                    {/* Background Shadow Layer */}
-                    <motion.div
-                      className="absolute inset-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-orange-500 rounded-2xl"
-                      style={{
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                      }}
-                      initial={{ scale: 0, rotate: 0 }}
-                      animate={{ scale: 1, rotate: 360 }}
-                      transition={{
-                        duration: isMobile ? 0.6 : 0.8,
-                        delay: 0.2,
-                        ease: "easeOut",
-                      }}
-                    />
-
-                    {/* Main Icon Card - Perfect Centering */}
-                    <motion.div
-                      className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-white rounded-2xl border-4 border-black shadow-2xl"
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{
-                        duration: isMobile ? 0.4 : 0.6,
-                        delay: 0.4,
-                        ease: "backOut",
-                      }}
-                    >
-                      <div className="w-full h-full flex items-center justify-center">
-                        <motion.div
-                          className="text-black font-black text-xl sm:text-2xl md:text-3xl tracking-wider"
-                          initial={{ opacity: 0, y: 5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{
-                            duration: 0.3,
-                            delay: 0.6,
-                          }}
-                        >
-                          JC
-                        </motion.div>
-                      </div>
-                    </motion.div>
-
-                    {/* Orbiting Elements - Fixed Positioning */}
-                    {[...Array(isMobile ? 3 : 4)].map((_, i) => {
-                      const totalElements = isMobile ? 3 : 4;
-                      const angle = (i * 360) / totalElements;
-                      const radius = isMobile ? 50 : 60; // Fixed radius in pixels
-
-                      return (
-                        <motion.div
-                          key={i}
-                          className="absolute w-3 h-3 sm:w-4 sm:h-4 bg-orange-400 rounded-full shadow-lg"
-                          style={{
-                            top: "50%",
-                            left: "50%",
-                            transformOrigin: "50% 50%",
-                          }}
-                          initial={{
-                            x:
-                              Math.cos((angle * Math.PI) / 180) * radius -
-                              (isMobile ? 6 : 8),
-                            y:
-                              Math.sin((angle * Math.PI) / 180) * radius -
-                              (isMobile ? 6 : 8),
-                            opacity: 0,
-                            scale: 0,
-                          }}
-                          animate={{
-                            x:
-                              Math.cos(((angle + 360) * Math.PI) / 180) *
-                                radius -
-                              (isMobile ? 6 : 8),
-                            y:
-                              Math.sin(((angle + 360) * Math.PI) / 180) *
-                                radius -
-                              (isMobile ? 6 : 8),
-                            opacity: 1,
-                            scale: 1,
-                          }}
-                          transition={{
-                            duration: isMobile ? 1.0 : 1.5,
-                            delay: 0.3 + i * 0.1,
-                            ease: "easeOut",
-                          }}
-                        />
-                      );
-                    })}
-
-                    {/* Additional Visual Enhancement - Pulse Ring */}
-                    <motion.div
-                      className="absolute inset-0 w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 border-2 border-orange-300/30 rounded-full"
-                      style={{
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                      }}
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{
-                        scale: [0.8, 1.1, 1],
-                        opacity: [0, 0.5, 0],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        delay: 0.8,
-                        ease: "easeOut",
-                      }}
-                    />
-                  </div>
-                </motion.div>
-              </div>
-            )}
-
-            {/* Loading Text - Mobile Optimized Positioning */}
+            {/* Central Minimal Card */}
             <motion.div
-              className="absolute bottom-8 sm:bottom-12 md:bottom-16 right-8 sm:right-12 md:right-16"
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -30, opacity: 0 }}
+              className="relative z-10 bg-white border-4 border-black shadow-brutal p-12 sm:p-16 text-center"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
               transition={{
-                duration: shouldReduceMotion ? 0.1 : isMobile ? 0.4 : 0.6,
-                delay: shouldReduceMotion ? 0 : 0.3,
+                duration: shouldReduceMotion ? 0.1 : 0.4,
+                delay: shouldReduceMotion ? 0 : 0.2,
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
             >
-              <div className="bg-black border-4 border-white shadow-[8px_8px_0_rgba(255,255,255,0.9)] px-4 py-2 sm:px-6 sm:py-3">
-                <motion.p
-                  className="text-white font-black text-xs sm:text-sm tracking-widest uppercase"
-                  initial={{ opacity: 0.5 }}
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  NAVIGATING
-                </motion.p>
-              </div>
+              {/* Simple Geometric Animation */}
+              <motion.div
+                className="mb-8 flex justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                  duration: shouldReduceMotion ? 0.1 : 0.3,
+                  delay: shouldReduceMotion ? 0 : 0.3,
+                }}
+              >
+                <div className="relative w-16 h-16">
+                  {/* Outer Square */}
+                  <motion.div
+                    className="absolute inset-0 border-4 border-black"
+                    initial={{ rotate: 0 }}
+                    animate={{ rotate: shouldReduceMotion ? 0 : 360 }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  />
+                  {/* Inner Square */}
+                  <motion.div
+                    className="absolute inset-2 bg-orange-500 border-2 border-black"
+                    initial={{ rotate: 0 }}
+                    animate={{ rotate: shouldReduceMotion ? 0 : -360 }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  />
+                  {/* Center Dot */}
+                  <motion.div
+                    className="absolute top-1/2 left-1/2 w-2 h-2 bg-black transform -translate-x-1/2 -translate-y-1/2"
+                    animate={
+                      shouldReduceMotion
+                        ? {}
+                        : {
+                            scale: [1, 1.5, 1],
+                            transition: {
+                              duration: 1,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                            },
+                          }
+                    }
+                  />
+                </div>
+              </motion.div>
+
+              {/* Minimalist Typography */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: shouldReduceMotion ? 0.1 : 0.4,
+                  delay: shouldReduceMotion ? 0 : 0.4,
+                }}
+              >
+                <h2 className="text-2xl sm:text-3xl font-black text-black uppercase tracking-wider mb-6">
+                  Navigating
+                </h2>
+
+                {/* Simple Progress Indicator */}
+                <div className="flex justify-center space-x-1">
+                  {[0, 1, 2].map((index) => (
+                    <motion.div
+                      key={index}
+                      className="w-2 h-8 bg-black"
+                      animate={
+                        shouldReduceMotion
+                          ? {}
+                          : {
+                              scaleY: [0.3, 1, 0.3],
+                              transition: {
+                                duration: 0.8,
+                                repeat: Infinity,
+                                delay: index * 0.1,
+                                ease: "easeInOut",
+                              },
+                            }
+                      }
+                    />
+                  ))}
+                </div>
+              </motion.div>
             </motion.div>
+
+            {/* Minimal Corner Accent */}
+            <motion.div
+              className="absolute bottom-8 right-8 w-4 h-4 bg-black border-2 border-orange-500"
+              initial={{ scale: 0, rotate: 45 }}
+              animate={{ scale: 1, rotate: 0 }}
+              exit={{ scale: 0, rotate: -45 }}
+              transition={{
+                duration: shouldReduceMotion ? 0.1 : 0.3,
+                delay: shouldReduceMotion ? 0 : 0.5,
+              }}
+            />
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Page Content - Enhanced Entry */}
       <motion.div
+        key={pathname}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{

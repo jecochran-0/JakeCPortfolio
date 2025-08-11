@@ -87,7 +87,7 @@ const softSkills = [
 
 export default function SoftSkills() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6 max-w-none">
       {softSkills.map((skillGroup, index) => (
         <motion.div
           key={skillGroup.category}
@@ -104,7 +104,7 @@ export default function SoftSkills() {
             y: -8,
             transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] },
           }}
-          className="card-brutal group cursor-pointer relative overflow-hidden"
+          className="card-brutal group cursor-pointer relative overflow-hidden w-full"
         >
           {/* Brutalist accent line */}
           <div
@@ -115,7 +115,7 @@ export default function SoftSkills() {
           {/* Icon and Title */}
           <div className="flex items-center mb-6">
             <div
-              className="w-12 h-12 rounded-lg flex items-center justify-center mr-4 border-4 border-black"
+              className="w-12 h-12 rounded-lg flex items-center justify-center mr-4 border-4 border-black flex-shrink-0"
               style={{ background: skillGroup.color }}
             >
               <skillGroup.icon
@@ -123,7 +123,7 @@ export default function SoftSkills() {
                 style={{ color: "#ffffff" }}
               />
             </div>
-            <h3 className="text-lg font-bold text-black">
+            <h3 className="text-lg font-bold text-black leading-tight">
               {skillGroup.category}
             </h3>
           </div>
@@ -147,7 +147,7 @@ export default function SoftSkills() {
                   className="w-3 h-3 mr-3 flex-shrink-0 border-2 border-black"
                   style={{ background: skillGroup.color }}
                 />
-                <span className="text-black font-semibold text-sm group-hover/item:text-gray-700 transition-colors duration-200">
+                <span className="text-gray-900 font-semibold text-sm group-hover/item:text-black transition-colors duration-200">
                   {skill}
                 </span>
               </motion.div>

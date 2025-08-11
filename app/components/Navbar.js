@@ -7,8 +7,8 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useNavigation } from "./PageTransition";
 import {
   FaHome,
   FaUser,
@@ -25,6 +25,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const navbarRef = useRef(null);
   const { scrollY } = useScroll();
+  const { navigate } = useNavigation();
 
   // Transform values for scroll-based animations
   const navbarHeight = useTransform(scrollY, [0, 100], [120, 80]);
@@ -51,6 +52,11 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleNavigation = (path) => {
+    setIsOpen(false); // Close mobile menu
+    navigate(path);
+  };
 
   if (!mounted) {
     return null; // Prevent hydration mismatch
@@ -86,8 +92,8 @@ export default function Navbar() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Link
-                    href={item.path}
+                  <button
+                    onClick={() => handleNavigation(item.path)}
                     className={`flex items-center space-x-3 px-6 py-3 rounded-lg transition-all duration-300 font-bold nav-item-hover ${
                       isActive
                         ? "nav-active"
@@ -98,21 +104,7 @@ export default function Navbar() {
                     <span className="font-bold uppercase tracking-wide">
                       {item.label}
                     </span>
-                  </Link>
-
-                  {/* Active indicator */}
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeNav"
-                      className="absolute inset-0 bg-white border-4 border-black rounded-lg -z-10"
-                      initial={false}
-                      transition={{
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 30,
-                      }}
-                    />
-                  )}
+                  </button>
                 </motion.div>
               );
             })}
@@ -120,10 +112,10 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <motion.button
-            className="lg:hidden card-brutal p-3 text-black btn-brutal-interactive"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
             onClick={() => setIsOpen(!isOpen)}
+            className="lg:hidden relative z-50 p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <AnimatePresence mode="wait">
               {isOpen ? (
@@ -134,7 +126,7 @@ export default function Navbar() {
                   exit={{ rotate: 90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <FaTimes size={20} />
+                  <FaTimes className="text-xl" />
                 </motion.div>
               ) : (
                 <motion.div
@@ -144,7 +136,7 @@ export default function Navbar() {
                   exit={{ rotate: -90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <FaBars size={20} />
+                  <FaBars className="text-xl" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -152,86 +144,87 @@ export default function Navbar() {
         </div>
       </motion.nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Navigation Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            className="fixed inset-0 z-40 lg:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 lg:hidden"
+            transition={{ duration: 0.3 }}
           >
             {/* Backdrop */}
             <motion.div
+              className="absolute inset-0 bg-black/90 backdrop-blur-lg"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
               onClick={() => setIsOpen(false)}
             />
 
             {/* Menu Content */}
             <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="absolute right-0 top-0 h-full w-80 bg-white shadow-2xl"
+              className="relative h-full flex flex-col justify-center items-center px-6"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
             >
-              <div className="p-8">
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-black mb-2">
+              {/* Mobile Navigation Items */}
+              <div className="w-full max-w-sm space-y-4">
+                <motion.div
+                  className="text-center mb-12"
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                >
+                  <h2 className="text-3xl font-black text-white mb-2 tracking-wide">
                     Navigation
                   </h2>
-                  <p className="text-gray-600">Choose your destination</p>
-                </div>
-
-                <div className="space-y-4">
-                  {navItems.map((item, index) => {
-                    const isActive = pathname === item.path;
-                    const Icon = item.icon;
-
-                    return (
-                      <motion.div
-                        key={item.name}
-                        initial={{ x: 50, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: index * 0.1 }}
-                      >
-                        <Link
-                          href={item.path}
-                          onClick={() => setIsOpen(false)}
-                          className={`flex items-center space-x-4 p-4 rounded-lg transition-all duration-300 ${
-                            isActive
-                              ? "card-brutal text-black shadow-lg"
-                              : "text-gray-700 hover:bg-gray-100"
-                          }`}
-                        >
-                          <Icon className="text-xl" />
-                          <span className="font-semibold">{item.label}</span>
-                        </Link>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-
-                {/* Contact Info */}
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                  className="mt-12 card-brutal p-6"
-                >
-                  <h3 className="font-semibold text-black mb-2">
-                    Get in Touch
-                  </h3>
-                  <a
-                    href="mailto:jake.e.cochran@gmail.com"
-                    className="text-primary hover:underline"
-                  >
-                    jake.e.cochran@gmail.com
-                  </a>
+                  <div className="w-16 h-1 bg-orange-500 mx-auto rounded-full" />
                 </motion.div>
+
+                {navItems.map((item, index) => {
+                  const isActive = pathname === item.path;
+                  const Icon = item.icon;
+
+                  return (
+                    <motion.div
+                      key={item.name}
+                      initial={{ x: -50, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{
+                        duration: 0.4,
+                        delay: 0.3 + index * 0.1,
+                      }}
+                    >
+                      <button
+                        onClick={() => handleNavigation(item.path)}
+                        className={`w-full flex items-center justify-between p-6 rounded-lg transition-all duration-300 ${
+                          isActive
+                            ? "bg-orange-500 text-black shadow-lg"
+                            : "bg-white/10 text-white hover:bg-white/20"
+                        } backdrop-blur-sm border border-white/20`}
+                      >
+                        <div className="flex items-center space-x-4">
+                          <Icon className="text-xl" />
+                          <span className="text-lg font-bold tracking-wide">
+                            {item.label}
+                          </span>
+                        </div>
+                        {isActive && (
+                          <motion.div
+                            className="w-2 h-2 bg-black rounded-full"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.2 }}
+                          />
+                        )}
+                      </button>
+                    </motion.div>
+                  );
+                })}
               </div>
             </motion.div>
           </motion.div>

@@ -112,6 +112,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  cursor: none !important; /* Force hide default cursor on all elements */
 }
 
 html {
@@ -122,6 +123,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  cursor: none !important;
 }
 
 body {
@@ -134,6 +136,24 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   position: relative;
+  cursor: none !important;
+}
+
+/* Force cursor none on all interactive elements */
+a,
+button,
+input,
+textarea,
+select,
+video,
+[role="button"],
+[tabindex],
+.clickable,
+.hover\:cursor-pointer,
+*:hover,
+*:focus,
+*:active {
+  cursor: none !important;
 }
 
 /* Brutalist Typography */
@@ -380,7 +400,7 @@ a:hover {
   font-size: var(--font-size-xl);
   font-weight: 500;
   line-height: var(--leading-relaxed);
-  color: var(--color-gray-300);
+  color: var(--color-gray-800);
 }
 
 .text-body {

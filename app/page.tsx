@@ -30,151 +30,145 @@ export default function Home() {
         </Suspense>
       </section>
 
-      {/* Skills Section - Asymmetric Layout */}
+      {/* Skills Section - Vertical Stacked Layout */}
       <section id="skills" className="relative bg-white overflow-hidden">
         {/* Diagonal Background Element */}
         <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-br from-primary/10 to-transparent transform skew-x-12 origin-top-right" />
 
         <div className="container mx-auto px-4 py-40">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            {/* Left Column - Title */}
-            <motion.div
-              className="lg:col-span-4 lg:col-start-2"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{
-                duration: 0.8,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              <div className="card-brutal card-brutal-large relative overflow-hidden">
-                <div className="relative z-10">
-                  <h2 className="text-title mb-8 text-black">
-                    Technical Expertise
-                  </h2>
-                  <p className="text-subtitle text-gray-700">
-                    A comprehensive toolkit for creating exceptional digital
-                    experiences with cutting-edge technologies and modern design
-                    principles
-                  </p>
-                </div>
-
-                {/* Decorative Elements */}
-                <div className="absolute top-4 right-4 w-16 h-16 bg-primary/20 rounded-lg transform rotate-12" />
-                <div className="absolute bottom-4 left-4 w-8 h-8 bg-secondary/30 rounded-full" />
+          {/* Title Section - Top */}
+          <motion.div
+            className="max-w-4xl mx-auto mb-16"
+            initial={{ opacity: 0, y: -50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.8,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
+            viewport={{ once: true, margin: "-50px" }}
+          >
+            <div className="card-brutal card-brutal-large relative overflow-hidden">
+              <div className="relative z-10 text-center">
+                <h2 className="text-title mb-8 text-black">
+                  Technical Expertise
+                </h2>
+                <p className="text-subtitle text-black">
+                  A comprehensive toolkit for creating exceptional digital
+                  experiences with cutting-edge technologies and modern design
+                  principles
+                </p>
               </div>
-            </motion.div>
 
-            {/* Right Column - Skills Grid */}
-            <motion.div
-              className="lg:col-span-6"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.2,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              <Suspense
-                fallback={
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {[...Array(6)].map((_, i) => (
-                      <div key={i} className="card-brutal p-8">
-                        <div className="skeleton h-8 w-32 rounded-lg mb-4"></div>
-                        <div className="space-y-3">
-                          {[...Array(4)].map((_, j) => (
-                            <div
-                              key={j}
-                              className="skeleton h-4 w-full rounded"
-                            ></div>
-                          ))}
-                        </div>
+              {/* Decorative Elements */}
+              <div className="absolute top-4 right-4 w-16 h-16 bg-primary/20 rounded-lg transform rotate-12" />
+              <div className="absolute bottom-4 left-4 w-8 h-8 bg-secondary/30 rounded-full" />
+            </div>
+          </motion.div>
+
+          {/* Skills Grid - Bottom */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.8,
+              delay: 0.2,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
+            viewport={{ once: true, margin: "-50px" }}
+          >
+            <Suspense
+              fallback={
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {[...Array(6)].map((_, i) => (
+                    <div key={i} className="card-brutal p-8">
+                      <div className="skeleton h-8 w-32 rounded-lg mb-4"></div>
+                      <div className="space-y-3">
+                        {[...Array(4)].map((_, j) => (
+                          <div
+                            key={j}
+                            className="skeleton h-4 w-full rounded"
+                          ></div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                }
-              >
-                <Skills />
-              </Suspense>
-            </motion.div>
-          </div>
+                    </div>
+                  ))}
+                </div>
+              }
+            >
+              <Skills />
+            </Suspense>
+          </motion.div>
         </div>
       </section>
 
-      {/* Soft Skills Section - Reversed Layout */}
+      {/* Soft Skills Section - Vertical Stacked Layout */}
       <section id="soft-skills" className="relative bg-gray-50 overflow-hidden">
         {/* Diagonal Background Element */}
         <div className="absolute top-0 left-0 w-1/3 h-full bg-gradient-to-bl from-secondary/10 to-transparent transform -skew-x-12 origin-top-left" />
 
         <div className="container mx-auto px-4 py-40">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            {/* Left Column - Skills Grid */}
-            <motion.div
-              className="lg:col-span-6 lg:order-1"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.2,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              <Suspense
-                fallback={
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {[...Array(6)].map((_, i) => (
-                      <div key={i} className="card-brutal p-8">
-                        <div className="skeleton h-8 w-32 rounded-lg mb-4"></div>
-                        <div className="space-y-3">
-                          {[...Array(4)].map((_, j) => (
-                            <div
-                              key={j}
-                              className="skeleton h-4 w-full rounded"
-                            ></div>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                }
-              >
-                <SoftSkills />
-              </Suspense>
-            </motion.div>
-
-            {/* Right Column - Title */}
-            <motion.div
-              className="lg:col-span-4 lg:col-start-8 lg:order-2"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{
-                duration: 0.8,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              <div className="card-brutal card-brutal-large relative overflow-hidden">
-                <div className="relative z-10">
-                  <h2 className="text-title mb-8 text-black">
-                    Soft Skills & Mindset
-                  </h2>
-                  <p className="text-subtitle text-gray-700">
-                    Beyond technical expertise, I bring a collaborative mindset,
-                    creative problem-solving, and a passion for continuous
-                    learning to every project
-                  </p>
-                </div>
-
-                {/* Decorative Elements */}
-                <div className="absolute top-4 left-4 w-16 h-16 bg-secondary/20 rounded-lg transform -rotate-12" />
-                <div className="absolute bottom-4 right-4 w-8 h-8 bg-primary/30 rounded-full" />
+          {/* Title Section - Top */}
+          <motion.div
+            className="max-w-4xl mx-auto mb-16"
+            initial={{ opacity: 0, y: -50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.8,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
+            viewport={{ once: true, margin: "-50px" }}
+          >
+            <div className="card-brutal card-brutal-large relative overflow-hidden">
+              <div className="relative z-10 text-center">
+                <h2 className="text-title mb-8 text-black">
+                  Soft Skills & Mindset
+                </h2>
+                <p className="text-subtitle text-black">
+                  Beyond technical expertise, I bring a collaborative mindset,
+                  creative problem-solving, and a passion for continuous
+                  learning to every project
+                </p>
               </div>
-            </motion.div>
-          </div>
+
+              {/* Decorative Elements */}
+              <div className="absolute top-4 left-4 w-16 h-16 bg-secondary/20 rounded-lg transform -rotate-12" />
+              <div className="absolute bottom-4 right-4 w-8 h-8 bg-primary/30 rounded-full" />
+            </div>
+          </motion.div>
+
+          {/* Skills Grid - Bottom */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.8,
+              delay: 0.2,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
+            viewport={{ once: true, margin: "-50px" }}
+          >
+            <Suspense
+              fallback={
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {[...Array(6)].map((_, i) => (
+                    <div key={i} className="card-brutal p-8">
+                      <div className="skeleton h-8 w-32 rounded-lg mb-4"></div>
+                      <div className="space-y-3">
+                        {[...Array(4)].map((_, j) => (
+                          <div
+                            key={j}
+                            className="skeleton h-4 w-full rounded"
+                          ></div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              }
+            >
+              <SoftSkills />
+            </Suspense>
+          </motion.div>
         </div>
       </section>
 

@@ -1,12 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import HeroButtons from "./HeroButtons";
 
 export default function Hero() {
@@ -14,10 +9,6 @@ export default function Hero() {
   const [currentText, setCurrentText] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
   const [displayText, setDisplayText] = useState("");
-  const videoRef = useRef(null);
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [showSkipIndicator, setShowSkipIndicator] = useState(false);
-  const [fastForwarding, setFastForwarding] = useState(false);
   const containerRef = useRef(null);
   const { scrollY } = useScroll();
 
@@ -86,53 +77,6 @@ export default function Hero() {
     }
   }, [displayText, isTyping, fullText, texts.length, mounted]);
 
-  // Video handling
-  useEffect(() => {
-    if (!mounted || !videoRef.current) return; // Don't handle video until mounted
-
-    const video = videoRef.current;
-
-    const handleLoadedData = () => {
-      setIsVideoLoaded(true);
-      video
-        .play()
-        .then(() => {
-          // Video started playing
-        })
-        .catch(() => {
-          // Autoplay failed, show skip indicator
-          setShowSkipIndicator(true);
-        });
-    };
-
-    const handleTimeUpdate = () => {
-      if (video.currentTime > 3 && !fastForwarding) {
-        setFastForwarding(true);
-        video.currentTime = video.duration - 1;
-      }
-    };
-
-    const handleEnded = () => {
-      setShowSkipIndicator(false);
-    };
-
-    video.addEventListener("loadeddata", handleLoadedData);
-    video.addEventListener("timeupdate", handleTimeUpdate);
-    video.addEventListener("ended", handleEnded);
-
-    return () => {
-      video.removeEventListener("loadeddata", handleLoadedData);
-      video.removeEventListener("timeupdate", handleTimeUpdate);
-      video.removeEventListener("ended", handleEnded);
-    };
-  }, [fastForwarding, mounted]);
-
-  const skipVideo = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = videoRef.current.duration;
-    }
-  };
-
   // Prevent hydration mismatch by showing loading state
   if (!mounted) {
     return (
@@ -180,25 +124,7 @@ export default function Hero() {
     <div ref={containerRef} className="relative min-h-screen overflow-hidden">
       {/* Dynamic Background Layers */}
       <div className="absolute inset-0">
-        {/* Base Video Background */}
-        <div className="relative w-full h-full">
-          <video
-            ref={videoRef}
-            className={`w-full h-full object-cover hero-video ${
-              isVideoLoaded ? "opacity-100" : "opacity-0"
-            } ${fastForwarding ? "fast-forwarding" : ""}`}
-            muted
-            playsInline
-            preload="metadata"
-          >
-            <source src="/HeroScreen.mp4" type="video/mp4" />
-          </video>
-
-          {/* Video Overlay */}
-          <div className="absolute inset-0 bg-black/40 hero-video-overlay" />
-        </div>
-
-        {/* Animated Background Overlay */}
+        {/* Base Background */}
         <motion.div
           className="absolute inset-0"
           style={{
@@ -242,21 +168,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-
-      {/* Skip Indicator */}
-      <AnimatePresence>
-        {showSkipIndicator && (
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            onClick={skipVideo}
-            className="absolute bottom-8 right-8 btn-brutal z-20"
-          >
-            Skip Intro
-          </motion.button>
-        )}
-      </AnimatePresence>
 
       {/* Hero Content - Unconventional Layout */}
       <div className="absolute inset-0 flex items-center justify-center z-10 py-12 lg:py-16 xl:py-24">

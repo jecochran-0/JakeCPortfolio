@@ -252,6 +252,74 @@ export default function SpotifyCaseStudy() {
           </div>
         </section>
 
+        {/* Video Showcase Section */}
+        <section className="mb-24">
+          <div className="max-w-6xl mx-auto">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-4xl md:text-5xl font-black mb-8 tracking-tight text-center"
+            >
+              Project Demo
+            </motion.h2>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="card-brutal card-no-shift p-8 bg-white border-4 border-black shadow-[8px_8px_0_rgba(0,0,0,0.9)]"
+            >
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-8 h-8 bg-green-600 border-2 border-black shadow-[4px_4px_0_rgba(0,0,0,0.9)]"></div>
+                <h3 className="text-3xl font-black text-black tracking-tight">
+                  INTERACTIVE WALKTHROUGH
+                </h3>
+              </div>
+
+              <p className="text-lg text-gray-800 leading-relaxed mb-8">
+                Watch this interactive demonstration showcasing the key
+                improvements and user experience enhancements in the Spotify
+                redesign.
+              </p>
+
+              <motion.div
+                whileHover={{ y: -4, scale: 1.01 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="relative overflow-hidden border-4 border-black shadow-[8px_8px_0_rgba(0,0,0,0.9)] will-change-transform"
+              >
+                <video
+                  className="w-full h-auto"
+                  controls
+                  poster="/Spotify_Project/Desktop-Home-Revamped.jpg"
+                  preload="metadata"
+                >
+                  <source src="/HeroScreen.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+
+                {/* Video overlay with play indicator */}
+                <div className="absolute inset-0 bg-black/10 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                  <div className="w-16 h-16 bg-green-600 border-4 border-white rounded-full flex items-center justify-center shadow-[4px_4px_0_rgba(0,0,0,0.9)]">
+                    <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1"></div>
+                  </div>
+                </div>
+              </motion.div>
+
+              <div className="mt-6 p-4 bg-green-50 border-2 border-black">
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  <strong>Note:</strong> This video demonstrates key features of
+                  the redesigned interface, highlighting improvements in
+                  navigation, content discovery, and overall user experience
+                  flow.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         {/* Project overview */}
         <section className="mb-24">
           <div className="max-w-6xl mx-auto">

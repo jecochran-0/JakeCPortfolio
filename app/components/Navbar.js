@@ -28,7 +28,6 @@ export default function Navbar() {
 
   // Transform values for scroll-based animations
   const navbarHeight = useTransform(scrollY, [0, 100], [120, 80]);
-  const navbarOpacity = useTransform(scrollY, [0, 50], [0, 1]);
   const navbarBlur = useTransform(scrollY, [0, 100], [0, 20]);
 
   const navItems = [
@@ -64,7 +63,7 @@ export default function Navbar() {
         ref={navbarRef}
         style={{
           height: navbarHeight,
-          opacity: isScrolled ? navbarOpacity : 1,
+          opacity: 1, // Always visible
           backdropFilter: `blur(${navbarBlur}px)`,
           background: isScrolled ? "rgba(0, 0, 0, 0.9)" : "transparent",
         }}

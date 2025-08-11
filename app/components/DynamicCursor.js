@@ -9,7 +9,6 @@ export default function DynamicCursor() {
   const [isClicking, setIsClicking] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Check if device is mobile
   useEffect(() => {
     const checkMobile = () => {
       const isMobileDevice =
@@ -25,12 +24,11 @@ export default function DynamicCursor() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Optimized mouse position update with RAF throttling
   const updateMousePosition = useCallback((e) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
   }, []);
 
-  // Memoized cursor variants for better performance
+  // Brutalist theme variants using CSS variables
   const cursorVariants = useMemo(
     () => ({
       default: {
@@ -38,29 +36,45 @@ export default function DynamicCursor() {
         y: mousePosition.y - 8,
         width: 16,
         height: 16,
-        backgroundColor: "rgba(59, 130, 246, 0.3)",
-        border: "2px solid rgba(59, 130, 246, 0.5)",
+        backgroundColor: "var(--color-primary)",
+        border: "3px solid var(--color-black)",
+        borderRadius: 0,
         scale: 1,
       },
       hover: {
-        x: mousePosition.x - 16,
-        y: mousePosition.y - 16,
-        width: 32,
-        height: 32,
-        backgroundColor: "rgba(124, 58, 237, 0.2)",
-        border: "2px solid rgba(124, 58, 237, 0.6)",
+        x: mousePosition.x - 18,
+        y: mousePosition.y - 18,
+        width: 36,
+        height: 36,
+        backgroundColor: "var(--color-primary)",
+        border: "3px solid var(--color-black)",
+        borderRadius: "50%",
         scale: 1,
       },
       click: {
-        scale: 0.8,
+        scale: 0.9,
       },
     }),
     [mousePosition.x, mousePosition.y]
   );
 
   useEffect(() => {
-    // Don't set up mouse events on mobile
     if (isMobile) return;
+
+    // Add global CSS to hide default cursor on all clickable elements
+    const style = document.createElement("style");
+    style.textContent = `
+      a, button, [role="button"], .btn-brutal,
+      input[type="button"], input[type="submit"], input[type="reset"],
+      select, [onclick], .clickable {
+        cursor: none !important;
+      }
+      
+      a *, button *, [role="button"] *, .btn-brutal * {
+        cursor: none !important;
+      }
+    `;
+    document.head.appendChild(style);
 
     let ticking = false;
     let rafId = null;
@@ -78,14 +92,19 @@ export default function DynamicCursor() {
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
 
-    // Optimized hover detection with event delegation
+    // Enhanced hover detection
     const handleMouseEnter = (e) => {
       const target = e.target;
       if (
         target.closest("a") ||
         target.closest("button") ||
-        target.closest('[role="button"]') ||
-        target.closest('[data-cursor="hover"]')
+        target.closest("[role='button']") ||
+        target.closest(".btn-brutal") ||
+        target.closest("input[type='button']") ||
+        target.closest("input[type='submit']") ||
+        target.closest("input[type='reset']") ||
+        target.closest("[onclick]") ||
+        target.closest(".clickable")
       ) {
         setIsHovering(true);
       }
@@ -95,7 +114,6 @@ export default function DynamicCursor() {
       setIsHovering(false);
     };
 
-    // Use passive listeners for better performance
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     window.addEventListener("mousedown", handleMouseDown, { passive: true });
     window.addEventListener("mouseup", handleMouseUp, { passive: true });
@@ -103,63 +121,57 @@ export default function DynamicCursor() {
     window.addEventListener("mouseout", handleMouseLeave, { passive: true });
 
     return () => {
+      // Clean up the injected style
+      document.head.removeChild(style);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
       window.removeEventListener("mouseover", handleMouseEnter);
       window.removeEventListener("mouseout", handleMouseLeave);
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-      }
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, [updateMousePosition, isMobile]);
 
-  // Don't render cursor on mobile devices
   if (isMobile) {
     return null;
   }
 
   return (
     <>
-      {/* Main cursor */}
+      {/* Main cursor - brutalist square with black shadow */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[80] rounded-full mix-blend-difference"
+        className="fixed top-0 left-0 pointer-events-none z-[80]"
+        style={{
+          willChange:
+            "transform, width, height, backgroundColor, border-radius",
+          boxShadow: isHovering
+            ? "6px 6px 0 rgba(0,0,0,0.9)"
+            : "4px 4px 0 rgba(0,0,0,0.9)",
+          transition: "box-shadow 0.2s ease",
+        }}
         variants={cursorVariants}
         animate={isClicking ? "click" : isHovering ? "hover" : "default"}
-        transition={{
-          type: "spring",
-          mass: 0.3,
-          stiffness: 300,
-          damping: 25,
-        }}
-        style={{
-          willChange: "transform", // Optimize for animations
-        }}
+        transition={{ type: "spring", mass: 0.3, stiffness: 350, damping: 20 }}
       />
 
-      {/* Click ripple effect */}
+      {/* Click ripple effect - orange and square */}
       {isClicking && (
         <motion.div
-          className="fixed top-0 left-0 pointer-events-none z-[78] rounded-full bg-blue-500/20"
+          className="fixed top-0 left-0 pointer-events-none z-[78]"
           initial={{
-            x: mousePosition.x - 12,
-            y: mousePosition.y - 12,
-            width: 24,
-            height: 24,
+            x: mousePosition.x - 16,
+            y: mousePosition.y - 16,
+            width: 32,
+            height: 32,
             scale: 0,
             opacity: 1,
+            backgroundColor: "rgba(255,107,53,0.25)",
+            border: "2px solid var(--color-black)",
+            borderRadius: isHovering ? "50%" : 0,
           }}
-          animate={{
-            scale: 1.5,
-            opacity: 0,
-          }}
-          transition={{
-            duration: 0.4,
-            ease: "easeOut",
-          }}
-          style={{
-            willChange: "transform, opacity", // Optimize for animations
-          }}
+          animate={{ scale: 1.6, opacity: 0 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          style={{ willChange: "transform, opacity" }}
         />
       )}
     </>

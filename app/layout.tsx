@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import PageTransition from "./components/PageTransition";
 import DynamicCursor from "./components/DynamicCursor";
-import BreadcrumbNav from "./components/BreadcrumbNav";
 import ScrollIndicator from "./components/ScrollIndicator";
 import PerformanceMonitor from "./components/PerformanceMonitor";
 
@@ -116,7 +115,6 @@ export default function RootLayout({
         <Navbar />
         <PageTransition>{children}</PageTransition>
         <DynamicCursor />
-        <BreadcrumbNav />
         <ScrollIndicator />
       </body>
     </html>

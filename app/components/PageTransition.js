@@ -2,12 +2,20 @@
 
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, createContext, useContext } from "react";
+import {
+  useEffect,
+  useState,
+  createContext,
+  useContext,
+  useCallback,
+  useMemo,
+} from "react";
 
 // Navigation Context for handling smooth transitions
 const NavigationContext = createContext({
   isNavigating: false,
   navigate: () => {},
+  transitionColor: null,
 });
 
 export const useNavigation = () => useContext(NavigationContext);
@@ -15,19 +23,88 @@ export const useNavigation = () => useContext(NavigationContext);
 export function NavigationProvider({ children }) {
   const [isNavigating, setIsNavigating] = useState(false);
   const [pendingPath, setPendingPath] = useState(null);
+  const [transitionColor, setTransitionColor] = useState(null);
   const router = useRouter();
   const pathname = usePathname();
+
+  // Dynamic color system using app's brand colors
+  const brandColors = [
+    {
+      name: "primary",
+      bg: "bg-orange-500", // #ff6b35
+      shadow: "rgba(255, 107, 53, 0.7)",
+      shadowSecondary: "rgba(255, 107, 53, 0.3)",
+      shine: "via-orange-200",
+      accent: "border-orange-500",
+    },
+    {
+      name: "secondary",
+      bg: "bg-teal-400", // #4ecdc4
+      shadow: "rgba(78, 205, 196, 0.7)",
+      shadowSecondary: "rgba(78, 205, 196, 0.3)",
+      shine: "via-teal-200",
+      accent: "border-teal-400",
+    },
+    {
+      name: "accent",
+      bg: "bg-blue-400", // #45b7d1
+      shadow: "rgba(69, 183, 209, 0.7)",
+      shadowSecondary: "rgba(69, 183, 209, 0.3)",
+      shine: "via-blue-200",
+      accent: "border-blue-400",
+    },
+    {
+      name: "warning",
+      bg: "bg-yellow-400", // #f7b731
+      shadow: "rgba(247, 183, 49, 0.7)",
+      shadowSecondary: "rgba(247, 183, 49, 0.3)",
+      shine: "via-yellow-200",
+      accent: "border-yellow-400",
+    },
+    {
+      name: "success",
+      bg: "bg-green-400", // #26de81
+      shadow: "rgba(38, 222, 129, 0.7)",
+      shadowSecondary: "rgba(38, 222, 129, 0.3)",
+      shine: "via-green-200",
+      accent: "border-green-400",
+    },
+    {
+      name: "error",
+      bg: "bg-red-400", // #fc5c65
+      shadow: "rgba(252, 92, 101, 0.7)",
+      shadowSecondary: "rgba(252, 92, 101, 0.3)",
+      shine: "via-red-200",
+      accent: "border-red-400",
+    },
+  ];
+
+  // Get color for destination path
+  const getColorForPath = (path) => {
+    // Create a simple hash from path to ensure consistent color per route
+    let hash = 0;
+    for (let i = 0; i < path.length; i++) {
+      const char = path.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    return brandColors[Math.abs(hash) % brandColors.length];
+  };
 
   const navigate = (path) => {
     if (path === pathname) return; // Don't navigate to same page
 
+    // Determine color upfront for destination
+    const destinationColor = getColorForPath(path);
+    setTransitionColor(destinationColor);
+
     setIsNavigating(true);
     setPendingPath(path);
 
-    // Start navigation after transition overlay appears
+    // Optimal UX timing - under 1 second for flow maintenance
     setTimeout(() => {
       router.push(path);
-    }, 200); // Small delay to ensure overlay is visible
+    }, 400); // Quick enough to maintain flow
   };
 
   // Reset navigation state when route actually changes
@@ -36,14 +113,17 @@ export function NavigationProvider({ children }) {
       const timer = setTimeout(() => {
         setIsNavigating(false);
         setPendingPath(null);
-      }, 1200); // Keep transition visible long enough
+        setTransitionColor(null);
+      }, 800); // Under 1s threshold for seamless experience
 
       return () => clearTimeout(timer);
     }
   }, [pathname, pendingPath]);
 
   return (
-    <NavigationContext.Provider value={{ isNavigating, navigate }}>
+    <NavigationContext.Provider
+      value={{ isNavigating, navigate, transitionColor }}
+    >
       {children}
     </NavigationContext.Provider>
   );
@@ -94,409 +174,545 @@ export default function PageTransition({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const shouldReduceMotion = useReducedMotion();
-  const { isNavigating } = useNavigation();
+  const { isNavigating, transitionColor } = useNavigation();
 
-  // Detect mobile device
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => window.removeEventListener("resize", checkMobile);
+  // Optimized mobile detection with memoization
+  const checkMobile = useCallback(() => {
+    setIsMobile(window.innerWidth <= 768);
   }, []);
 
-  // Handle initial page load - optimized timing
+  useEffect(() => {
+    checkMobile();
+    window.addEventListener("resize", checkMobile, { passive: true }); // Passive for better performance
+    return () => window.removeEventListener("resize", checkMobile);
+  }, [checkMobile]);
+
+  // Optimized initial page load timing
   useEffect(() => {
     const timer = setTimeout(
       () => {
         setIsLoading(false);
       },
-      isMobile ? 1500 : 2000
-    ); // Slightly longer for personality
+      isMobile ? 600 : 800 // Faster loading times
+    );
 
     return () => clearTimeout(timer);
   }, [isMobile]);
 
+  // Memoized animation variants for performance
+  const animationVariants = useMemo(
+    () => ({
+      loadingCard: {
+        initial: { scale: 0.95, opacity: 0 },
+        animate: { scale: 1, opacity: 1 },
+        exit: { scale: 1.02, opacity: 0 },
+        transition: {
+          duration: shouldReduceMotion ? 0.05 : 0.3,
+          ease: "easeOut",
+        },
+      },
+      loadingProgress: {
+        initial: { scaleX: 0 },
+        animate: { scaleX: 1 },
+        transition: {
+          duration: shouldReduceMotion ? 0.05 : 0.4,
+          delay: shouldReduceMotion ? 0 : 0.2,
+          ease: "easeOut",
+        },
+      },
+      navigationOverlay: {
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
+        transition: {
+          duration: shouldReduceMotion ? 0.05 : 0.15,
+          ease: [0.25, 0.46, 0.45, 0.94],
+        },
+      },
+    }),
+    [shouldReduceMotion]
+  );
+
   return (
     <>
-      {/* Initial Loading Screen - Neo-Brutalist */}
+      {/* Optimized Loading Screen */}
       <AnimatePresence mode="wait">
         {isLoading && (
           <motion.div
             key="loading"
-            className="fixed inset-0 z-[80] bg-white flex flex-col items-center justify-center overflow-hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{
-              duration: shouldReduceMotion ? 0.1 : isMobile ? 0.6 : 0.8,
-              ease: [0.25, 0.46, 0.45, 0.94],
-            }}
+            className="fixed inset-0 z-[80] bg-white flex items-center justify-center"
+            {...animationVariants.navigationOverlay}
           >
-            {/* Brutalist Background Pattern */}
-            <div className="absolute inset-0 overflow-hidden">
-              {/* Grid Pattern */}
-              <div className="absolute inset-0 bg-black/5">
-                {[...Array(isMobile ? 8 : 16)].map((_, i) => (
-                  <motion.div
-                    key={`vertical-${i}`}
-                    className="absolute h-full w-[2px] bg-black/10"
-                    style={{
-                      left: `${(i + 1) * (100 / (isMobile ? 8 : 16))}%`,
-                    }}
-                    initial={{ scaleY: 0 }}
-                    animate={{ scaleY: 1 }}
-                    transition={{
-                      duration: 0.8,
-                      delay: i * 0.05,
-                      ease: "easeOut",
-                    }}
-                  />
-                ))}
-                {[...Array(isMobile ? 6 : 12)].map((_, i) => (
-                  <motion.div
-                    key={`horizontal-${i}`}
-                    className="absolute w-full h-[2px] bg-black/10"
-                    style={{ top: `${(i + 1) * (100 / (isMobile ? 6 : 12))}%` }}
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{
-                      duration: 0.8,
-                      delay: i * 0.07,
-                      ease: "easeOut",
-                    }}
-                  />
-                ))}
-              </div>
-
-              {/* Floating Brutalist Elements */}
-              {!shouldReduceMotion && (
-                <>
-                  <motion.div
-                    className="absolute top-20 left-20 w-16 h-16 bg-orange-500 border-4 border-black shadow-brutal"
-                    initial={{ x: -100, y: -100, rotate: 0 }}
-                    animate={{ x: 0, y: 0, rotate: 360 }}
-                    transition={{
-                      duration: 1.5,
-                      delay: 0.5,
-                      ease: "easeOut",
-                    }}
-                  />
-                  <motion.div
-                    className="absolute top-40 right-32 w-12 h-12 bg-black border-4 border-orange-500 shadow-brutal"
-                    initial={{ x: 100, y: -100, rotate: 0 }}
-                    animate={{ x: 0, y: 0, rotate: -180 }}
-                    transition={{
-                      duration: 1.5,
-                      delay: 0.7,
-                      ease: "easeOut",
-                    }}
-                  />
-                  <motion.div
-                    className="absolute bottom-32 left-40 w-20 h-8 bg-primary border-4 border-black shadow-brutal"
-                    initial={{ x: -100, y: 100, rotate: 0 }}
-                    animate={{ x: 0, y: 0, rotate: 45 }}
-                    transition={{
-                      duration: 1.5,
-                      delay: 0.9,
-                      ease: "easeOut",
-                    }}
-                  />
-                  <motion.div
-                    className="absolute bottom-20 right-20 w-14 h-14 bg-secondary border-4 border-black shadow-brutal rounded-full"
-                    initial={{ x: 100, y: 100, scale: 0 }}
-                    animate={{ x: 0, y: 0, scale: 1 }}
-                    transition={{
-                      duration: 1.2,
-                      delay: 1.1,
-                      ease: "backOut",
-                    }}
-                  />
-                </>
-              )}
-            </div>
-
-            {/* Central Loading Card - Enhanced Brutalist */}
+            {/* Optimized Loading Card */}
             <motion.div
-              className="relative card-brutal p-8 sm:p-12 md:p-16 text-center max-w-lg mx-4"
-              initial={{ scale: 0.8, y: 50, rotate: -5 }}
-              animate={{ scale: 1, y: 0, rotate: 0 }}
-              exit={{ scale: 0.9, y: -30, rotate: 5 }}
-              transition={{
-                duration: shouldReduceMotion ? 0.1 : isMobile ? 0.7 : 0.9,
-                delay: shouldReduceMotion ? 0 : 0.3,
-                ease: [0.25, 0.46, 0.45, 0.94],
+              className="bg-white border-4 border-black shadow-brutal p-8 sm:p-12 text-center"
+              {...animationVariants.loadingCard}
+              style={{
+                willChange: "transform, opacity",
+                transform: "translateZ(0)",
               }}
             >
-              {/* Logo/Brand - Brutalist Typography */}
-              <motion.div
-                className="mb-8 sm:mb-10"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: shouldReduceMotion ? 0.1 : 0.6,
-                  delay: shouldReduceMotion ? 0 : 0.6,
-                  ease: [0.25, 0.46, 0.45, 0.94],
-                }}
-              >
-                <h1 className="text-6xl sm:text-7xl md:text-8xl font-black text-black mb-4 tracking-tight uppercase leading-none">
-                  JAKE
-                </h1>
-                <div className="w-20 h-2 bg-orange-500 mx-auto border-2 border-black shadow-brutal" />
-              </motion.div>
-
-              {/* Loading Animation - Brutalist Blocks */}
-              <motion.div
-                className="flex justify-center items-center space-x-3 sm:space-x-4 mb-8"
+              {/* Simple Logo */}
+              <motion.h1
+                className="text-4xl sm:text-5xl font-black text-black mb-6 tracking-tight uppercase"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{
-                  duration: shouldReduceMotion ? 0.1 : 0.4,
-                  delay: shouldReduceMotion ? 0 : 0.8,
+                  duration: shouldReduceMotion ? 0.05 : 0.25,
+                  delay: shouldReduceMotion ? 0 : 0.15,
                 }}
               >
-                {[0, 1, 2].map((index) => (
-                  <motion.div
-                    key={index}
-                    className="relative"
-                    animate={
-                      shouldReduceMotion
-                        ? {}
-                        : {
-                            y: [0, -20, 0],
-                            transition: {
-                              duration: 1.5,
-                              repeat: Infinity,
-                              delay: index * 0.2,
-                              ease: "easeInOut",
-                            },
-                          }
-                    }
-                  >
-                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-black border-4 border-orange-500 shadow-brutal" />
-                    <motion.div
-                      className="absolute inset-0 w-6 h-6 sm:w-8 sm:h-8 bg-orange-500 border-4 border-black shadow-brutal"
-                      animate={
-                        shouldReduceMotion
-                          ? {}
-                          : {
-                              scale: [1, 0.8, 1],
-                              opacity: [1, 0.5, 1],
-                              transition: {
-                                duration: 1.5,
-                                repeat: Infinity,
-                                delay: index * 0.2,
-                                ease: "easeInOut",
-                              },
-                            }
-                      }
-                    />
-                  </motion.div>
-                ))}
-              </motion.div>
+                JAKE
+              </motion.h1>
 
-              {/* Tagline - Brutalist Style */}
-              <motion.p
-                className="text-base sm:text-lg font-black text-black uppercase tracking-widest"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{
-                  duration: shouldReduceMotion ? 0.1 : 0.6,
-                  delay: shouldReduceMotion ? 0 : 1.0,
+              {/* Optimized Progress */}
+              <motion.div
+                className="w-16 h-1 bg-orange-500 mx-auto"
+                {...animationVariants.loadingProgress}
+                style={{
+                  willChange: "transform",
+                  transform: "translateZ(0)",
                 }}
-              >
-                Loading Experience
-              </motion.p>
-            </motion.div>
-
-            {/* Loading Status Card - Bottom Right */}
-            <motion.div
-              className="absolute bottom-8 sm:bottom-12 md:bottom-16 right-8 sm:right-12 md:right-16"
-              initial={{ x: 100, y: 50, opacity: 0 }}
-              animate={{ x: 0, y: 0, opacity: 1 }}
-              exit={{ x: 50, y: -50, opacity: 0 }}
-              transition={{
-                duration: shouldReduceMotion ? 0.1 : isMobile ? 0.5 : 0.7,
-                delay: shouldReduceMotion ? 0 : 1.2,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-            >
-              <div className="card-brutal p-4 sm:p-6 bg-orange-500">
-                <motion.p
-                  className="text-black font-black text-xs sm:text-sm tracking-widest uppercase"
-                  initial={{ opacity: 0.7 }}
-                  animate={{ opacity: [0.7, 1, 0.7] }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  LOADING
-                </motion.p>
-              </div>
+              />
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Navigation Transition Screen - Neo-Brutalist */}
+      {/* Performance-Optimized Navigation Transition */}
       <AnimatePresence mode="wait">
         {isNavigating && (
           <motion.div
             key="navigating"
-            className="fixed inset-0 z-[80] bg-white flex flex-col items-center justify-center overflow-hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{
-              duration: shouldReduceMotion ? 0.1 : 0.3,
-              ease: [0.25, 0.46, 0.45, 0.94],
-            }}
+            className="fixed inset-0 z-[80] bg-white flex items-center justify-center overflow-hidden"
+            {...animationVariants.navigationOverlay}
           >
-            {/* Minimal Sliding Panel */}
+            {/* Optimized Environmental Background */}
             <motion.div
-              className="absolute inset-0 bg-orange-500"
-              initial={{ x: "-100%" }}
-              animate={{ x: "0%" }}
-              exit={{ x: "100%" }}
+              className="absolute inset-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{
-                duration: shouldReduceMotion ? 0.1 : 0.5,
-                ease: [0.25, 0.46, 0.45, 0.94],
+                duration: shouldReduceMotion ? 0.05 : 0.2,
+                ease: "easeOut",
+              }}
+              style={{
+                willChange: "opacity",
+                transform: "translateZ(0)",
+              }}
+            >
+              {/* Simplified Paper Texture */}
+              <div
+                className="absolute inset-0 opacity-[0.01]"
+                style={{
+                  backgroundImage: `radial-gradient(circle at 2px 2px, rgba(0,0,0,0.1) 1px, transparent 0)`,
+                  backgroundSize: "32px 32px",
+                }}
+              />
+              {/* Simplified Gradient Overlay */}
+              <div
+                className="absolute inset-0 opacity-[0.02]"
+                style={{
+                  background: `radial-gradient(ellipse 60% 40% at 50% 50%, rgba(0,0,0,0.05) 0%, transparent 50%)`,
+                }}
+              />
+            </motion.div>
+
+            {/* Performance-Optimized Developer Side */}
+            <motion.div
+              className="absolute inset-0 bg-black flex items-center justify-center"
+              style={{
+                clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                boxShadow: `20px 20px 0px ${transitionColor?.shadow}, 40px 40px 0px ${transitionColor?.shadowSecondary}`,
+                willChange: "clip-path, opacity",
+                transform: "translateZ(0)",
+              }}
+              initial={{
+                clipPath: "polygon(50% 50%, 50% 50%, 50% 50%)",
+                opacity: 0.9,
+              }}
+              animate={{
+                clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                opacity: 1,
+              }}
+              exit={{
+                clipPath: "polygon(50% 50%, 50% 50%, 50% 50%)",
+                opacity: 0,
+              }}
+              transition={{
+                clipPath: {
+                  duration: shouldReduceMotion ? 0.05 : 0.35,
+                  ease: [0.25, 0.1, 0.25, 1],
+                },
+                opacity: {
+                  duration: shouldReduceMotion ? 0.05 : 0.15,
+                  ease: "easeOut",
+                },
+              }}
+            >
+              {/* Developer Content - Performance Optimized */}
+              <div className="absolute top-1/3 left-1/3 text-center transform -translate-x-1/2 -translate-y-1/2 px-4 sm:px-0">
+                {/* Code Symbol - Optimized */}
+                <motion.div
+                  className={`bg-white p-4 sm:p-6 md:p-8 lg:p-10 mb-4 sm:mb-6 inline-block relative overflow-hidden`}
+                  style={{
+                    borderRadius: "2px",
+                    boxShadow: `6px 6px 0px ${transitionColor?.shadow}, 12px 12px 0px ${transitionColor?.shadowSecondary}`,
+                    willChange: "transform, opacity",
+                    transform: "translateZ(0)",
+                  }}
+                  initial={{
+                    opacity: 0,
+                    scale: 0.5,
+                    rotate: -10,
+                    y: 15,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                    rotate: 0,
+                    y: 0,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.95,
+                    rotate: 5,
+                  }}
+                  transition={{
+                    duration: shouldReduceMotion ? 0.05 : 0.25,
+                    delay: shouldReduceMotion ? 0 : 0.1,
+                    ease: [0.34, 1.2, 0.64, 1],
+                  }}
+                >
+                  {/* Optimized shine effect */}
+                  <motion.div
+                    className={`absolute inset-0 bg-gradient-to-r from-transparent ${transitionColor?.shine} to-transparent opacity-30`}
+                    initial={{ x: "-100%" }}
+                    animate={{ x: "100%" }}
+                    transition={{
+                      duration: shouldReduceMotion ? 0 : 0.6,
+                      delay: shouldReduceMotion ? 0 : 0.2,
+                      ease: [0.25, 0.46, 0.45, 0.94],
+                    }}
+                    style={{
+                      willChange: "transform",
+                      transform: "translateZ(0)",
+                    }}
+                  />
+
+                  <motion.div
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-mono font-black text-black relative z-10"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                      duration: shouldReduceMotion ? 0.05 : 0.2,
+                      delay: shouldReduceMotion ? 0 : 0.2,
+                      ease: [0.68, -0.55, 0.265, 1.55],
+                    }}
+                    style={{
+                      willChange: "transform, opacity",
+                      transform: "translateZ(0)",
+                    }}
+                  >
+                    &lt;/&gt;
+                  </motion.div>
+                </motion.div>
+
+                {/* Developer Label - Optimized */}
+                <motion.div
+                  className={`${transitionColor?.bg} px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 relative`}
+                  style={{
+                    borderRadius: "2px",
+                    boxShadow: "5px 5px 0px rgba(0, 0, 0, 0.8)",
+                    willChange: "transform, opacity",
+                    transform: "translateZ(0)",
+                  }}
+                  initial={{
+                    opacity: 0,
+                    y: 25,
+                    scale: 0.95,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    y: -15,
+                  }}
+                  transition={{
+                    duration: shouldReduceMotion ? 0.05 : 0.25,
+                    delay: shouldReduceMotion ? 0 : 0.25,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                  }}
+                >
+                  <motion.h3
+                    className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-black uppercase tracking-wide"
+                    initial={{ letterSpacing: "0.3em", opacity: 0 }}
+                    animate={{ letterSpacing: "0.2em", opacity: 1 }}
+                    transition={{
+                      duration: shouldReduceMotion ? 0.05 : 0.2,
+                      delay: shouldReduceMotion ? 0 : 0.3,
+                      ease: "easeOut",
+                    }}
+                  >
+                    Developer
+                  </motion.h3>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Performance-Optimized Designer Side */}
+            <motion.div
+              className={`absolute inset-0 ${transitionColor?.bg} flex items-center justify-center`}
+              style={{
+                clipPath: "polygon(100% 100%, 100% 0, 0 100%)",
+                boxShadow:
+                  "-20px -20px 0px rgba(0, 0, 0, 0.7), -40px -40px 0px rgba(0, 0, 0, 0.3)",
+                willChange: "clip-path, opacity",
+                transform: "translateZ(0)",
+              }}
+              initial={{
+                clipPath: "polygon(50% 50%, 50% 50%, 50% 50%)",
+                opacity: 0.9,
+              }}
+              animate={{
+                clipPath: "polygon(100% 100%, 100% 0, 0 100%)",
+                opacity: 1,
+              }}
+              exit={{
+                clipPath: "polygon(50% 50%, 50% 50%, 50% 50%)",
+                opacity: 0,
+              }}
+              transition={{
+                clipPath: {
+                  duration: shouldReduceMotion ? 0.05 : 0.35,
+                  delay: shouldReduceMotion ? 0 : 0.05,
+                  ease: [0.25, 0.1, 0.25, 1],
+                },
+                opacity: {
+                  duration: shouldReduceMotion ? 0.05 : 0.15,
+                  delay: shouldReduceMotion ? 0 : 0.05,
+                  ease: "easeOut",
+                },
+              }}
+            >
+              {/* Designer Content - Performance Optimized */}
+              <div className="absolute bottom-1/3 right-1/3 text-center transform translate-x-1/2 translate-y-1/2 px-4 sm:px-0">
+                {/* Design Symbol - Optimized */}
+                <motion.div
+                  className="bg-black p-4 sm:p-6 md:p-8 lg:p-10 mb-4 sm:mb-6 inline-block relative overflow-hidden"
+                  style={{
+                    borderRadius: "2px",
+                    boxShadow:
+                      "6px 6px 0px rgba(0, 0, 0, 0.8), 12px 12px 0px rgba(0, 0, 0, 0.4)",
+                    willChange: "transform, opacity",
+                    transform: "translateZ(0)",
+                  }}
+                  initial={{
+                    opacity: 0,
+                    scale: 0.5,
+                    rotate: 10,
+                    y: 15,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                    rotate: 0,
+                    y: 0,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.95,
+                    rotate: -5,
+                  }}
+                  transition={{
+                    duration: shouldReduceMotion ? 0.05 : 0.25,
+                    delay: shouldReduceMotion ? 0 : 0.2,
+                    ease: [0.34, 1.2, 0.64, 1],
+                  }}
+                >
+                  {/* Optimized shine effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-25"
+                    initial={{ x: "-100%" }}
+                    animate={{ x: "100%" }}
+                    transition={{
+                      duration: shouldReduceMotion ? 0 : 0.6,
+                      delay: shouldReduceMotion ? 0 : 0.3,
+                      ease: [0.25, 0.46, 0.45, 0.94],
+                    }}
+                    style={{
+                      willChange: "transform",
+                      transform: "translateZ(0)",
+                    }}
+                  />
+
+                  <motion.div
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white relative z-10"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                      duration: shouldReduceMotion ? 0.05 : 0.2,
+                      delay: shouldReduceMotion ? 0 : 0.3,
+                      ease: [0.68, -0.55, 0.265, 1.55],
+                    }}
+                    style={{
+                      willChange: "transform, opacity",
+                      transform: "translateZ(0)",
+                    }}
+                  >
+                    ◆
+                  </motion.div>
+                </motion.div>
+
+                {/* Designer Label - Optimized */}
+                <motion.div
+                  className="bg-white px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 relative"
+                  style={{
+                    borderRadius: "2px",
+                    boxShadow: "5px 5px 0px rgba(0, 0, 0, 0.8)",
+                    willChange: "transform, opacity",
+                    transform: "translateZ(0)",
+                  }}
+                  initial={{
+                    opacity: 0,
+                    y: 25,
+                    scale: 0.95,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    y: -15,
+                  }}
+                  transition={{
+                    duration: shouldReduceMotion ? 0.05 : 0.25,
+                    delay: shouldReduceMotion ? 0 : 0.35,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                  }}
+                >
+                  <motion.h3
+                    className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-black uppercase tracking-wide"
+                    initial={{ letterSpacing: "0.3em", opacity: 0 }}
+                    animate={{ letterSpacing: "0.2em", opacity: 1 }}
+                    transition={{
+                      duration: shouldReduceMotion ? 0.05 : 0.2,
+                      delay: shouldReduceMotion ? 0 : 0.4,
+                      ease: "easeOut",
+                    }}
+                  >
+                    Designer
+                  </motion.h3>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Optimized Corner Accents */}
+            <motion.div
+              className="absolute top-4 sm:top-6 md:top-8 right-4 sm:right-6 md:right-8 w-6 sm:w-7 md:w-8 h-6 sm:h-7 md:h-8 bg-black"
+              style={{
+                borderRadius: "2px",
+                boxShadow: `3px 3px 0px ${transitionColor?.shadow}`,
+                willChange: "transform, opacity",
+                transform: "translateZ(0)",
+              }}
+              initial={{ scale: 0, rotate: 30, opacity: 0 }}
+              animate={{ scale: 1, rotate: 0, opacity: 1 }}
+              exit={{ scale: 0, rotate: -30, opacity: 0 }}
+              transition={{
+                duration: shouldReduceMotion ? 0.05 : 0.15,
+                delay: shouldReduceMotion ? 0 : 0.4,
+                ease: [0.68, -0.55, 0.265, 1.55],
               }}
             />
 
-            {/* Central Minimal Card */}
             <motion.div
-              className="relative z-10 bg-white border-4 border-black shadow-brutal p-12 sm:p-16 text-center"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
+              className={`absolute bottom-4 sm:bottom-6 md:bottom-8 left-4 sm:left-6 md:left-8 w-4 sm:w-5 md:w-6 h-4 sm:h-5 md:h-6 ${transitionColor?.bg}`}
+              style={{
+                borderRadius: "2px",
+                boxShadow: "2px 2px 0px rgba(0, 0, 0, 0.6)",
+                willChange: "transform, opacity",
+                transform: "translateZ(0)",
+              }}
+              initial={{ scale: 0, rotate: -30, opacity: 0 }}
+              animate={{ scale: 1, rotate: 0, opacity: 1 }}
+              exit={{ scale: 0, rotate: 30, opacity: 0 }}
               transition={{
-                duration: shouldReduceMotion ? 0.1 : 0.4,
-                delay: shouldReduceMotion ? 0 : 0.2,
-                ease: [0.25, 0.46, 0.45, 0.94],
+                duration: shouldReduceMotion ? 0.05 : 0.15,
+                delay: shouldReduceMotion ? 0 : 0.45,
+                ease: [0.68, -0.55, 0.265, 1.55],
+              }}
+            />
+
+            {/* Optimized Progress Indicator */}
+            <motion.div
+              className="absolute bottom-8 sm:bottom-10 md:bottom-12 left-1/2 transform -translate-x-1/2"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{
+                duration: shouldReduceMotion ? 0.05 : 0.15,
+                delay: shouldReduceMotion ? 0 : 0.5,
+                ease: "easeOut",
+              }}
+              style={{
+                willChange: "transform, opacity",
+                transform: "translateZ(0) translateX(-50%)",
               }}
             >
-              {/* Simple Geometric Animation */}
-              <motion.div
-                className="mb-8 flex justify-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{
-                  duration: shouldReduceMotion ? 0.1 : 0.3,
-                  delay: shouldReduceMotion ? 0 : 0.3,
-                }}
-              >
-                <div className="relative w-16 h-16">
-                  {/* Outer Square */}
+              <div className="flex space-x-2 sm:space-x-3">
+                {[0, 1, 2].map((index) => (
                   <motion.div
-                    className="absolute inset-0 border-4 border-black"
-                    initial={{ rotate: 0 }}
-                    animate={{ rotate: shouldReduceMotion ? 0 : 360 }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "linear",
+                    key={index}
+                    className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-black"
+                    style={{
+                      borderRadius: "1px",
+                      willChange: "transform, opacity",
+                      transform: "translateZ(0)",
                     }}
-                  />
-                  {/* Inner Square */}
-                  <motion.div
-                    className="absolute inset-2 bg-orange-500 border-2 border-black"
-                    initial={{ rotate: 0 }}
-                    animate={{ rotate: shouldReduceMotion ? 0 : -360 }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  />
-                  {/* Center Dot */}
-                  <motion.div
-                    className="absolute top-1/2 left-1/2 w-2 h-2 bg-black transform -translate-x-1/2 -translate-y-1/2"
                     animate={
                       shouldReduceMotion
                         ? {}
                         : {
-                            scale: [1, 1.5, 1],
+                            scale: [1, 1.2, 1],
+                            opacity: [0.6, 1, 0.6],
                             transition: {
-                              duration: 1,
+                              duration: 1.0,
                               repeat: Infinity,
-                              ease: "easeInOut",
+                              delay: index * 0.1,
+                              ease: [0.25, 0.46, 0.45, 0.94],
                             },
                           }
                     }
                   />
-                </div>
-              </motion.div>
-
-              {/* Minimalist Typography */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: shouldReduceMotion ? 0.1 : 0.4,
-                  delay: shouldReduceMotion ? 0 : 0.4,
-                }}
-              >
-                <h2 className="text-2xl sm:text-3xl font-black text-black uppercase tracking-wider mb-6">
-                  Navigating
-                </h2>
-
-                {/* Simple Progress Indicator */}
-                <div className="flex justify-center space-x-1">
-                  {[0, 1, 2].map((index) => (
-                    <motion.div
-                      key={index}
-                      className="w-2 h-8 bg-black"
-                      animate={
-                        shouldReduceMotion
-                          ? {}
-                          : {
-                              scaleY: [0.3, 1, 0.3],
-                              transition: {
-                                duration: 0.8,
-                                repeat: Infinity,
-                                delay: index * 0.1,
-                                ease: "easeInOut",
-                              },
-                            }
-                      }
-                    />
-                  ))}
-                </div>
-              </motion.div>
+                ))}
+              </div>
             </motion.div>
-
-            {/* Minimal Corner Accent */}
-            <motion.div
-              className="absolute bottom-8 right-8 w-4 h-4 bg-black border-2 border-orange-500"
-              initial={{ scale: 0, rotate: 45 }}
-              animate={{ scale: 1, rotate: 0 }}
-              exit={{ scale: 0, rotate: -45 }}
-              transition={{
-                duration: shouldReduceMotion ? 0.1 : 0.3,
-                delay: shouldReduceMotion ? 0 : 0.5,
-              }}
-            />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Page Content - Enhanced Entry */}
+      {/* Optimized Page Content */}
       <motion.div
         key={pathname}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{
-          duration: shouldReduceMotion ? 0.1 : isMobile ? 0.6 : 0.8,
-          delay: shouldReduceMotion ? 0 : isMobile ? 0.4 : 0.6,
-          ease: [0.25, 0.46, 0.45, 0.94],
+          duration: shouldReduceMotion ? 0.05 : 0.25,
+          delay: shouldReduceMotion ? 0 : 0.05,
+          ease: "easeOut",
         }}
         className="relative"
+        style={{
+          willChange: "opacity",
+          transform: "translateZ(0)",
+        }}
       >
         {children}
       </motion.div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import {
   motion,
   AnimatePresence,
@@ -27,36 +27,98 @@ export default function Navbar() {
   const { scrollY } = useScroll();
   const { navigate } = useNavigation();
 
-  // Transform values for scroll-based animations
+  // Optimized transform values with reduced computation
   const navbarHeight = useTransform(scrollY, [0, 100], [120, 80]);
-  const navbarBlur = useTransform(scrollY, [0, 100], [0, 20]);
+  const navbarBlur = useTransform(scrollY, [0, 100], [0, 15]); // Reduced blur for performance
 
-  const navItems = [
-    { name: "home", path: "/", icon: FaHome, label: "Home" },
-    { name: "about", path: "/about", icon: FaUser, label: "About" },
-    { name: "dev", path: "/dev", icon: FaCode, label: "Development" },
-    { name: "ux-ui", path: "/ux-ui", icon: FaPalette, label: "UX/UI" },
-  ];
+  // Memoized nav items for performance
+  const navItems = useMemo(
+    () => [
+      { name: "home", path: "/", icon: FaHome, label: "Home" },
+      { name: "about", path: "/about", icon: FaUser, label: "About" },
+      { name: "dev", path: "/dev", icon: FaCode, label: "Development" },
+      { name: "ux-ui", path: "/ux-ui", icon: FaPalette, label: "UX/UI" },
+    ],
+    []
+  );
 
   // Handle mounting to prevent hydration issues
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Scroll detection
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+  // Optimized scroll detection with throttling
+  const handleScroll = useCallback(() => {
+    setIsScrolled(window.scrollY > 50);
   }, []);
 
-  const handleNavigation = (path) => {
-    setIsOpen(false); // Close mobile menu
-    navigate(path);
-  };
+  useEffect(() => {
+    let ticking = false;
+
+    const throttledScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", throttledScroll, { passive: true });
+    return () => window.removeEventListener("scroll", throttledScroll);
+  }, [handleScroll]);
+
+  // Optimized navigation handler
+  const handleNavigation = useCallback(
+    (path) => {
+      setIsOpen(false); // Close mobile menu
+      navigate(path);
+    },
+    [navigate]
+  );
+
+  // Memoized animation variants for performance
+  const animationVariants = useMemo(
+    () => ({
+      navbar: {
+        initial: { y: -100 },
+        animate: { y: 0 },
+        transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }, // Faster
+      },
+      navItem: {
+        whileHover: { scale: 1.03 }, // Reduced scale
+        whileTap: { scale: 0.97 }, // Reduced scale
+      },
+      mobileButton: {
+        whileHover: { scale: 1.03 }, // Reduced scale
+        whileTap: { scale: 0.97 }, // Reduced scale
+      },
+      mobileOverlay: {
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
+        transition: { duration: 0.2 }, // Faster
+      },
+      mobileMenu: {
+        initial: { x: "100%" },
+        animate: { x: 0 },
+        exit: { x: "100%" },
+        transition: {
+          type: "spring",
+          stiffness: 400, // Higher for faster animation
+          damping: 35, // Higher for less bounce
+        },
+      },
+      iconRotation: {
+        initial: { rotate: 60, opacity: 0 }, // Reduced rotation
+        animate: { rotate: 0, opacity: 1 },
+        exit: { rotate: -60, opacity: 0 }, // Reduced rotation
+        transition: { duration: 0.15 }, // Faster
+      },
+    }),
+    []
+  );
 
   if (!mounted) {
     return null; // Prevent hydration mismatch
@@ -64,7 +126,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Floating Navigation Bar */}
+      {/* Optimized Floating Navigation Bar */}
       <motion.nav
         ref={navbarRef}
         style={{
@@ -72,15 +134,15 @@ export default function Navbar() {
           opacity: 1, // Always visible
           backdropFilter: `blur(${navbarBlur}px)`,
           background: isScrolled ? "rgba(0, 0, 0, 0.9)" : "transparent",
+          willChange: "transform, opacity, backdrop-filter",
+          transform: "translateZ(0)", // Hardware acceleration
         }}
-        className="fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300"
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-3 sm:py-4 transition-all duration-300"
+        {...animationVariants.navbar}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-end">
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-4">
+          {/* Desktop Navigation - Performance Optimized */}
+          <div className="hidden lg:flex items-center space-x-3 xl:space-x-4">
             {navItems.map((item) => {
               const isActive = pathname === item.path;
               const Icon = item.icon;
@@ -89,19 +151,26 @@ export default function Navbar() {
                 <motion.div
                   key={item.name}
                   className="relative"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  {...animationVariants.navItem}
+                  style={{
+                    willChange: "transform",
+                    transform: "translateZ(0)",
+                  }}
                 >
                   <button
                     onClick={() => handleNavigation(item.path)}
-                    className={`flex items-center space-x-3 px-6 py-3 rounded-lg transition-all duration-300 font-bold nav-item-hover ${
+                    className={`flex items-center space-x-2 xl:space-x-3 px-4 xl:px-6 py-2 xl:py-3 rounded-lg transition-all duration-300 font-bold nav-item-hover ${
                       isActive
                         ? "nav-active"
                         : "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm"
                     }`}
+                    style={{
+                      willChange: "transform",
+                      transform: "translateZ(0)",
+                    }}
                   >
-                    <Icon className="text-lg" />
-                    <span className="font-bold uppercase tracking-wide">
+                    <Icon className="text-base xl:text-lg" />
+                    <span className="font-bold uppercase tracking-wide text-sm xl:text-base">
                       {item.label}
                     </span>
                   </button>
@@ -110,33 +179,38 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - Performance Optimized */}
           <motion.button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden relative z-50 p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="lg:hidden relative z-50 p-3 sm:p-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white min-h-[44px] min-w-[44px] flex items-center justify-center"
+            {...animationVariants.mobileButton}
+            style={{
+              willChange: "transform",
+              transform: "translateZ(0)",
+            }}
           >
             <AnimatePresence mode="wait">
               {isOpen ? (
                 <motion.div
                   key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+                  {...animationVariants.iconRotation}
+                  style={{
+                    willChange: "transform, opacity",
+                    transform: "translateZ(0)",
+                  }}
                 >
-                  <FaTimes className="text-xl" />
+                  <FaTimes className="text-lg sm:text-xl" />
                 </motion.div>
               ) : (
                 <motion.div
                   key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+                  {...animationVariants.iconRotation}
+                  style={{
+                    willChange: "transform, opacity",
+                    transform: "translateZ(0)",
+                  }}
                 >
-                  <FaBars className="text-xl" />
+                  <FaBars className="text-lg sm:text-xl" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -144,47 +218,48 @@ export default function Navbar() {
         </div>
       </motion.nav>
 
-      {/* Mobile Navigation Menu */}
+      {/* Performance-Optimized Mobile Navigation Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             className="fixed inset-0 z-40 lg:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            {...animationVariants.mobileOverlay}
+            style={{
+              willChange: "opacity",
+              transform: "translateZ(0)",
+            }}
           >
             {/* Backdrop */}
             <motion.div
-              className="absolute inset-0 bg-black/90 backdrop-blur-lg"
+              className="absolute inset-0 bg-black/80 backdrop-blur-md"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
+              style={{
+                willChange: "opacity",
+                transform: "translateZ(0)",
+              }}
             />
 
-            {/* Menu Content */}
+            {/* Mobile Menu Content - Performance Optimized */}
             <motion.div
-              className="relative h-full flex flex-col justify-center items-center px-6"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
+              className="absolute top-0 right-0 w-full max-w-sm h-full bg-black/95 backdrop-blur-xl border-l border-white/10"
+              {...animationVariants.mobileMenu}
+              style={{
+                willChange: "transform",
+                transform: "translateZ(0)",
+              }}
             >
-              {/* Mobile Navigation Items */}
-              <div className="w-full max-w-sm space-y-4">
-                <motion.div
-                  className="text-center mb-12"
-                  initial={{ y: -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.4, delay: 0.2 }}
-                >
-                  <h2 className="text-3xl font-black text-white mb-2 tracking-wide">
-                    Navigation
-                  </h2>
-                  <div className="w-16 h-1 bg-orange-500 mx-auto rounded-full" />
-                </motion.div>
+              {/* Mobile Menu Header */}
+              <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/10">
+                <h2 className="text-lg sm:text-xl font-bold text-white uppercase tracking-wide">
+                  Navigation
+                </h2>
+              </div>
 
+              {/* Mobile Navigation Items - Performance Optimized */}
+              <nav className="flex flex-col p-4 sm:p-6 space-y-2">
                 {navItems.map((item, index) => {
                   const isActive = pathname === item.path;
                   const Icon = item.icon;
@@ -192,39 +267,45 @@ export default function Navbar() {
                   return (
                     <motion.div
                       key={item.name}
-                      initial={{ x: -50, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
+                      initial={{ opacity: 0, x: 30 }} // Reduced movement
+                      animate={{ opacity: 1, x: 0 }}
                       transition={{
-                        duration: 0.4,
-                        delay: 0.3 + index * 0.1,
+                        delay: index * 0.08, // Faster stagger
+                        duration: 0.25, // Faster
+                        ease: "easeOut",
+                      }}
+                      style={{
+                        willChange: "transform, opacity",
+                        transform: "translateZ(0)",
                       }}
                     >
                       <button
                         onClick={() => handleNavigation(item.path)}
-                        className={`w-full flex items-center justify-between p-6 rounded-lg transition-all duration-300 ${
+                        className={`w-full flex items-center space-x-4 p-4 sm:p-5 rounded-lg transition-all duration-300 text-left min-h-[60px] ${
                           isActive
-                            ? "bg-orange-500 text-black shadow-lg"
-                            : "bg-white/10 text-white hover:bg-white/20"
-                        } backdrop-blur-sm border border-white/20`}
+                            ? "bg-orange-500 text-black font-bold shadow-brutal"
+                            : "text-white/90 hover:text-white hover:bg-white/10"
+                        }`}
+                        style={{
+                          willChange: "transform",
+                          transform: "translateZ(0)",
+                        }}
                       >
-                        <div className="flex items-center space-x-4">
-                          <Icon className="text-xl" />
-                          <span className="text-lg font-bold tracking-wide">
-                            {item.label}
-                          </span>
-                        </div>
-                        {isActive && (
-                          <motion.div
-                            className="w-2 h-2 bg-black rounded-full"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ delay: 0.2 }}
-                          />
-                        )}
+                        <Icon className="text-xl sm:text-2xl flex-shrink-0" />
+                        <span className="font-bold uppercase tracking-wide text-base sm:text-lg">
+                          {item.label}
+                        </span>
                       </button>
                     </motion.div>
                   );
                 })}
+              </nav>
+
+              {/* Mobile Menu Footer */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 border-t border-white/10">
+                <p className="text-white/60 text-xs sm:text-sm text-center">
+                  Jake Cochran - Portfolio
+                </p>
               </div>
             </motion.div>
           </motion.div>

@@ -73,7 +73,8 @@ export default function Navbar() {
   const handleNavigation = useCallback(
     (path) => {
       setIsOpen(false); // Close mobile menu
-      navigate(path);
+      // Small delay to allow menu close to settle and avoid overlay clashes on mobile
+      setTimeout(() => navigate(path), 50);
     },
     [navigate]
   );
@@ -231,7 +232,7 @@ export default function Navbar() {
           >
             {/* Backdrop */}
             <motion.div
-              className="absolute inset-0 bg-black/80 backdrop-blur-md"
+              className="absolute inset-0 bg-black/75 lg:bg-black/80 backdrop-blur-none lg:backdrop-blur-md"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -244,7 +245,7 @@ export default function Navbar() {
 
             {/* Mobile Menu Content - Performance Optimized */}
             <motion.div
-              className="absolute top-0 right-0 w-full max-w-sm h-full bg-black/95 backdrop-blur-xl border-l border-white/10"
+              className="absolute top-0 right-0 w-full max-w-sm h-full bg-black/95 backdrop-blur-none lg:backdrop-blur-xl border-l border-white/10"
               {...animationVariants.mobileMenu}
               style={{
                 willChange: "transform",

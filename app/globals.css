@@ -1987,19 +1987,8 @@ a:hover {
     -webkit-backdrop-filter: none !important;
   }
 
-  /* Ensure smooth mobile animations */
-  [data-framer-motion] {
-    transition: opacity 0.15s ease-in-out !important;
-    animation: none !important;
-  }
-
-  /* Mobile navigation optimizations */
-  .mobile-navigation {
-    transform: translateZ(0) !important;
-    -webkit-transform: translateZ(0) !important;
-    backface-visibility: hidden !important;
-    -webkit-backface-visibility: hidden !important;
-  }
+  /* Remove CSS overrides for Framer Motion to avoid conflicts */
+  /* Allow Framer to fully control transitions on mobile */
 }
 
 /* Ultra Mobile Optimizations for very small screens */
@@ -2049,10 +2038,6 @@ a:hover {
   margin: 0;
   padding: 0;
   cursor: none !important;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
 }
 
 /* Optimize common interactive elements for GPU acceleration */
@@ -2068,11 +2053,8 @@ a:hover {
   -webkit-backface-visibility: hidden;
 }
 
-/* Optimize Framer Motion elements */
+/* Avoid forcing transforms on children to reduce layer count */
 [data-framer-motion] > * {
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  will-change: transform, opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
@@ -2273,8 +2255,6 @@ a:hover {
 [data-framer-motion] > * {
   backface-visibility: hidden !important;
   -webkit-backface-visibility: hidden !important;
-  transform: translateZ(0) !important;
-  -webkit-transform: translateZ(0) !important;
 }
 
 /* Motion Components Performance */

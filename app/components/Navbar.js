@@ -261,7 +261,11 @@ export default function Navbar() {
               {/* Mobile Navigation Items - Performance Optimized */}
               <nav className="flex flex-col p-4 sm:p-6 space-y-2">
                 {navItems.map((item, index) => {
-                  const isActive = pathname === item.path;
+                  // Fix home path comparison - handle both "/" and exact pathname
+                  const isActive =
+                    item.path === "/"
+                      ? pathname === "/" || pathname === ""
+                      : pathname === item.path;
                   const Icon = item.icon;
 
                   return (

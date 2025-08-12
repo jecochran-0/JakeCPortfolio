@@ -193,7 +193,7 @@ export default function PageTransition({ children }) {
       () => {
         setIsLoading(false);
       },
-      isMobile ? 300 : 500 // Even faster on mobile
+      isMobile ? 200 : 400 // Much faster on mobile
     );
 
     return () => clearTimeout(timer);
@@ -209,17 +209,17 @@ export default function PageTransition({ children }) {
         animate: { opacity: 1 },
         exit: { opacity: 0 },
         transition: {
-          duration: isMobileFast ? 0.1 : 0.2,
-          ease: "easeOut",
+          duration: isMobileFast ? 0.08 : 0.15,
+          ease: "easeInOut",
         },
       },
       loadingProgress: {
         initial: { scaleX: 0 },
         animate: { scaleX: 1 },
         transition: {
-          duration: isMobileFast ? 0.1 : 0.2,
-          delay: isMobileFast ? 0 : 0.05,
-          ease: "easeOut",
+          duration: isMobileFast ? 0.08 : 0.15,
+          delay: isMobileFast ? 0 : 0.03,
+          ease: "easeInOut",
         },
       },
       navigationOverlay: {
@@ -227,8 +227,8 @@ export default function PageTransition({ children }) {
         animate: { opacity: 1 },
         exit: { opacity: 0 },
         transition: {
-          duration: isMobileFast ? 0.1 : 0.15,
-          ease: "easeOut",
+          duration: isMobileFast ? 0.08 : 0.1,
+          ease: "easeInOut",
         },
       },
     };
@@ -294,7 +294,7 @@ export default function PageTransition({ children }) {
         {isNavigating && (
           <>
             {isMobile ? (
-              // Simple mobile transition - just fade, no complex animations
+              // Ultra-simple mobile transition - just smooth fade, no complex animations
               <motion.div
                 key="mobile-navigating"
                 className="fixed inset-0 z-[80] bg-white flex items-center justify-center"
@@ -302,8 +302,8 @@ export default function PageTransition({ children }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{
-                  duration: 0.1,
-                  ease: "easeOut",
+                  duration: 0.15,
+                  ease: "easeInOut",
                 }}
                 style={{
                   willChange: "opacity",
@@ -585,9 +585,9 @@ export default function PageTransition({ children }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{
-          duration: isMobile ? 0.1 : 0.15,
-          delay: isMobile ? 0.02 : 0.05,
-          ease: "easeOut",
+          duration: isMobile ? 0.08 : 0.12,
+          delay: isMobile ? 0.01 : 0.03,
+          ease: "easeInOut",
         }}
         className="relative"
         style={{

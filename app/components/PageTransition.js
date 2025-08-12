@@ -81,31 +81,52 @@ export function NavigationProvider({ children }) {
 
   // Get color for destination path
   const getColorForPath = (path) => {
-    // Create a simple hash from path to ensure consistent color per route
     let hash = 0;
     for (let i = 0; i < path.length; i++) {
       const char = path.charCodeAt(i);
       hash = (hash << 5) - hash + char;
-      hash = hash & hash; // Convert to 32-bit integer
+      hash = hash & hash;
     }
     return brandColors[Math.abs(hash) % brandColors.length];
   };
 
   const navigate = (path) => {
-    if (path === pathname) return; // Don't navigate to same page
+    if (path === pathname) return;
 
-    // Determine color upfront for destination
     const destinationColor = getColorForPath(path);
     setTransitionColor(destinationColor);
 
     setIsNavigating(true);
     setPendingPath(path);
 
-    // Optimal UX timing - under 1 second for flow maintenance
-    setTimeout(() => {
+    // Ensure overlay paints BEFORE pushing route (double rAF technique)
+    if (typeof window !== "undefined") {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          router.push(path);
+        });
+      });
+    } else {
       router.push(path);
-    }, 400); // Quick enough to maintain flow
+    }
   };
+
+  // Toggle document scrolling during navigation to prevent jank
+  useEffect(() => {
+    if (isNavigating) {
+      try {
+        document.documentElement.style.overflow = "hidden";
+        document.body.style.overflow = "hidden";
+        document.body.style.touchAction = "none";
+      } catch {}
+    } else {
+      try {
+        document.documentElement.style.overflow = "";
+        document.body.style.overflow = "";
+        document.body.style.touchAction = "";
+      } catch {}
+    }
+  }, [isNavigating]);
 
   // Reset navigation state when route actually changes
   useEffect(() => {
@@ -114,7 +135,7 @@ export function NavigationProvider({ children }) {
         setIsNavigating(false);
         setPendingPath(null);
         setTransitionColor(null);
-      }, 800); // Under 1s threshold for seamless experience
+      }, 300); // shorter hold for mobile smoothness
 
       return () => clearTimeout(timer);
     }
@@ -297,7 +318,7 @@ export default function PageTransition({ children }) {
               // Ultra-simple mobile transition - just smooth fade, no complex animations
               <motion.div
                 key="mobile-navigating"
-                className="fixed inset-0 z-[80] bg-white flex items-center justify-center"
+                className="fixed inset-0 z-[999] bg-white flex items-center justify-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}

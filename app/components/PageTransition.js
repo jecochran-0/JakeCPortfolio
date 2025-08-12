@@ -183,7 +183,7 @@ export default function PageTransition({ children }) {
 
   useEffect(() => {
     checkMobile();
-    window.addEventListener("resize", checkMobile, { passive: true }); // Passive for better performance
+    window.addEventListener("resize", checkMobile, { passive: true });
     return () => window.removeEventListener("resize", checkMobile);
   }, [checkMobile]);
 
@@ -193,21 +193,23 @@ export default function PageTransition({ children }) {
       () => {
         setIsLoading(false);
       },
-      isMobile ? 600 : 800 // Faster loading times
+      isMobile ? 300 : 500 // Even faster on mobile
     );
 
     return () => clearTimeout(timer);
   }, [isMobile]);
 
-  // Memoized animation variants for performance
-  const animationVariants = useMemo(
-    () => ({
+  // Mobile-specific animation variants - optimized for zero flicker
+  const animationVariants = useMemo(() => {
+    const isMobileFast = isMobile || shouldReduceMotion;
+
+    return {
       loadingCard: {
-        initial: { scale: 0.95, opacity: 0 },
-        animate: { scale: 1, opacity: 1 },
-        exit: { scale: 1.02, opacity: 0 },
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
         transition: {
-          duration: shouldReduceMotion ? 0.05 : 0.3,
+          duration: isMobileFast ? 0.1 : 0.2,
           ease: "easeOut",
         },
       },
@@ -215,8 +217,8 @@ export default function PageTransition({ children }) {
         initial: { scaleX: 0 },
         animate: { scaleX: 1 },
         transition: {
-          duration: shouldReduceMotion ? 0.05 : 0.4,
-          delay: shouldReduceMotion ? 0 : 0.2,
+          duration: isMobileFast ? 0.1 : 0.2,
+          delay: isMobileFast ? 0 : 0.05,
           ease: "easeOut",
         },
       },
@@ -225,53 +227,61 @@ export default function PageTransition({ children }) {
         animate: { opacity: 1 },
         exit: { opacity: 0 },
         transition: {
-          duration: shouldReduceMotion ? 0.05 : 0.15,
-          ease: [0.25, 0.46, 0.45, 0.94],
+          duration: isMobileFast ? 0.1 : 0.15,
+          ease: "easeOut",
         },
       },
-    }),
-    [shouldReduceMotion]
-  );
+    };
+  }, [isMobile, shouldReduceMotion]);
 
   return (
     <>
-      {/* Optimized Loading Screen */}
+      {/* Simplified Loading Screen - Zero Flicker */}
       <AnimatePresence mode="wait">
         {isLoading && (
           <motion.div
             key="loading"
             className="fixed inset-0 z-[80] bg-white flex items-center justify-center"
             {...animationVariants.navigationOverlay}
+            style={{
+              willChange: "opacity",
+              transform: "translateZ(0)",
+              backfaceVisibility: "hidden",
+            }}
           >
-            {/* Optimized Loading Card */}
             <motion.div
-              className="bg-white border-4 border-black shadow-brutal p-8 sm:p-12 text-center"
+              className="bg-white border-4 border-black shadow-brutal p-6 sm:p-8 text-center"
               {...animationVariants.loadingCard}
               style={{
-                willChange: "transform, opacity",
+                willChange: "opacity",
                 transform: "translateZ(0)",
+                backfaceVisibility: "hidden",
               }}
             >
-              {/* Simple Logo */}
               <motion.h1
-                className="text-4xl sm:text-5xl font-black text-black mb-6 tracking-tight uppercase"
+                className="text-3xl sm:text-4xl font-black text-black mb-4 tracking-tight uppercase"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{
-                  duration: shouldReduceMotion ? 0.05 : 0.25,
-                  delay: shouldReduceMotion ? 0 : 0.15,
+                  duration: isMobile ? 0.1 : 0.15,
+                  delay: isMobile ? 0 : 0.05,
+                }}
+                style={{
+                  willChange: "opacity",
+                  transform: "translateZ(0)",
+                  backfaceVisibility: "hidden",
                 }}
               >
                 JAKE
               </motion.h1>
 
-              {/* Optimized Progress */}
               <motion.div
-                className="w-16 h-1 bg-orange-500 mx-auto"
+                className="w-12 sm:w-16 h-1 bg-orange-500 mx-auto"
                 {...animationVariants.loadingProgress}
                 style={{
                   willChange: "transform",
                   transform: "translateZ(0)",
+                  backfaceVisibility: "hidden",
                 }}
               />
             </motion.div>
@@ -279,439 +289,311 @@ export default function PageTransition({ children }) {
         )}
       </AnimatePresence>
 
-      {/* Performance-Optimized Navigation Transition */}
+      {/* Mobile-Optimized Navigation Transition - Zero Flicker */}
       <AnimatePresence mode="wait">
         {isNavigating && (
-          <motion.div
-            key="navigating"
-            className="fixed inset-0 z-[80] bg-white flex items-center justify-center overflow-hidden"
-            {...animationVariants.navigationOverlay}
-          >
-            {/* Optimized Environmental Background */}
-            <motion.div
-              className="absolute inset-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{
-                duration: shouldReduceMotion ? 0.05 : 0.2,
-                ease: "easeOut",
-              }}
-              style={{
-                willChange: "opacity",
-                transform: "translateZ(0)",
-              }}
-            >
-              {/* Simplified Paper Texture */}
-              <div
-                className="absolute inset-0 opacity-[0.01]"
-                style={{
-                  backgroundImage: `radial-gradient(circle at 2px 2px, rgba(0,0,0,0.1) 1px, transparent 0)`,
-                  backgroundSize: "32px 32px",
-                }}
-              />
-              {/* Simplified Gradient Overlay */}
-              <div
-                className="absolute inset-0 opacity-[0.02]"
-                style={{
-                  background: `radial-gradient(ellipse 60% 40% at 50% 50%, rgba(0,0,0,0.05) 0%, transparent 50%)`,
-                }}
-              />
-            </motion.div>
-
-            {/* Performance-Optimized Developer Side */}
-            <motion.div
-              className="absolute inset-0 bg-black flex items-center justify-center"
-              style={{
-                clipPath: "polygon(0 0, 100% 0, 0 100%)",
-                boxShadow: `20px 20px 0px ${transitionColor?.shadow}, 40px 40px 0px ${transitionColor?.shadowSecondary}`,
-                willChange: "clip-path, opacity",
-                transform: "translateZ(0)",
-              }}
-              initial={{
-                clipPath: "polygon(50% 50%, 50% 50%, 50% 50%)",
-                opacity: 0.9,
-              }}
-              animate={{
-                clipPath: "polygon(0 0, 100% 0, 0 100%)",
-                opacity: 1,
-              }}
-              exit={{
-                clipPath: "polygon(50% 50%, 50% 50%, 50% 50%)",
-                opacity: 0,
-              }}
-              transition={{
-                clipPath: {
-                  duration: shouldReduceMotion ? 0.05 : 0.35,
-                  ease: [0.25, 0.1, 0.25, 1],
-                },
-                opacity: {
-                  duration: shouldReduceMotion ? 0.05 : 0.15,
+          <>
+            {isMobile ? (
+              // Simple mobile transition - just fade, no complex animations
+              <motion.div
+                key="mobile-navigating"
+                className="fixed inset-0 z-[80] bg-white flex items-center justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  duration: 0.1,
                   ease: "easeOut",
-                },
-              }}
-            >
-              {/* Developer Content - Performance Optimized */}
-              <div className="absolute top-1/3 left-1/3 text-center transform -translate-x-1/2 -translate-y-1/2 px-4 sm:px-0">
-                {/* Code Symbol - Optimized */}
+                }}
+                style={{
+                  willChange: "opacity",
+                  transform: "translateZ(0)",
+                  backfaceVisibility: "hidden",
+                }}
+              >
+                <div className="text-center">
+                  <div className="bg-white border-4 border-black shadow-brutal p-6 inline-block">
+                    <h2 className="text-2xl font-black text-black uppercase tracking-wide mb-3">
+                      {transitionColor?.name === "primary"
+                        ? "Home"
+                        : transitionColor?.name === "secondary"
+                        ? "About"
+                        : transitionColor?.name === "accent"
+                        ? "Development"
+                        : transitionColor?.name === "warning"
+                        ? "UX/UI"
+                        : "Loading"}
+                    </h2>
+                    <div
+                      className="w-8 h-1 mx-auto"
+                      style={{
+                        backgroundColor:
+                          transitionColor?.bg?.replace("bg-", "") || "#ff6b35",
+                      }}
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            ) : (
+              // Desktop transition - optimized for zero flicker
+              <motion.div
+                key="desktop-navigating"
+                className="fixed inset-0 z-[80] bg-white flex items-center justify-center overflow-hidden"
+                {...animationVariants.navigationOverlay}
+                style={{
+                  willChange: "opacity",
+                  transform: "translateZ(0)",
+                  backfaceVisibility: "hidden",
+                }}
+              >
+                {/* Minimal Environmental Background */}
                 <motion.div
-                  className={`bg-white p-4 sm:p-6 md:p-8 lg:p-10 mb-4 sm:mb-6 inline-block relative overflow-hidden`}
-                  style={{
-                    borderRadius: "2px",
-                    boxShadow: `6px 6px 0px ${transitionColor?.shadow}, 12px 12px 0px ${transitionColor?.shadowSecondary}`,
-                    willChange: "transform, opacity",
-                    transform: "translateZ(0)",
-                  }}
-                  initial={{
-                    opacity: 0,
-                    scale: 0.5,
-                    rotate: -10,
-                    y: 15,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                    rotate: 0,
-                    y: 0,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    scale: 0.95,
-                    rotate: 5,
-                  }}
+                  className="absolute inset-0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   transition={{
-                    duration: shouldReduceMotion ? 0.05 : 0.25,
-                    delay: shouldReduceMotion ? 0 : 0.1,
-                    ease: [0.34, 1.2, 0.64, 1],
+                    duration: 0.15,
+                    ease: "easeOut",
+                  }}
+                  style={{
+                    willChange: "opacity",
+                    transform: "translateZ(0)",
+                    backfaceVisibility: "hidden",
                   }}
                 >
-                  {/* Optimized shine effect */}
-                  <motion.div
-                    className={`absolute inset-0 bg-gradient-to-r from-transparent ${transitionColor?.shine} to-transparent opacity-30`}
-                    initial={{ x: "-100%" }}
-                    animate={{ x: "100%" }}
-                    transition={{
-                      duration: shouldReduceMotion ? 0 : 0.6,
-                      delay: shouldReduceMotion ? 0 : 0.2,
-                      ease: [0.25, 0.46, 0.45, 0.94],
-                    }}
+                  <div
+                    className="absolute inset-0 opacity-[0.005]"
                     style={{
-                      willChange: "transform",
-                      transform: "translateZ(0)",
+                      backgroundImage: `radial-gradient(circle at 2px 2px, rgba(0,0,0,0.1) 1px, transparent 0)`,
+                      backgroundSize: "32px 32px",
                     }}
                   />
-
-                  <motion.div
-                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-mono font-black text-black relative z-10"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{
-                      duration: shouldReduceMotion ? 0.05 : 0.2,
-                      delay: shouldReduceMotion ? 0 : 0.2,
-                      ease: [0.68, -0.55, 0.265, 1.55],
-                    }}
-                    style={{
-                      willChange: "transform, opacity",
-                      transform: "translateZ(0)",
-                    }}
-                  >
-                    &lt;/&gt;
-                  </motion.div>
                 </motion.div>
 
-                {/* Developer Label - Optimized */}
+                {/* Desktop Developer Side - Optimized */}
                 <motion.div
-                  className={`${transitionColor?.bg} px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 relative`}
+                  className="absolute inset-0 bg-black flex items-center justify-center"
                   style={{
-                    borderRadius: "2px",
-                    boxShadow: "5px 5px 0px rgba(0, 0, 0, 0.8)",
-                    willChange: "transform, opacity",
+                    clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                    boxShadow: `12px 12px 0px ${transitionColor?.shadow}`,
+                    willChange: "clip-path, opacity",
                     transform: "translateZ(0)",
+                    backfaceVisibility: "hidden",
                   }}
                   initial={{
-                    opacity: 0,
-                    y: 25,
-                    scale: 0.95,
+                    clipPath: "polygon(50% 50%, 50% 50%, 50% 50%)",
+                    opacity: 0.95,
                   }}
                   animate={{
+                    clipPath: "polygon(0 0, 100% 0, 0 100%)",
                     opacity: 1,
-                    y: 0,
-                    scale: 1,
                   }}
                   exit={{
+                    clipPath: "polygon(50% 50%, 50% 50%, 50% 50%)",
                     opacity: 0,
-                    y: -15,
                   }}
                   transition={{
-                    duration: shouldReduceMotion ? 0.05 : 0.25,
-                    delay: shouldReduceMotion ? 0 : 0.25,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                >
-                  <motion.h3
-                    className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-black uppercase tracking-wide"
-                    initial={{ letterSpacing: "0.3em", opacity: 0 }}
-                    animate={{ letterSpacing: "0.2em", opacity: 1 }}
-                    transition={{
-                      duration: shouldReduceMotion ? 0.05 : 0.2,
-                      delay: shouldReduceMotion ? 0 : 0.3,
+                    clipPath: {
+                      duration: 0.25,
+                      ease: [0.25, 0.1, 0.25, 1],
+                    },
+                    opacity: {
+                      duration: 0.1,
                       ease: "easeOut",
-                    }}
-                  >
-                    Developer
-                  </motion.h3>
-                </motion.div>
-              </div>
-            </motion.div>
-
-            {/* Performance-Optimized Designer Side */}
-            <motion.div
-              className={`absolute inset-0 ${transitionColor?.bg} flex items-center justify-center`}
-              style={{
-                clipPath: "polygon(100% 100%, 100% 0, 0 100%)",
-                boxShadow:
-                  "-20px -20px 0px rgba(0, 0, 0, 0.7), -40px -40px 0px rgba(0, 0, 0, 0.3)",
-                willChange: "clip-path, opacity",
-                transform: "translateZ(0)",
-              }}
-              initial={{
-                clipPath: "polygon(50% 50%, 50% 50%, 50% 50%)",
-                opacity: 0.9,
-              }}
-              animate={{
-                clipPath: "polygon(100% 100%, 100% 0, 0 100%)",
-                opacity: 1,
-              }}
-              exit={{
-                clipPath: "polygon(50% 50%, 50% 50%, 50% 50%)",
-                opacity: 0,
-              }}
-              transition={{
-                clipPath: {
-                  duration: shouldReduceMotion ? 0.05 : 0.35,
-                  delay: shouldReduceMotion ? 0 : 0.05,
-                  ease: [0.25, 0.1, 0.25, 1],
-                },
-                opacity: {
-                  duration: shouldReduceMotion ? 0.05 : 0.15,
-                  delay: shouldReduceMotion ? 0 : 0.05,
-                  ease: "easeOut",
-                },
-              }}
-            >
-              {/* Designer Content - Performance Optimized */}
-              <div className="absolute bottom-1/3 right-1/3 text-center transform translate-x-1/2 translate-y-1/2 px-4 sm:px-0">
-                {/* Design Symbol - Optimized */}
-                <motion.div
-                  className="bg-black p-4 sm:p-6 md:p-8 lg:p-10 mb-4 sm:mb-6 inline-block relative overflow-hidden"
-                  style={{
-                    borderRadius: "2px",
-                    boxShadow:
-                      "6px 6px 0px rgba(0, 0, 0, 0.8), 12px 12px 0px rgba(0, 0, 0, 0.4)",
-                    willChange: "transform, opacity",
-                    transform: "translateZ(0)",
-                  }}
-                  initial={{
-                    opacity: 0,
-                    scale: 0.5,
-                    rotate: 10,
-                    y: 15,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                    rotate: 0,
-                    y: 0,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    scale: 0.95,
-                    rotate: -5,
-                  }}
-                  transition={{
-                    duration: shouldReduceMotion ? 0.05 : 0.25,
-                    delay: shouldReduceMotion ? 0 : 0.2,
-                    ease: [0.34, 1.2, 0.64, 1],
+                    },
                   }}
                 >
-                  {/* Optimized shine effect */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-25"
-                    initial={{ x: "-100%" }}
-                    animate={{ x: "100%" }}
-                    transition={{
-                      duration: shouldReduceMotion ? 0 : 0.6,
-                      delay: shouldReduceMotion ? 0 : 0.3,
-                      ease: [0.25, 0.46, 0.45, 0.94],
-                    }}
-                    style={{
-                      willChange: "transform",
-                      transform: "translateZ(0)",
-                    }}
-                  />
+                  <div className="absolute top-1/3 left-1/3 text-center transform -translate-x-1/2 -translate-y-1/2">
+                    <motion.div
+                      className="bg-white p-6 lg:p-8 mb-4 inline-block"
+                      style={{
+                        borderRadius: "2px",
+                        boxShadow: `4px 4px 0px ${transitionColor?.shadow}`,
+                        willChange: "transform, opacity",
+                        transform: "translateZ(0)",
+                        backfaceVisibility: "hidden",
+                      }}
+                      initial={{ opacity: 0, scale: 0.9, y: 8 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{
+                        duration: 0.15,
+                        delay: 0.05,
+                        ease: [0.34, 1.1, 0.64, 1],
+                      }}
+                    >
+                      <div className="text-4xl lg:text-5xl font-mono font-black text-black">
+                        &lt;/&gt;
+                      </div>
+                    </motion.div>
 
-                  <motion.div
-                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white relative z-10"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{
-                      duration: shouldReduceMotion ? 0.05 : 0.2,
-                      delay: shouldReduceMotion ? 0 : 0.3,
-                      ease: [0.68, -0.55, 0.265, 1.55],
-                    }}
-                    style={{
-                      willChange: "transform, opacity",
-                      transform: "translateZ(0)",
-                    }}
-                  >
-                    ◆
-                  </motion.div>
+                    <motion.div
+                      className={`${transitionColor?.bg} px-6 py-3 relative`}
+                      style={{
+                        borderRadius: "2px",
+                        boxShadow: "3px 3px 0px rgba(0, 0, 0, 0.8)",
+                        willChange: "transform, opacity",
+                        transform: "translateZ(0)",
+                        backfaceVisibility: "hidden",
+                      }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{
+                        duration: 0.15,
+                        delay: 0.1,
+                        ease: [0.25, 0.46, 0.45, 0.94],
+                      }}
+                    >
+                      <h3 className="text-xl lg:text-2xl font-black text-black uppercase tracking-wide">
+                        Developer
+                      </h3>
+                    </motion.div>
+                  </div>
                 </motion.div>
 
-                {/* Designer Label - Optimized */}
+                {/* Desktop Designer Side - Optimized */}
                 <motion.div
-                  className="bg-white px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 relative"
+                  className={`absolute inset-0 ${transitionColor?.bg} flex items-center justify-center`}
                   style={{
-                    borderRadius: "2px",
-                    boxShadow: "5px 5px 0px rgba(0, 0, 0, 0.8)",
-                    willChange: "transform, opacity",
+                    clipPath: "polygon(100% 100%, 100% 0, 0 100%)",
+                    boxShadow: "-12px -12px 0px rgba(0, 0, 0, 0.7)",
+                    willChange: "clip-path, opacity",
                     transform: "translateZ(0)",
+                    backfaceVisibility: "hidden",
                   }}
                   initial={{
-                    opacity: 0,
-                    y: 25,
-                    scale: 0.95,
+                    clipPath: "polygon(50% 50%, 50% 50%, 50% 50%)",
+                    opacity: 0.95,
                   }}
                   animate={{
+                    clipPath: "polygon(100% 100%, 100% 0, 0 100%)",
                     opacity: 1,
-                    y: 0,
-                    scale: 1,
                   }}
                   exit={{
+                    clipPath: "polygon(50% 50%, 50% 50%, 50% 50%)",
                     opacity: 0,
-                    y: -15,
                   }}
                   transition={{
-                    duration: shouldReduceMotion ? 0.05 : 0.25,
-                    delay: shouldReduceMotion ? 0 : 0.35,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                >
-                  <motion.h3
-                    className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-black uppercase tracking-wide"
-                    initial={{ letterSpacing: "0.3em", opacity: 0 }}
-                    animate={{ letterSpacing: "0.2em", opacity: 1 }}
-                    transition={{
-                      duration: shouldReduceMotion ? 0.05 : 0.2,
-                      delay: shouldReduceMotion ? 0 : 0.4,
+                    clipPath: {
+                      duration: 0.25,
+                      delay: 0.02,
+                      ease: [0.25, 0.1, 0.25, 1],
+                    },
+                    opacity: {
+                      duration: 0.1,
+                      delay: 0.02,
                       ease: "easeOut",
-                    }}
-                  >
-                    Designer
-                  </motion.h3>
+                    },
+                  }}
+                >
+                  <div className="absolute bottom-1/3 right-1/3 text-center transform translate-x-1/2 translate-y-1/2">
+                    <motion.div
+                      className="bg-black p-6 lg:p-8 mb-4 inline-block"
+                      style={{
+                        borderRadius: "2px",
+                        boxShadow: "4px 4px 0px rgba(0, 0, 0, 0.8)",
+                        willChange: "transform, opacity",
+                        transform: "translateZ(0)",
+                        backfaceVisibility: "hidden",
+                      }}
+                      initial={{ opacity: 0, scale: 0.9, y: 8 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{
+                        duration: 0.15,
+                        delay: 0.1,
+                        ease: [0.34, 1.1, 0.64, 1],
+                      }}
+                    >
+                      <div className="text-4xl lg:text-5xl font-black text-white">
+                        ◆
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      className="bg-white px-6 py-3 relative"
+                      style={{
+                        borderRadius: "2px",
+                        boxShadow: "3px 3px 0px rgba(0, 0, 0, 0.8)",
+                        willChange: "transform, opacity",
+                        transform: "translateZ(0)",
+                        backfaceVisibility: "hidden",
+                      }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{
+                        duration: 0.15,
+                        delay: 0.15,
+                        ease: [0.25, 0.46, 0.45, 0.94],
+                      }}
+                    >
+                      <h3 className="text-xl lg:text-2xl font-black text-black uppercase tracking-wide">
+                        Designer
+                      </h3>
+                    </motion.div>
+                  </div>
                 </motion.div>
-              </div>
-            </motion.div>
 
-            {/* Optimized Corner Accents */}
-            <motion.div
-              className="absolute top-4 sm:top-6 md:top-8 right-4 sm:right-6 md:right-8 w-6 sm:w-7 md:w-8 h-6 sm:h-7 md:h-8 bg-black"
-              style={{
-                borderRadius: "2px",
-                boxShadow: `3px 3px 0px ${transitionColor?.shadow}`,
-                willChange: "transform, opacity",
-                transform: "translateZ(0)",
-              }}
-              initial={{ scale: 0, rotate: 30, opacity: 0 }}
-              animate={{ scale: 1, rotate: 0, opacity: 1 }}
-              exit={{ scale: 0, rotate: -30, opacity: 0 }}
-              transition={{
-                duration: shouldReduceMotion ? 0.05 : 0.15,
-                delay: shouldReduceMotion ? 0 : 0.4,
-                ease: [0.68, -0.55, 0.265, 1.55],
-              }}
-            />
+                {/* Simple Corner Accents - Minimal */}
+                <motion.div
+                  className="absolute top-6 right-6 w-5 h-5 bg-black"
+                  style={{
+                    borderRadius: "2px",
+                    boxShadow: `2px 2px 0px ${transitionColor?.shadow}`,
+                    willChange: "transform, opacity",
+                    transform: "translateZ(0)",
+                    backfaceVisibility: "hidden",
+                  }}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  transition={{
+                    duration: 0.1,
+                    delay: 0.2,
+                  }}
+                />
 
-            <motion.div
-              className={`absolute bottom-4 sm:bottom-6 md:bottom-8 left-4 sm:left-6 md:left-8 w-4 sm:w-5 md:w-6 h-4 sm:h-5 md:h-6 ${transitionColor?.bg}`}
-              style={{
-                borderRadius: "2px",
-                boxShadow: "2px 2px 0px rgba(0, 0, 0, 0.6)",
-                willChange: "transform, opacity",
-                transform: "translateZ(0)",
-              }}
-              initial={{ scale: 0, rotate: -30, opacity: 0 }}
-              animate={{ scale: 1, rotate: 0, opacity: 1 }}
-              exit={{ scale: 0, rotate: 30, opacity: 0 }}
-              transition={{
-                duration: shouldReduceMotion ? 0.05 : 0.15,
-                delay: shouldReduceMotion ? 0 : 0.45,
-                ease: [0.68, -0.55, 0.265, 1.55],
-              }}
-            />
-
-            {/* Optimized Progress Indicator */}
-            <motion.div
-              className="absolute bottom-8 sm:bottom-10 md:bottom-12 left-1/2 transform -translate-x-1/2"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{
-                duration: shouldReduceMotion ? 0.05 : 0.15,
-                delay: shouldReduceMotion ? 0 : 0.5,
-                ease: "easeOut",
-              }}
-              style={{
-                willChange: "transform, opacity",
-                transform: "translateZ(0) translateX(-50%)",
-              }}
-            >
-              <div className="flex space-x-2 sm:space-x-3">
-                {[0, 1, 2].map((index) => (
-                  <motion.div
-                    key={index}
-                    className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-black"
-                    style={{
-                      borderRadius: "1px",
-                      willChange: "transform, opacity",
-                      transform: "translateZ(0)",
-                    }}
-                    animate={
-                      shouldReduceMotion
-                        ? {}
-                        : {
-                            scale: [1, 1.2, 1],
-                            opacity: [0.6, 1, 0.6],
-                            transition: {
-                              duration: 1.0,
-                              repeat: Infinity,
-                              delay: index * 0.1,
-                              ease: [0.25, 0.46, 0.45, 0.94],
-                            },
-                          }
-                    }
-                  />
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
+                <motion.div
+                  className={`absolute bottom-6 left-6 w-4 h-4 ${transitionColor?.bg}`}
+                  style={{
+                    borderRadius: "2px",
+                    boxShadow: "2px 2px 0px rgba(0, 0, 0, 0.6)",
+                    willChange: "transform, opacity",
+                    transform: "translateZ(0)",
+                    backfaceVisibility: "hidden",
+                  }}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  transition={{
+                    duration: 0.1,
+                    delay: 0.25,
+                  }}
+                />
+              </motion.div>
+            )}
+          </>
         )}
       </AnimatePresence>
 
-      {/* Optimized Page Content */}
+      {/* Optimized Page Content - Zero Flicker */}
       <motion.div
         key={pathname}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{
-          duration: shouldReduceMotion ? 0.05 : 0.25,
-          delay: shouldReduceMotion ? 0 : 0.05,
+          duration: isMobile ? 0.1 : 0.15,
+          delay: isMobile ? 0.02 : 0.05,
           ease: "easeOut",
         }}
         className="relative"
         style={{
           willChange: "opacity",
           transform: "translateZ(0)",
+          backfaceVisibility: "hidden",
         }}
       >
         {children}

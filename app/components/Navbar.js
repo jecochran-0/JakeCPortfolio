@@ -73,8 +73,7 @@ export default function Navbar() {
   const handleNavigation = useCallback(
     (path) => {
       setIsOpen(false); // Close mobile menu
-      // Small delay to allow menu close to settle and avoid overlay clashes on mobile
-      setTimeout(() => navigate(path), 50);
+      navigate(path);
     },
     [navigate]
   );
@@ -232,7 +231,7 @@ export default function Navbar() {
           >
             {/* Backdrop */}
             <motion.div
-              className="absolute inset-0 bg-black/75 lg:bg-black/80 backdrop-blur-none lg:backdrop-blur-md"
+              className="absolute inset-0 bg-black/80 backdrop-blur-md"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -245,72 +244,74 @@ export default function Navbar() {
 
             {/* Mobile Menu Content - Performance Optimized */}
             <motion.div
-              className="absolute top-0 right-0 w-full max-w-sm h-full bg-black/95 backdrop-blur-none lg:backdrop-blur-xl border-l border-white/10"
+              className="absolute top-0 right-0 w-full max-w-sm h-full"
               {...animationVariants.mobileMenu}
               style={{
                 willChange: "transform",
                 transform: "translateZ(0)",
+                backfaceVisibility: "hidden",
+                WebkitBackfaceVisibility: "hidden",
+                contain: "layout paint",
               }}
             >
-              {/* Mobile Menu Header */}
-              <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/10">
-                <h2 className="text-lg sm:text-xl font-bold text-white uppercase tracking-wide">
-                  Navigation
-                </h2>
-              </div>
+              {/* Static inner with blur to avoid animating backdrop-filter */}
+              <div className="h-full bg-black/95 backdrop-blur-xl border-l border-white/10">
+                {/* Mobile Menu Header */}
+                <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/10">
+                  <h2 className="text-lg sm:text-xl font-bold text-white uppercase tracking-wide">
+                    Navigation
+                  </h2>
+                </div>
 
-              {/* Mobile Navigation Items - Performance Optimized */}
-              <nav className="flex flex-col p-4 sm:p-6 space-y-2">
-                {navItems.map((item, index) => {
-                  // Fix home path comparison - handle both "/" and exact pathname
-                  const isActive =
-                    item.path === "/"
-                      ? pathname === "/" || pathname === ""
-                      : pathname === item.path;
-                  const Icon = item.icon;
+                {/* Mobile Navigation Items - Performance Optimized */}
+                <nav className="flex flex-col p-4 sm:p-6 space-y-2">
+                  {navItems.map((item, index) => {
+                    const isActive = pathname === item.path;
+                    const Icon = item.icon;
 
-                  return (
-                    <motion.div
-                      key={item.name}
-                      initial={{ opacity: 0, x: 30 }} // Reduced movement
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{
-                        delay: index * 0.08, // Faster stagger
-                        duration: 0.25, // Faster
-                        ease: "easeOut",
-                      }}
-                      style={{
-                        willChange: "transform, opacity",
-                        transform: "translateZ(0)",
-                      }}
-                    >
-                      <button
-                        onClick={() => handleNavigation(item.path)}
-                        className={`w-full flex items-center space-x-4 p-4 sm:p-5 rounded-lg transition-all duration-300 text-left min-h-[60px] ${
-                          isActive
-                            ? "bg-orange-500 text-black font-bold shadow-brutal"
-                            : "text-white/90 hover:text-white hover:bg-white/10"
-                        }`}
+                    return (
+                      <motion.div
+                        key={item.name}
+                        initial={{ opacity: 0, x: 30 }} // Reduced movement
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{
+                          delay: index * 0.08, // Faster stagger
+                          duration: 0.25, // Faster
+                          ease: "easeOut",
+                        }}
                         style={{
-                          willChange: "transform",
+                          willChange: "transform, opacity",
                           transform: "translateZ(0)",
                         }}
                       >
-                        <Icon className="text-xl sm:text-2xl flex-shrink-0" />
-                        <span className="font-bold uppercase tracking-wide text-base sm:text-lg">
-                          {item.label}
-                        </span>
-                      </button>
-                    </motion.div>
-                  );
-                })}
-              </nav>
+                        <button
+                          onClick={() => handleNavigation(item.path)}
+                          className={`w-full flex items-center space-x-4 p-4 sm:p-5 rounded-lg transition-all duration-300 text-left min-h-[60px] ${
+                            isActive
+                              ? "bg-orange-500 text-black font-bold shadow-brutal"
+                              : "text-white/90 hover:text-white hover:bg-white/10"
+                          }`}
+                          style={{
+                            willChange: "transform",
+                            transform: "translateZ(0)",
+                          }}
+                        >
+                          <Icon className="text-xl sm:text-2xl flex-shrink-0" />
+                          <span className="font-bold uppercase tracking-wide text-base sm:text-lg">
+                            {item.label}
+                          </span>
+                        </button>
+                      </motion.div>
+                    );
+                  })}
+                </nav>
 
-              {/* Mobile Menu Footer */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 border-t border-white/10">
-                <p className="text-white/60 text-xs sm:text-sm text-center">
-                  Jake Cochran - Portfolio
-                </p>
+                {/* Mobile Menu Footer */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 border-t border-white/10">
+                  <p className="text-white/60 text-xs sm:text-sm text-center">
+                    Jake Cochran - Portfolio
+                  </p>
+                </div>
               </div>
             </motion.div>
           </motion.div>

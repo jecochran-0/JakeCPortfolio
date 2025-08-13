@@ -9,47 +9,42 @@ import {
   FaLayerGroup,
   FaSyncAlt,
 } from "react-icons/fa";
-import { memo, useMemo, useState, useEffect } from "react";
+import { memo, useMemo } from "react";
 
-// Memoized skill group component for performance - Zero Flicker
-const SoftSkillGroup = memo(({ skillGroup, index, isMobile }) => {
-  // Mobile-optimized animation variants - simplified for zero flicker
-  const animationVariants = useMemo(() => {
-    const fastMode = isMobile;
-
-    return {
+// Memoized skill group component for performance
+const SoftSkillGroup = memo(({ skillGroup, index }) => {
+  // Memoized animation variants for performance
+  const animationVariants = useMemo(
+    () => ({
       container: {
-        initial: { opacity: 0, y: fastMode ? 15 : 20 },
+        initial: { opacity: 0, y: 30 }, // Reduced movement
         animate: { opacity: 1, y: 0 },
         transition: {
-          duration: fastMode ? 0.25 : 0.3,
-          delay: index * (fastMode ? 0.03 : 0.05),
+          duration: 0.4, // Faster
+          delay: index * 0.08, // Slightly faster stagger
           ease: [0.25, 0.46, 0.45, 0.94],
         },
       },
-      hover: fastMode
-        ? {}
-        : {
-            scale: 1.005,
-            y: -2,
-            transition: {
-              duration: 0.15,
-              ease: [0.25, 0.46, 0.45, 0.94],
-            },
-          },
+      hover: {
+        scale: 1.01, // Reduced scale
+        y: -4, // Reduced movement
+        transition: {
+          duration: 0.2, // Faster
+          ease: [0.25, 0.46, 0.45, 0.94],
+        },
+      },
       skillItem: {
-        initial: { opacity: 0, x: fastMode ? -8 : -10 },
+        initial: { opacity: 0, x: -15 }, // Reduced movement
         animate: { opacity: 1, x: 0 },
         transition: (skillIndex) => ({
-          duration: fastMode ? 0.15 : 0.2,
-          delay:
-            index * (fastMode ? 0.03 : 0.05) +
-            skillIndex * (fastMode ? 0.01 : 0.02),
+          duration: 0.3, // Faster
+          delay: index * 0.08 + skillIndex * 0.03, // Optimized timing
           ease: [0.25, 0.46, 0.45, 0.94],
         }),
       },
-    };
-  }, [index, isMobile]);
+    }),
+    [index]
+  );
 
   return (
     <motion.div
@@ -61,8 +56,7 @@ const SoftSkillGroup = memo(({ skillGroup, index, isMobile }) => {
       className="card-brutal group cursor-pointer relative overflow-hidden w-full min-h-[280px] sm:min-h-[300px]"
       style={{
         willChange: "transform, opacity",
-        transform: "translateZ(0)",
-        backfaceVisibility: "hidden",
+        transform: "translateZ(0)", // Hardware acceleration
       }}
     >
       {/* Brutalist accent line */}
@@ -79,7 +73,6 @@ const SoftSkillGroup = memo(({ skillGroup, index, isMobile }) => {
             background: skillGroup.color,
             willChange: "transform",
             transform: "translateZ(0)",
-            backfaceVisibility: "hidden",
           }}
         >
           <skillGroup.icon
@@ -105,7 +98,6 @@ const SoftSkillGroup = memo(({ skillGroup, index, isMobile }) => {
             style={{
               willChange: "transform, opacity",
               transform: "translateZ(0)",
-              backfaceVisibility: "hidden",
             }}
           >
             <div
@@ -210,24 +202,12 @@ const softSkills = [
 ];
 
 export default memo(function SoftSkills() {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile, { passive: true });
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
   return (
     <div
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 max-w-none"
       style={{
         willChange: "contents",
         transform: "translateZ(0)",
-        backfaceVisibility: "hidden",
       }}
     >
       {softSkills.map((skillGroup, index) => (
@@ -235,7 +215,6 @@ export default memo(function SoftSkills() {
           key={skillGroup.category}
           skillGroup={skillGroup}
           index={index}
-          isMobile={isMobile}
         />
       ))}
     </div>

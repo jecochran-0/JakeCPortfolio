@@ -4,60 +4,15 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:ital,wght@0,300..700;1,300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap");
 
+/* Unified Shadow System - Award-Winning Design */
 :root {
   /* Neo-Brutalism Design System */
   --font-primary: "Space Grotesk", "Inter", -apple-system, BlinkMacSystemFont,
     sans-serif;
   --font-secondary: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-
-  /* Brutalist Color Palette */
-  --color-black: #000000;
-  --color-white: #ffffff;
-  --color-gray-50: #fafafa;
-  --color-gray-100: #f5f5f5;
-  --color-gray-200: #e5e5e5;
-  --color-gray-300: #d4d4d4;
-  --color-gray-400: #a3a3a3;
-  --color-gray-500: #737373;
-  --color-gray-600: #525252;
-  --color-gray-700: #404040;
-  --color-gray-800: #262626;
-  --color-gray-900: #171717;
-
-  /* Neo-Brutalism Accent Colors */
-  --color-primary: #ff6b35;
-  --color-secondary: #4ecdc4;
-  --color-accent: #45b7d1;
-  --color-warning: #f7b731;
-  --color-success: #26de81;
-  --color-error: #fc5c65;
-
-  /* Brutalist Gradients */
-  --gradient-primary: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-  --gradient-secondary: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-  --gradient-accent: linear-gradient(135deg, #45b7d1 0%, #96c93d 100%);
-  --gradient-dark: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-  --gradient-light: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
-
-  /* Neo-Brutalism Shadows */
-  --shadow-brutal: 8px 8px 0px rgba(0, 0, 0, 0.9);
-  --shadow-brutal-hover: 12px 12px 0px rgba(0, 0, 0, 0.9);
-  --shadow-brutal-large: 16px 16px 0px rgba(0, 0, 0, 0.9);
-  --shadow-brutal-xl: 24px 24px 0px rgba(0, 0, 0, 0.9);
-  --shadow-brutal-2xl: 32px 32px 0px rgba(0, 0, 0, 0.9);
-
-  /* Glassmorphism System */
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-bg-hover: rgba(255, 255, 255, 0.15);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --glass-border-hover: rgba(255, 255, 255, 0.3);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  --glass-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.15);
-  --glass-blur: 20px;
-  --glass-blur-strong: 40px;
-
-  /* Typography Scale - Brutalist */
+  --font-display: "Archivo Black", "Space Grotesk", "Inter", sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -71,8 +26,6 @@
   --font-size-7xl: 5rem;
   --font-size-8xl: 6rem;
   --font-size-9xl: 8rem;
-
-  /* Brutalist Spacing */
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 1.5rem;
@@ -82,8 +35,6 @@
   --space-3xl: 6rem;
   --space-4xl: 8rem;
   --space-5xl: 12rem;
-
-  /* Border Radius - Brutalist */
   --radius-none: 0;
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -91,20 +42,63 @@
   --radius-xl: 16px;
   --radius-2xl: 24px;
   --radius-full: 9999px;
-
-  /* Line Heights */
   --leading-tight: 1.1;
   --leading-snug: 1.2;
   --leading-normal: 1.4;
   --leading-relaxed: 1.6;
   --leading-loose: 1.8;
-
-  /* Letter Spacing */
   --tracking-tight: -0.05em;
   --tracking-normal: 0em;
   --tracking-wide: 0.05em;
   --tracking-wider: 0.1em;
   --tracking-widest: 0.2em;
+  /* Brutalist Color Palette */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e5e5e5;
+  --color-gray-300: #d4d4d4;
+  --color-gray-400: #a3a3a3;
+  --color-gray-500: #737373;
+  --color-gray-600: #525252;
+  --color-gray-700: #404040;
+  --color-gray-800: #262626;
+  --color-gray-900: #171717;
+  /* Neo-Brutalism Accent Colors */
+  --color-primary: #ff6b35;
+  --color-secondary: #4ecdc4;
+  --color-accent: #45b7d1;
+  --color-warning: #f7b731;
+  --color-success: #26de81;
+  --color-error: #fc5c65;
+  /* Brutalist Gradients */
+  --gradient-primary: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  --gradient-secondary: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+  --gradient-accent: linear-gradient(135deg, #45b7d1 0%, #96c93d 100%);
+  --gradient-dark: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  --gradient-light: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
+  /* Unified Shadow System */
+  --shadow-brutal: 8px 8px 0px rgba(0, 0, 0, 0.85);
+  --shadow-brutal-hover: 12px 12px 0px rgba(0, 0, 0, 0.9);
+  --shadow-brutal-large: 16px 16px 0px rgba(0, 0, 0, 0.85);
+  --shadow-brutal-xl: 20px 20px 0px rgba(0, 0, 0, 0.9);
+  --shadow-brutal-2xl: 24px 24px 0px rgba(0, 0, 0, 0.85);
+
+  /* Glass Shadow System */
+  --glass-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  --glass-shadow-hover: 0 24px 64px rgba(0, 0, 0, 0.5);
+
+  /* Card Shadow System */
+  --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  --card-shadow-hover: 0 28px 80px rgba(0, 0, 0, 0.6);
+  /* Glassmorphism System */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-bg-hover: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-border-hover: rgba(255, 255, 255, 0.3);
+  --glass-blur: 20px;
+  --glass-blur-strong: 40px;
 }
 
 /* Base Styles */
@@ -305,10 +299,11 @@ a:hover {
   -webkit-backdrop-filter: blur(var(--glass-blur));
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--radius-xl);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--card-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   padding: var(--space-2xl);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
+  overflow: hidden;
 }
 
 .glass-card::before {
@@ -323,7 +318,7 @@ a:hover {
 .glass-card:hover {
   background: rgba(255, 255, 255, 0.35);
   border-color: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--card-shadow-hover), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transform: translate(-4px, -4px);
 }
 
@@ -835,8 +830,8 @@ a:hover {
 
   .glass-card {
     padding: var(--space-lg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   /* Performance: keep hovers static on mobile */
@@ -1910,49 +1905,21 @@ a:hover {
 
   .glass-card {
     padding: var(--space-lg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
-  /* Performance Optimizations */
-  .float,
-  .animate-float,
-  .particle,
-  .floating-elements,
-  .hero-background-pattern,
-  .floating-process-elements {
-    display: none !important;
-  }
-
-  /* Touch Optimizations */
-  * {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-  }
-
-  /* Reduce Motion */
-  .card-hover:hover,
+  /* Performance: keep hovers static on mobile */
   .glass:hover,
   .glass-card:hover {
-    transform: none !important;
+    transform: none;
   }
 
-  .text-reveal span {
-    animation: none;
-    transform: translateY(0);
-  }
-
-  /* Animation Optimizations */
-  .animated-gradient,
-  .particle-bg::before,
   .page-enter,
   .page-enter-active,
   .page-exit,
   .page-exit-active {
-    animation: none !important;
-    transition: none !important;
+    transition: none;
   }
 
   /* Removed: DO NOT override Framer Motion transforms on mobile to avoid jank */
@@ -1967,49 +1934,46 @@ a:hover {
     transform: none;
   }
 
-  /* Brutalist Pattern Optimizations */
+  /* Mobile Performance Optimizations */
+  .glass,
+  .glass-card {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+
+  /* Reduce shadow complexity on mobile */
+  .btn-brutal,
+  .card-brutal,
+  .glass-card {
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8) !important;
+  }
+
+  /* Disable complex animations on mobile */
+  .floating-elements,
+  .floating-process-elements,
   .brutalist-pattern-overlay {
-    opacity: 0.02 !important;
-  }
-
-  .brutalist-pattern-overlay > div {
     display: none !important;
   }
 
-  /* Show only minimal pattern elements on mobile */
-  .brutalist-pattern-overlay > div:nth-child(-n + 2) {
-    display: block !important;
+  /* Optimize transforms for mobile */
+  [data-framer-motion] {
+    will-change: auto !important;
+    transform: translateZ(0) !important;
   }
 
-  /* Container Spacing */
-  .container {
-    padding-left: var(--space-sm);
-    padding-right: var(--space-sm);
+  /* Reduce motion for better performance */
+  .animate-pulse {
+    animation: none !important;
   }
 
-  /* Section Spacing */
-  section {
-    padding-top: var(--space-xl);
-    padding-bottom: var(--space-xl);
+  /* Optimize scroll performance */
+  html {
+    scroll-behavior: auto !important;
   }
 
-  /* Grid Optimizations */
-  .grid {
-    gap: var(--space-sm) !important;
-  }
-
-  /* Video Optimizations */
-  .hero-video {
-    object-position: center !important;
-  }
-
-  .hero-video-overlay {
-    background: rgba(0, 0, 0, 0.6) !important;
-  }
-
-  /* Scroll Indicators */
-  .scroll-indicator {
-    display: none !important;
+  /* Reduce paint complexity */
+  * {
+    contain: layout style paint;
   }
 }
 
@@ -2220,4 +2184,10 @@ a:hover {
   );
   animation: shimmer 2s infinite;
   will-change: transform;
+}
+
+/* Refined display font for hero name */
+.hero-name {
+  font-family: var(--font-display);
+  font-weight: 900;
 }

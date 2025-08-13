@@ -43,28 +43,34 @@ export default function DynamicCursor() {
       default: {
         x: mousePosition.x - 8,
         y: mousePosition.y - 8,
-        width: 16,
-        height: 16,
+        width: 20,
+        height: 20,
         backgroundColor: "var(--color-primary)",
         border: "3px solid var(--color-black)",
         borderRadius: 0,
         scale: 1,
         opacity: isMouseInViewport ? 1 : 0,
+        filter: "drop-shadow(0 0 8px rgba(255, 107, 53, 0.6))",
+        transition: "all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
       },
       hover: {
         x: mousePosition.x - 18,
         y: mousePosition.y - 18,
-        width: 36,
-        height: 36,
+        width: 40,
+        height: 40,
         backgroundColor: "var(--color-primary)",
         border: "3px solid var(--color-black)",
         borderRadius: "50%",
         scale: 1,
         opacity: isMouseInViewport ? 1 : 0,
+        filter: "drop-shadow(0 0 16px rgba(255, 107, 53, 0.9))",
+        transition: "all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
       },
       click: {
-        scale: 0.9,
+        scale: 0.85,
         opacity: isMouseInViewport ? 1 : 0,
+        filter: "drop-shadow(0 0 20px rgba(255, 107, 53, 1))",
+        transition: "all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
       },
     }),
     [mousePosition.x, mousePosition.y, isMouseInViewport]
@@ -138,24 +144,23 @@ export default function DynamicCursor() {
       });
     });
 
-    // Periodic cursor check to ensure it stays hidden
-    const cursorMonitor = setInterval(() => {
-      // Re-apply cursor hiding if needed
-      if (document.body.style.cursor !== "none") {
-        document.body.style.cursor = "none";
-      }
-      if (document.documentElement.style.cursor !== "none") {
-        document.documentElement.style.cursor = "none";
-      }
+    // Optimized cursor monitoring - only check when needed
+    let cursorCheckTimeout = null;
+    const checkCursorVisibility = () => {
+      if (cursorCheckTimeout) clearTimeout(cursorCheckTimeout);
+      cursorCheckTimeout = setTimeout(() => {
+        // Only check if cursor is visible
+        if (document.body.style.cursor !== "none") {
+          document.body.style.cursor = "none";
+        }
+        if (document.documentElement.style.cursor !== "none") {
+          document.documentElement.style.cursor = "none";
+        }
+      }, 1000); // Check every 1 second instead of 100ms
+    };
 
-      // Check all elements and force cursor none if needed
-      const elementsWithCursor = document.querySelectorAll(
-        '[style*="cursor"]:not([style*="cursor: none"])'
-      );
-      elementsWithCursor.forEach((el) => {
-        el.style.cursor = "none";
-      });
-    }, 100); // Check every 100ms
+    // Initial cursor check
+    checkCursorVisibility();
 
     // Initialize cursor hiding
     hideCursorEverywhere();
@@ -237,7 +242,7 @@ export default function DynamicCursor() {
       const style = document.getElementById("cursor-hide-styles");
       if (style) style.remove();
       observer.disconnect();
-      clearInterval(cursorMonitor);
+      if (cursorCheckTimeout) clearTimeout(cursorCheckTimeout);
       document.removeEventListener("mouseenter", handleMouseEnterViewport);
       document.removeEventListener("mouseleave", handleMouseLeaveViewport);
       window.removeEventListener("mousemove", handleMouseMove);
@@ -264,11 +269,18 @@ export default function DynamicCursor() {
           boxShadow: isHovering
             ? "6px 6px 0 rgba(0,0,0,0.9)"
             : "4px 4px 0 rgba(0,0,0,0.9)",
-          transition: "box-shadow 0.2s ease, opacity 0.1s ease",
+          transition:
+            "box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.2s ease",
         }}
         variants={cursorVariants}
         animate={isClicking ? "click" : isHovering ? "hover" : "default"}
-        transition={{ type: "spring", mass: 0.3, stiffness: 350, damping: 20 }}
+        transition={{
+          type: "spring",
+          mass: 0.2,
+          stiffness: 400,
+          damping: 25,
+          duration: 0.15,
+        }}
       />
 
       {/* Click ripple effect - orange and square */}
@@ -287,7 +299,10 @@ export default function DynamicCursor() {
             borderRadius: isHovering ? "50%" : 0,
           }}
           animate={{ scale: 1.6, opacity: 0 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
+          transition={{
+            duration: 0.4,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
           style={{ willChange: "transform, opacity" }}
         />
       )}

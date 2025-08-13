@@ -9,17 +9,30 @@ export default memo(function HeroButtons() {
     () => ({
       button: {
         whileHover: {
-          scale: 1.03, // Reduced scale for better performance
-          y: -3, // Reduced movement
+          scale: 1.03, // Subtle scale for premium feel
+          y: -6, // Enhanced upward float
+          transition: {
+            type: "spring",
+            stiffness: 300, // Slower, more elegant
+            damping: 20, // More bounce for premium feel
+            duration: 0.2, // Fast in
+          },
         },
         whileTap: {
-          scale: 0.97, // Reduced scale
+          scale: 0.97, // Subtle scale
           y: 0,
+          transition: {
+            type: "spring",
+            stiffness: 800, // Quick response
+            damping: 50, // No bounce on tap
+            duration: 0.1, // Very fast
+          },
         },
         transition: {
           type: "spring",
-          stiffness: 500, // Higher for faster response
-          damping: 30, // Higher for less bounce
+          stiffness: 300, // Slower, more elegant
+          damping: 20, // More bounce for premium feel
+          duration: 0.4, // Slower out for premium feel
         },
       },
     }),
@@ -48,8 +61,16 @@ export default memo(function HeroButtons() {
         {...animationVariants.button}
         onClick={handleViewWork}
         style={{
-          willChange: "transform",
+          willChange: "transform, box-shadow",
           transform: "translateZ(0)",
+          boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.85)",
+          transition: "box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        }}
+        onHoverStart={(e) => {
+          e.target.style.boxShadow = "12px 12px 0px rgba(0, 0, 0, 0.9)";
+        }}
+        onHoverEnd={(e) => {
+          e.target.style.boxShadow = "8px 8px 0px rgba(0, 0, 0, 0.85)";
         }}
       >
         View My Work
@@ -60,11 +81,19 @@ export default memo(function HeroButtons() {
         style={{
           background: "var(--color-white)",
           color: "var(--color-black)",
-          willChange: "transform",
+          willChange: "transform, box-shadow",
           transform: "translateZ(0)",
+          boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.85)",
+          transition: "box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
         }}
         {...animationVariants.button}
         onClick={handleGetInTouch}
+        onHoverStart={(e) => {
+          e.target.style.boxShadow = "12px 12px 0px rgba(0, 0, 0, 0.9)";
+        }}
+        onHoverEnd={(e) => {
+          e.target.style.boxShadow = "8px 8px 0px rgba(0, 0, 0, 0.85)";
+        }}
       >
         Get In Touch
       </motion.button>

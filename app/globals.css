@@ -2894,3 +2894,167 @@ a:hover {
     background: linear-gradient(180deg, #ff6b35 0%, transparent 100%) !important;
   }
 }
+
+/* Minimal Mobile Hero - Elite UX Design */
+@media (max-width: 768px) {
+  /* Clean background */
+  .hero-left-column .relative.w-full.min-h-screen {
+    background: transparent !important;
+    min-height: 100vh !important;
+  }
+  
+  /* Subtle pattern overlay */
+  .hero-left-column .absolute.inset-0.opacity-5 {
+    opacity: 0.05 !important;
+    z-index: 1 !important;
+  }
+  
+  .hero-left-column .absolute.inset-0.opacity-5 .absolute {
+    border: 1px solid black !important;
+  }
+  
+  /* Main content container */
+  .hero-left-column .relative.z-10.w-full.max-w-sm {
+    position: relative !important;
+    z-index: 10 !important;
+    width: 100% !important;
+    max-width: 24rem !important;
+  }
+  
+  .hero-left-column .text-center.space-y-12 {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3rem !important;
+  }
+  
+  /* Profile photo styling */
+  .hero-left-column .mx-auto .w-32.h-32 {
+    width: 128px !important;
+    height: 128px !important;
+    margin: 0 auto !important;
+    border: 4px solid black !important;
+    background: white !important;
+    overflow: hidden !important;
+  }
+  
+  .hero-left-column .mx-auto .w-4.h-4 {
+    width: 16px !important;
+    height: 16px !important;
+    background: #ff6b35 !important;
+    border: 2px solid black !important;
+    margin: 0 auto !important;
+    margin-top: 1rem !important;
+  }
+  
+  /* Name typography */
+  .hero-left-column .text-5xl.font-black {
+    font-size: 3rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.025em !important;
+  }
+  
+  .hero-left-column .text-5xl.font-black.text-black {
+    color: black !important;
+  }
+  
+  .hero-left-column .text-5xl.font-black.text-orange-500 {
+    color: #ff6b35 !important;
+    margin-top: 0.5rem !important;
+  }
+  
+  /* Role badge */
+  .hero-left-column .inline-block.px-6.py-3.bg-black {
+    display: inline-block !important;
+    padding: 0.75rem 1.5rem !important;
+    background: black !important;
+    border: 2px solid black !important;
+  }
+  
+  .hero-left-column .inline-block.px-6.py-3.bg-black span {
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: 1.125rem !important;
+    letter-spacing: 0.025em !important;
+  }
+  
+  /* Description text */
+  .hero-left-column .max-w-xs.mx-auto {
+    max-width: 20rem !important;
+    margin: 0 auto !important;
+  }
+  
+  .hero-left-column .text-gray-700.text-base {
+    color: #374151 !important;
+    font-size: 1rem !important;
+    line-height: 1.75 !important;
+    font-weight: 500 !important;
+  }
+  
+  /* CTA buttons */
+  .hero-left-column .space-y-4 {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  
+  .hero-left-column .w-full.py-4 {
+    width: 100% !important;
+    padding: 1rem 0 !important;
+    border: 2px solid black !important;
+    transition: all 0.2s ease-in-out !important;
+  }
+  
+  .hero-left-column .w-full.py-4.bg-orange-500 {
+    background: #ff6b35 !important;
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.9) !important;
+  }
+  
+  .hero-left-column .w-full.py-4.bg-white {
+    background: white !important;
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.9) !important;
+  }
+  
+  .hero-left-column .w-full.py-4:hover {
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.9) !important;
+  }
+  
+  .hero-left-column .font-black.text-lg {
+    font-size: 1.125rem !important;
+    font-weight: 900 !important;
+    color: black !important;
+    letter-spacing: 0.025em !important;
+    text-transform: uppercase !important;
+  }
+  
+  /* Scroll indicator */
+  .hero-left-column .absolute.bottom-8.left-1\\/2 {
+    position: absolute !important;
+    bottom: 2rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+  
+  .hero-left-column .flex.flex-col.items-center.space-y-2 {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+  
+  .hero-left-column .text-xs.text-gray-500 {
+    font-size: 0.75rem !important;
+    color: #6b7280 !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+  }
+  
+  .hero-left-column .w-0\\.5.h-6 {
+    width: 2px !important;
+    height: 24px !important;
+    background: #9ca3af !important;
+  }
+}

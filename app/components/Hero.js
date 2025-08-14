@@ -238,115 +238,70 @@ export default function Hero() {
                 transform: "translateZ(0)",
               }}
             >
-              {/* Mobile Hero - Desktop Replica */}
+              {/* Fresh Mobile Hero - Modern & Clean */}
               {isMobile ? (
-                <div className="min-h-screen bg-gray-800 relative">
-                  {/* Orange Side Borders - Matching Desktop */}
-                  <div className="absolute left-0 top-0 w-2 h-full bg-orange-500" />
-                  <div className="absolute right-0 top-0 w-2 h-full bg-orange-500" />
-                  
-                  {/* Main Content Area - White Background */}
-                  <div className="absolute left-2 right-2 top-0 bottom-0 bg-gradient-to-br from-teal-400 via-teal-500 to-green-600">
-                    {/* Floating Elements - Matching Desktop */}
-                    <div className="absolute inset-0 pointer-events-none">
-                      {/* Red dot - matching desktop */}
-                      <div className="absolute top-20 right-20 w-3 h-3 bg-red-500 rounded-full" />
-                      
-                      {/* Floating shapes - matching desktop */}
-                      {[...Array(5)].map((_, i) => (
-                        <div
-                          key={`mobile-shape-${i}`}
-                          className={`absolute ${
-                            i % 2 === 0 ? 'bg-white/60' : 'bg-teal-300/40'
-                          }`}
-                          style={{
-                            left: `${15 + (i * 20) % 70}%`,
-                            top: `${20 + (i * 25) % 60}%`,
-                            width: `${8 + (i % 2) * 4}px`,
-                            height: `${8 + (i % 2) * 4}px`,
-                          }}
+                <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 relative overflow-hidden">
+                  {/* Subtle Background Pattern */}
+                  <div className="absolute inset-0 opacity-5">
+                    <div className="absolute top-20 left-10 w-20 h-20 border border-white/20 rounded-full" />
+                    <div className="absolute bottom-20 right-10 w-16 h-16 border border-white/20" />
+                  </div>
+
+                  {/* Main Content */}
+                  <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-8">
+                    {/* Profile Photo */}
+                    <div className="mb-8">
+                      <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-white/20 mx-auto">
+                        <img
+                          src="/Headshot3.png"
+                          alt="Jake Cochran"
+                          className="w-full h-full object-cover"
                         />
-                      ))}
-                    </div>
-
-                    {/* Content Container */}
-                    <div className="relative z-10 min-h-screen flex flex-col px-6 py-8">
-                      {/* Main Content Section */}
-                      <div className="flex-1 flex flex-col justify-center">
-                        {/* Name - Matching Desktop */}
-                        <h1 className="text-5xl sm:text-6xl font-black text-black leading-none tracking-tight mb-6">
-                          <span className="block">JAKE</span>
-                          <span className="block">COCHRAN</span>
-                        </h1>
-
-                        {/* Role Badge - Matching Desktop */}
-                        <div className="mb-6">
-                          <div className="inline-block px-4 py-2 bg-white border-2 border-black shadow-brutal">
-                            <span className="text-black font-bold text-lg">
-                              {displayText}
-                              {mounted && <span className="ml-1 animate-pulse">|</span>}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Description - Matching Desktop */}
-                        <div className="mb-8 max-w-sm">
-                          <div className="bg-white/90 backdrop-blur-sm border border-white/20 rounded-lg p-4 shadow-lg">
-                            <p className="text-gray-800 text-sm leading-relaxed">
-                              Crafting exceptional digital experiences through innovative design and cutting-edge development. 
-                              Specializing in user-centered solutions that bridge creativity with functionality.
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* CTA Buttons - Matching Desktop */}
-                        <div className="space-y-4">
-                          <button className="w-full bg-orange-500 text-white py-3 px-6 border-2 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-200">
-                            <span className="font-black text-sm uppercase tracking-wide">
-                              View My Work
-                            </span>
-                          </button>
-                          <button className="w-full bg-white text-black py-3 px-6 border-2 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-200">
-                            <span className="font-black text-sm uppercase tracking-wide">
-                              Get In Touch
-                            </span>
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Quote Section - Matching Desktop */}
-                      <div className="text-center mt-12">
-                        {/* Accent Dot */}
-                        <div className="w-2 h-2 bg-red-500 rounded-full mx-auto mb-3" />
-                        
-                        {/* Quote */}
-                        <blockquote className="text-white text-sm leading-relaxed mb-2 max-w-xs mx-auto">
-                          If I had an hour to solve a problem I&apos;d spend 55 minutes thinking about the problem and 5 minutes thinking about solutions.
-                        </blockquote>
-                        
-                        {/* Attribution */}
-                        <cite className="text-white/80 text-xs">
-                          — Albert Einstein
-                        </cite>
                       </div>
                     </div>
 
-                    {/* Bottom Elements - Matching Desktop */}
-                    <div className="absolute bottom-6 left-6">
-                      <div className="w-8 h-8 bg-black border-2 border-white flex items-center justify-center">
-                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
-                        </svg>
-                      </div>
+                    {/* Name */}
+                    <h1 className="text-5xl sm:text-6xl font-bold text-white text-center mb-4 leading-tight">
+                      Jake Cochran
+                    </h1>
+
+                    {/* Role */}
+                    <div className="mb-6">
+                      <span className="text-xl text-blue-200 font-medium">
+                        {displayText}
+                        {mounted && <span className="ml-1 animate-pulse">|</span>}
+                      </span>
                     </div>
 
-                    {/* Scroll Indicator - Matching Desktop */}
-                    <div className="absolute bottom-6 right-6">
-                      <div className="text-center">
-                        <div className="text-white text-xs mb-1">0%</div>
-                        <div className="w-2 h-2 bg-white rounded-full mx-auto" />
-                      </div>
+                    {/* Description */}
+                    <p className="text-blue-100 text-center max-w-sm mb-8 leading-relaxed text-lg">
+                      Crafting exceptional digital experiences through innovative design and development.
+                    </p>
+
+                    {/* Buttons */}
+                    <div className="space-y-4 w-full max-w-xs">
+                      <button className="w-full bg-white text-blue-900 py-4 px-6 rounded-lg font-semibold text-sm uppercase tracking-wide hover:bg-blue-50 transition-colors duration-200 shadow-lg">
+                        View My Work
+                      </button>
+                      <button className="w-full bg-transparent text-white py-4 px-6 rounded-lg font-semibold text-sm uppercase tracking-wide border-2 border-white/30 hover:bg-white/10 transition-all duration-200">
+                        Get In Touch
+                      </button>
                     </div>
+
+                    {/* Quote Section */}
+                    <div className="text-center mt-16 max-w-sm mx-auto">
+                      <blockquote className="text-blue-200 text-sm leading-relaxed mb-3 italic">
+                        If I had an hour to solve a problem I&apos;d spend 55 minutes thinking about the problem and 5 minutes thinking about solutions.
+                      </blockquote>
+                      <cite className="text-blue-300 text-xs">
+                        — Albert Einstein
+                      </cite>
+                    </div>
+                  </div>
+
+                  {/* Bottom Accent */}
+                  <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                    <div className="w-1 h-12 bg-gradient-to-t from-white/40 to-transparent rounded-full" />
                   </div>
                 </div>
               ) : (

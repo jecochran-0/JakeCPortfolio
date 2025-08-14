@@ -72,8 +72,16 @@ export default function Navbar() {
   // Optimized navigation handler
   const handleNavigation = useCallback(
     (path) => {
+      console.log("Navigation triggered:", path); // Debug log
       setIsOpen(false); // Close mobile menu
-      navigate(path);
+      try {
+        navigate(path);
+        console.log("Navigation successful to:", path); // Debug log
+      } catch (error) {
+        console.error("Navigation error:", error); // Debug log
+        // Fallback to direct navigation if custom navigation fails
+        window.location.href = path;
+      }
     },
     [navigate]
   );
@@ -179,15 +187,20 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Mobile Menu Button - Performance Optimized */}
+          {/* Mobile Menu Button - Fixed visibility and brutalist styling */}
           <motion.button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden relative z-50 p-3 sm:p-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white min-h-[44px] min-w-[44px] flex items-center justify-center"
+            className="lg:hidden relative z-50 p-3 sm:p-4 rounded-none bg-black border-4 border-white text-white min-h-[44px] min-w-[44px] flex items-center justify-center shadow-brutal hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-hover transition-all duration-200 mobile-nav-button"
             {...animationVariants.mobileButton}
             style={{
               willChange: "transform",
               transform: "translateZ(0)",
             }}
+            aria-label={
+              isOpen ? "Close navigation menu" : "Open navigation menu"
+            }
+            aria-expanded={isOpen}
+            aria-controls="mobile-navigation-menu"
           >
             <AnimatePresence mode="wait">
               {isOpen ? (
@@ -242,8 +255,9 @@ export default function Navbar() {
               }}
             />
 
-            {/* Mobile Menu Content - Performance Optimized */}
+            {/* Mobile Menu Content - Brutalist design */}
             <motion.div
+              id="mobile-navigation-menu"
               className="absolute top-0 right-0 w-full max-w-sm h-full"
               {...animationVariants.mobileMenu}
               style={{
@@ -254,17 +268,18 @@ export default function Navbar() {
                 contain: "layout paint",
               }}
             >
-              {/* Static inner with blur to avoid animating backdrop-filter */}
-              <div className="h-full bg-black/95 backdrop-blur-xl border-l border-white/10">
+              {/* Brutalist inner design */}
+              <div className="h-full bg-white border-l-4 border-black shadow-brutal mobile-menu-content">
                 {/* Mobile Menu Header */}
-                <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/10">
-                  <h2 className="text-lg sm:text-xl font-bold text-white uppercase tracking-wide">
+                <div className="flex items-center justify-between p-4 sm:p-6 border-b-4 border-black bg-orange-500 mobile-menu-header">
+                  <h2 className="text-lg sm:text-xl font-black text-black uppercase tracking-widest">
                     Navigation
                   </h2>
+                  <div className="w-8 h-8 bg-black rounded-sm shadow-brutal decorative-square"></div>
                 </div>
 
-                {/* Mobile Navigation Items - Performance Optimized */}
-                <nav className="flex flex-col p-4 sm:p-6 space-y-2">
+                {/* Mobile Navigation Items - Brutalist styling */}
+                <nav className="flex flex-col p-4 sm:p-6 space-y-3">
                   {navItems.map((item, index) => {
                     const isActive = pathname === item.path;
                     const Icon = item.icon;
@@ -286,18 +301,37 @@ export default function Navbar() {
                       >
                         <button
                           onClick={() => handleNavigation(item.path)}
-                          className={`w-full flex items-center space-x-4 p-4 sm:p-5 rounded-lg transition-all duration-300 text-left min-h-[60px] ${
+                          className={`w-full flex items-center space-x-4 p-4 sm:p-5 rounded-none transition-all duration-300 text-left min-h-[60px] border-4 border-black shadow-brutal hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-brutal-hover mobile-nav-item ${
                             isActive
-                              ? "bg-orange-500 text-black font-bold shadow-brutal"
-                              : "text-white/90 hover:text-white hover:bg-white/10"
+                              ? "bg-orange-500 text-black font-black shadow-brutal-large active"
+                              : "bg-white text-black hover:bg-gray-50"
                           }`}
                           style={{
                             willChange: "transform",
                             transform: "translateZ(0)",
                           }}
+                          aria-label={`Navigate to ${item.label}`}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              handleNavigation(item.path);
+                            }
+                          }}
                         >
-                          <Icon className="text-xl sm:text-2xl flex-shrink-0" />
-                          <span className="font-bold uppercase tracking-wide text-base sm:text-lg">
+                          <div
+                            className={`icon-container ${
+                              isActive ? "bg-black" : "bg-white"
+                            }`}
+                          >
+                            <Icon
+                              className={`text-xl sm:text-2xl flex-shrink-0 ${
+                                isActive ? "text-white" : "text-black"
+                              }`}
+                            />
+                          </div>
+                          <span className="font-black uppercase tracking-widest text-base sm:text-lg">
                             {item.label}
                           </span>
                         </button>
@@ -307,10 +341,13 @@ export default function Navbar() {
                 </nav>
 
                 {/* Mobile Menu Footer */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 border-t border-white/10">
-                  <p className="text-white/60 text-xs sm:text-sm text-center">
-                    Jake Cochran - Portfolio
-                  </p>
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 border-t-4 border-black bg-gray-100 mobile-menu-footer">
+                  <div className="flex items-center justify-between">
+                    <p className="text-black font-black text-xs sm:text-sm uppercase tracking-widest">
+                      Jake Cochran
+                    </p>
+                    <div className="w-6 h-6 bg-black rounded-sm shadow-brutal decorative-square"></div>
+                  </div>
                 </div>
               </div>
             </motion.div>

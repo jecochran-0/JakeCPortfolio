@@ -238,194 +238,256 @@ export default function Hero() {
                 transform: "translateZ(0)",
               }}
             >
-              {/* Mobile Hero Layout - Matching Desktop Aesthetic */}
+              {/* Modern 2025 Mobile Hero - Neo-Brutalist Redesign */}
               {isMobile ? (
-                <div className="relative w-full h-full flex flex-col items-center justify-center">
-                  {/* Mobile Background Gradient - Matching Desktop */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-teal-400 via-teal-500 to-green-600 opacity-90" />
+                <div className="relative w-full min-h-screen flex flex-col">
+                  {/* Modern Gradient Background with Geometric Patterns */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-zinc-900" />
                   
-                  {/* Mobile Floating Elements - Matching Desktop */}
-                  <div className="absolute inset-0 pointer-events-none mobile-floating-elements">
-                    {/* Floating dots - matching desktop style */}
-                    {[...Array(4)].map((_, i) => (
+                  {/* Geometric Pattern Overlay */}
+                  <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-0 left-0 w-32 h-32 border-l-4 border-t-4 border-orange-500" />
+                    <div className="absolute top-0 right-0 w-24 h-24 border-r-4 border-t-4 border-orange-500" />
+                    <div className="absolute bottom-0 left-0 w-20 h-20 border-l-4 border-b-4 border-orange-500" />
+                    <div className="absolute bottom-0 right-0 w-28 h-28 border-r-4 border-b-4 border-orange-500" />
+                  </div>
+
+                  {/* Floating Geometric Elements */}
+                  <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    {[...Array(6)].map((_, i) => (
                       <motion.div
-                        key={`mobile-dot-${i}`}
-                        className={`absolute rounded-full ${
-                          i % 2 === 0 ? "bg-white/60" : "bg-red-400/60"
+                        key={`geo-${i}`}
+                        className={`absolute ${
+                          i % 2 === 0 ? 'bg-orange-500/30' : 'bg-white/10'
                         }`}
                         style={{
-                          left: `${15 + (i * 25) % 70}%`,
-                          top: `${20 + (i * 20) % 60}%`,
-                          width: `${8 + (i % 2) * 4}px`,
-                          height: `${8 + (i % 2) * 4}px`,
+                          left: `${10 + (i * 15) % 80}%`,
+                          top: `${15 + (i * 20) % 70}%`,
+                          width: `${12 + (i % 3) * 8}px`,
+                          height: `${12 + (i % 3) * 8}px`,
+                          transform: `rotate(${i * 45}deg)`,
                           willChange: "transform, opacity",
-                          transform: "translateZ(0)",
                           zIndex: 1,
                         }}
                         animate={{
-                          y: [0, -15, 0],
-                          opacity: [0.4, 0.8, 0.4],
-                          scale: [1, 1.1, 1],
+                          y: [0, -20, 0],
+                          rotate: [i * 45, i * 45 + 180, i * 45 + 360],
+                          scale: [1, 1.2, 1],
+                          opacity: [0.3, 0.8, 0.3],
                         }}
                         transition={{
-                          duration: 8 + (i % 4),
+                          duration: 12 + (i % 4) * 2,
                           repeat: Infinity,
                           ease: "easeInOut",
-                          delay: (i % 2) * 0.5,
+                          delay: i * 0.3,
                         }}
                       />
                     ))}
                   </div>
 
-                  {/* Main Content Container - Centered */}
-                  <div className="relative z-10 flex flex-col items-center space-y-8 px-4">
-                    {/* Profile Photo - Enhanced with Desktop-like Styling */}
+                  {/* Main Content Container */}
+                  <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-8">
+                    {/* Hero Header Section */}
                     <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.6, delay: 0.1 }}
-                      className="relative"
-                    >
-                      <div className="w-36 h-36 sm:w-44 sm:h-44 border-4 border-black shadow-brutal overflow-hidden bg-white">
-                        <img
-                          src="/Headshot3.png"
-                          alt="Jake Cochran"
-                          className="w-full h-full object-cover"
-                          style={{
-                            willChange: "transform",
-                            transform: "translateZ(0)",
-                          }}
-                        />
-                      </div>
-                      {/* Enhanced corner accents - matching desktop aesthetic */}
-                      <div className="absolute -top-3 -left-3 w-6 h-6 bg-orange-500 border-3 border-black shadow-brutal" />
-                      <div className="absolute -bottom-3 -right-3 w-6 h-6 bg-orange-500 border-3 border-black shadow-brutal" />
-                    </motion.div>
-
-                    {/* Name Section - Matching Desktop Typography */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.2 }}
-                      className="text-center"
+                      transition={{ duration: 0.8, delay: 0.2 }}
+                      className="text-center mb-12"
                     >
-                      <h1
-                        className="hero-name text-5xl xs:text-6xl sm:text-7xl leading-tight tracking-wide"
-                        style={{ letterSpacing: "0.04em" }}
-                      >
-                        <span
-                          className="text-black block text-4xl xs:text-5xl sm:text-6xl font-black"
-                          style={{ WebkitTextFillColor: "black", color: "black" }}
-                        >
-                          JAKE
+                      {/* Modern Role Badge */}
+                      <div className="inline-flex items-center px-4 py-2 bg-orange-500 border-2 border-black shadow-brutal mb-6">
+                        <div className="w-3 h-3 bg-black mr-3 animate-pulse" />
+                        <span className="text-sm font-black text-black tracking-wider uppercase">
+                          {displayText}
+                          {mounted && <span className="ml-1">|</span>}
                         </span>
-                        <span
-                          className="text-black block font-black"
-                          style={{ WebkitTextFillColor: "black", color: "black" }}
-                        >
+                      </div>
+
+                      {/* Name with Modern Typography */}
+                      <h1 className="text-6xl sm:text-7xl font-black leading-none tracking-tight mb-6">
+                        <span className="block text-white mb-2">JAKE</span>
+                        <span className="block text-orange-500 relative">
                           COCHRAN
+                          <div className="absolute -bottom-2 left-0 w-full h-1 bg-black" />
                         </span>
                       </h1>
-                      {/* Enhanced accent underline - matching desktop */}
-                      <div
-                        className="h-3 bg-orange-500 w-32 sm:w-40 mt-3 mx-auto shadow-brutal"
-                        style={{ boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.9)" }}
-                      />
+
+                      {/* Modern Subtitle */}
+                      <p className="text-lg sm:text-xl text-zinc-300 font-medium max-w-md mx-auto leading-relaxed">
+                        Crafting digital experiences that bridge innovation with human-centered design
+                      </p>
                     </motion.div>
 
-                    {/* Role Card - Matching Desktop Style */}
+                    {/* Profile Section - Modern Card Design */}
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.3 }}
-                      className="text-center"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.8, delay: 0.4 }}
+                      className="relative mb-12"
                     >
-                      <div
-                        className="card-brutal inline-block px-6 py-4 min-w-[240px] sm:min-w-[280px] bg-white"
-                        style={{ boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)" }}
-                      >
-                        <h2 className="text-lg xs:text-xl sm:text-2xl text-black font-black tracking-wide">
-                          {displayText}
-                          {mounted && <span className="animate-pulse">|</span>}
-                        </h2>
+                      {/* Main Profile Card */}
+                      <div className="relative">
+                        {/* Background Card */}
+                        <div className="absolute inset-0 bg-white border-4 border-black shadow-brutal transform translate-x-2 translate-y-2" />
+                        
+                        {/* Photo Container */}
+                        <div className="relative bg-white border-4 border-black shadow-brutal p-2">
+                          <div className="w-40 h-40 sm:w-48 sm:h-48 overflow-hidden bg-gradient-to-br from-orange-100 to-orange-200">
+                            <img
+                              src="/Headshot3.png"
+                              alt="Jake Cochran"
+                              className="w-full h-full object-cover"
+                              style={{
+                                willChange: "transform",
+                                transform: "translateZ(0)",
+                              }}
+                            />
+                          </div>
+                          
+                          {/* Modern Corner Accents */}
+                          <div className="absolute -top-2 -left-2 w-6 h-6 bg-orange-500 border-2 border-black" />
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-black border-2 border-orange-500" />
+                          <div className="absolute -bottom-2 -left-2 w-6 h-6 bg-black border-2 border-orange-500" />
+                          <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-orange-500 border-2 border-black" />
+                        </div>
+                      </div>
+
+                      {/* Floating Stats */}
+                      <div className="absolute -right-4 top-1/2 transform -translate-y-1/2">
+                        <div className="bg-white border-2 border-black p-3 shadow-brutal">
+                          <div className="text-center">
+                            <div className="text-2xl font-black text-orange-500">5+</div>
+                            <div className="text-xs font-bold text-black uppercase tracking-wider">Years</div>
+                          </div>
+                        </div>
                       </div>
                     </motion.div>
 
-                    {/* Description - Glassmorphism Matching Desktop */}
+                    {/* Modern Description Card */}
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.4 }}
-                      className="text-center max-w-md sm:max-w-lg"
+                      transition={{ duration: 0.8, delay: 0.6 }}
+                      className="w-full max-w-lg mb-12"
                     >
-                      <div
-                        className="glass-card hero-glass-card p-5 sm:p-6"
-                        style={{
-                          boxShadow:
-                            "0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
-                          backdropFilter: "blur(20px)",
-                          WebkitBackdropFilter: "blur(20px)",
-                          background: "rgba(255, 255, 255, 0.15)",
-                          border: "1px solid rgba(255, 255, 255, 0.2)",
-                        }}
-                      >
-                        <p
-                          className="text-sm sm:text-base leading-relaxed"
-                          style={{
-                            color: "white",
-                            textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
-                            fontWeight: "500",
-                          }}
+                      <div className="relative">
+                        {/* Background Card */}
+                        <div className="absolute inset-0 bg-zinc-800 border-2 border-orange-500 transform translate-x-1 translate-y-1" />
+                        
+                        {/* Content Card */}
+                        <div className="relative bg-zinc-900 border-2 border-orange-500 p-6">
+                          <div className="flex items-start space-x-3 mb-4">
+                            <div className="w-2 h-2 bg-orange-500 mt-2" />
+                            <p className="text-zinc-200 text-sm sm:text-base leading-relaxed">
+                              Specializing in user-centered solutions that bridge creativity with functionality. 
+                              From concept to deployment, I transform ideas into exceptional digital experiences.
+                            </p>
+                          </div>
+                          
+                          {/* Modern Progress Bar */}
+                          <div className="w-full bg-zinc-800 h-2 border border-zinc-700">
+                            <motion.div
+                              className="h-full bg-gradient-to-r from-orange-500 to-orange-400"
+                              initial={{ width: 0 }}
+                              animate={{ width: "85%" }}
+                              transition={{ duration: 1.5, delay: 1 }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+
+                    {/* Modern CTA Section */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.8 }}
+                      className="w-full max-w-md"
+                    >
+                      <div className="grid grid-cols-1 gap-4">
+                        {/* Primary CTA */}
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="relative group"
                         >
-                          Crafting exceptional digital experiences through
-                          innovative design and cutting-edge development.
-                          Specializing in user-centered solutions that bridge
-                          creativity with functionality.
-                        </p>
-                      </div>
-                    </motion.div>
+                          <div className="absolute inset-0 bg-orange-500 border-2 border-black transform translate-x-1 translate-y-1" />
+                          <div className="relative bg-orange-500 border-2 border-black p-4 text-center transition-all duration-200 group-hover:translate-x-1 group-hover:translate-y-1">
+                            <span className="text-black font-black text-lg tracking-wider uppercase">
+                              View My Work
+                            </span>
+                          </div>
+                        </motion.button>
 
-                    {/* CTA Buttons - Matching Desktop Style */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.5 }}
-                      className="text-center flex flex-col sm:flex-row gap-4"
-                    >
-                      <HeroButtons />
+                        {/* Secondary CTA */}
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="relative group"
+                        >
+                          <div className="absolute inset-0 bg-white border-2 border-black transform translate-x-1 translate-y-1" />
+                          <div className="relative bg-white border-2 border-black p-4 text-center transition-all duration-200 group-hover:translate-x-1 group-hover:translate-y-1">
+                            <span className="text-black font-black text-lg tracking-wider uppercase">
+                              Get In Touch
+                            </span>
+                          </div>
+                        </motion.button>
+                      </div>
                     </motion.div>
                   </div>
 
-                  {/* Bottom Left Icon - Matching Desktop */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.8 }}
-                    className="absolute bottom-4 left-4 z-20"
-                  >
-                    <div className="w-8 h-8 bg-black border-2 border-white flex items-center justify-center">
-                      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                  </motion.div>
+                  {/* Modern Bottom Elements */}
+                  <div className="relative z-10 px-6 pb-8">
+                    {/* Bottom Navigation Dots */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 1 }}
+                      className="flex justify-center space-x-3"
+                    >
+                      {[...Array(3)].map((_, i) => (
+                        <motion.div
+                          key={i}
+                          className={`w-3 h-3 rounded-full ${
+                            i === 0 ? 'bg-orange-500' : 'bg-zinc-600'
+                          }`}
+                          animate={{
+                            scale: i === 0 ? [1, 1.2, 1] : 1,
+                          }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            delay: i * 0.2,
+                          }}
+                        />
+                      ))}
+                    </motion.div>
 
-                  {/* Scroll Indicator - Matching Desktop */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 1 }}
-                    className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20"
-                  >
-                    <div className="flex flex-col items-center">
-                      <span className="text-xs text-white/60 mb-2 font-medium tracking-wider">
-                        SCROLL
-                      </span>
-                      <div className="w-1 h-6 border border-white/30 rounded-full flex justify-center">
-                        <div className="w-1 h-3 bg-white/60 rounded-full mt-1" />
+                    {/* Modern Scroll Indicator */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 1.2 }}
+                      className="absolute bottom-8 right-6"
+                    >
+                      <div className="flex flex-col items-center space-y-2">
+                        <span className="text-xs text-zinc-400 font-medium tracking-wider uppercase">
+                          Scroll
+                        </span>
+                        <motion.div
+                          className="w-0.5 h-8 bg-gradient-to-b from-orange-500 to-transparent"
+                          animate={{
+                            height: [32, 40, 32],
+                          }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                          }}
+                        />
                       </div>
-                    </div>
-                  </motion.div>
+                    </motion.div>
+                  </div>
                 </div>
               ) : (
                 /* Desktop Layout - Original Design */

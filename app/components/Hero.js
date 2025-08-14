@@ -244,14 +244,14 @@ export default function Hero() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
-                  className="mb-16 sm:mb-20 lg:mb-24 xl:mb-28 hero-spacing mt-8 sm:mt-12 lg:mt-16 xl:mt-20"
+                  className="mb-8 sm:mb-12 lg:mb-24 xl:mb-28 hero-spacing mt-4 sm:mt-8 lg:mt-16 xl:mt-20"
                 >
                   <h1
-                    className="hero-name text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] 2xl:text-[11rem] leading-tight tracking-wide"
+                    className="hero-name text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[10rem] leading-tight tracking-wide"
                     style={{ letterSpacing: "0.04em" }}
                   >
                     <span
-                      className="text-black block sm:inline text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[9rem]"
+                      className="text-black block sm:inline text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[9rem]"
                       style={{ WebkitTextFillColor: "black", color: "black" }}
                     >
                       JAKE
@@ -266,7 +266,7 @@ export default function Hero() {
                   </h1>
                   {/* Accent underline */}
                   <div
-                    className="h-2 sm:h-3 bg-orange-500 w-32 sm:w-48 lg:w-64 mt-2 lg:mt-4 shadow-brutal"
+                    className="h-2 sm:h-3 bg-orange-500 w-24 sm:w-32 lg:w-48 xl:w-64 mt-2 lg:mt-4 shadow-brutal"
                     style={{ boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.9)" }}
                   />
                 </motion.div>
@@ -279,10 +279,10 @@ export default function Hero() {
                   className="hero-spacing md:absolute md:-bottom-8 md:left-0 ml-0"
                 >
                   <div
-                    className="card-brutal inline-block px-3 sm:px-4 lg:px-6 xl:px-8 py-2 sm:py-2 lg:py-3 xl:py-4 min-w-[280px] sm:min-w-[320px] lg:min-w-[360px]"
+                    className="card-brutal inline-block px-3 sm:px-4 lg:px-6 xl:px-8 py-2 sm:py-2 lg:py-3 xl:py-4 min-w-[240px] sm:min-w-[280px] lg:min-w-[360px]"
                     style={{ boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)" }}
                   >
-                    <h2 className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-title text-black font-black tracking-wide">
+                    <h2 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-black font-black tracking-wide">
                       {displayText}
                       {mounted && <span className="animate-pulse">|</span>}
                     </h2>
@@ -295,7 +295,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="mb-20 sm:mb-24 lg:mb-28 xl:mb-32 max-w-2xl hero-spacing mx-auto lg:mx-0 ml-0"
+                className="mb-12 sm:mb-16 lg:mb-24 xl:mb-32 max-w-xl sm:max-w-2xl hero-spacing mx-auto lg:mx-0 ml-0"
               >
                 <div
                   className="glass-card hero-glass-card p-4 sm:p-6 lg:p-8"
@@ -327,7 +327,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="mb-20 sm:mb-24 lg:mb-28 hero-spacing ml-0"
+                className="mb-12 sm:mb-16 lg:mb-24 xl:mb-28 hero-spacing ml-0"
               >
                 <HeroButtons />
               </motion.div>
@@ -342,7 +342,7 @@ export default function Hero() {
                 transform: "translateZ(0)",
               }}
             >
-              <div className="relative h-64 sm:h-80 md:h-96 lg:h-full min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] xl:min-h-[600px] flex items-center justify-center p-4 sm:p-6 lg:p-8 w-full">
+              <div className="relative h-48 sm:h-64 md:h-80 lg:h-full min-h-[200px] sm:min-h-[300px] lg:min-h-[500px] xl:min-h-[600px] flex items-center justify-center p-4 sm:p-6 lg:p-8 w-full">
                 <motion.div
                   className="w-full max-w-lg mx-auto relative z-10 lg:ml-12"
                   initial={{ opacity: 0, y: 10 }}
@@ -371,6 +371,102 @@ export default function Hero() {
           </div>
         </div>
       </div>
+
+      {/* Mobile-specific animated elements for visual interest */}
+      {isMobile && (
+        <div className="absolute inset-0 pointer-events-none mobile-animated-elements">
+          {/* Mobile floating shapes */}
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={`mobile-${i}`}
+              className={`absolute rounded-full ${
+                i % 3 === 0
+                  ? "w-3 h-3 bg-white/60"
+                  : i % 3 === 1
+                  ? "w-2 h-2 bg-white/80"
+                  : "w-4 h-4 bg-white/40"
+              }`}
+              style={{
+                left: `${(i * 23) % 100}%`,
+                top: `${(i * 31) % 100}%`,
+                willChange: "transform, opacity",
+                transform: "translateZ(0)",
+                zIndex: (i % 2) + 1,
+              }}
+              animate={{
+                y: [0, -20, 0],
+                x: [0, (i % 3) - 1, 0],
+                opacity: [0.3, 0.8, 0.3],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 8 + (i % 4),
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: (i % 2) * 0.5,
+              }}
+            />
+          ))}
+
+          {/* Mobile accent lines */}
+          {[...Array(4)].map((_, i) => (
+            <motion.div
+              key={`mobile-line-${i}`}
+              className="absolute bg-white/30"
+              style={{
+                left: `${(i * 28) % 100}%`,
+                top: `${(i * 25) % 100}%`,
+                width: `${20 + (i % 3) * 10}px`,
+                height: "2px",
+                willChange: "transform, opacity",
+                transform: "translateZ(0)",
+                zIndex: 1,
+              }}
+              animate={{
+                opacity: [0.2, 0.6, 0.2],
+                scaleX: [0.8, 1.2, 0.8],
+                rotate: [0, 5, 0],
+              }}
+              transition={{
+                duration: 6 + (i % 3),
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: (i % 2) * 0.8,
+              }}
+            />
+          ))}
+
+          {/* Mobile geometric accents */}
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={`mobile-geo-${i}`}
+              className={`absolute border-2 border-white/40 ${
+                i % 2 === 0 ? "rounded-sm" : "rounded-full"
+              }`}
+              style={{
+                left: `${(i * 35) % 100}%`,
+                top: `${(i * 40) % 100}%`,
+                width: `${12 + (i % 2) * 8}px`,
+                height: `${12 + (i % 2) * 8}px`,
+                willChange: "transform, opacity",
+                transform: "translateZ(0)",
+                zIndex: 1,
+              }}
+              animate={{
+                opacity: [0.3, 0.7, 0.3],
+                scale: [0.9, 1.1, 0.9],
+                rotate: [0, 90, 180, 270],
+              }}
+              transition={{
+                duration: 10 + (i % 4),
+                repeat: Infinity,
+                ease: "linear",
+                delay: (i % 3) * 1.2,
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Floating elements - desktop only */}
       {!isMobile && (
@@ -401,9 +497,10 @@ export default function Hero() {
                 scale: [1, 1.2, 1],
               }}
               transition={{
-                duration: 6 + i,
+                duration: 12 + (i % 6),
                 repeat: Infinity,
                 ease: "easeInOut",
+                delay: (parseFloat(i) % 3) * 0.2,
               }}
             />
           ))}

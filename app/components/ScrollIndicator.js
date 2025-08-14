@@ -8,6 +8,26 @@ export default function ScrollIndicator() {
   const [isMobile, setIsMobile] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
+  // Memoized motion variants for better performance - must be called before any conditionals
+  const containerVariants = useMemo(
+    () => ({
+      initial: { opacity: 0, scale: 0.8 },
+      animate: { opacity: 1, scale: 1 },
+    }),
+    []
+  );
+
+  // Calculate scroll percentage safely - must be called before any conditionals
+  const scrollPercentage = useMemo(() => {
+    if (typeof window === "undefined" || typeof document === "undefined") return 0;
+    
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (docHeight <= 0) return 0;
+    
+    return Math.min((scrollTop / docHeight) * 100, 100);
+  }, [scrollY]);
+
   const handleScroll = useCallback(() => {
     if (typeof window !== "undefined") {
       setScrollY(window.scrollY);
@@ -72,30 +92,10 @@ export default function ScrollIndicator() {
     };
   }, [handleScroll]);
 
-  // Memoized motion variants for better performance
-  const containerVariants = useMemo(
-    () => ({
-      initial: { opacity: 0, scale: 0.8 },
-      animate: { opacity: 1, scale: 1 },
-    }),
-    []
-  );
-
   // Don't render anything on mobile or during SSR
   if (isMobile || !isMounted) {
     return null;
   }
-
-  // Calculate scroll percentage safely
-  const scrollPercentage = useMemo(() => {
-    if (typeof window === "undefined" || typeof document === "undefined") return 0;
-    
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    if (docHeight <= 0) return 0;
-    
-    return Math.min((scrollTop / docHeight) * 100, 100);
-  }, [scrollY]);
 
   return (
     <motion.div

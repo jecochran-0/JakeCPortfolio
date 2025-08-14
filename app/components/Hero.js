@@ -238,71 +238,99 @@ export default function Hero() {
                 transform: "translateZ(0)",
               }}
             >
-              {/* Fresh Mobile Hero - Modern & Clean */}
+              {/* Unconventional Mobile Hero - Neo-Brutalist Industrial */}
               {isMobile ? (
-                <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 relative overflow-hidden">
-                  {/* Subtle Background Pattern */}
-                  <div className="absolute inset-0 opacity-5">
-                    <div className="absolute top-20 left-10 w-20 h-20 border border-white/20 rounded-full" />
-                    <div className="absolute bottom-20 right-10 w-16 h-16 border border-white/20" />
+                <div className="min-h-screen bg-black relative overflow-hidden">
+                  {/* Geometric Background Grid */}
+                  <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-0 left-0 w-32 h-32 border-r-2 border-b-2 border-orange-500" />
+                    <div className="absolute top-0 right-0 w-24 h-24 border-l-2 border-b-2 border-orange-500" />
+                    <div className="absolute bottom-0 left-0 w-40 h-40 border-r-2 border-t-2 border-orange-500" />
+                    <div className="absolute bottom-0 right-0 w-16 h-16 border-l-2 border-t-2 border-orange-500" />
                   </div>
 
-                  {/* Main Content */}
-                  <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-8">
-                    {/* Profile Photo */}
-                    <div className="mb-8">
-                      <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-white/20 mx-auto">
-                        <img
-                          src="/Headshot3.png"
-                          alt="Jake Cochran"
-                          className="w-full h-full object-cover"
-                        />
+                  {/* Diagonal Accent Lines */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 via-red-500 to-orange-500" />
+                  <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-l from-orange-500 via-red-500 to-orange-500" />
+
+                  {/* Main Content - Asymmetric Layout */}
+                  <div className="relative z-10 min-h-screen flex flex-col px-4 py-6">
+                    {/* Top Section - Left Aligned */}
+                    <div className="flex-1 flex flex-col justify-start pt-20">
+                      {/* Name - Industrial Typography */}
+                      <div className="mb-8">
+                        <h1 className="text-6xl sm:text-7xl font-black text-white leading-none tracking-tighter">
+                          <span className="block transform -skew-x-12 bg-orange-500 px-2 py-1 mb-2">JAKE</span>
+                          <span className="block transform skew-x-12 bg-white text-black px-2 py-1">COCHRAN</span>
+                        </h1>
+                      </div>
+
+                      {/* Role Badge - Industrial Style */}
+                      <div className="mb-8 max-w-xs">
+                        <div className="bg-white border-4 border-black shadow-[8px_8px_0px_rgba(255,107,53,0.8)] transform rotate-1">
+                          <div className="bg-orange-500 px-4 py-3 border-b-4 border-black">
+                            <span className="text-black font-black text-lg uppercase tracking-wider">
+                              {displayText}
+                              {mounted && <span className="ml-1 animate-pulse">█</span>}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Name */}
-                    <h1 className="text-5xl sm:text-6xl font-bold text-white text-center mb-4 leading-tight">
-                      Jake Cochran
-                    </h1>
+                    {/* Middle Section - Right Aligned */}
+                    <div className="flex-1 flex flex-col justify-center items-end">
+                      {/* Description - Industrial Card */}
+                      <div className="mb-8 max-w-sm text-right">
+                        <div className="bg-white border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.9)] transform -rotate-1">
+                          <div className="p-4 border-b-4 border-black bg-gray-100">
+                            <p className="text-black font-bold text-sm leading-tight uppercase tracking-wide">
+                              CRAFTING DIGITAL EXPERIENCES THROUGH INNOVATIVE DESIGN & DEVELOPMENT
+                            </p>
+                          </div>
+                        </div>
+                      </div>
 
-                    {/* Role */}
-                    <div className="mb-6">
-                      <span className="text-xl text-blue-200 font-medium">
-                        {displayText}
-                        {mounted && <span className="ml-1 animate-pulse">|</span>}
-                      </span>
+                      {/* CTA Buttons - Industrial Style */}
+                      <div className="space-y-4 mb-8">
+                        <button className="bg-orange-500 text-black py-4 px-8 border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.9)] hover:shadow-[12px_12px_0px_rgba(0,0,0,0.9)] transition-all duration-200 transform hover:-translate-y-1">
+                          <span className="font-black text-sm uppercase tracking-widest">VIEW WORK</span>
+                        </button>
+                        <button className="bg-white text-black py-4 px-8 border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.9)] hover:shadow-[12px_12px_0px_rgba(0,0,0,0.9)] transition-all duration-200 transform hover:-translate-y-1">
+                          <span className="font-black text-sm uppercase tracking-widest">CONTACT</span>
+                        </button>
+                      </div>
                     </div>
 
-                    {/* Description */}
-                    <p className="text-blue-100 text-center max-w-sm mb-8 leading-relaxed text-lg">
-                      Crafting exceptional digital experiences through innovative design and development.
-                    </p>
+                    {/* Bottom Section - Center */}
+                    <div className="flex-1 flex flex-col justify-end items-center pb-8">
+                      {/* Industrial Quote */}
+                      <div className="text-center max-w-sm">
+                        <div className="bg-orange-500 border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.9)] transform rotate-1">
+                          <div className="p-4">
+                            <blockquote className="text-black font-bold text-sm leading-tight uppercase tracking-wide mb-2">
+                              &ldquo;DESIGN IS NOT JUST WHAT IT LOOKS LIKE AND FEELS LIKE. DESIGN IS HOW IT WORKS.&rdquo;
+                            </blockquote>
+                            <cite className="text-black font-black text-xs uppercase tracking-widest">
+                              — STEVE JOBS
+                            </cite>
+                          </div>
+                        </div>
+                      </div>
 
-                    {/* Buttons */}
-                    <div className="space-y-4 w-full max-w-xs">
-                      <button className="w-full bg-white text-blue-900 py-4 px-6 rounded-lg font-semibold text-sm uppercase tracking-wide hover:bg-blue-50 transition-colors duration-200 shadow-lg">
-                        View My Work
-                      </button>
-                      <button className="w-full bg-transparent text-white py-4 px-6 rounded-lg font-semibold text-sm uppercase tracking-wide border-2 border-white/30 hover:bg-white/10 transition-all duration-200">
-                        Get In Touch
-                      </button>
-                    </div>
-
-                    {/* Quote Section */}
-                    <div className="text-center mt-16 max-w-sm mx-auto">
-                      <blockquote className="text-blue-200 text-sm leading-relaxed mb-3 italic">
-                        If I had an hour to solve a problem I&apos;d spend 55 minutes thinking about the problem and 5 minutes thinking about solutions.
-                      </blockquote>
-                      <cite className="text-blue-300 text-xs">
-                        — Albert Einstein
-                      </cite>
+                      {/* Industrial Accent */}
+                      <div className="mt-6 flex space-x-2">
+                        <div className="w-3 h-3 bg-orange-500 border-2 border-black" />
+                        <div className="w-3 h-3 bg-white border-2 border-black" />
+                        <div className="w-3 h-3 bg-orange-500 border-2 border-black" />
+                      </div>
                     </div>
                   </div>
 
-                  {/* Bottom Accent */}
-                  <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-                    <div className="w-1 h-12 bg-gradient-to-t from-white/40 to-transparent rounded-full" />
-                  </div>
+                  {/* Floating Industrial Elements */}
+                  <div className="absolute top-1/4 right-8 w-6 h-6 bg-red-500 border-2 border-black transform rotate-45" />
+                  <div className="absolute bottom-1/4 left-8 w-4 h-4 bg-orange-500 border-2 border-black" />
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white border border-black" />
                 </div>
               ) : (
                 /* Desktop Layout - Original Design */

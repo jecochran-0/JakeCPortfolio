@@ -238,99 +238,116 @@ export default function Hero() {
                 transform: "translateZ(0)",
               }}
             >
-              {/* Unconventional Mobile Hero - Neo-Brutalist Industrial */}
+              {/* Mobile Hero - Desktop Replica with Mobile UX Optimization */}
               {isMobile ? (
-                <div className="min-h-screen bg-black relative overflow-hidden">
-                  {/* Geometric Background Grid */}
-                  <div className="absolute inset-0 opacity-20">
-                    <div className="absolute top-0 left-0 w-32 h-32 border-r-2 border-b-2 border-orange-500" />
-                    <div className="absolute top-0 right-0 w-24 h-24 border-l-2 border-b-2 border-orange-500" />
-                    <div className="absolute bottom-0 left-0 w-40 h-40 border-r-2 border-t-2 border-orange-500" />
-                    <div className="absolute bottom-0 right-0 w-16 h-16 border-l-2 border-t-2 border-orange-500" />
-                  </div>
-
-                  {/* Diagonal Accent Lines */}
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 via-red-500 to-orange-500" />
-                  <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-l from-orange-500 via-red-500 to-orange-500" />
-
-                  {/* Main Content - Asymmetric Layout */}
-                  <div className="relative z-10 min-h-screen flex flex-col px-4 py-6">
-                    {/* Top Section - Left Aligned */}
-                    <div className="flex-1 flex flex-col justify-start pt-20">
-                      {/* Name - Industrial Typography */}
-                      <div className="mb-8">
-                        <h1 className="text-6xl sm:text-7xl font-black text-white leading-none tracking-tighter">
-                          <span className="block transform -skew-x-12 bg-orange-500 px-2 py-1 mb-2">JAKE</span>
-                          <span className="block transform skew-x-12 bg-white text-black px-2 py-1">COCHRAN</span>
-                        </h1>
-                      </div>
-
-                      {/* Role Badge - Industrial Style */}
-                      <div className="mb-8 max-w-xs">
-                        <div className="bg-white border-4 border-black shadow-[8px_8px_0px_rgba(255,107,53,0.8)] transform rotate-1">
-                          <div className="bg-orange-500 px-4 py-3 border-b-4 border-black">
-                            <span className="text-black font-black text-lg uppercase tracking-wider">
-                              {displayText}
-                              {mounted && <span className="ml-1 animate-pulse">█</span>}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
+                <div className="min-h-screen bg-gray-800 relative overflow-hidden">
+                  {/* Orange Side Borders - Matching Desktop */}
+                  <div className="absolute left-0 top-0 w-2 h-full bg-orange-500" />
+                  <div className="absolute right-0 top-0 w-2 h-full bg-orange-500" />
+                  
+                  {/* Main Content Area - White Background */}
+                  <div className="absolute left-2 right-2 top-0 bottom-0 bg-gradient-to-br from-teal-400 via-teal-500 to-green-600">
+                    {/* Floating Elements - Matching Desktop */}
+                    <div className="absolute inset-0 pointer-events-none">
+                      {/* Red dot - matching desktop */}
+                      <div className="absolute top-20 right-20 w-3 h-3 bg-red-500 rounded-full" />
+                      
+                      {/* Floating shapes - matching desktop */}
+                      {[...Array(5)].map((_, i) => (
+                        <div
+                          key={`mobile-shape-${i}`}
+                          className={`absolute ${
+                            i % 2 === 0 ? 'bg-white/60' : 'bg-teal-300/40'
+                          }`}
+                          style={{
+                            left: `${15 + (i * 20) % 70}%`,
+                            top: `${20 + (i * 25) % 60}%`,
+                            width: `${8 + (i % 2) * 4}px`,
+                            height: `${8 + (i % 2) * 4}px`,
+                          }}
+                        />
+                      ))}
                     </div>
 
-                    {/* Middle Section - Right Aligned */}
-                    <div className="flex-1 flex flex-col justify-center items-end">
-                      {/* Description - Industrial Card */}
-                      <div className="mb-8 max-w-sm text-right">
-                        <div className="bg-white border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.9)] transform -rotate-1">
-                          <div className="p-4 border-b-4 border-black bg-gray-100">
-                            <p className="text-black font-bold text-sm leading-tight uppercase tracking-wide">
-                              CRAFTING DIGITAL EXPERIENCES THROUGH INNOVATIVE DESIGN & DEVELOPMENT
+                    {/* Content Container - Mobile Optimized */}
+                    <div className="relative z-10 min-h-screen flex flex-col px-4 py-6">
+                      {/* Main Content Section - Mobile UX Optimized */}
+                      <div className="flex-1 flex flex-col justify-center">
+                        {/* Name - Matching Desktop Style */}
+                        <div className="mb-6 text-center">
+                          <h1 className="text-4xl sm:text-5xl font-black text-black leading-none tracking-tight">
+                            <span className="block mb-1">JAKE</span>
+                            <span className="block">COCHRAN</span>
+                          </h1>
+                          {/* Accent underline - Mobile sized */}
+                          <div className="h-2 bg-orange-500 w-16 mt-3 mx-auto shadow-brutal" />
+                        </div>
+
+                        {/* Role Badge - Matching Desktop */}
+                        <div className="mb-6 text-center">
+                          <div className="card-brutal inline-block px-4 py-3 min-w-[200px]">
+                            <h2 className="text-lg font-black text-black tracking-wide">
+                              {displayText}
+                              {mounted && <span className="ml-1 animate-pulse">|</span>}
+                            </h2>
+                          </div>
+                        </div>
+
+                        {/* Description - Matching Desktop */}
+                        <div className="mb-6 max-w-sm mx-auto">
+                          <div className="glass-card p-4 bg-white/90 backdrop-blur-sm border border-white/20 rounded-lg shadow-lg">
+                            <p className="text-gray-800 text-sm leading-relaxed text-center">
+                              Crafting exceptional digital experiences through innovative design and cutting-edge development. 
+                              Specializing in user-centered solutions that bridge creativity with functionality.
                             </p>
                           </div>
                         </div>
-                      </div>
 
-                      {/* CTA Buttons - Industrial Style */}
-                      <div className="space-y-4 mb-8">
-                        <button className="bg-orange-500 text-black py-4 px-8 border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.9)] hover:shadow-[12px_12px_0px_rgba(0,0,0,0.9)] transition-all duration-200 transform hover:-translate-y-1">
-                          <span className="font-black text-sm uppercase tracking-widest">VIEW WORK</span>
-                        </button>
-                        <button className="bg-white text-black py-4 px-8 border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.9)] hover:shadow-[12px_12px_0px_rgba(0,0,0,0.9)] transition-all duration-200 transform hover:-translate-y-1">
-                          <span className="font-black text-sm uppercase tracking-widest">CONTACT</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Bottom Section - Center */}
-                    <div className="flex-1 flex flex-col justify-end items-center pb-8">
-                      {/* Industrial Quote */}
-                      <div className="text-center max-w-sm">
-                        <div className="bg-orange-500 border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.9)] transform rotate-1">
-                          <div className="p-4">
-                            <blockquote className="text-black font-bold text-sm leading-tight uppercase tracking-wide mb-2">
-                              &ldquo;DESIGN IS NOT JUST WHAT IT LOOKS LIKE AND FEELS LIKE. DESIGN IS HOW IT WORKS.&rdquo;
-                            </blockquote>
-                            <cite className="text-black font-black text-xs uppercase tracking-widest">
-                              — STEVE JOBS
-                            </cite>
-                          </div>
+                        {/* CTA Buttons - Mobile Optimized */}
+                        <div className="space-y-3 mb-6">
+                          <button className="w-full bg-orange-500 text-white py-3 px-6 border-2 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-200">
+                            <span className="font-black text-sm uppercase tracking-wide">View My Work</span>
+                          </button>
+                          <button className="w-full bg-white text-black py-3 px-6 border-2 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-200">
+                            <span className="font-black text-sm uppercase tracking-wide">Get In Touch</span>
+                          </button>
                         </div>
                       </div>
 
-                      {/* Industrial Accent */}
-                      <div className="mt-6 flex space-x-2">
-                        <div className="w-3 h-3 bg-orange-500 border-2 border-black" />
-                        <div className="w-3 h-3 bg-white border-2 border-black" />
-                        <div className="w-3 h-3 bg-orange-500 border-2 border-black" />
+                      {/* Quote Section - Matching Desktop */}
+                      <div className="text-center mt-8">
+                        {/* Accent Dot */}
+                        <div className="w-2 h-2 bg-red-500 rounded-full mx-auto mb-3" />
+                        
+                        {/* Quote */}
+                        <blockquote className="text-white text-sm leading-relaxed mb-2 max-w-xs mx-auto">
+                          If I had an hour to solve a problem I&apos;d spend 55 minutes thinking about the problem and 5 minutes thinking about solutions.
+                        </blockquote>
+                        
+                        {/* Attribution */}
+                        <cite className="text-white/80 text-xs">
+                          — Albert Einstein
+                        </cite>
+                      </div>
+                    </div>
+
+                    {/* Bottom Elements - Matching Desktop */}
+                    <div className="absolute bottom-6 left-6">
+                      <div className="w-8 h-8 bg-black border-2 border-white flex items-center justify-center">
+                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                    </div>
+
+                    {/* Scroll Indicator - Matching Desktop */}
+                    <div className="absolute bottom-6 right-6">
+                      <div className="text-center">
+                        <div className="text-white text-xs mb-1">0%</div>
+                        <div className="w-2 h-2 bg-white rounded-full mx-auto" />
                       </div>
                     </div>
                   </div>
-
-                  {/* Floating Industrial Elements */}
-                  <div className="absolute top-1/4 right-8 w-6 h-6 bg-red-500 border-2 border-black transform rotate-45" />
-                  <div className="absolute bottom-1/4 left-8 w-4 h-4 bg-orange-500 border-2 border-black" />
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white border border-black" />
                 </div>
               ) : (
                 /* Desktop Layout - Original Design */

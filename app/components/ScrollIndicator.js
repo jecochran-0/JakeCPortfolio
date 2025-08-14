@@ -6,14 +6,21 @@ import { motion } from "framer-motion";
 export default function ScrollIndicator() {
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const handleScroll = useCallback(() => {
-    setScrollY(window.scrollY);
+    if (typeof window !== "undefined") {
+      setScrollY(window.scrollY);
+    }
   }, []);
 
   useEffect(() => {
+    // Mark as mounted to prevent SSR issues
+    setIsMounted(true);
+    
     // Early return if mobile - don't run any scroll monitoring
     const checkMobile = () => {
+      if (typeof window === "undefined") return;
       const mobile = window.innerWidth <= 768;
       setIsMobile(mobile);
       if (mobile) return; // Exit early on mobile
@@ -23,7 +30,7 @@ export default function ScrollIndicator() {
     window.addEventListener("resize", checkMobile, { passive: true });
 
     // Don't proceed with scroll setup on mobile
-    if (window.innerWidth <= 768) {
+    if (typeof window !== "undefined" && window.innerWidth <= 768) {
       return () => window.removeEventListener("resize", checkMobile);
     }
 
@@ -74,10 +81,21 @@ export default function ScrollIndicator() {
     []
   );
 
-  // Don't render anything on mobile
-  if (isMobile) {
+  // Don't render anything on mobile or during SSR
+  if (isMobile || !isMounted) {
     return null;
   }
+
+  // Calculate scroll percentage safely
+  const scrollPercentage = useMemo(() => {
+    if (typeof window === "undefined" || typeof document === "undefined") return 0;
+    
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (docHeight <= 0) return 0;
+    
+    return Math.min((scrollTop / docHeight) * 100, 100);
+  }, [scrollY]);
 
   return (
     <motion.div
@@ -113,7 +131,7 @@ export default function ScrollIndicator() {
             stroke="rgba(255, 255, 255, 0.8)"
             strokeWidth="2"
             strokeDasharray="100"
-            strokeDashoffset={100 - (scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100}
+            strokeDashoffset={100 - scrollPercentage}
             strokeLinecap="round"
             style={{
               transition: "stroke-dashoffset 0.1s ease-out",
@@ -126,7 +144,7 @@ export default function ScrollIndicator() {
         {/* Center Text */}
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-xs text-white/80 font-medium">
-            {Math.round((scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100)}%
+            {Math.round(scrollPercentage)}%
           </span>
         </div>
       </div>
@@ -150,10 +168,12 @@ export default function ScrollIndicator() {
 // Helper function to calculate scroll percentage
 function calculateScrollPercentage() {
   // This function is only called on desktop, so we can safely access window
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || typeof document === "undefined") return;
   
   const scrollTop = window.scrollY;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  if (docHeight <= 0) return;
+  
   const scrollPercent = (scrollTop / docHeight) * 100;
   
   // Update CSS custom property for potential use elsewhere

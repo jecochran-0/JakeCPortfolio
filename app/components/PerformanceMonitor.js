@@ -8,6 +8,7 @@ export default function PerformanceMonitor() {
   useEffect(() => {
     // Early return if mobile - don't run any performance monitoring
     const checkMobile = () => {
+      if (typeof window === "undefined") return false;
       return window.innerWidth <= 768;
     };
 
@@ -18,6 +19,8 @@ export default function PerformanceMonitor() {
     if (hasOptimized.current) return;
 
     const applyOptimizations = () => {
+      if (typeof document === "undefined") return;
+      
       // Apply performance optimizations for desktop only
       const style = document.createElement("style");
       style.setAttribute("data-performance-optimization", "true");
@@ -63,15 +66,17 @@ export default function PerformanceMonitor() {
           if (fps < 30) {
             console.warn("Low frame rate detected:", fps + " FPS");
             // Apply additional optimizations for low frame rate
-            const style = document.createElement("style");
-            style.setAttribute("data-performance-optimization", "true");
-            style.textContent = `
-              * {
-                animation: none !important;
-                transition: opacity 0.1s ease !important;
-              }
-            `;
-            document.head.appendChild(style);
+            if (typeof document !== "undefined") {
+              const style = document.createElement("style");
+              style.setAttribute("data-performance-optimization", "true");
+              style.textContent = `
+                * {
+                  animation: none !important;
+                  transition: opacity 0.1s ease !important;
+                }
+              `;
+              document.head.appendChild(style);
+            }
           }
 
           frameCount = 0;
@@ -95,25 +100,33 @@ export default function PerformanceMonitor() {
       if (checkMobile()) return; // Don't run on mobile
       
       // Remove existing optimizations
-      const existingStyles = document.querySelectorAll(
-        "style[data-performance-optimization]"
-      );
-      existingStyles.forEach((style) => style.remove());
+      if (typeof document !== "undefined") {
+        const existingStyles = document.querySelectorAll(
+          "style[data-performance-optimization]"
+        );
+        existingStyles.forEach((style) => style.remove());
+      }
 
       // Re-apply optimizations
       applyOptimizations();
     };
 
-    window.addEventListener("resize", handleResize, { passive: true });
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", handleResize, { passive: true });
+    }
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", handleResize);
+      }
       
       // Clean up performance styles
-      const existingStyles = document.querySelectorAll(
-        "style[data-performance-optimization]"
-      );
-      existingStyles.forEach((style) => style.remove());
+      if (typeof document !== "undefined") {
+        const existingStyles = document.querySelectorAll(
+          "style[data-performance-optimization]"
+        );
+        existingStyles.forEach((style) => style.remove());
+      }
     };
   }, []);
 

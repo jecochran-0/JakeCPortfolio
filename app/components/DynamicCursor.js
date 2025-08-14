@@ -8,27 +8,39 @@ export default function DynamicCursor() {
   const [isClicking, setIsClicking] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const cursorRef = useRef(null);
   const observerRef = useRef(null);
   const rafIdRef = useRef(null);
 
   useEffect(() => {
+    // Mark as mounted to prevent SSR issues
+    setIsMounted(true);
+    
     // Early return if mobile - don't run any cursor logic
     const checkMobile = () => {
+      if (typeof window === "undefined") return;
       const mobile = window.innerWidth <= 768;
       setIsMobile(mobile);
       if (mobile) return; // Exit early on mobile
     };
 
     checkMobile();
-    window.addEventListener("resize", checkMobile, { passive: true });
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", checkMobile, { passive: true });
+    }
 
     // Don't proceed with cursor setup on mobile
-    if (window.innerWidth <= 768) {
-      return () => window.removeEventListener("resize", checkMobile);
+    if (typeof window !== "undefined" && window.innerWidth <= 768) {
+      return () => {
+        if (typeof window !== "undefined") {
+          window.removeEventListener("resize", checkMobile);
+        }
+      };
     }
 
     const hideCursorEverywhere = () => {
+      if (typeof document === "undefined") return;
       document.body.style.cursor = "none";
       document.documentElement.style.cursor = "none";
     };
@@ -60,6 +72,7 @@ export default function DynamicCursor() {
     // Optimized cursor monitoring - only check when needed
     let cursorCheckTimeout = null;
     const checkCursorVisibility = () => {
+      if (typeof document === "undefined") return;
       if (cursorCheckTimeout) clearTimeout(cursorCheckTimeout);
       cursorCheckTimeout = setTimeout(() => {
         // Only check if cursor is visible
@@ -79,12 +92,14 @@ export default function DynamicCursor() {
     hideCursorEverywhere();
 
     // Start observing
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ["style", "class"],
-    });
+    if (typeof document !== "undefined") {
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["style", "class"],
+      });
+    }
 
     let ticking = false;
 
@@ -107,19 +122,25 @@ export default function DynamicCursor() {
     };
 
     // Add event listeners
-    document.addEventListener("mousemove", handleMouseMove, { passive: true });
-    document.addEventListener("mousedown", handleMouseDown, { passive: true });
-    document.addEventListener("mouseup", handleMouseUp, { passive: true });
+    if (typeof document !== "undefined") {
+      document.addEventListener("mousemove", handleMouseMove, { passive: true });
+      document.addEventListener("mousedown", handleMouseDown, { passive: true });
+      document.addEventListener("mouseup", handleMouseUp, { passive: true });
+    }
 
     // Store references for cleanup
     observerRef.current = observer;
 
     return () => {
       // Cleanup
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mousedown", handleMouseDown);
-      document.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("resize", checkMobile);
+      if (typeof document !== "undefined") {
+        document.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mousedown", handleMouseDown);
+        document.removeEventListener("mouseup", handleMouseUp);
+      }
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", checkMobile);
+      }
       
       if (observerRef.current) {
         observerRef.current.disconnect();
@@ -133,8 +154,8 @@ export default function DynamicCursor() {
     };
   }, []);
 
-  // Don't render anything on mobile
-  if (isMobile) {
+  // Don't render anything on mobile or during SSR
+  if (isMobile || !isMounted) {
     return null;
   }
 

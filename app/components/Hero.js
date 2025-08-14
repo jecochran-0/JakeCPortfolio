@@ -225,7 +225,7 @@ export default function Hero() {
       </div>
 
       {/* Hero Content - Mobile Optimized Layout with Performance */}
-      <div className="absolute inset-0 flex items-center justify-center z-10 py-8 sm:py-12 lg:py-16 xl:py-24">
+      <div className="absolute inset-0 flex items-center justify-center z-10 py-4 sm:py-8 lg:py-16 xl:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-6 h-full flex items-center">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 xl:gap-12 items-center hero-grid w-full">
             {/* Left Column - Main Content */}
@@ -238,163 +238,367 @@ export default function Hero() {
                 transform: "translateZ(0)",
               }}
             >
-              {/* Main Title */}
-              <div className="relative inline-block w-full">
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  className="mb-8 sm:mb-12 lg:mb-24 xl:mb-28 hero-spacing mt-4 sm:mt-8 lg:mt-16 xl:mt-20"
-                >
-                  <h1
-                    className="hero-name text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[10rem] leading-tight tracking-wide"
-                    style={{ letterSpacing: "0.04em" }}
-                  >
-                    <span
-                      className="text-black block sm:inline text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[9rem]"
-                      style={{ WebkitTextFillColor: "black", color: "black" }}
-                    >
-                      JAKE
-                    </span>
-                    <br className="hidden sm:block" />
-                    <span
-                      className="text-black block sm:inline"
-                      style={{ WebkitTextFillColor: "black", color: "black" }}
-                    >
-                      COCHRAN
-                    </span>
-                  </h1>
-                  {/* Accent underline */}
-                  <div
-                    className="h-2 sm:h-3 bg-orange-500 w-24 sm:w-32 lg:w-48 xl:w-64 mt-2 lg:mt-4 shadow-brutal"
-                    style={{ boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.9)" }}
-                  />
-                </motion.div>
-
-                {/* Role card */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="hero-spacing md:absolute md:-bottom-8 md:left-0 ml-0"
-                >
-                  <div
-                    className="card-brutal inline-block px-3 sm:px-4 lg:px-6 xl:px-8 py-2 sm:py-2 lg:py-3 xl:py-4 min-w-[240px] sm:min-w-[280px] lg:min-w-[360px]"
-                    style={{ boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)" }}
-                  >
-                    <h2 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-black font-black tracking-wide">
-                      {displayText}
-                      {mounted && <span className="animate-pulse">|</span>}
-                    </h2>
+              {/* Mobile Hero Layout - Matching Desktop Aesthetic */}
+              {isMobile ? (
+                <div className="relative w-full h-full flex flex-col items-center justify-center">
+                  {/* Mobile Background Gradient - Matching Desktop */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-teal-400 via-teal-500 to-green-600 opacity-90" />
+                  
+                  {/* Mobile Floating Elements - Matching Desktop */}
+                  <div className="absolute inset-0 pointer-events-none mobile-floating-elements">
+                    {/* Floating dots - matching desktop style */}
+                    {[...Array(4)].map((_, i) => (
+                      <motion.div
+                        key={`mobile-dot-${i}`}
+                        className={`absolute rounded-full ${
+                          i % 2 === 0 ? "bg-white/60" : "bg-red-400/60"
+                        }`}
+                        style={{
+                          left: `${15 + (i * 25) % 70}%`,
+                          top: `${20 + (i * 20) % 60}%`,
+                          width: `${8 + (i % 2) * 4}px`,
+                          height: `${8 + (i % 2) * 4}px`,
+                          willChange: "transform, opacity",
+                          transform: "translateZ(0)",
+                          zIndex: 1,
+                        }}
+                        animate={{
+                          y: [0, -15, 0],
+                          opacity: [0.4, 0.8, 0.4],
+                          scale: [1, 1.1, 1],
+                        }}
+                        transition={{
+                          duration: 8 + (i % 4),
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: (i % 2) * 0.5,
+                        }}
+                      />
+                    ))}
                   </div>
-                </motion.div>
-              </div>
 
-              {/* Description */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="mb-12 sm:mb-16 lg:mb-24 xl:mb-32 max-w-xl sm:max-w-2xl hero-spacing mx-auto lg:mx-0 ml-0"
-              >
-                <div
-                  className="glass-card hero-glass-card p-4 sm:p-6 lg:p-8"
-                  style={{
-                    boxShadow:
-                      "0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
-                    backdropFilter: isMobile ? "none" : undefined,
-                    WebkitBackdropFilter: isMobile ? "none" : undefined,
-                  }}
-                >
-                  <p
-                    className="text-sm sm:text-base lg:text-lg xl:text-subtitle leading-relaxed"
-                    style={{
-                      color: "white",
-                      textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
-                      fontWeight: "500",
-                    }}
+                  {/* Main Content Container - Centered */}
+                  <div className="relative z-10 flex flex-col items-center space-y-8 px-4">
+                    {/* Profile Photo - Enhanced with Desktop-like Styling */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.6, delay: 0.1 }}
+                      className="relative"
+                    >
+                      <div className="w-36 h-36 sm:w-44 sm:h-44 border-4 border-black shadow-brutal overflow-hidden bg-white">
+                        <img
+                          src="/Headshot3.png"
+                          alt="Jake Cochran"
+                          className="w-full h-full object-cover"
+                          style={{
+                            willChange: "transform",
+                            transform: "translateZ(0)",
+                          }}
+                        />
+                      </div>
+                      {/* Enhanced corner accents - matching desktop aesthetic */}
+                      <div className="absolute -top-3 -left-3 w-6 h-6 bg-orange-500 border-3 border-black shadow-brutal" />
+                      <div className="absolute -bottom-3 -right-3 w-6 h-6 bg-orange-500 border-3 border-black shadow-brutal" />
+                    </motion.div>
+
+                    {/* Name Section - Matching Desktop Typography */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.2 }}
+                      className="text-center"
+                    >
+                      <h1
+                        className="hero-name text-5xl xs:text-6xl sm:text-7xl leading-tight tracking-wide"
+                        style={{ letterSpacing: "0.04em" }}
+                      >
+                        <span
+                          className="text-black block text-4xl xs:text-5xl sm:text-6xl font-black"
+                          style={{ WebkitTextFillColor: "black", color: "black" }}
+                        >
+                          JAKE
+                        </span>
+                        <span
+                          className="text-black block font-black"
+                          style={{ WebkitTextFillColor: "black", color: "black" }}
+                        >
+                          COCHRAN
+                        </span>
+                      </h1>
+                      {/* Enhanced accent underline - matching desktop */}
+                      <div
+                        className="h-3 bg-orange-500 w-32 sm:w-40 mt-3 mx-auto shadow-brutal"
+                        style={{ boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.9)" }}
+                      />
+                    </motion.div>
+
+                    {/* Role Card - Matching Desktop Style */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.3 }}
+                      className="text-center"
+                    >
+                      <div
+                        className="card-brutal inline-block px-6 py-4 min-w-[240px] sm:min-w-[280px] bg-white"
+                        style={{ boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)" }}
+                      >
+                        <h2 className="text-lg xs:text-xl sm:text-2xl text-black font-black tracking-wide">
+                          {displayText}
+                          {mounted && <span className="animate-pulse">|</span>}
+                        </h2>
+                      </div>
+                    </motion.div>
+
+                    {/* Description - Glassmorphism Matching Desktop */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.4 }}
+                      className="text-center max-w-md sm:max-w-lg"
+                    >
+                      <div
+                        className="glass-card hero-glass-card p-5 sm:p-6"
+                        style={{
+                          boxShadow:
+                            "0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+                          backdropFilter: "blur(20px)",
+                          WebkitBackdropFilter: "blur(20px)",
+                          background: "rgba(255, 255, 255, 0.15)",
+                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                        }}
+                      >
+                        <p
+                          className="text-sm sm:text-base leading-relaxed"
+                          style={{
+                            color: "white",
+                            textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
+                            fontWeight: "500",
+                          }}
+                        >
+                          Crafting exceptional digital experiences through
+                          innovative design and cutting-edge development.
+                          Specializing in user-centered solutions that bridge
+                          creativity with functionality.
+                        </p>
+                      </div>
+                    </motion.div>
+
+                    {/* CTA Buttons - Matching Desktop Style */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.5 }}
+                      className="text-center flex flex-col sm:flex-row gap-4"
+                    >
+                      <HeroButtons />
+                    </motion.div>
+                  </div>
+
+                  {/* Bottom Left Icon - Matching Desktop */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8, delay: 0.8 }}
+                    className="absolute bottom-4 left-4 z-20"
                   >
-                    Crafting exceptional digital experiences through innovative
-                    design and cutting-edge development. Specializing in
-                    user-centered solutions that bridge creativity with
-                    functionality.
-                  </p>
-                </div>
-              </motion.div>
+                    <div className="w-8 h-8 bg-black border-2 border-white flex items-center justify-center">
+                      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  </motion.div>
 
-              {/* CTA Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="mb-12 sm:mb-16 lg:mb-24 xl:mb-28 hero-spacing ml-0"
-              >
-                <HeroButtons />
-              </motion.div>
+                  {/* Scroll Indicator - Matching Desktop */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8, delay: 1 }}
+                    className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20"
+                  >
+                    <div className="flex flex-col items-center">
+                      <span className="text-xs text-white/60 mb-2 font-medium tracking-wider">
+                        SCROLL
+                      </span>
+                      <div className="w-1 h-6 border border-white/30 rounded-full flex justify-center">
+                        <div className="w-1 h-3 bg-white/60 rounded-full mt-1" />
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              ) : (
+                /* Desktop Layout - Original Design */
+                <>
+                  {/* Main Title */}
+                  <div className="relative inline-block w-full">
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.1 }}
+                      className="mb-6 sm:mb-8 lg:mb-24 xl:mb-28 hero-spacing mt-2 sm:mt-4 lg:mt-16 xl:mt-20"
+                    >
+                      <h1
+                        className="hero-name text-3xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[10rem] leading-tight tracking-wide"
+                        style={{ letterSpacing: "0.04em" }}
+                      >
+                        <span
+                          className="text-black block sm:inline text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[9rem]"
+                          style={{
+                            WebkitTextFillColor: "black",
+                            color: "black",
+                          }}
+                        >
+                          JAKE
+                        </span>
+                        <br className="hidden sm:block" />
+                        <span
+                          className="text-black block sm:inline"
+                          style={{
+                            WebkitTextFillColor: "black",
+                            color: "black",
+                          }}
+                        >
+                          COCHRAN
+                        </span>
+                      </h1>
+                      {/* Accent underline */}
+                      <div
+                        className="h-2 sm:h-3 bg-orange-500 w-20 sm:w-24 lg:w-48 xl:w-64 mt-2 lg:mt-4 shadow-brutal mx-auto lg:mx-0"
+                        style={{ boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.9)" }}
+                      />
+                    </motion.div>
+
+                    {/* Role card */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.2 }}
+                      className="hero-spacing md:absolute md:-bottom-8 md:left-0 ml-0"
+                    >
+                      <div
+                        className="card-brutal inline-block px-3 sm:px-4 lg:px-6 xl:px-8 py-2 sm:py-2 lg:py-3 xl:py-4 min-w-[200px] sm:min-w-[240px] lg:min-w-[360px]"
+                        style={{
+                          boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)",
+                        }}
+                      >
+                        <h2 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-black font-black tracking-wide">
+                          {displayText}
+                          {mounted && <span className="animate-pulse">|</span>}
+                        </h2>
+                      </div>
+                    </motion.div>
+                  </div>
+
+                  {/* Description */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    className="mb-8 sm:mb-12 lg:mb-24 xl:mb-32 max-w-sm sm:max-w-xl lg:max-w-2xl hero-spacing mx-auto lg:mx-0 ml-0"
+                  >
+                    <div
+                      className="glass-card hero-glass-card p-3 sm:p-4 lg:p-8"
+                      style={{
+                        boxShadow:
+                          "0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+                        backdropFilter: isMobile ? "none" : undefined,
+                        WebkitBackdropFilter: isMobile ? "none" : undefined,
+                      }}
+                    >
+                      <p
+                        className="text-sm sm:text-base lg:text-lg xl:text-subtitle leading-relaxed"
+                        style={{
+                          color: "white",
+                          textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
+                          fontWeight: "500",
+                        }}
+                      >
+                        Crafting exceptional digital experiences through
+                        innovative design and cutting-edge development.
+                        Specializing in user-centered solutions that bridge
+                        creativity with functionality.
+                      </p>
+                    </div>
+                  </motion.div>
+
+                  {/* CTA Buttons */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    className="mb-8 sm:mb-12 lg:mb-24 xl:mb-28 hero-spacing ml-0"
+                  >
+                    <HeroButtons />
+                  </motion.div>
+                </>
+              )}
             </motion.div>
 
-            {/* Right Column - Quote Section */}
-            <motion.div
-              className="lg:col-span-5 hero-right-column relative order-first lg:order-last flex items-center justify-center"
-              style={{
-                opacity: bgOpacityValue,
-                willChange: "opacity",
-                transform: "translateZ(0)",
-              }}
-            >
-              <div className="relative h-48 sm:h-64 md:h-80 lg:h-full min-h-[200px] sm:min-h-[300px] lg:min-h-[500px] xl:min-h-[600px] flex items-center justify-center p-4 sm:p-6 lg:p-8 w-full">
-                <motion.div
-                  className="w-full max-w-lg mx-auto relative z-10 lg:ml-12"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
-                >
-                  <blockquote
-                    className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-white/90 leading-relaxed mb-4 sm:mb-6 hero-quote px-2 sm:px-4 lg:px-6 font-normal italic"
-                    style={{ textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)" }}
+            {/* Right Column - Quote Section (Desktop Only) */}
+            {!isMobile && (
+              <motion.div
+                className="lg:col-span-5 hero-right-column relative order-first lg:order-last flex items-center justify-center"
+                style={{
+                  opacity: bgOpacityValue,
+                  willChange: "opacity",
+                  transform: "translateZ(0)",
+                }}
+              >
+                <div className="relative h-32 sm:h-48 md:h-64 lg:h-full min-h-[120px] sm:min-h-[200px] lg:min-h-[500px] xl:min-h-[600px] flex items-center justify-center p-2 sm:p-4 lg:p-8 w-full">
+                  <motion.div
+                    className="w-full max-w-sm sm:max-w-lg mx-auto relative z-10 lg:ml-12"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.6 }}
                   >
-                    If I had an hour to solve a problem I&apos;d spend 55
-                    minutes thinking about the problem and 5 minutes thinking
-                    about solutions.
-                  </blockquote>
-                  <div className="text-right">
-                    <cite
-                      className="text-xs sm:text-sm text-white/80 font-medium not-italic hero-attribution"
+                    <blockquote
+                      className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-white/90 leading-relaxed mb-2 sm:mb-4 lg:mb-6 hero-quote px-1 sm:px-2 lg:px-6 font-normal italic"
                       style={{ textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)" }}
                     >
-                      — Albert Einstein
-                    </cite>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
+                      If I had an hour to solve a problem I&apos;d spend 55
+                      minutes thinking about the problem and 5 minutes thinking
+                      about solutions.
+                    </blockquote>
+                    <div className="text-right">
+                      <cite
+                        className="text-xs sm:text-sm text-white/80 font-medium not-italic hero-attribution"
+                        style={{ textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)" }}
+                      >
+                        — Albert Einstein
+                      </cite>
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Mobile-specific animated elements for visual interest */}
+      {/* Mobile-specific animated elements for visual interest - positioned within safe bounds */}
       {isMobile && (
         <div className="absolute inset-0 pointer-events-none mobile-animated-elements">
-          {/* Mobile floating shapes */}
+          {/* Mobile floating shapes - positioned within safe mobile bounds */}
           {[...Array(6)].map((_, i) => (
             <motion.div
               key={`mobile-${i}`}
               className={`absolute rounded-full ${
                 i % 3 === 0
-                  ? "w-3 h-3 bg-white/60"
+                  ? "w-2 h-2 bg-white/60"
                   : i % 3 === 1
-                  ? "w-2 h-2 bg-white/80"
-                  : "w-4 h-4 bg-white/40"
+                  ? "w-1.5 h-1.5 bg-white/80"
+                  : "w-3 h-3 bg-white/40"
               }`}
               style={{
-                left: `${(i * 23) % 100}%`,
-                top: `${(i * 31) % 100}%`,
+                left: `${10 + ((i * 15) % 80)}%`,
+                top: `${15 + ((i * 20) % 70)}%`,
                 willChange: "transform, opacity",
                 transform: "translateZ(0)",
                 zIndex: (i % 2) + 1,
               }}
               animate={{
-                y: [0, -20, 0],
+                y: [0, -15, 0],
                 x: [0, (i % 3) - 1, 0],
                 opacity: [0.3, 0.8, 0.3],
                 scale: [1, 1.1, 1],
@@ -408,16 +612,16 @@ export default function Hero() {
             />
           ))}
 
-          {/* Mobile accent lines */}
+          {/* Mobile accent lines - positioned within safe mobile bounds */}
           {[...Array(4)].map((_, i) => (
             <motion.div
               key={`mobile-line-${i}`}
               className="absolute bg-white/30"
               style={{
-                left: `${(i * 28) % 100}%`,
-                top: `${(i * 25) % 100}%`,
-                width: `${20 + (i % 3) * 10}px`,
-                height: "2px",
+                left: `${15 + ((i * 20) % 70)}%`,
+                top: `${20 + (i % 3) * 15}%`,
+                width: `${15 + (i % 2) * 8}px`,
+                height: "1px",
                 willChange: "transform, opacity",
                 transform: "translateZ(0)",
                 zIndex: 1,
@@ -425,7 +629,7 @@ export default function Hero() {
               animate={{
                 opacity: [0.2, 0.6, 0.2],
                 scaleX: [0.8, 1.2, 0.8],
-                rotate: [0, 5, 0],
+                rotate: [0, 3, 0],
               }}
               transition={{
                 duration: 6 + (i % 3),
@@ -436,18 +640,18 @@ export default function Hero() {
             />
           ))}
 
-          {/* Mobile geometric accents */}
+          {/* Mobile geometric accents - positioned within safe mobile bounds */}
           {[...Array(3)].map((_, i) => (
             <motion.div
               key={`mobile-geo-${i}`}
-              className={`absolute border-2 border-white/40 ${
+              className={`absolute border border-white/40 ${
                 i % 2 === 0 ? "rounded-sm" : "rounded-full"
               }`}
               style={{
-                left: `${(i * 35) % 100}%`,
-                top: `${(i * 40) % 100}%`,
-                width: `${12 + (i % 2) * 8}px`,
-                height: `${12 + (i % 2) * 8}px`,
+                left: `${20 + ((i * 25) % 60)}%`,
+                top: `${25 + ((i * 20) % 55)}%`,
+                width: `${8 + (i % 2) * 6}px`,
+                height: `${8 + (i % 2) * 6}px`,
                 willChange: "transform, opacity",
                 transform: "translateZ(0)",
                 zIndex: 1,

@@ -238,108 +238,89 @@ export default function Hero() {
                 transform: "translateZ(0)",
               }}
             >
-              {/* Mobile Hero - Exact Desktop Replica */}
+              {/* Mobile Hero - Sleek & Clean */}
               {isMobile ? (
                 <div className="min-h-screen bg-gradient-to-br from-teal-400 via-teal-500 to-green-600 relative overflow-hidden">
-                  {/* Floating Elements - Matching Desktop */}
+                  {/* Floating Elements - Subtle */}
                   <div className="absolute inset-0 pointer-events-none">
-                    {/* Red dot - matching desktop */}
-                    <div className="absolute top-20 right-20 w-3 h-3 bg-red-500 rounded-full" />
+                    {/* Red accent dots */}
+                    <div className="absolute top-20 right-20 w-2 h-2 bg-red-500 rounded-full" />
+                    <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-red-500 rounded-full" />
                     
-                    {/* Floating shapes - matching desktop */}
-                    {[...Array(5)].map((_, i) => (
+                    {/* Floating shapes */}
+                    {[...Array(4)].map((_, i) => (
                       <div
                         key={`mobile-shape-${i}`}
                         className={`absolute ${
-                          i % 2 === 0 ? 'bg-white/60' : 'bg-teal-300/40'
+                          i % 2 === 0 ? 'bg-white/30' : 'bg-teal-300/20'
                         }`}
                         style={{
-                          left: `${15 + (i * 20) % 70}%`,
-                          top: `${20 + (i * 25) % 60}%`,
-                          width: `${8 + (i % 2) * 4}px`,
-                          height: `${8 + (i % 2) * 4}px`,
+                          left: `${20 + (i * 25) % 60}%`,
+                          top: `${25 + (i * 20) % 50}%`,
+                          width: `${6 + (i % 2) * 3}px`,
+                          height: `${6 + (i % 2) * 3}px`,
                         }}
                       />
                     ))}
                   </div>
 
-                  {/* Main Content - Desktop Layout for Mobile */}
-                  <div className="relative z-10 min-h-screen flex flex-col justify-center px-6 py-8">
-                    {/* Left Column - Main Content */}
-                    <div className="flex-1 flex flex-col justify-center mb-8">
-                      {/* Name */}
-                      <h1 className="text-5xl sm:text-6xl font-black text-black leading-none tracking-tight mb-6">
+                  {/* Main Content - Sleek Layout */}
+                  <div className="relative z-10 min-h-screen flex flex-col justify-center px-8 py-12">
+                    {/* Hero Content */}
+                    <div className="text-center space-y-8">
+                      {/* Name - Clean Typography */}
+                      <h1 className="text-6xl sm:text-7xl font-black text-white leading-none tracking-tight">
                         <span className="block">JAKE</span>
                         <span className="block">COCHRAN</span>
                       </h1>
 
-                      {/* Dynamic Element/Underline - Matching Desktop */}
-                      <div className="mb-6">
-                        <div className="inline-block px-4 py-2 bg-white border-2 border-black">
-                          <span className="text-black font-bold text-lg">
-                            {displayText}
-                            {mounted && <span className="ml-1 animate-pulse">|</span>}
-                          </span>
-                        </div>
+                      {/* Role - Simple Text */}
+                      <div className="text-xl text-white font-medium">
+                        {displayText}
+                        {mounted && <span className="ml-1 animate-pulse">|</span>}
                       </div>
 
-                      {/* Description Card - Matching Desktop */}
-                      <div className="mb-8 max-w-sm">
-                        <div className="bg-white/80 backdrop-blur-sm border border-white/20 rounded-lg p-4 shadow-lg">
-                          <p className="text-gray-800 text-sm leading-relaxed">
-                            Crafting exceptional digital experiences through innovative design and cutting-edge development. 
-                            Specializing in user-centered solutions that bridge creativity with functionality.
-                          </p>
-                        </div>
-                      </div>
+                      {/* Description - Clean Text */}
+                      <p className="text-white/90 text-lg leading-relaxed max-w-md mx-auto font-light">
+                        Crafting exceptional digital experiences through innovative design and cutting-edge development.
+                      </p>
 
-                      {/* CTA Buttons - Matching Desktop */}
-                      <div className="space-y-4">
-                        <button className="w-full bg-orange-500 text-white py-3 px-6 border-2 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-200">
-                          <span className="font-black text-sm uppercase tracking-wide">
-                            View My Work
-                          </span>
+                      {/* CTA Buttons - Sleek Design */}
+                      <div className="space-y-4 pt-4">
+                        <button className="w-full max-w-xs bg-white text-black py-4 px-8 font-bold text-sm uppercase tracking-widest hover:bg-gray-100 transition-colors duration-200">
+                          View My Work
                         </button>
-                        <button className="w-full bg-white text-black py-3 px-6 border-2 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-200">
-                          <span className="font-black text-sm uppercase tracking-wide">
-                            Get In Touch
-                          </span>
+                        <button className="w-full max-w-xs bg-transparent text-white py-4 px-8 font-bold text-sm uppercase tracking-widest border-2 border-white hover:bg-white hover:text-black transition-all duration-200">
+                          Get In Touch
                         </button>
                       </div>
                     </div>
 
-                    {/* Right Column - Quote Section - Mobile Optimized */}
-                    <div className="text-center">
-                      {/* Accent Dot - Matching Desktop */}
-                      <div className="w-2 h-2 bg-red-500 rounded-full mx-auto mb-3" />
-                      
-                      {/* Quote Text */}
-                      <blockquote className="text-white text-sm leading-relaxed mb-2 max-w-xs mx-auto">
+                    {/* Quote Section - Clean */}
+                    <div className="text-center mt-16 max-w-sm mx-auto">
+                      <blockquote className="text-white/80 text-sm leading-relaxed mb-3">
                         If I had an hour to solve a problem I&apos;d spend 55 minutes thinking about the problem and 5 minutes thinking about solutions.
                       </blockquote>
-                      
-                      {/* Attribution */}
-                      <cite className="text-white/80 text-xs">
+                      <cite className="text-white/60 text-xs">
                         — Albert Einstein
                       </cite>
                     </div>
                   </div>
 
-                  {/* Bottom Elements - Matching Desktop */}
-                  <div className="absolute bottom-6 left-6">
-                    {/* Bottom-Left Icon */}
-                    <div className="w-8 h-8 bg-black border-2 border-white flex items-center justify-center">
-                      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  {/* Bottom Elements - Minimal */}
+                  <div className="absolute bottom-8 left-8">
+                    <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
                       </svg>
                     </div>
                   </div>
 
-                  {/* Scroll Indicator - Matching Desktop */}
-                  <div className="absolute bottom-6 right-6">
+                  {/* Scroll Indicator - Clean */}
+                  <div className="absolute bottom-8 right-8">
                     <div className="text-center">
-                      <div className="text-white text-xs mb-1">0%</div>
-                      <div className="w-2 h-2 bg-white rounded-full mx-auto" />
+                      <div className="text-white/60 text-xs mb-2">0%</div>
+                      <div className="w-1 h-6 bg-white/30 rounded-full" />
                     </div>
                   </div>
                 </div>

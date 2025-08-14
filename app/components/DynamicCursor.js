@@ -1,121 +1,34 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 export default function DynamicCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [isMouseInViewport, setIsMouseInViewport] = useState(false);
+  const cursorRef = useRef(null);
+  const observerRef = useRef(null);
+  const rafIdRef = useRef(null);
 
   useEffect(() => {
+    // Early return if mobile - don't run any cursor logic
     const checkMobile = () => {
-      const isMobileDevice =
-        window.innerWidth <= 768 ||
-        "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0;
-      setIsMobile(isMobileDevice);
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      if (mobile) return; // Exit early on mobile
     };
 
     checkMobile();
-    window.addEventListener("resize", checkMobile);
+    window.addEventListener("resize", checkMobile, { passive: true });
 
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+    // Don't proceed with cursor setup on mobile
+    if (window.innerWidth <= 768) {
+      return () => window.removeEventListener("resize", checkMobile);
+    }
 
-  const updateMousePosition = useCallback((e) => {
-    setMousePosition({ x: e.clientX, y: e.clientY });
-
-    // Check if mouse is within viewport boundaries
-    const isInViewport =
-      e.clientX >= 0 &&
-      e.clientX <= window.innerWidth &&
-      e.clientY >= 0 &&
-      e.clientY <= window.innerHeight;
-    setIsMouseInViewport(isInViewport);
-  }, []);
-
-  // Brutalist theme variants using CSS variables
-  const cursorVariants = useMemo(
-    () => ({
-      default: {
-        x: mousePosition.x - 8,
-        y: mousePosition.y - 8,
-        width: 20,
-        height: 20,
-        backgroundColor: "var(--color-primary)",
-        border: "3px solid var(--color-black)",
-        borderRadius: 0,
-        scale: 1,
-        opacity: isMouseInViewport ? 1 : 0,
-        filter: "drop-shadow(0 0 8px rgba(255, 107, 53, 0.6))",
-        transition: "all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-      },
-      hover: {
-        x: mousePosition.x - 18,
-        y: mousePosition.y - 18,
-        width: 40,
-        height: 40,
-        backgroundColor: "var(--color-primary)",
-        border: "3px solid var(--color-black)",
-        borderRadius: "50%",
-        scale: 1,
-        opacity: isMouseInViewport ? 1 : 0,
-        filter: "drop-shadow(0 0 16px rgba(255, 107, 53, 0.9))",
-        transition: "all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-      },
-      click: {
-        scale: 0.85,
-        opacity: isMouseInViewport ? 1 : 0,
-        filter: "drop-shadow(0 0 20px rgba(255, 107, 53, 1))",
-        transition: "all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-      },
-    }),
-    [mousePosition.x, mousePosition.y, isMouseInViewport]
-  );
-
-  useEffect(() => {
-    if (isMobile) return;
-
-    // Comprehensive cursor hiding system
     const hideCursorEverywhere = () => {
-      // Add global CSS to hide default cursor on all elements
-      const existingStyle = document.getElementById("cursor-hide-styles");
-      if (existingStyle) existingStyle.remove();
-
-      const style = document.createElement("style");
-      style.id = "cursor-hide-styles";
-      style.textContent = `
-        *, *::before, *::after {
-          cursor: none !important;
-        }
-        
-        html, body {
-          cursor: none !important;
-        }
-        
-        a, button, input, textarea, select, video, audio, canvas,
-        [role="button"], [tabindex], [onclick], [onmouseover],
-        .btn-brutal, .clickable, .hover\\:cursor-pointer,
-        *:hover, *:focus, *:active, *:visited {
-          cursor: none !important;
-        }
-        
-        /* Specific overrides for common cursor-setting elements */
-        iframe, embed, object, applet {
-          cursor: none !important;
-        }
-        
-        /* Override any inline cursor styles */
-        [style*="cursor"] {
-          cursor: none !important;
-        }
-      `;
-      document.head.appendChild(style);
-
-      // Force cursor none on document body
       document.body.style.cursor = "none";
       document.documentElement.style.cursor = "none";
     };
@@ -174,11 +87,10 @@ export default function DynamicCursor() {
     });
 
     let ticking = false;
-    let rafId = null;
 
     const handleMouseMove = (e) => {
       if (!ticking) {
-        rafId = requestAnimationFrame(() => {
+        rafIdRef.current = requestAnimationFrame(() => {
           updateMousePosition(e);
           ticking = false;
         });
@@ -189,123 +101,75 @@ export default function DynamicCursor() {
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
 
-    // Handle mouse entering/leaving the viewport
-    const handleMouseEnterViewport = () => {
-      setIsMouseInViewport(true);
+    const updateMousePosition = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+      setIsVisible(true);
     };
 
-    const handleMouseLeaveViewport = () => {
-      setIsMouseInViewport(false);
-      setIsHovering(false);
-      setIsClicking(false);
-    };
+    // Add event listeners
+    document.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mousedown", handleMouseDown, { passive: true });
+    document.addEventListener("mouseup", handleMouseUp, { passive: true });
 
-    // Enhanced hover detection
-    const handleMouseEnter = (e) => {
-      const target = e.target;
-      if (
-        target.closest("a") ||
-        target.closest("button") ||
-        target.closest("[role='button']") ||
-        target.closest(".btn-brutal") ||
-        target.closest("input[type='button']") ||
-        target.closest("input[type='submit']") ||
-        target.closest("input[type='reset']") ||
-        target.closest("[onclick]") ||
-        target.closest(".clickable") ||
-        target.closest("video") ||
-        target.closest("audio")
-      ) {
-        setIsHovering(true);
-      }
-    };
-
-    const handleMouseLeave = () => {
-      setIsHovering(false);
-    };
-
-    // Add viewport entry/exit detection
-    document.addEventListener("mouseenter", handleMouseEnterViewport, {
-      passive: true,
-    });
-    document.addEventListener("mouseleave", handleMouseLeaveViewport, {
-      passive: true,
-    });
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    window.addEventListener("mousedown", handleMouseDown, { passive: true });
-    window.addEventListener("mouseup", handleMouseUp, { passive: true });
-    window.addEventListener("mouseover", handleMouseEnter, { passive: true });
-    window.addEventListener("mouseout", handleMouseLeave, { passive: true });
+    // Store references for cleanup
+    observerRef.current = observer;
 
     return () => {
-      // Clean up
-      const style = document.getElementById("cursor-hide-styles");
-      if (style) style.remove();
-      observer.disconnect();
-      if (cursorCheckTimeout) clearTimeout(cursorCheckTimeout);
-      document.removeEventListener("mouseenter", handleMouseEnterViewport);
-      document.removeEventListener("mouseleave", handleMouseLeaveViewport);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("mouseover", handleMouseEnter);
-      window.removeEventListener("mouseout", handleMouseLeave);
-      if (rafId) cancelAnimationFrame(rafId);
+      // Cleanup
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("resize", checkMobile);
+      
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+      if (cursorCheckTimeout) {
+        clearTimeout(cursorCheckTimeout);
+      }
     };
-  }, [updateMousePosition, isMobile]);
+  }, []);
 
+  // Don't render anything on mobile
   if (isMobile) {
     return null;
   }
 
   return (
-    <>
-      {/* Main cursor - brutalist square with black shadow */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[80]"
-        style={{
-          willChange:
-            "transform, width, height, backgroundColor, border-radius, opacity",
-          boxShadow: isHovering
-            ? "6px 6px 0 rgba(0,0,0,0.9)"
-            : "4px 4px 0 rgba(0,0,0,0.9)",
-          transition:
-            "box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.2s ease",
-        }}
-        variants={cursorVariants}
-        animate={isClicking ? "click" : isHovering ? "hover" : "default"}
-        transition={{
-          type: "spring",
-          mass: 0.2,
-          stiffness: 400,
-          damping: 25,
-          duration: 0.15,
-        }}
-      />
-
-      {/* Click ripple effect - orange and square */}
-      {isClicking && isMouseInViewport && (
+    <motion.div
+      ref={cursorRef}
+      className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9999] mix-blend-difference"
+      style={{
+        x: mousePosition.x - 16,
+        y: mousePosition.y - 16,
+        willChange: "transform",
+        transform: "translateZ(0)",
+      }}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{
+        opacity: isVisible ? 1 : 0,
+        scale: isVisible ? 1 : 0,
+      }}
+      transition={{
+        duration: 0.1,
+        ease: "easeOut",
+      }}
+    >
+      {/* Cursor dot */}
+      <div className="w-full h-full bg-white rounded-full shadow-lg" />
+      
+      {/* Click animation */}
+      {isClicking && (
         <motion.div
-          className="fixed top-0 left-0 pointer-events-none z-[78]"
-          initial={{
-            x: mousePosition.x - 16,
-            y: mousePosition.y - 16,
-            width: 32,
-            height: 32,
-            scale: 0,
-            opacity: 1,
-            backgroundColor: "rgba(255,107,53,0.25)",
-            border: "2px solid var(--color-black)",
-            borderRadius: isHovering ? "50%" : 0,
-          }}
-          animate={{ scale: 1.6, opacity: 0 }}
-          transition={{
-            duration: 0.4,
-            ease: [0.25, 0.46, 0.45, 0.94],
-          }}
-          style={{ willChange: "transform, opacity" }}
+          className="absolute inset-0 bg-white rounded-full"
+          initial={{ scale: 1.5, opacity: 0.8 }}
+          animate={{ scale: 0, opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
         />
       )}
-    </>
+    </motion.div>
   );
 }

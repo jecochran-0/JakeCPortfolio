@@ -1,85 +1,49 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { performanceUtils } from "../utils/performance";
 
 export default function PerformanceMonitor() {
   const hasOptimized = useRef(false);
 
   useEffect(() => {
+    // Early return if mobile - don't run any performance monitoring
+    const checkMobile = () => {
+      return window.innerWidth <= 768;
+    };
+
+    if (checkMobile()) {
+      return; // Exit early on mobile
+    }
+
     if (hasOptimized.current) return;
-    hasOptimized.current = true;
 
-    // Apply performance optimizations based on device capabilities
     const applyOptimizations = () => {
-      const isLowPower = performanceUtils.isLowPowerDevice();
-      const prefersReduced = performanceUtils.prefersReducedMotion();
-      const animationSettings = performanceUtils.getAnimationSettings();
-
-      // Add CSS variables for performance-based styling
+      // Apply performance optimizations for desktop only
       const style = document.createElement("style");
       style.setAttribute("data-performance-optimization", "true");
       style.textContent = `
-        :root {
-          --animation-duration: ${animationSettings.duration}s;
-          --animation-ease: ${
-            Array.isArray(animationSettings.ease)
-              ? "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
-              : animationSettings.ease
-          };
-          --disable-complex-animations: ${
-            animationSettings.disableComplex ? "none" : "auto"
-          };
-        }
-
-        ${
-          animationSettings.disableComplex
-            ? `
-          .float, .morph, .pulse-glow, .shimmer, .particle,
-          .animated-gradient, .animated-gradient-slow {
-            animation: none !important;
+        /* Desktop-only performance optimizations */
+        @media (min-width: 769px) {
+          .glass-card {
+            will-change: transform, box-shadow;
+            transform: translateZ(0);
           }
           
-          .card-hover:hover {
-            transform: none !important;
-            box-shadow: none !important;
-          }
-        `
-            : ""
-        }
-
-        ${
-          prefersReduced
-            ? `
-          *, *::before, *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-          }
-        `
-            : ""
-        }
-
-        ${
-          isLowPower
-            ? `
-          * {
-            transition: all 0.2s ease !important;
-            transform: translateZ(0) !important;
+          .card-brutal {
+            will-change: transform, box-shadow;
+            transform: translateZ(0);
           }
           
-          .hero-video {
-            display: none !important;
+          .btn-brutal {
+            will-change: transform, box-shadow;
+            transform: translateZ(0);
           }
-        `
-            : ""
         }
       `;
-
       document.head.appendChild(style);
     };
 
-    // Monitor performance metrics (simplified)
+    // Monitor performance metrics (desktop only)
     const monitorPerformance = () => {
       if (typeof window === "undefined") return;
 
@@ -123,11 +87,13 @@ export default function PerformanceMonitor() {
     // Apply optimizations immediately
     applyOptimizations();
 
-    // Start performance monitoring
+    // Start performance monitoring (desktop only)
     monitorPerformance();
 
-    // Re-apply optimizations on resize
+    // Re-apply optimizations on resize (desktop only)
     const handleResize = () => {
+      if (checkMobile()) return; // Don't run on mobile
+      
       // Remove existing optimizations
       const existingStyles = document.querySelectorAll(
         "style[data-performance-optimization]"
@@ -142,7 +108,8 @@ export default function PerformanceMonitor() {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      // Clean up any added styles
+      
+      // Clean up performance styles
       const existingStyles = document.querySelectorAll(
         "style[data-performance-optimization]"
       );
@@ -150,6 +117,6 @@ export default function PerformanceMonitor() {
     };
   }, []);
 
-  // This component doesn't render anything
+  // Don't render anything - this is a background component
   return null;
 }

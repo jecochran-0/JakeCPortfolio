@@ -106,7 +106,17 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  cursor: none !important; /* Force hide default cursor on all elements */
+}
+
+/* Only hide cursor on devices with a fine pointer (desktop/mouse) */
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+  html,
+  body {
+    cursor: none !important;
+  }
 }
 
 html {
@@ -117,7 +127,6 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  cursor: none !important;
 }
 
 body {
@@ -130,24 +139,25 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   position: relative;
-  cursor: none !important;
 }
 
-/* Force cursor none on all interactive elements */
-a,
-button,
-input,
-textarea,
-select,
-video,
-[role="button"],
-[tabindex],
-.clickable,
-.hover\:cursor-pointer,
-*:hover,
-*:focus,
-*:active {
-  cursor: none !important;
+/* Only apply cursor hiding to interactive elements on pointer: fine */
+@media (pointer: fine) {
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  video,
+  [role="button"],
+  [tabindex],
+  .clickable,
+  .hover\:cursor-pointer,
+  *:hover,
+  *:focus,
+  *:active {
+    cursor: none !important;
+  }
 }
 
 /* Brutalist Typography */

@@ -238,46 +238,89 @@ export default function Hero() {
                 transform: "translateZ(0)",
               }}
             >
-              {/* Fresh Mobile Hero - Clean & Simple */}
+              {/* Apple-Inspired Neo-Brutalist Mobile Hero */}
               {isMobile ? (
-                <div className="min-h-screen bg-gradient-to-br from-teal-400 via-teal-500 to-green-600 flex flex-col items-center justify-center px-6 py-8">
-                  {/* Profile Photo */}
-                  <div className="mb-8">
-                    <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-black bg-white mx-auto">
-                      <img
-                        src="/Headshot3.png"
-                        alt="Jake Cochran"
-                        className="w-full h-full object-cover"
-                      />
+                <div className="min-h-screen bg-white relative overflow-hidden">
+                  {/* Sophisticated Background Pattern */}
+                  <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-black via-gray-800 to-black" />
+                    <div className="absolute bottom-0 right-0 w-full h-32 bg-gradient-to-l from-black via-gray-800 to-black" />
+                  </div>
+
+                  {/* Main Content Container */}
+                  <div className="relative z-10 min-h-screen flex flex-col justify-center px-8 py-12">
+                    {/* Hero Header */}
+                    <div className="text-center mb-16">
+                      {/* Premium Role Badge */}
+                      <div className="inline-flex items-center justify-center mb-8">
+                        <div className="px-6 py-2 bg-black border-2 border-black">
+                          <span className="text-white text-sm font-bold tracking-widest uppercase">
+                            {displayText}
+                            {mounted && <span className="ml-1 animate-pulse">|</span>}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Hero Title - Apple-Style Typography */}
+                      <h1 className="text-6xl font-black text-black leading-none tracking-tight mb-6">
+                        <span className="block">JAKE</span>
+                        <span className="block text-4xl font-light text-gray-600 mt-2">COCHRAN</span>
+                      </h1>
+
+                      {/* Premium Subtitle */}
+                      <p className="text-xl text-gray-700 font-medium max-w-md mx-auto leading-relaxed">
+                        Crafting digital experiences that define the future.
+                      </p>
                     </div>
-                  </div>
 
-                  {/* Name */}
-                  <h1 className="text-4xl font-bold text-white text-center mb-4 drop-shadow-lg">
-                    Jake Cochran
-                  </h1>
+                    {/* Profile Section - Apple-Style Presentation */}
+                    <div className="flex justify-center mb-16">
+                      <div className="relative">
+                        {/* Main Photo Container */}
+                        <div className="w-40 h-40 rounded-none border-4 border-black bg-white overflow-hidden shadow-brutal">
+                          <img
+                            src="/Headshot3.png"
+                            alt="Jake Cochran"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        
+                        {/* Premium Accent Elements */}
+                        <div className="absolute -top-3 -left-3 w-6 h-6 bg-orange-500 border-2 border-black" />
+                        <div className="absolute -bottom-3 -right-3 w-6 h-6 bg-black border-2 border-orange-500" />
+                      </div>
+                    </div>
 
-                  {/* Role */}
-                  <div className="mb-6">
-                    <span className="text-lg text-white font-medium drop-shadow-md">
-                      {displayText}
-                      {mounted && <span className="ml-1 animate-pulse">|</span>}
-                    </span>
-                  </div>
+                    {/* Sophisticated Description */}
+                    <div className="text-center mb-12 max-w-lg mx-auto">
+                      <p className="text-base text-gray-600 leading-relaxed font-normal">
+                        Specializing in user-centered solutions that bridge creativity with functionality. 
+                        From concept to deployment, I transform ideas into exceptional digital experiences.
+                      </p>
+                    </div>
 
-                  {/* Description */}
-                  <p className="text-base text-white text-center max-w-sm mb-8 leading-relaxed drop-shadow-md">
-                    Crafting exceptional digital experiences through innovative design and development.
-                  </p>
+                    {/* Premium CTA Section */}
+                    <div className="space-y-4 max-w-sm mx-auto">
+                      {/* Primary Action - Apple-Style Button */}
+                      <button className="w-full bg-black text-white py-4 px-8 font-semibold text-sm uppercase tracking-widest hover:bg-gray-800 transition-all duration-300 border-2 border-black shadow-brutal hover:shadow-brutal-hover">
+                        View My Work
+                      </button>
+                      
+                      {/* Secondary Action - Sophisticated Style */}
+                      <button className="w-full bg-white text-black py-4 px-8 font-semibold text-sm uppercase tracking-widest hover:bg-gray-50 transition-all duration-300 border-2 border-black shadow-brutal hover:shadow-brutal-hover">
+                        Get In Touch
+                      </button>
+                    </div>
 
-                  {/* Buttons */}
-                  <div className="space-y-4 w-full max-w-xs">
-                    <button className="w-full bg-black text-white py-3 px-6 rounded-none font-semibold text-sm uppercase tracking-wide hover:bg-gray-800 transition-colors border-2 border-black shadow-brutal">
-                      View My Work
-                    </button>
-                    <button className="w-full bg-white text-black py-3 px-6 rounded-none font-semibold text-sm uppercase tracking-wide hover:bg-gray-50 transition-colors border-2 border-black shadow-brutal">
-                      Get In Touch
-                    </button>
+                    {/* Premium Footer Element */}
+                    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                      <div className="flex flex-col items-center space-y-3">
+                        <span className="text-xs text-gray-500 font-medium tracking-widest uppercase">
+                          Scroll to explore
+                        </span>
+                        <div className="w-px h-8 bg-gray-400" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               ) : (

@@ -240,10 +240,10 @@ export default function Hero() {
             >
               {/* Fresh Mobile Hero - Clean & Simple */}
               {isMobile ? (
-                <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8">
+                <div className="min-h-screen bg-gradient-to-br from-teal-400 via-teal-500 to-green-600 flex flex-col items-center justify-center px-6 py-8">
                   {/* Profile Photo */}
                   <div className="mb-8">
-                    <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-black mx-auto">
+                    <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-black bg-white mx-auto">
                       <img
                         src="/Headshot3.png"
                         alt="Jake Cochran"
@@ -253,29 +253,29 @@ export default function Hero() {
                   </div>
 
                   {/* Name */}
-                  <h1 className="text-4xl font-bold text-black text-center mb-4">
+                  <h1 className="text-4xl font-bold text-white text-center mb-4 drop-shadow-lg">
                     Jake Cochran
                   </h1>
 
                   {/* Role */}
                   <div className="mb-6">
-                    <span className="text-lg text-gray-600 font-medium">
+                    <span className="text-lg text-white font-medium drop-shadow-md">
                       {displayText}
                       {mounted && <span className="ml-1 animate-pulse">|</span>}
                     </span>
                   </div>
 
                   {/* Description */}
-                  <p className="text-base text-gray-700 text-center max-w-sm mb-8 leading-relaxed">
+                  <p className="text-base text-white text-center max-w-sm mb-8 leading-relaxed drop-shadow-md">
                     Crafting exceptional digital experiences through innovative design and development.
                   </p>
 
                   {/* Buttons */}
                   <div className="space-y-4 w-full max-w-xs">
-                    <button className="w-full bg-black text-white py-3 px-6 rounded-none font-semibold text-sm uppercase tracking-wide hover:bg-gray-800 transition-colors">
+                    <button className="w-full bg-black text-white py-3 px-6 rounded-none font-semibold text-sm uppercase tracking-wide hover:bg-gray-800 transition-colors border-2 border-black shadow-brutal">
                       View My Work
                     </button>
-                    <button className="w-full bg-white text-black py-3 px-6 border-2 border-black font-semibold text-sm uppercase tracking-wide hover:bg-gray-50 transition-colors">
+                    <button className="w-full bg-white text-black py-3 px-6 rounded-none font-semibold text-sm uppercase tracking-wide hover:bg-gray-50 transition-colors border-2 border-black shadow-brutal">
                       Get In Touch
                     </button>
                   </div>

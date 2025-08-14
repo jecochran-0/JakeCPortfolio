@@ -238,115 +238,47 @@ export default function Hero() {
                 transform: "translateZ(0)",
               }}
             >
-              {/* Minimal Mobile Hero - Elite UX Design */}
+              {/* Fresh Mobile Hero - Clean & Simple */}
               {isMobile ? (
-                <div className="relative w-full min-h-screen flex flex-col items-center justify-center px-6">
-                  {/* Clean Background */}
-                  <div className="absolute inset-0 bg-white" />
-                  
-                  {/* Subtle Pattern */}
-                  <div className="absolute inset-0 opacity-5">
-                    <div className="absolute top-20 left-10 w-32 h-32 border border-black" />
-                    <div className="absolute bottom-20 right-10 w-24 h-24 border border-black" />
-                  </div>
-
-                  {/* Main Content */}
-                  <div className="relative z-10 w-full max-w-sm text-center space-y-12">
-                    {/* Profile Photo - Centered & Clean */}
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.6, ease: "easeOut" }}
-                      className="mx-auto"
-                    >
-                      <div className="w-32 h-32 mx-auto border-4 border-black bg-white overflow-hidden">
-                        <img
-                          src="/Headshot3.png"
-                          alt="Jake Cochran"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      {/* Single accent */}
-                      <div className="w-4 h-4 bg-orange-500 border-2 border-black mx-auto mt-4" />
-                    </motion.div>
-
-                    {/* Name - Clear Hierarchy */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-                    >
-                      <h1 className="text-5xl font-black text-black leading-none tracking-tight">
-                        JAKE
-                      </h1>
-                      <h1 className="text-5xl font-black text-orange-500 leading-none tracking-tight mt-2">
-                        COCHRAN
-                      </h1>
-                    </motion.div>
-
-                    {/* Role - Purposeful Badge */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-                    >
-                      <div className="inline-block px-6 py-3 bg-black border-2 border-black">
-                        <span className="text-white font-bold text-lg tracking-wide">
-                          {displayText}
-                          {mounted && <span className="ml-1 animate-pulse">|</span>}
-                        </span>
-                      </div>
-                    </motion.div>
-
-                    {/* Description - Clean & Readable */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-                      className="max-w-xs mx-auto"
-                    >
-                      <p className="text-gray-700 text-base leading-relaxed font-medium">
-                        Crafting exceptional digital experiences through innovative design and development.
-                      </p>
-                    </motion.div>
-
-                    {/* CTA Buttons - Clear Actions */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-                      className="space-y-4"
-                    >
-                      {/* Primary Action */}
-                      <button className="w-full py-4 bg-orange-500 border-2 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-200">
-                        <span className="text-black font-black text-lg tracking-wide uppercase">
-                          View My Work
-                        </span>
-                      </button>
-                      
-                      {/* Secondary Action */}
-                      <button className="w-full py-4 bg-white border-2 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-200">
-                        <span className="text-black font-black text-lg tracking-wide uppercase">
-                          Get In Touch
-                        </span>
-                      </button>
-                    </motion.div>
-                  </div>
-
-                  {/* Minimal Scroll Indicator */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.8 }}
-                    className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-                  >
-                    <div className="flex flex-col items-center space-y-2">
-                      <span className="text-xs text-gray-500 font-medium tracking-wider uppercase">
-                        Scroll
-                      </span>
-                      <div className="w-0.5 h-6 bg-gray-400" />
+                <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8">
+                  {/* Profile Photo */}
+                  <div className="mb-8">
+                    <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-black mx-auto">
+                      <img
+                        src="/Headshot3.png"
+                        alt="Jake Cochran"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                  </motion.div>
+                  </div>
+
+                  {/* Name */}
+                  <h1 className="text-4xl font-bold text-black text-center mb-4">
+                    Jake Cochran
+                  </h1>
+
+                  {/* Role */}
+                  <div className="mb-6">
+                    <span className="text-lg text-gray-600 font-medium">
+                      {displayText}
+                      {mounted && <span className="ml-1 animate-pulse">|</span>}
+                    </span>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-base text-gray-700 text-center max-w-sm mb-8 leading-relaxed">
+                    Crafting exceptional digital experiences through innovative design and development.
+                  </p>
+
+                  {/* Buttons */}
+                  <div className="space-y-4 w-full max-w-xs">
+                    <button className="w-full bg-black text-white py-3 px-6 rounded-none font-semibold text-sm uppercase tracking-wide hover:bg-gray-800 transition-colors">
+                      View My Work
+                    </button>
+                    <button className="w-full bg-white text-black py-3 px-6 border-2 border-black font-semibold text-sm uppercase tracking-wide hover:bg-gray-50 transition-colors">
+                      Get In Touch
+                    </button>
+                  </div>
                 </div>
               ) : (
                 /* Desktop Layout - Original Design */

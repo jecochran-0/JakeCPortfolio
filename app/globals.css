@@ -2437,21 +2437,21 @@ a:hover {
   }
 
   /* Scroll indicator styling */
-  .hero-left-column .absolute.bottom-4.left-1\\/2 {
+  .hero-left-column .absolute.bottom-4.left-1-2 {
     color: white !important;
   }
 
-  .hero-left-column .absolute.bottom-4.left-1\\/2 .text-xs {
+  .hero-left-column .absolute.bottom-4.left-1-2 .text-xs {
     color: rgba(255, 255, 255, 0.6) !important;
     font-weight: 500 !important;
     letter-spacing: 0.1em !important;
   }
 
-  .hero-left-column .absolute.bottom-4.left-1\\/2 .w-1.h-6 {
+  .hero-left-column .absolute.bottom-4.left-1-2 .w-1.h-6 {
     border-color: rgba(255, 255, 255, 0.3) !important;
   }
 
-  .hero-left-column .absolute.bottom-4.left-1\\/2 .w-1.h-3 {
+  .hero-left-column .absolute.bottom-4.left-1-2 .w-1.h-3 {
     background-color: rgba(255, 255, 255, 0.6) !important;
   }
 }
@@ -2719,27 +2719,27 @@ a:hover {
   }
 
   /* Modern floating stats */
-  .hero-left-column .absolute.-right-4.top-1\\/2 {
+  .hero-left-column .absolute.-right-4.top-1-2 {
     position: absolute !important;
     right: -16px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
   }
 
-  .hero-left-column .absolute.-right-4.top-1\\/2 .bg-white {
+  .hero-left-column .absolute.-right-4.top-1-2 .bg-white {
     background: white !important;
     border: 2px solid black !important;
     padding: 12px !important;
     box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.9) !important;
   }
 
-  .hero-left-column .absolute.-right-4.top-1\\/2 .text-2xl {
+  .hero-left-column .absolute.-right-4.top-1-2 .text-2xl {
     font-size: 1.5rem !important;
     font-weight: 900 !important;
     color: #ff6b35 !important;
   }
 
-  .hero-left-column .absolute.-right-4.top-1\\/2 .text-xs {
+  .hero-left-column .absolute.-right-4.top-1-2 .text-xs {
     font-size: 0.75rem !important;
     font-weight: 700 !important;
     color: black !important;
@@ -3066,7 +3066,7 @@ a:hover {
   }
 
   /* Scroll indicator */
-  .hero-left-column .absolute.bottom-8.left-1\\/2 {
+  .hero-left-column .absolute.bottom-8.left-1-2 {
     position: absolute !important;
     bottom: 2rem !important;
     left: 50% !important;
@@ -3408,7 +3408,7 @@ a:hover {
   }
 
   /* Premium footer element */
-  .hero-left-column .absolute.bottom-8.left-1\\/2 {
+  .hero-left-column .absolute.bottom-8.left-1-2 {
     position: absolute !important;
     bottom: 2rem !important;
     left: 50% !important;
@@ -3472,16 +3472,16 @@ a:hover {
   }
 
   /* Floating shapes - matching desktop */
-  .hero-left-column .absolute.bg-white\\/60,
-  .hero-left-column .absolute.bg-teal-300\\/40 {
+  .hero-left-column .absolute.bg-white-60,
+  .hero-left-column .absolute.bg-teal-300-40 {
     position: absolute !important;
   }
 
-  .hero-left-column .absolute.bg-white\\/60 {
+  .hero-left-column .absolute.bg-white-60 {
     background: rgba(255, 255, 255, 0.6) !important;
   }
 
-  .hero-left-column .absolute.bg-teal-300\\/40 {
+  .hero-left-column .absolute.bg-teal-300-40 {
     background: rgba(94, 234, 212, 0.4) !important;
   }
 
@@ -3546,7 +3546,7 @@ a:hover {
     max-width: 24rem !important;
   }
 
-  .hero-left-column .bg-white\\/80.backdrop-blur-sm {
+  .hero-left-column .bg-white-80.backdrop-blur-sm {
     background: rgba(255, 255, 255, 0.8) !important;
     backdrop-filter: blur(4px) !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -3555,7 +3555,7 @@ a:hover {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
   }
 
-  .hero-left-column .bg-white\\/80.backdrop-blur-sm p {
+  .hero-left-column .bg-white-80.backdrop-blur-sm p {
     color: #1f2937 !important;
     font-size: 0.875rem !important;
     line-height: 1.75 !important;
@@ -3627,7 +3627,7 @@ a:hover {
   }
 
   /* Attribution */
-  .hero-left-column .text-white\\/80.text-xs {
+  .hero-left-column .text-white-80.text-xs {
     color: rgba(255, 255, 255, 0.8) !important;
     font-size: 0.75rem !important;
   }
@@ -3708,7 +3708,7 @@ a:hover {
   }
 
   .hero-left-column
-    .absolute.bottom-32.left-1\\/2.transform.-translate-x-1\\/2.w-2.h-2.bg-red-500 {
+    .absolute.bottom-32.left-1-2.transform.-translate-x-1-2.w-2.h-2.bg-red-500 {
     position: absolute !important;
     bottom: 8rem !important;
     left: 50% !important;
@@ -3720,16 +3720,16 @@ a:hover {
   }
 
   /* Floating shapes */
-  .hero-left-column .absolute.bg-white\\/30,
-  .hero-left-column .absolute.bg-teal-300\\/20 {
+  .hero-left-column .absolute.bg-white-30,
+  .hero-left-column .absolute.bg-teal-300-20 {
     position: absolute !important;
   }
 
-  .hero-left-column .absolute.bg-white\\/30 {
+  .hero-left-column .absolute.bg-white-30 {
     background: rgba(255, 255, 255, 0.3) !important;
   }
 
-  .hero-left-column .absolute.bg-teal-300\\/20 {
+  .hero-left-column .absolute.bg-teal-300-20 {
     background: rgba(94, 234, 212, 0.2) !important;
   }
 
@@ -3779,7 +3779,7 @@ a:hover {
   }
 
   /* Description - clean text */
-  .hero-left-column .text-white\\/90.text-lg {
+  .hero-left-column .text-white-90.text-lg {
     color: rgba(255, 255, 255, 0.9) !important;
     font-size: 1.125rem !important;
     line-height: 1.75 !important;
@@ -3841,14 +3841,14 @@ a:hover {
     margin-right: auto !important;
   }
 
-  .hero-left-column .text-white\\/80.text-sm {
+  .hero-left-column .text-white-80.text-sm {
     color: rgba(255, 255, 255, 0.8) !important;
     font-size: 0.875rem !important;
     line-height: 1.75 !important;
     margin-bottom: 12px !important;
   }
 
-  .hero-left-column .text-white\\/60.text-xs {
+  .hero-left-column .text-white-60.text-xs {
     color: rgba(255, 255, 255, 0.6) !important;
     font-size: 0.75rem !important;
   }
@@ -3860,7 +3860,7 @@ a:hover {
     left: 2rem !important;
   }
 
-  .hero-left-column .w-6.h-6.bg-white\\/20.rounded-full {
+  .hero-left-column .w-6.h-6.bg-white-20.rounded-full {
     width: 24px !important;
     height: 24px !important;
     background: rgba(255, 255, 255, 0.2) !important;
@@ -3877,14 +3877,14 @@ a:hover {
     right: 2rem !important;
   }
 
-  .hero-left-column .text-center .text-white\\/60.text-xs {
+  .hero-left-column .text-center .text-white-60.text-xs {
     color: rgba(255, 255, 255, 0.6) !important;
     font-size: 0.75rem !important;
     margin-bottom: 8px !important;
     text-align: center !important;
   }
 
-  .hero-left-column .text-center .w-1.h-6.bg-white\\/30 {
+  .hero-left-column .text-center .w-1.h-6.bg-white-30 {
     width: 4px !important;
     height: 24px !important;
     background: rgba(255, 255, 255, 0.3) !important;
@@ -3954,16 +3954,16 @@ a:hover {
   }
 
   /* Floating shapes - matching desktop */
-  .hero-left-column .absolute.bg-white\\/60,
-  .hero-left-column .absolute.bg-teal-300\\/40 {
+  .hero-left-column .absolute.bg-white-60,
+  .hero-left-column .absolute.bg-teal-300-40 {
     position: absolute !important;
   }
 
-  .hero-left-column .absolute.bg-white\\/60 {
+  .hero-left-column .absolute.bg-white-60 {
     background: rgba(255, 255, 255, 0.6) !important;
   }
 
-  .hero-left-column .absolute.bg-teal-300\\/40 {
+  .hero-left-column .absolute.bg-teal-300-40 {
     background: rgba(94, 234, 212, 0.4) !important;
   }
 
@@ -4027,7 +4027,7 @@ a:hover {
     max-width: 24rem !important;
   }
 
-  .hero-left-column .bg-white\\/90.backdrop-blur-sm {
+  .hero-left-column .bg-white-90.backdrop-blur-sm {
     background: rgba(255, 255, 255, 0.9) !important;
     backdrop-filter: blur(4px) !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -4036,7 +4036,7 @@ a:hover {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
   }
 
-  .hero-left-column .bg-white\\/90.backdrop-blur-sm p {
+  .hero-left-column .bg-white-90.backdrop-blur-sm p {
     color: #1f2937 !important;
     font-size: 0.875rem !important;
     line-height: 1.75 !important;
@@ -4109,7 +4109,7 @@ a:hover {
   }
 
   /* Attribution */
-  .hero-left-column .text-white\\/80.text-xs {
+  .hero-left-column .text-white-80.text-xs {
     color: rgba(255, 255, 255, 0.8) !important;
     font-size: 0.75rem !important;
   }
@@ -4310,7 +4310,7 @@ a:hover {
   }
 
   /* Bottom accent */
-  .hero-left-column .absolute.bottom-8.left-1\\/2 {
+  .hero-left-column .absolute.bottom-8.left-1-2 {
     position: absolute !important;
     bottom: 2rem !important;
     left: 50% !important;
@@ -4581,7 +4581,7 @@ a:hover {
   }
 
   /* Floating industrial elements */
-  .hero-left-column .absolute.top-1\\/4.right-8 {
+  .hero-left-column .absolute.top-1-4.right-8 {
     position: absolute !important;
     top: 25% !important;
     right: 2rem !important;
@@ -4592,7 +4592,7 @@ a:hover {
     transform: rotate(45deg) !important;
   }
 
-  .hero-left-column .absolute.bottom-1\\/4.left-8 {
+  .hero-left-column .absolute.bottom-1-4.left-8 {
     position: absolute !important;
     bottom: 25% !important;
     left: 2rem !important;
@@ -4603,7 +4603,7 @@ a:hover {
   }
 
   .hero-left-column
-    .absolute.top-1\\/2.left-1\\/2.transform.-translate-x-1\\/2.-translate-y-1\\/2 {
+    .absolute.top-1-2.left-1-2.transform.-translate-x-1-2.-translate-y-1-2 {
     position: absolute !important;
     top: 50% !important;
     left: 50% !important;
@@ -4676,8 +4676,8 @@ a:hover {
     border-radius: 9999px !important;
   }
 
-  .hero-left-column .absolute.bg-white\\/60,
-  .hero-left-column .absolute.bg-teal-300\\/40 {
+  .hero-left-column .absolute.bg-white-60,
+  .hero-left-column .absolute.bg-teal-300-40 {
     position: absolute !important;
   }
 
@@ -4769,7 +4769,7 @@ a:hover {
     margin-right: auto !important;
   }
 
-  .hero-left-column .glass-card.p-4.bg-white\\/90 {
+  .hero-left-column .glass-card.p-4.bg-white-90 {
     padding: 1rem !important;
     background: rgba(255, 255, 255, 0.9) !important;
     backdrop-filter: blur(4px) !important;
@@ -4853,7 +4853,7 @@ a:hover {
     margin-right: auto !important;
   }
 
-  .hero-left-column .text-white\\/80.text-xs {
+  .hero-left-column .text-white-80.text-xs {
     color: rgba(255, 255, 255, 0.8) !important;
     font-size: 0.75rem !important;
   }
@@ -4934,16 +4934,16 @@ a:hover {
   }
 
   /* Floating shapes - subtle */
-  .hero-left-column .absolute.bg-white\\/40,
-  .hero-left-column .absolute.bg-teal-300\\/30 {
+  .hero-left-column .absolute.bg-white-40,
+  .hero-left-column .absolute.bg-teal-300-30 {
     position: absolute !important;
   }
 
-  .hero-left-column .absolute.bg-white\\/40 {
+  .hero-left-column .absolute.bg-white-40 {
     background: rgba(255, 255, 255, 0.4) !important;
   }
 
-  .hero-left-column .absolute.bg-teal-300\\/30 {
+  .hero-left-column .absolute.bg-teal-300-30 {
     background: rgba(94, 234, 212, 0.3) !important;
   }
 
@@ -5035,7 +5035,7 @@ a:hover {
     margin-right: auto !important;
   }
 
-  .hero-left-column .glass-card.p-6.bg-white\\/95 {
+  .hero-left-column .glass-card.p-6.bg-white-95 {
     padding: 1.5rem !important;
     background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(4px) !important;
@@ -5123,7 +5123,7 @@ a:hover {
   }
 
   /* Attribution - bigger */
-  .hero-left-column .text-white\\/90.text-sm {
+  .hero-left-column .text-white-90.text-sm {
     color: rgba(255, 255, 255, 0.9) !important;
     font-size: 0.875rem !important;
   }

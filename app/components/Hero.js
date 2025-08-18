@@ -102,18 +102,45 @@ export default function Hero() {
   useEffect(() => {
     if (!isMobile || typeof window === "undefined") return;
 
+    console.log("Setting up mobile gyroscope tilt effect");
+
     const handleDeviceOrientation = (event) => {
       if (event.beta !== null && event.gamma !== null) {
         // Convert device orientation to tilt values
         const beta = event.beta; // -180 to 180 (front/back tilt)
         const gamma = event.gamma; // -90 to 90 (left/right tilt)
 
+        console.log("Gyroscope data:", { beta, gamma });
+
         // Normalize and scale the tilt values
         const tiltX = Math.max(-15, Math.min(15, (beta - 45) * 0.5)); // Front/back tilt
         const tiltY = Math.max(-15, Math.min(15, gamma * 0.3)); // Left/right tilt
 
+        console.log("Calculated tilt:", { tiltX, tiltY });
+
         setMobileTilt({ x: tiltX, y: tiltY });
       }
+    };
+
+    // Fallback tilt effect using touch events for devices without gyroscope
+    const handleTouchMove = (event) => {
+      const touch = event.touches[0];
+      const rect = event.currentTarget.getBoundingClientRect();
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const deltaX = (touch.clientX - rect.left - centerX) / centerX;
+      const deltaY = (touch.clientY - rect.top - centerY) / centerY;
+
+      const tiltX = Math.max(-15, Math.min(15, deltaY * -15));
+      const tiltY = Math.max(-15, Math.min(15, deltaX * 15));
+
+      console.log("Touch tilt:", { tiltX, tiltY });
+      setMobileTilt({ x: tiltX, y: tiltY });
+    };
+
+    const handleTouchEnd = () => {
+      setMobileTilt({ x: 0, y: 0 });
     };
 
     // Request permission for device orientation (iOS)
@@ -121,23 +148,41 @@ export default function Hero() {
       typeof DeviceOrientationEvent !== "undefined" &&
       typeof DeviceOrientationEvent.requestPermission === "function"
     ) {
+      console.log("Requesting device orientation permission...");
       DeviceOrientationEvent.requestPermission()
         .then((permission) => {
           if (permission === "granted") {
+            console.log("Permission granted, adding event listener");
             window.addEventListener(
               "deviceorientation",
               handleDeviceOrientation
             );
+          } else {
+            console.log("Permission denied:", permission);
           }
         })
-        .catch(console.error);
+        .catch((error) => {
+          console.error("Permission request failed:", error);
+        });
     } else {
       // For devices that don't require permission
+      console.log("No permission required, adding event listener directly");
       window.addEventListener("deviceorientation", handleDeviceOrientation);
+    }
+
+    // Add touch fallback for all mobile devices
+    const cochranCard = document.querySelector(".card-brutal");
+    if (cochranCard) {
+      cochranCard.addEventListener("touchmove", handleTouchMove);
+      cochranCard.addEventListener("touchend", handleTouchEnd);
     }
 
     return () => {
       window.removeEventListener("deviceorientation", handleDeviceOrientation);
+      if (cochranCard) {
+        cochranCard.removeEventListener("touchmove", handleTouchMove);
+        cochranCard.removeEventListener("touchend", handleTouchEnd);
+      }
     };
   }, [isMobile]);
 
@@ -282,11 +327,11 @@ export default function Hero() {
 
       {/* Hero Content - Mobile Optimized Layout with Performance */}
       {isMobile ? (
-        <div className="absolute inset-0 flex flex-col justify-center items-center z-10 px-6 py-8">
+        <div className="absolute inset-0 flex flex-col justify-center items-center z-10 px-4 py-4">
           {/* Floating Elements - Enhanced for Mobile */}
           <div className="absolute inset-0 pointer-events-none">
             {/* Red dot - prominent accent */}
-            <div className="absolute top-20 right-20 w-6 h-6 bg-red-500 rounded-full opacity-80" />
+            <div className="absolute top-16 right-16 w-5 h-5 bg-red-500 rounded-full opacity-80" />
 
             {/* Enhanced floating shapes for mobile */}
             {[...Array(5)].map((_, i) => (
@@ -308,20 +353,20 @@ export default function Hero() {
           </div>
 
           {/* Main Content - Elite Mobile Spacing */}
-          <div className="text-center w-full max-w-sm space-y-8">
-            {/* Hero Name Section - Elite Spacing */}
-            <div className="space-y-6">
-              {/* JAKE - Large, Prominent */}
-              <div className="relative z-20">
-                <h1 className="text-6xl sm:text-7xl font-black text-white leading-none tracking-tight">
+          <div className="text-center w-full max-w-sm space-y-6">
+            {/* Hero Name Section - Diagonal Overlap */}
+            <div className="relative space-y-4">
+              {/* JAKE - Positioned to overlap COCHRAN diagonally */}
+              <div className="relative z-20 -mb-4">
+                <h1 className="text-7xl sm:text-8xl font-black text-white leading-none tracking-tight">
                   JAKE
                 </h1>
               </div>
 
-              {/* COCHRAN - Enhanced Card Design */}
-              <div className="relative z-10 -mt-4 ml-6">
+              {/* COCHRAN - Card positioned diagonally for overlap */}
+              <div className="relative z-10 ml-6 -mt-8">
                 <div
-                  className="card-brutal inline-block px-6 py-4 border-3 border-black shadow-brutal"
+                  className="card-brutal inline-block border-3 border-black shadow-brutal"
                   style={{
                     boxShadow: "6px 6px 0px rgba(0, 0, 0, 0.9)",
                     transform: `rotate(1deg) perspective(800px) rotateX(${mobileTilt.x}deg) rotateY(${mobileTilt.y}deg)`,
@@ -333,27 +378,32 @@ export default function Hero() {
                         : currentText === 2
                         ? "#dc2626"
                         : "#7c3aed",
-                    minWidth: "200px",
+                    minWidth: "240px",
                     borderRadius: "0",
                     transition: "transform 0.1s ease-out",
+                    padding: "16px 24px",
+                    border: "3px solid black",
                   }}
                 >
-                  <h1 className="text-4xl sm:text-5xl leading-none tracking-tight font-black text-white">
+                  <h1 className="text-5xl sm:text-6xl leading-none tracking-tight font-black text-white">
                     COCHRAN
                   </h1>
                 </div>
               </div>
             </div>
 
-            {/* Role Badge - Elite Spacing */}
-            <div className="space-y-4">
+            {/* Role Badge - Minimal Padding */}
+            <div className="space-y-3">
               <div
-                className="card-brutal inline-block px-4 py-1 min-w-[200px]"
+                className="card-brutal inline-block min-w-[160px]"
                 style={{
                   boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)",
+                  padding: "4px 8px",
+                  border: "4px solid black",
+                  background: "white",
                 }}
               >
-                <h2 className="text-base font-black text-black tracking-wide">
+                <h2 className="text-sm font-black text-black tracking-wide">
                   {displayText}
                   {mounted && <span className="animate-pulse">|</span>}
                 </h2>
@@ -363,7 +413,7 @@ export default function Hero() {
             {/* CTA Buttons - Elite Mobile Spacing */}
             <div className="space-y-4">
               <button
-                className="btn-brutal btn-brutal-interactive w-full text-base px-6 py-5 min-h-[56px] font-bold"
+                className="btn-brutal btn-brutal-interactive w-full text-base px-6 py-4 min-h-[52px] font-bold"
                 style={{
                   willChange: "transform, box-shadow",
                   transform: "translateZ(0)",
@@ -382,7 +432,7 @@ export default function Hero() {
               </button>
 
               <button
-                className="btn-brutal btn-brutal-interactive w-full text-base px-6 py-5 min-h-[56px] font-bold"
+                className="btn-brutal btn-brutal-interactive w-full text-base px-6 py-4 min-h-[52px] font-bold"
                 style={{
                   background: "var(--color-white)",
                   color: "var(--color-black)",
@@ -404,19 +454,19 @@ export default function Hero() {
             </div>
 
             {/* Quote Section - Elite Mobile Spacing */}
-            <div className="text-center space-y-6 mt-12">
+            <div className="text-center space-y-4 mt-8">
               {/* Accent Dot - Elite Spacing */}
-              <div className="w-5 h-5 bg-red-500 rounded-full mx-auto" />
+              <div className="w-4 h-4 bg-red-500 rounded-full mx-auto" />
 
               {/* Quote - Elite Typography Spacing */}
-              <blockquote className="text-white text-lg leading-relaxed max-w-sm mx-auto font-medium">
+              <blockquote className="text-white text-base leading-relaxed max-w-sm mx-auto font-medium">
                 If I had an hour to solve a problem I&apos;d spend 55 minutes
                 thinking about the problem and 5 minutes thinking about
                 solutions.
               </blockquote>
 
               {/* Attribution - Elite Spacing */}
-              <cite className="text-white/90 text-base font-semibold block">
+              <cite className="text-white/90 text-sm font-semibold block">
                 — Albert Einstein
               </cite>
             </div>

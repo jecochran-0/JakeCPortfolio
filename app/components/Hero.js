@@ -55,8 +55,8 @@ export default function Hero() {
   const textScale = useTransform(scrollY, [0, 300], [1, 0.9]);
 
   // Freeze transforms on mobile (no scroll-linked animation)
-  const bgScaleValue = isMobile ? 1.02 : backgroundScale;
-  const bgOpacityValue = isMobile ? 0.85 : backgroundOpacity;
+  const bgScaleValue = isMobile ? 1 : backgroundScale;
+  const bgOpacityValue = isMobile ? 1 : backgroundOpacity;
   const textYValue = isMobile ? 0 : textY;
   const textScaleValue = isMobile ? 1 : textScale;
 
@@ -95,6 +95,51 @@ export default function Hero() {
     typingSpeed,
     deletingSpeed,
   ]);
+
+  // Mobile gyroscope tilt effect for COCHRAN card
+  const [mobileTilt, setMobileTilt] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    if (!isMobile || typeof window === "undefined") return;
+
+    const handleDeviceOrientation = (event) => {
+      if (event.beta !== null && event.gamma !== null) {
+        // Convert device orientation to tilt values
+        const beta = event.beta; // -180 to 180 (front/back tilt)
+        const gamma = event.gamma; // -90 to 90 (left/right tilt)
+
+        // Normalize and scale the tilt values
+        const tiltX = Math.max(-15, Math.min(15, (beta - 45) * 0.5)); // Front/back tilt
+        const tiltY = Math.max(-15, Math.min(15, gamma * 0.3)); // Left/right tilt
+
+        setMobileTilt({ x: tiltX, y: tiltY });
+      }
+    };
+
+    // Request permission for device orientation (iOS)
+    if (
+      typeof DeviceOrientationEvent !== "undefined" &&
+      typeof DeviceOrientationEvent.requestPermission === "function"
+    ) {
+      DeviceOrientationEvent.requestPermission()
+        .then((permission) => {
+          if (permission === "granted") {
+            window.addEventListener(
+              "deviceorientation",
+              handleDeviceOrientation
+            );
+          }
+        })
+        .catch(console.error);
+    } else {
+      // For devices that don't require permission
+      window.addEventListener("deviceorientation", handleDeviceOrientation);
+    }
+
+    return () => {
+      window.removeEventListener("deviceorientation", handleDeviceOrientation);
+    };
+  }, [isMobile]);
 
   useEffect(() => {
     updateTypingAnimation();
@@ -187,6 +232,17 @@ export default function Hero() {
           transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
         />
 
+        {/* Mobile Background Enhancement */}
+        {isMobile && (
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(0,0,0,0.05) 100%)`,
+              pointerEvents: "none",
+            }}
+          />
+        )}
+
         {/* Brutalist Pattern Overlay - desktop only and memoized */}
         {!isMobile && (
           <div className="absolute inset-0 opacity-15 brutalist-pattern-overlay">
@@ -225,272 +281,405 @@ export default function Hero() {
       </div>
 
       {/* Hero Content - Mobile Optimized Layout with Performance */}
-      <div className="absolute inset-0 flex items-center justify-center z-10 py-4 sm:py-8 lg:py-16 xl:py-24">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-6 h-full flex items-center">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 xl:gap-12 items-center hero-grid w-full">
-            {/* Left Column - Main Content */}
-            <motion.div
-              className="lg:col-span-7 text-center lg:text-left hero-left-column"
-              style={{
-                y: textYValue,
-                scale: textScaleValue,
-                willChange: "transform",
-                transform: "translateZ(0)",
-              }}
-            >
-              {/* Mobile Hero - Clean & Comfortable */}
-              {isMobile ? (
-                <div className="min-h-screen bg-gradient-to-br from-teal-400 via-teal-500 to-green-600 relative overflow-hidden">
-                  {/* Floating Elements - Subtle */}
-                  <div className="absolute inset-0 pointer-events-none">
-                    {/* Red dot - subtle accent */}
-                    <div className="absolute top-16 right-16 w-4 h-4 bg-red-500 rounded-full opacity-60" />
-                    
-                    {/* Floating shapes - subtle */}
-                    {[...Array(3)].map((_, i) => (
-                      <div
-                        key={`mobile-shape-${i}`}
-                        className={`absolute ${
-                          i % 2 === 0 ? 'bg-white/40' : 'bg-teal-300/30'
-                        }`}
+      {isMobile ? (
+        <div className="absolute inset-0 flex flex-col justify-center items-center z-10 px-6 py-8">
+          {/* Floating Elements - Enhanced for Mobile */}
+          <div className="absolute inset-0 pointer-events-none">
+            {/* Red dot - prominent accent */}
+            <div className="absolute top-20 right-20 w-6 h-6 bg-red-500 rounded-full opacity-80" />
+
+            {/* Enhanced floating shapes for mobile */}
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={`mobile-shape-${i}`}
+                className={`absolute ${
+                  i % 3 === 0
+                    ? "bg-white/60 w-3 h-3 rounded-full"
+                    : i % 3 === 1
+                    ? "bg-orange-300/50 w-2 h-2 rounded-sm"
+                    : "bg-teal-300/40 w-4 h-4 rounded-full"
+                }`}
+                style={{
+                  left: `${20 + ((i * 25) % 60)}%`,
+                  top: `${25 + ((i * 20) % 50)}%`,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Main Content - Elite Mobile Spacing */}
+          <div className="text-center w-full max-w-sm space-y-8">
+            {/* Hero Name Section - Elite Spacing */}
+            <div className="space-y-6">
+              {/* JAKE - Large, Prominent */}
+              <div className="relative z-20">
+                <h1 className="text-6xl sm:text-7xl font-black text-white leading-none tracking-tight">
+                  JAKE
+                </h1>
+              </div>
+
+              {/* COCHRAN - Enhanced Card Design */}
+              <div className="relative z-10 -mt-4 ml-6">
+                <div
+                  className="card-brutal inline-block px-6 py-4 border-3 border-black shadow-brutal"
+                  style={{
+                    boxShadow: "6px 6px 0px rgba(0, 0, 0, 0.9)",
+                    transform: `rotate(1deg) perspective(800px) rotateX(${mobileTilt.x}deg) rotateY(${mobileTilt.y}deg)`,
+                    background:
+                      currentText === 0
+                        ? "#1f2937"
+                        : currentText === 1
+                        ? "#1e40af"
+                        : currentText === 2
+                        ? "#dc2626"
+                        : "#7c3aed",
+                    minWidth: "200px",
+                    borderRadius: "0",
+                    transition: "transform 0.1s ease-out",
+                  }}
+                >
+                  <h1 className="text-4xl sm:text-5xl leading-none tracking-tight font-black text-white">
+                    COCHRAN
+                  </h1>
+                </div>
+              </div>
+            </div>
+
+            {/* Role Badge - Elite Spacing */}
+            <div className="space-y-4">
+              <div
+                className="card-brutal inline-block px-4 py-1 min-w-[200px]"
+                style={{
+                  boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)",
+                }}
+              >
+                <h2 className="text-base font-black text-black tracking-wide">
+                  {displayText}
+                  {mounted && <span className="animate-pulse">|</span>}
+                </h2>
+              </div>
+            </div>
+
+            {/* CTA Buttons - Elite Mobile Spacing */}
+            <div className="space-y-4">
+              <button
+                className="btn-brutal btn-brutal-interactive w-full text-base px-6 py-5 min-h-[56px] font-bold"
+                style={{
+                  willChange: "transform, box-shadow",
+                  transform: "translateZ(0)",
+                  boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.85)",
+                  transition:
+                    "box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.boxShadow = "12px 12px 0px rgba(0, 0, 0, 0.9)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.boxShadow = "8px 8px 0px rgba(0, 0, 0, 0.85)";
+                }}
+              >
+                View My Work
+              </button>
+
+              <button
+                className="btn-brutal btn-brutal-interactive w-full text-base px-6 py-5 min-h-[56px] font-bold"
+                style={{
+                  background: "var(--color-white)",
+                  color: "var(--color-black)",
+                  willChange: "transform, box-shadow",
+                  transform: "translateZ(0)",
+                  boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.85)",
+                  transition:
+                    "box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.boxShadow = "12px 12px 0px rgba(0, 0, 0, 0.9)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.boxShadow = "8px 8px 0px rgba(0, 0, 0, 0.85)";
+                }}
+              >
+                Get In Touch
+              </button>
+            </div>
+
+            {/* Quote Section - Elite Mobile Spacing */}
+            <div className="text-center space-y-6 mt-12">
+              {/* Accent Dot - Elite Spacing */}
+              <div className="w-5 h-5 bg-red-500 rounded-full mx-auto" />
+
+              {/* Quote - Elite Typography Spacing */}
+              <blockquote className="text-white text-lg leading-relaxed max-w-sm mx-auto font-medium">
+                If I had an hour to solve a problem I&apos;d spend 55 minutes
+                thinking about the problem and 5 minutes thinking about
+                solutions.
+              </blockquote>
+
+              {/* Attribution - Elite Spacing */}
+              <cite className="text-white/90 text-base font-semibold block">
+                — Albert Einstein
+              </cite>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center z-10 py-4 sm:py-8 lg:py-16 xl:py-24">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-6 h-full flex items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 xl:gap-12 items-center hero-grid w-full">
+              {/* Left Column - Main Content */}
+              <motion.div
+                className="lg:col-span-7 text-center lg:text-left hero-left-column"
+                style={{
+                  y: textYValue,
+                  scale: textScaleValue,
+                  willChange: "transform",
+                  transform: "translateZ(0)",
+                }}
+              >
+                {/* Hero Content */}
+                <div className="relative inline-block w-full">
+                  {/* Overlapping Name Text */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.8,
+                      delay: 0.1,
+                      ease: [0.2, 0, 0, 1],
+                    }}
+                    className="mb-20 sm:mb-24 lg:mb-32 xl:mb-40 hero-spacing mt-2 sm:mt-4 lg:mt-8 xl:mt-10"
+                  >
+                    {/* JAKE - Primary Text */}
+                    <motion.div
+                      initial={{ opacity: 0, x: -30, rotate: -0.5 }}
+                      animate={{ opacity: 1, x: 0, rotate: 0 }}
+                      transition={{
+                        duration: 0.6,
+                        delay: 0.2,
+                        ease: [0.2, 0, 0, 1],
+                      }}
+                      className="relative z-20 mb-0 pointer-events-none"
+                    >
+                      <h1
+                        className="hero-name text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] 2xl:text-[12rem] leading-[0.9] tracking-tighter font-black text-white"
                         style={{
-                          left: `${20 + (i * 30) % 60}%`,
-                          top: `${25 + (i * 20) % 50}%`,
-                          width: `${12 + (i % 2) * 6}px`,
-                          height: `${12 + (i % 2) * 6}px`,
+                          letterSpacing: "-0.02em",
+                          fontFamily:
+                            "'Inter', 'SF Pro Display', -apple-system, sans-serif",
+                          textShadow: "2px 2px 0px rgba(0, 0, 0, 0.3)",
                         }}
-                      />
-                    ))}
-                  </div>
+                      >
+                        JAKE
+                      </h1>
+                    </motion.div>
 
-                  {/* Content Container - Comfortable Spacing */}
-                  <div className="relative z-10 min-h-screen flex flex-col px-6 py-8">
-                    {/* Main Content Section - Bigger & Comfortable */}
-                    <div className="flex-1 flex flex-col justify-center">
-                      {/* Name - Bigger Typography */}
-                      <div className="mb-8 text-center">
-                        <h1 className="text-5xl sm:text-6xl font-black text-black leading-none tracking-tight">
-                          <span className="block mb-2">JAKE</span>
-                          <span className="block">COCHRAN</span>
+                    {/* COCHRAN - Card with Dynamic Background Color */}
+                    <motion.div
+                      initial={{ opacity: 0, x: 30, rotate: 0.5 }}
+                      animate={{ opacity: 1, x: 0, rotate: 0 }}
+                      transition={{
+                        duration: 0.6,
+                        delay: 0.3,
+                        ease: [0.2, 0, 0, 1],
+                      }}
+                      className="relative z-10 -mt-8 sm:-mt-10 lg:-mt-12 xl:-mt-16 ml-8 sm:ml-10 lg:ml-12 xl:ml-16"
+                    >
+                      <div
+                        className="card-brutal inline-block px-6 sm:px-8 lg:px-10 xl:px-12 py-4 sm:py-6 lg:py-8 xl:py-10 border-3 border-black shadow-brutal hover:scale-105 transition-all duration-300 ease-out relative"
+                        style={{
+                          boxShadow: "6px 6px 0px rgba(0, 0, 0, 0.9)",
+                          transform:
+                            "rotate(0.5deg) scale(var(--scale, 1)) perspective(800px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg))",
+                          background:
+                            currentText === 0
+                              ? "#1f2937"
+                              : currentText === 1
+                              ? "#1e40af"
+                              : currentText === 2
+                              ? "#dc2626"
+                              : "#7c3aed",
+                          "--scale": "1",
+                          "--rotate-x": "0deg",
+                          "--rotate-y": "0deg",
+                        }}
+                        onMouseMove={(e) => {
+                          if (!isMobile) {
+                            const rect =
+                              e.currentTarget.getBoundingClientRect();
+                            const x = e.clientX - rect.left;
+                            const y = e.clientY - rect.top;
+
+                            const centerX = rect.width / 2;
+                            const centerY = rect.height / 2;
+
+                            const deltaX = (x - centerX) / centerX;
+                            const deltaY = (y - centerY) / centerY;
+
+                            // Apply 3D transform with enhanced edge detection and smooth transitions
+                            const edgeMultiplier = Math.max(
+                              1,
+                              Math.abs(deltaX) * 1.2
+                            ); // Enhance edge sensitivity
+
+                            // Use CSS custom properties for smooth transitions
+                            e.currentTarget.style.setProperty(
+                              "--rotate-x",
+                              `${deltaY * -12}deg`
+                            );
+                            e.currentTarget.style.setProperty(
+                              "--rotate-y",
+                              `${deltaX * 12 * edgeMultiplier}deg`
+                            );
+                            e.currentTarget.style.setProperty(
+                              "--scale",
+                              "1.05"
+                            );
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isMobile) {
+                            // Reset to original state with smooth transition
+                            e.currentTarget.style.setProperty(
+                              "--rotate-x",
+                              "0deg"
+                            );
+                            e.currentTarget.style.setProperty(
+                              "--rotate-y",
+                              "0deg"
+                            );
+                            e.currentTarget.style.setProperty("--scale", "1");
+                          }
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isMobile) {
+                            // Start from current state for smooth transition
+                            const currentRotateX =
+                              e.currentTarget.style.getPropertyValue(
+                                "--rotate-x"
+                              ) || "0deg";
+                            const currentRotateY =
+                              e.currentTarget.style.getPropertyValue(
+                                "--rotate-y"
+                              ) || "0deg";
+                            const currentScale =
+                              e.currentTarget.style.getPropertyValue(
+                                "--scale"
+                              ) || "1";
+
+                            // Ensure smooth transition by maintaining current values
+                            e.currentTarget.style.setProperty(
+                              "--rotate-x",
+                              currentRotateX
+                            );
+                            e.currentTarget.style.setProperty(
+                              "--rotate-y",
+                              currentRotateY
+                            );
+                            e.currentTarget.style.setProperty(
+                              "--scale",
+                              currentScale
+                            );
+                          }
+                        }}
+                      >
+                        {/* Invisible hover extension to ensure full coverage */}
+                        <div
+                          className="absolute inset-0 pointer-events-none"
+                          style={{
+                            width: "110%",
+                            height: "110%",
+                            left: "-5%",
+                            top: "-5%",
+                            zIndex: -1,
+                          }}
+                        />
+                        <h1
+                          className="hero-name text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[10rem] leading-[0.9] tracking-tighter font-black text-white relative z-10"
+                          style={{
+                            letterSpacing: "-0.02em",
+                            fontFamily:
+                              "'Inter', 'SF Pro Display', -apple-system, sans-serif",
+                          }}
+                        >
+                          COCHRAN
                         </h1>
-                        {/* Accent underline - Bigger */}
-                        <div className="h-3 bg-orange-500 w-20 mt-4 mx-auto shadow-brutal" />
                       </div>
+                    </motion.div>
+                  </motion.div>
 
-                      {/* Role Badge - Bigger */}
-                      <div className="mb-8 text-center">
-                        <div className="card-brutal inline-block px-6 py-4 min-w-[240px]">
-                          <h2 className="text-xl font-black text-black tracking-wide">
-                            {displayText}
-                            {mounted && (
-                              <span className="ml-1 animate-pulse">|</span>
-                            )}
-                          </h2>
-                        </div>
-                      </div>
-
-                      {/* Description - Bigger & More Comfortable */}
-                      <div className="mb-8 max-w-md mx-auto">
-                        <div className="glass-card p-6 bg-white/95 backdrop-blur-sm border border-white/30 rounded-lg shadow-xl">
-                          <p className="text-gray-800 text-base leading-relaxed text-center">
-                            Crafting exceptional digital experiences through
-                            innovative design and cutting-edge development.
-                            Specializing in user-centered solutions that
-                            bridge creativity with functionality.
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* CTA Buttons - Bigger & More Comfortable */}
-                      <div className="space-y-4 mb-8">
-                        <button className="w-full bg-orange-500 text-white py-4 px-8 border-2 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-200">
-                          <span className="font-black text-base uppercase tracking-wide">
-                            View My Work
-                          </span>
-                        </button>
-                        <button className="w-full bg-white text-black py-4 px-8 border-2 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-200">
-                          <span className="font-black text-base uppercase tracking-wide">
-                            Get In Touch
-                          </span>
-                        </button>
-                      </div>
+                  {/* Role card */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="hero-spacing mb-16 sm:mb-20 lg:mb-24 xl:mb-28 ml-0"
+                  >
+                    <div
+                      className="card-brutal inline-block px-3 sm:px-4 lg:px-6 xl:px-8 py-2 sm:py-2 lg:py-3 xl:py-4 min-w-[200px] sm:min-w-[240px] lg:min-w-[360px]"
+                      style={{
+                        boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)",
+                      }}
+                    >
+                      <h2 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-black font-black tracking-wide">
+                        {displayText}
+                        {mounted && <span className="animate-pulse">|</span>}
+                      </h2>
                     </div>
+                  </motion.div>
+                </div>
 
-                    {/* Quote Section - Bigger & More Comfortable */}
-                    <div className="text-center mt-12">
-                      {/* Accent Dot - Bigger */}
-                      <div className="w-3 h-3 bg-red-500 rounded-full mx-auto mb-4" />
-                      
-                      {/* Quote - Bigger Text */}
-                      <blockquote className="text-white text-base leading-relaxed mb-3 max-w-sm mx-auto">
+                {/* CTA Buttons */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="mb-20 sm:mb-24 lg:mb-32 xl:mb-40 hero-spacing ml-0"
+                >
+                  <HeroButtons />
+                </motion.div>
+              </motion.div>
+
+              {/* Right Column - Quote Section (Desktop Only) */}
+              {!isMobile && (
+                <motion.div
+                  className="lg:col-span-5 hero-right-column relative order-first lg:order-last flex items-center justify-center"
+                  style={{
+                    opacity: bgOpacityValue,
+                    willChange: "opacity",
+                    transform: "translateZ(0)",
+                  }}
+                >
+                  <div className="relative h-32 sm:h-48 md:h-64 lg:h-full min-h-[120px] sm:min-h-[200px] lg:min-h-[400px] xl:min-h-[500px] flex items-center justify-center p-2 sm:p-4 lg:p-8 w-full">
+                    <motion.div
+                      className="w-full max-w-sm sm:max-w-lg mx-auto relative z-10 lg:ml-8 xl:ml-12"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.6 }}
+                    >
+                      <blockquote
+                        className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-white/90 leading-relaxed mb-2 sm:mb-4 lg:mb-6 hero-quote px-1 sm:px-2 lg:px-6 font-normal italic"
+                        style={{ textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)" }}
+                      >
                         If I had an hour to solve a problem I&apos;d spend 55
                         minutes thinking about the problem and 5 minutes
                         thinking about solutions.
                       </blockquote>
-                      
-                      {/* Attribution - Bigger */}
-                      <cite className="text-white/90 text-sm">
-                        — Albert Einstein
-                      </cite>
-                    </div>
-
-                    {/* Scroll Indicator - Bigger */}
-                    <div className="absolute bottom-8 right-8">
-                      <div className="text-center">
-                        <div className="text-white text-sm mb-2">0%</div>
-                        <div className="w-3 h-3 bg-white rounded-full mx-auto" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                /* Desktop Layout - Original Design */
-                <>
-                  {/* Main Title */}
-                  <div className="relative inline-block w-full">
-                    <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.1 }}
-                      className="mb-6 sm:mb-8 lg:mb-24 xl:mb-28 hero-spacing mt-2 sm:mt-4 lg:mt-16 xl:mt-20"
-                    >
-                      <h1
-                        className="hero-name text-3xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[10rem] leading-tight tracking-wide"
-                        style={{ letterSpacing: "0.04em" }}
-                      >
-                        <span
-                          className="text-black block sm:inline text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[9rem]"
-                          style={{
-                            WebkitTextFillColor: "black",
-                            color: "black",
-                          }}
+                      <div className="text-right">
+                        <cite
+                          className="text-xs sm:text-sm text-white/80 font-medium not-italic hero-attribution"
+                          style={{ textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)" }}
                         >
-                          JAKE
-                        </span>
-                        <br className="hidden sm:block" />
-                        <span
-                          className="text-black block sm:inline"
-                          style={{
-                            WebkitTextFillColor: "black",
-                            color: "black",
-                          }}
-                        >
-                          COCHRAN
-                        </span>
-                      </h1>
-                      {/* Accent underline */}
-                      <div
-                        className="h-2 sm:h-3 bg-orange-500 w-20 sm:w-24 lg:w-48 xl:w-64 mt-2 lg:mt-4 shadow-brutal mx-auto lg:mx-0"
-                        style={{ boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.9)" }}
-                      />
-                    </motion.div>
-
-                    {/* Role card */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.2 }}
-                      className="hero-spacing md:absolute md:-bottom-8 md:left-0 ml-0"
-                    >
-                      <div
-                        className="card-brutal inline-block px-3 sm:px-4 lg:px-6 xl:px-8 py-2 sm:py-2 lg:py-3 xl:py-4 min-w-[200px] sm:min-w-[240px] lg:min-w-[360px]"
-                        style={{
-                          boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)",
-                        }}
-                      >
-                        <h2 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-black font-black tracking-wide">
-                          {displayText}
-                          {mounted && <span className="animate-pulse">|</span>}
-                        </h2>
+                          — Albert Einstein
+                        </cite>
                       </div>
                     </motion.div>
                   </div>
-
-                  {/* Description */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className="mb-8 sm:mb-12 lg:mb-24 xl:mb-32 max-w-sm sm:max-w-xl lg:max-w-2xl hero-spacing mx-auto lg:mx-0 ml-0"
-                  >
-                    <div
-                      className="glass-card hero-glass-card p-3 sm:p-4 lg:p-8"
-                      style={{
-                        boxShadow:
-                          "0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
-                        backdropFilter: isMobile ? "none" : undefined,
-                        WebkitBackdropFilter: isMobile ? "none" : undefined,
-                      }}
-                    >
-                      <p
-                        className="text-sm sm:text-base lg:text-lg xl:text-subtitle leading-relaxed"
-                        style={{
-                          color: "white",
-                          textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
-                          fontWeight: "500",
-                        }}
-                      >
-                        Crafting exceptional digital experiences through
-                        innovative design and cutting-edge development.
-                        Specializing in user-centered solutions that bridge
-                        creativity with functionality.
-                      </p>
-                    </div>
-                  </motion.div>
-
-                  {/* CTA Buttons */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="mb-8 sm:mb-12 lg:mb-24 xl:mb-28 hero-spacing ml-0"
-                  >
-                    <HeroButtons />
-                  </motion.div>
-                </>
+                </motion.div>
               )}
-            </motion.div>
-
-            {/* Right Column - Quote Section (Desktop Only) */}
-            {!isMobile && (
-              <motion.div
-                className="lg:col-span-5 hero-right-column relative order-first lg:order-last flex items-center justify-center"
-                style={{
-                  opacity: bgOpacityValue,
-                  willChange: "opacity",
-                  transform: "translateZ(0)",
-                }}
-              >
-                <div className="relative h-32 sm:h-48 md:h-64 lg:h-full min-h-[120px] sm:min-h-[200px] lg:min-h-[500px] xl:min-h-[600px] flex items-center justify-center p-2 sm:p-4 lg:p-8 w-full">
-                  <motion.div
-                    className="w-full max-w-sm sm:max-w-lg mx-auto relative z-10 lg:ml-12"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.6 }}
-                  >
-                    <blockquote
-                      className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-white/90 leading-relaxed mb-2 sm:mb-4 lg:mb-6 hero-quote px-1 sm:px-2 lg:px-6 font-normal italic"
-                      style={{ textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)" }}
-                    >
-                      If I had an hour to solve a problem I&apos;d spend 55
-                      minutes thinking about the problem and 5 minutes thinking
-                      about solutions.
-                    </blockquote>
-                    <div className="text-right">
-                      <cite
-                        className="text-xs sm:text-sm text-white/80 font-medium not-italic hero-attribution"
-                        style={{ textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)" }}
-                      >
-                        — Albert Einstein
-                      </cite>
-                    </div>
-                  </motion.div>
-                </div>
-              </motion.div>
-            )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Mobile-specific animated elements for visual interest - positioned within safe bounds */}
       {isMobile && (
@@ -626,35 +815,6 @@ export default function Hero() {
           ))}
         </div>
       )}
-
-      {/* Optimized Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.8 }}
-        className="absolute bottom-4 lg:bottom-6 xl:bottom-8 left-1/2 transform -translate-x-1/2 scroll-indicator"
-        style={{
-          willChange: "transform",
-          transform: "translateZ(0) translateX(-50%)",
-        }}
-      >
-        <div className="flex flex-col items-center">
-          <span className="text-caption text-white/60 mb-2 lg:mb-3">
-            SCROLL
-          </span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-6 h-8 sm:w-7 sm:h-10 lg:w-8 lg:h-12 border-2 border-white/30 rounded-full flex justify-center"
-          >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-2 sm:h-3 lg:h-4 bg-white/60 rounded-full mt-2 lg:mt-3"
-            />
-          </motion.div>
-        </div>
-      </motion.div>
     </div>
   );
 }

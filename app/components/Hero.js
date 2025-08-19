@@ -535,7 +535,7 @@ export default function Hero() {
                       className="relative z-10 -mt-8 sm:-mt-10 lg:-mt-12 xl:-mt-16 ml-8 sm:ml-10 lg:ml-12 xl:ml-16"
                     >
                       <div
-                        className="card-brutal inline-block px-6 sm:px-8 lg:px-10 xl:px-12 py-4 sm:py-6 lg:py-8 xl:py-10 border-3 border-black shadow-brutal hover:scale-105 transition-all duration-300 ease-out relative"
+                        className="card-brutal cochran-card inline-block px-6 sm:px-8 lg:px-10 xl:px-12 py-4 sm:py-6 lg:py-8 xl:py-10 border-3 border-black shadow-brutal hover:scale-105 transition-all duration-300 ease-out relative"
                         style={{
                           boxShadow: "6px 6px 0px rgba(0, 0, 0, 0.9)",
                           transform:
@@ -551,6 +551,8 @@ export default function Hero() {
                           "--scale": "1",
                           "--rotate-x": "0deg",
                           "--rotate-y": "0deg",
+                          transition:
+                            "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
                         }}
                         onMouseMove={(e) => {
                           if (!isMobile) {
@@ -602,33 +604,32 @@ export default function Hero() {
                         }}
                         onMouseEnter={(e) => {
                           if (!isMobile) {
-                            // Start from current state for smooth transition
-                            const currentRotateX =
-                              e.currentTarget.style.getPropertyValue(
+                            // Ensure smooth transition by setting initial values if not already set
+                            if (
+                              !e.currentTarget.style.getPropertyValue(
                                 "--rotate-x"
-                              ) || "0deg";
-                            const currentRotateY =
-                              e.currentTarget.style.getPropertyValue(
+                              )
+                            ) {
+                              e.currentTarget.style.setProperty(
+                                "--rotate-x",
+                                "0deg"
+                              );
+                            }
+                            if (
+                              !e.currentTarget.style.getPropertyValue(
                                 "--rotate-y"
-                              ) || "0deg";
-                            const currentScale =
-                              e.currentTarget.style.getPropertyValue(
-                                "--scale"
-                              ) || "1";
-
-                            // Ensure smooth transition by maintaining current values
-                            e.currentTarget.style.setProperty(
-                              "--rotate-x",
-                              currentRotateX
-                            );
-                            e.currentTarget.style.setProperty(
-                              "--rotate-y",
-                              currentRotateY
-                            );
-                            e.currentTarget.style.setProperty(
-                              "--scale",
-                              currentScale
-                            );
+                              )
+                            ) {
+                              e.currentTarget.style.setProperty(
+                                "--rotate-y",
+                                "0deg"
+                              );
+                            }
+                            if (
+                              !e.currentTarget.style.getPropertyValue("--scale")
+                            ) {
+                              e.currentTarget.style.setProperty("--scale", "1");
+                            }
                           }
                         }}
                       >

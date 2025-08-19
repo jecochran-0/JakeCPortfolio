@@ -71,7 +71,7 @@ export default function Home() {
                 >
                   Technical
                   <br />
-                  <span className="text-orange-500">Expertise</span>
+                  <span className="text-orange-400">Expertise</span>
                 </motion.h2>
                 <motion.p
                   className="text-subtitle max-w-2xl mx-auto text-base sm:text-lg lg:text-xl leading-relaxed px-4"
@@ -157,7 +157,7 @@ export default function Home() {
                 >
                   Professional
                   <br />
-                  <span className="text-orange-500">Skills</span>
+                  <span className="text-orange-400">Skills</span>
                 </motion.h2>
                 <motion.p
                   className="text-subtitle max-w-2xl mx-auto text-base sm:text-lg lg:text-xl leading-relaxed px-4"

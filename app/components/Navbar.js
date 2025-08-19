@@ -271,7 +271,7 @@ export default function Navbar() {
               {/* Brutalist inner design */}
               <div className="h-full bg-white border-l-4 border-black shadow-brutal mobile-menu-content">
                 {/* Mobile Menu Header */}
-                <div className="flex items-center justify-between p-4 sm:p-6 border-b-4 border-black bg-orange-500 mobile-menu-header">
+                <div className="flex items-center justify-between p-4 sm:p-6 border-b-4 border-black bg-orange-400 mobile-menu-header">
                   <h2 className="text-lg sm:text-xl font-black text-black uppercase tracking-widest">
                     Navigation
                   </h2>
@@ -303,7 +303,7 @@ export default function Navbar() {
                           onClick={() => handleNavigation(item.path)}
                           className={`w-full flex items-center space-x-4 p-4 sm:p-5 rounded-none transition-all duration-300 text-left min-h-[60px] border-4 border-black shadow-brutal hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-brutal-hover mobile-nav-item ${
                             isActive
-                              ? "bg-orange-500 text-black font-black shadow-brutal-large active"
+                              ? "bg-orange-400 text-black font-black shadow-brutal-large active"
                               : "bg-white text-black hover:bg-gray-50"
                           }`}
                           style={{

@@ -103,7 +103,7 @@ export default function DevPage() {
               className="mb-4 leading-none tracking-tighter text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-black"
               style={{ willChange: "transform, opacity" }}
             >
-              SOFTWARE <span className="text-orange-500">DEVELOPMENT</span>
+              SOFTWARE <span className="text-orange-400">DEVELOPMENT</span>
             </motion.h1>
 
             {/* Mini interactive chips */}
@@ -150,7 +150,7 @@ export default function DevPage() {
               className="card-brutal p-4 sm:p-5 bg-white text-black inline-flex items-center gap-3 select-none"
               style={{ willChange: "transform" }}
             >
-              <span className="inline-flex items-center justify-center w-10 h-10 bg-orange-500 text-black border-4 border-black">
+              <span className="inline-flex items-center justify-center w-10 h-10 bg-orange-400 text-black border-4 border-black">
                 <FaCode />
               </span>
               <span className="font-black tracking-wider text-sm sm:text-base">
@@ -191,7 +191,7 @@ export default function DevPage() {
                 className="card-brutal p-8 rounded-none"
                 style={{ willChange: "transform" }}
               >
-                <div className="w-16 h-16 bg-orange-500 border-4 border-black flex items-center justify-center mb-6 mx-auto text-black">
+                <div className="w-16 h-16 bg-orange-400 border-4 border-black flex items-center justify-center mb-6 mx-auto text-black">
                   <FaLaptopCode className="text-2xl" />
                 </div>
                 <h3 className="text-xl font-black text-center mb-4 tracking-wide text-black">
@@ -210,7 +210,7 @@ export default function DevPage() {
                 className="card-brutal p-8 rounded-none"
                 style={{ willChange: "transform" }}
               >
-                <div className="w-16 h-16 bg-orange-500 border-4 border-black flex items-center justify-center mb-6 mx-auto text-black">
+                <div className="w-16 h-16 bg-orange-400 border-4 border-black flex items-center justify-center mb-6 mx-auto text-black">
                   <FaCode className="text-2xl" />
                 </div>
                 <h3 className="text-xl font-black text-center mb-4 tracking-wide text-black">
@@ -229,7 +229,7 @@ export default function DevPage() {
                 className="card-brutal p-8 rounded-none"
                 style={{ willChange: "transform" }}
               >
-                <div className="w-16 h-16 bg-orange-500 border-4 border-black flex items-center justify-center mb-6 mx-auto text-black">
+                <div className="w-16 h-16 bg-orange-400 border-4 border-black flex items-center justify-center mb-6 mx-auto text-black">
                   <FaRocket className="text-2xl" />
                 </div>
                 <h3 className="text-xl font-black text-center mb-4 tracking-wide text-black">
@@ -312,7 +312,7 @@ export default function DevPage() {
           >
             <div className="card-brutal p-10 md:p-14">
               <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-black mb-6 tracking-tighter text-black">
-                SEE MY <span className="text-orange-500">DESIGN WORK</span>
+                SEE MY <span className="text-orange-400">DESIGN WORK</span>
               </h2>
               <p className="text-subtitle mb-10 text-gray-800">
                 Explore UX/UI projects to see how I bridge design and code.
@@ -322,7 +322,7 @@ export default function DevPage() {
                   whileHover={{ scale: 1.03, y: -4 }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                  className="btn-brutal btn-brutal-interactive bg-orange-500 text-black border-4 border-black"
+                  className="btn-brutal btn-brutal-interactive bg-orange-400 text-black border-4 border-black"
                 >
                   View UX/UI Projects
                 </motion.button>

@@ -35,7 +35,7 @@ export default function Footer() {
       description: "Learn more about my journey",
       icon: FaUser,
       path: "/about",
-      color: "from-orange-500 to-red-500",
+      color: "from-orange-400 to-red-500",
       delay: 0.3,
     },
   ];

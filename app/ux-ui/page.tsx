@@ -134,7 +134,7 @@ export default function UXUIPage() {
                     UX
                   </motion.span>
                   <motion.span
-                    className="text-orange-500 ml-2 sm:ml-4 inline-block"
+                    className="text-orange-400 ml-2 sm:ml-4 inline-block"
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, delay: 0.3 }}
@@ -213,7 +213,7 @@ export default function UXUIPage() {
                   whileHover={shouldReduceMotion ? {} : { scale: 1.03, y: -3 }}
                   className="card-brutal p-4 sm:p-6 text-center"
                 >
-                  <div className="text-2xl sm:text-3xl font-black text-orange-500 mb-1 sm:mb-2">
+                  <div className="text-2xl sm:text-3xl font-black text-orange-400 mb-1 sm:mb-2">
                     2+
                   </div>
                   <div className="text-gray-700 font-bold tracking-wide text-xs sm:text-sm leading-tight">
@@ -245,7 +245,7 @@ export default function UXUIPage() {
                           }
                     }
                     whileTap={{ scale: 0.98 }}
-                    className="w-full btn-brutal btn-card btn-no-shift bg-orange-500 text-black"
+                    className="w-full btn-brutal btn-card btn-no-shift bg-orange-400 text-black"
                   >
                     <span className="tracking-wide font-bold">
                       Explore Journey
@@ -308,7 +308,7 @@ export default function UXUIPage() {
                     whileTap={{ scale: 0.98 }}
                     className={`p-4 sm:p-6 md:p-8 cursor-pointer transition-all duration-200 border-4 border-black shadow-brutal ${
                       isActive
-                        ? "bg-orange-500 text-black"
+                        ? "bg-orange-400 text-black"
                         : "bg-white text-black"
                     }`}
                   >
@@ -335,7 +335,7 @@ export default function UXUIPage() {
                 <div className="text-center">
                   {activePhilosophy === 0 && (
                     <>
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-500 border-4 border-black flex items-center justify-center text-black mx-auto mb-6 sm:mb-8">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black flex items-center justify-center text-black mx-auto mb-6 sm:mb-8">
                         <FaUsers className="text-2xl sm:text-3xl" />
                       </div>
                       <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-black mb-6 sm:mb-8 tracking-tight">
@@ -352,7 +352,7 @@ export default function UXUIPage() {
                   )}
                   {activePhilosophy === 1 && (
                     <>
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-500 border-4 border-black flex items-center justify-center text-black mx-auto mb-6 sm:mb-8">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black flex items-center justify-center text-black mx-auto mb-6 sm:mb-8">
                         <FaPalette className="text-2xl sm:text-3xl" />
                       </div>
                       <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-black mb-6 sm:mb-8 tracking-tight">
@@ -367,7 +367,7 @@ export default function UXUIPage() {
                   )}
                   {activePhilosophy === 2 && (
                     <>
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-500 border-4 border-black flex items-center justify-center text-black mx-auto mb-6 sm:mb-8">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black flex items-center justify-center text-black mx-auto mb-6 sm:mb-8">
                         <FaCode className="text-2xl sm:text-3xl" />
                       </div>
                       <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-black mb-6 sm:mb-8 tracking-tight">
@@ -382,7 +382,7 @@ export default function UXUIPage() {
                   )}
                   {activePhilosophy === 3 && (
                     <>
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-500 border-4 border-black flex items-center justify-center text-black mx-auto mb-6 sm:mb-8">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black flex items-center justify-center text-black mx-auto mb-6 sm:mb-8">
                         <FaLightbulb className="text-2xl sm:text-3xl" />
                       </div>
                       <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-black mb-6 sm:mb-8 tracking-tight">
@@ -438,7 +438,7 @@ export default function UXUIPage() {
                       }
                 }
                 whileTap={{ scale: 0.95 }}
-                className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-500 border-4 border-black rounded-none flex items-center justify-center text-black text-lg sm:text-xl md:text-2xl shadow-brutal shrink-0"
+                className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black rounded-none flex items-center justify-center text-black text-lg sm:text-xl md:text-2xl shadow-brutal shrink-0"
               >
                 {isProcessPlaying ? <FaPause /> : <FaPlay className="ml-1" />}
               </motion.button>
@@ -518,7 +518,7 @@ export default function UXUIPage() {
                     >
                       <div className="card-brutal p-8 sm:p-10 md:p-12 relative overflow-hidden">
                         <motion.div
-                          className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-orange-500 border-4 border-black rounded-none flex items-center justify-center text-black font-black text-lg sm:text-xl md:text-2xl shadow-brutal"
+                          className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-orange-400 border-4 border-black rounded-none flex items-center justify-center text-black font-black text-lg sm:text-xl md:text-2xl shadow-brutal"
                           animate={
                             isProcessPlaying && !shouldReduceMotion
                               ? {
@@ -538,7 +538,7 @@ export default function UXUIPage() {
                         <div className="mt-6 sm:mt-8">
                           <div className="flex flex-col sm:flex-row sm:items-center mb-6 sm:mb-8">
                             <motion.div
-                              className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-500 border-4 border-black flex items-center justify-center text-black mb-4 sm:mb-0 sm:mr-6"
+                              className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-400 border-4 border-black flex items-center justify-center text-black mb-4 sm:mb-0 sm:mr-6"
                               whileHover={
                                 shouldReduceMotion ? {} : { scale: 1.1 }
                               }
@@ -642,7 +642,7 @@ export default function UXUIPage() {
                 <div className="card-brutal p-6 sm:p-8 md:p-10 h-full">
                   <div className="h-full flex flex-col">
                     <div className="flex flex-col sm:flex-row sm:items-center mb-6 sm:mb-8">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-500 border-4 border-black flex items-center justify-center text-black mb-4 sm:mb-0 sm:mr-6">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black flex items-center justify-center text-black mb-4 sm:mb-0 sm:mr-6">
                         <FaLightbulb className="text-2xl sm:text-3xl" />
                       </div>
                       <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-wide">
@@ -673,7 +673,7 @@ export default function UXUIPage() {
                               }
                         }
                         whileTap={{ scale: 0.98 }}
-                        className="w-full btn-brutal btn-card btn-no-shift bg-orange-500 text-black"
+                        className="w-full btn-brutal btn-card btn-no-shift bg-orange-400 text-black"
                       >
                         <span className="tracking-wide font-bold">
                           View Case Study
@@ -712,7 +712,7 @@ export default function UXUIPage() {
                 <div className="card-brutal p-6 sm:p-8 md:p-10 h-full">
                   <div className="h-full flex flex-col">
                     <div className="flex flex-col sm:flex-row sm:items-center mb-6 sm:mb-8">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-500 border-4 border-black flex items-center justify-center text-black mb-4 sm:mb-0 sm:mr-6">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black flex items-center justify-center text-black mb-4 sm:mb-0 sm:mr-6">
                         <FaRocket className="text-2xl sm:text-3xl" />
                       </div>
                       <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-wide">
@@ -756,7 +756,7 @@ export default function UXUIPage() {
                                 }
                           }
                           whileTap={{ scale: 0.98 }}
-                          className="w-full btn-brutal btn-card btn-no-shift bg-orange-500 text-black"
+                          className="w-full btn-brutal btn-card btn-no-shift bg-orange-400 text-black"
                         >
                           <span className="tracking-wide font-bold">
                             View Project
@@ -818,7 +818,7 @@ export default function UXUIPage() {
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-black text-black mb-8 sm:mb-10 md:mb-12 leading-tight tracking-tight">
                 Ready to See My
                 <br />
-                <span className="text-orange-500">Development Skills?</span>
+                <span className="text-orange-400">Development Skills?</span>
               </h2>
 
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-800 mb-12 sm:mb-14 md:mb-16 leading-relaxed max-w-4xl mx-auto tracking-wide font-medium">
@@ -842,7 +842,7 @@ export default function UXUIPage() {
                         }
                   }
                   whileTap={{ scale: 0.98 }}
-                  className="btn-brutal btn-brutal-interactive btn-no-shift bg-orange-500 text-black"
+                  className="btn-brutal btn-brutal-interactive btn-no-shift bg-orange-400 text-black"
                 >
                   <span className="tracking-wide font-black">
                     View Development Work

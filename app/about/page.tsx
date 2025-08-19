@@ -177,7 +177,7 @@ function AboutContent() {
                   ))}
                 </span>
                 <br />
-                <span className="block text-orange-500 mt-2 sm:mt-4">
+                <span className="block text-orange-400 mt-2 sm:mt-4">
                   {"JAKE".split("").map((letter, index) => (
                     <motion.span
                       key={index}
@@ -595,7 +595,7 @@ function AboutContent() {
             >
               <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-8 sm:mb-10 tracking-tighter">
                 LET&apos;S BUILD
-                <span className="block text-orange-500 mt-2 sm:mt-4">
+                <span className="block text-orange-400 mt-2 sm:mt-4">
                   SOMETHING AMAZING
                 </span>
               </h2>
@@ -604,7 +604,7 @@ function AboutContent() {
               </p>
               <motion.a
                 href="mailto:jake.e.cochran@gmail.com"
-                className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-6 sm:px-8 lg:px-12 xl:px-20 py-4 sm:py-6 lg:py-8 xl:py-10 font-black tracking-widest transition-all duration-300 flex items-center justify-center border-4 border-black shadow-brutal text-sm xs:text-base sm:text-lg lg:text-xl xl:text-2xl"
+                className="inline-block bg-orange-400 hover:bg-orange-600 text-white px-6 sm:px-8 lg:px-12 xl:px-20 py-4 sm:py-6 lg:py-8 xl:py-10 font-black tracking-widest transition-all duration-300 flex items-center justify-center border-4 border-black shadow-brutal text-sm xs:text-base sm:text-lg lg:text-xl xl:text-2xl"
                 whileHover="hover"
                 variants={buttonHover}
                 initial="rest"

@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import HeroButtons from "./HeroButtons";
-import MobileParallaxBackground from "./MobileParallaxBackground";
 
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
@@ -60,6 +59,12 @@ export default function Hero() {
   const bgOpacityValue = isMobile ? 1 : backgroundOpacity;
   const textYValue = isMobile ? 0 : textY;
   const textScaleValue = isMobile ? 1 : textScale;
+
+  // Mobile parallax transform values
+  const mobileParallaxFar = useTransform(scrollY, [0, 500], [0, -100]);
+  const mobileParallaxMid = useTransform(scrollY, [0, 500], [0, -200]);
+  const mobileParallaxNear = useTransform(scrollY, [0, 500], [0, -300]);
+  const mobileParallaxShapes = useTransform(scrollY, [0, 500], [0, -400]);
 
   // Optimized typing animation with useCallback
   const updateTypingAnimation = useCallback(() => {
@@ -262,624 +267,721 @@ export default function Hero() {
   }
 
   return (
-    <MobileParallaxBackground>
-      <div ref={containerRef} className="relative min-h-screen overflow-hidden">
-        {/* Optimized Dynamic Background Layers */}
-        <div className="absolute inset-0">
-          {/* Base Background with hardware acceleration */}
-          <motion.div
+    <div ref={containerRef} className="relative min-h-screen overflow-hidden">
+      {/* Optimized Dynamic Background Layers */}
+      <div className="absolute inset-0">
+        {/* Base Background with hardware acceleration */}
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            background: backgrounds[currentText],
+            scale: bgScaleValue,
+            opacity: bgOpacityValue,
+            willChange: "transform, opacity",
+            transform: "translateZ(0)",
+          }}
+          transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
+        />
+
+        {/* Mobile Background Enhancement */}
+        {isMobile && (
+          <div
             className="absolute inset-0"
             style={{
-              background: backgrounds[currentText],
-              scale: bgScaleValue,
-              opacity: bgOpacityValue,
-              willChange: "transform, opacity",
-              transform: "translateZ(0)",
+              background: `linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(0,0,0,0.05) 100%)`,
+              pointerEvents: "none",
             }}
-            transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
           />
+        )}
 
-          {/* Mobile Background Enhancement */}
-          {isMobile && (
-            <div
-              className="absolute inset-0"
+                {/* Mobile Scroll-Based Parallax Background */}
+        {isMobile && (
+          <>
+            {/* Far Background Layer - Slowest Scroll Speed */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
               style={{
-                background: `linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(0,0,0,0.05) 100%)`,
-                pointerEvents: "none",
+                background: `
+                  radial-gradient(circle at 30% 20%, rgba(251, 146, 60, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 80%, rgba(78, 205, 196, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 50% 50%, rgba(69, 183, 209, 0.05) 0%, transparent 50%)
+                `,
+                willChange: "transform",
+                transform: "translateZ(0)",
+                y: mobileParallaxFar,
               }}
             />
-          )}
 
-          {/* Brutalist Pattern Overlay - desktop only and memoized */}
-          {!isMobile && (
-            <div className="absolute inset-0 opacity-15 brutalist-pattern-overlay">
-              <div className="absolute top-0 left-0 w-full h-full">
-                {patternShapes.map((shape) => (
-                  <motion.div
-                    key={shape.id}
-                    className={`absolute ${shape.colorClass}`}
-                    style={{
-                      left: `${shape.left}%`,
-                      top: `${shape.top}%`,
-                      width: `${shape.w}px`,
-                      height: `${shape.h}px`,
-                      transform: `rotate(${shape.rotate}deg) translateZ(0)`,
-                      willChange: "transform, opacity",
-                      zIndex: 1,
-                    }}
-                    animate={{
-                      rotate: [0, 180, 360],
-                      scale: [1, 1.08, 1],
-                      opacity: [0.2, 0.6, 0.2],
-                      x: [0, shape.xDrift, 0],
-                      y: [0, shape.yDrift, 0],
-                    }}
-                    transition={{
-                      duration: 12 + (parseFloat(shape.left) % 6),
-                      repeat: Infinity,
-                      ease: "linear",
-                      delay: (parseFloat(shape.top) % 3) * 0.2,
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+            {/* Mid Background Layer - Medium Scroll Speed */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `
+                  linear-gradient(45deg, transparent 40%, rgba(0, 0, 0, 0.02) 50%, transparent 60%),
+                  linear-gradient(-45deg, transparent 30%, rgba(251, 146, 60, 0.03) 50%, transparent 70%)
+                `,
+                willChange: "transform",
+                transform: "translateZ(0)",
+                y: mobileParallaxMid,
+              }}
+            />
 
-        {/* Hero Content - Mobile Optimized Layout with Performance */}
-        {isMobile ? (
-          <div className="absolute inset-0 flex flex-col justify-center items-center z-10 px-4 py-4">
-            {/* Floating Elements - Enhanced for Mobile */}
-            <div className="absolute inset-0 pointer-events-none">
-              {/* Red dot - prominent accent */}
-              <div className="absolute top-16 right-16 w-5 h-5 bg-red-500 rounded-full opacity-80" />
+            {/* Near Background Layer - Faster Scroll Speed */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `
+                  radial-gradient(circle at 20% 30%, rgba(0, 0, 0, 0.03) 0%, transparent 30%),
+                  radial-gradient(circle at 80% 70%, rgba(251, 146, 60, 0.04) 0%, transparent 30%),
+                  radial-gradient(circle at 60% 40%, rgba(78, 205, 196, 0.03) 0%, transparent 25%)
+                `,
+                willChange: "transform",
+                transform: "translateZ(0)",
+                y: mobileParallaxNear,
+              }}
+            />
 
-              {/* Enhanced floating shapes for mobile */}
-              {[...Array(5)].map((_, i) => (
-                <div
-                  key={`mobile-shape-${i}`}
-                  className={`absolute ${
-                    i % 3 === 0
-                      ? "bg-white/60 w-3 h-3 rounded-full"
-                      : i % 3 === 1
-                      ? "bg-orange-300/50 w-2 h-2 rounded-sm"
-                      : "bg-teal-300/40 w-4 h-4 rounded-full"
-                  }`}
+            {/* Geometric Shapes Layer - Fastest Scroll Speed */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                willChange: "transform",
+                transform: "translateZ(0)",
+                y: mobileParallaxShapes,
+              }}
+            >
+              {/* Top-left geometric shape */}
+              <div className="absolute top-20 left-10 w-16 h-16 border-2 border-orange-400/20 rotate-45" />
+              <div className="absolute top-24 left-16 w-8 h-8 bg-orange-400/10 border border-orange-400/30" />
+              
+              {/* Top-right geometric shape */}
+              <div className="absolute top-16 right-16 w-12 h-12 border-2 border-cyan-400/20 -rotate-12" />
+              <div className="absolute top-20 right-20 w-6 h-6 bg-cyan-400/10 border border-cyan-400/30" />
+              
+              {/* Bottom-left geometric shape */}
+              <div className="absolute bottom-24 left-20 w-10 h-10 border-2 border-blue-400/20 rotate-30" />
+              <div className="absolute bottom-28 left-24 w-5 h-5 bg-blue-400/10 border border-blue-400/30" />
+              
+              {/* Bottom-right geometric shape */}
+              <div className="absolute bottom-20 right-12 w-14 h-14 border-2 border-green-400/20 -rotate-45" />
+              <div className="absolute bottom-24 right-16 w-7 h-7 bg-green-400/10 border border-green-400/30" />
+            </motion.div>
+          </>
+        )}
+
+        {/* Brutalist Pattern Overlay - desktop only and memoized */}
+        {!isMobile && (
+          <div className="absolute inset-0 opacity-15 brutalist-pattern-overlay">
+            <div className="absolute top-0 left-0 w-full h-full">
+              {patternShapes.map((shape) => (
+                <motion.div
+                  key={shape.id}
+                  className={`absolute ${shape.colorClass}`}
                   style={{
-                    left: `${20 + ((i * 25) % 60)}%`,
-                    top: `${25 + ((i * 20) % 50)}%`,
+                    left: `${shape.left}%`,
+                    top: `${shape.top}%`,
+                    width: `${shape.w}px`,
+                    height: `${shape.h}px`,
+                    transform: `rotate(${shape.rotate}deg) translateZ(0)`,
+                    willChange: "transform, opacity",
+                    zIndex: 1,
+                  }}
+                  animate={{
+                    rotate: [0, 180, 360],
+                    scale: [1, 1.08, 1],
+                    opacity: [0.2, 0.6, 0.2],
+                    x: [0, shape.xDrift, 0],
+                    y: [0, shape.yDrift, 0],
+                  }}
+                  transition={{
+                    duration: 12 + (parseFloat(shape.left) % 6),
+                    repeat: Infinity,
+                    ease: "linear",
+                    delay: (parseFloat(shape.top) % 3) * 0.2,
                   }}
                 />
               ))}
             </div>
+          </div>
+        )}
+      </div>
 
-            {/* Main Content - Elite Mobile Spacing */}
-            <div className="text-center w-full max-w-sm space-y-6">
-              {/* Hero Name Section - Diagonal Overlap */}
-              <div className="relative space-y-4">
-                {/* JAKE - Positioned to overlap COCHRAN diagonally */}
-                <div className="relative z-20 -mb-4">
-                  <h1 className="text-7xl sm:text-8xl font-black text-white leading-none tracking-tight">
-                    JAKE
+      {/* Hero Content - Mobile Optimized Layout with Performance */}
+      {isMobile ? (
+        <div className="absolute inset-0 flex flex-col justify-center items-center z-10 px-4 py-4">
+          {/* Floating Elements - Enhanced for Mobile */}
+          <div className="absolute inset-0 pointer-events-none">
+            {/* Red dot - prominent accent */}
+            <div className="absolute top-16 right-16 w-5 h-5 bg-red-500 rounded-full opacity-80" />
+
+            {/* Enhanced floating shapes for mobile */}
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={`mobile-shape-${i}`}
+                className={`absolute ${
+                  i % 3 === 0
+                    ? "bg-white/60 w-3 h-3 rounded-full"
+                    : i % 3 === 1
+                    ? "bg-orange-300/50 w-2 h-2 rounded-sm"
+                    : "bg-teal-300/40 w-4 h-4 rounded-full"
+                }`}
+                style={{
+                  left: `${20 + ((i * 25) % 60)}%`,
+                  top: `${25 + ((i * 20) % 50)}%`,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Main Content - Elite Mobile Spacing */}
+          <div className="text-center w-full max-w-sm space-y-6">
+            {/* Hero Name Section - Diagonal Overlap */}
+            <div className="relative space-y-4">
+              {/* JAKE - Positioned to overlap COCHRAN diagonally */}
+              <div className="relative z-20 -mb-4">
+                <h1 className="text-7xl sm:text-8xl font-black text-white leading-none tracking-tight">
+                  JAKE
+                </h1>
+              </div>
+
+              {/* COCHRAN - Card positioned diagonally for overlap */}
+              <div className="relative z-10 ml-6 -mt-8">
+                <div
+                  className="card-brutal inline-block border-3 border-black shadow-brutal"
+                  style={{
+                    boxShadow: "6px 6px 0px rgba(0, 0, 0, 0.9)",
+                    transform: `rotate(1deg) perspective(800px) rotateX(${mobileTilt.x}deg) rotateY(${mobileTilt.y}deg)`,
+                    background:
+                      currentText === 0
+                        ? "#1f2937"
+                        : currentText === 1
+                        ? "#1e40af"
+                        : currentText === 2
+                        ? "#dc2626"
+                        : "#7c3aed",
+                    minWidth: "240px",
+                    borderRadius: "0",
+                    transition: "transform 0.1s ease-out",
+                    padding: "16px 24px",
+                    border: "3px solid black",
+                  }}
+                >
+                  <h1 className="text-5xl sm:text-6xl leading-none tracking-tight font-black text-white">
+                    COCHRAN
                   </h1>
                 </div>
-
-                {/* COCHRAN - Card positioned diagonally for overlap */}
-                <div className="relative z-10 ml-6 -mt-8">
-                  <div
-                    className="card-brutal inline-block border-3 border-black shadow-brutal"
-                    style={{
-                      boxShadow: "6px 6px 0px rgba(0, 0, 0, 0.9)",
-                      transform: `rotate(1deg) perspective(800px) rotateX(${mobileTilt.x}deg) rotateY(${mobileTilt.y}deg)`,
-                      background:
-                        currentText === 0
-                          ? "#1f2937"
-                          : currentText === 1
-                          ? "#1e40af"
-                          : currentText === 2
-                          ? "#dc2626"
-                          : "#7c3aed",
-                      minWidth: "240px",
-                      borderRadius: "0",
-                      transition: "transform 0.1s ease-out",
-                      padding: "16px 24px",
-                      border: "3px solid black",
-                    }}
-                  >
-                    <h1 className="text-5xl sm:text-6xl leading-none tracking-tight font-black text-white">
-                      COCHRAN
-                    </h1>
-                  </div>
-                </div>
-              </div>
-
-              {/* Role Badge - Minimal Padding */}
-              <div className="space-y-3">
-                <div
-                  className="card-brutal inline-block min-w-[160px]"
-                  style={{
-                    boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)",
-                    padding: "4px 8px",
-                    border: "4px solid black",
-                    background: "white",
-                  }}
-                >
-                  <h2 className="text-sm font-black text-black tracking-wide">
-                    {displayText}
-                    {mounted && <span className="animate-pulse">|</span>}
-                  </h2>
-                </div>
-              </div>
-
-              {/* CTA Buttons - Elite Mobile Spacing */}
-              <div className="space-y-4">
-                <button
-                  className="btn-brutal btn-brutal-interactive w-full text-base px-6 py-4 min-h-[52px] font-bold"
-                  style={{
-                    willChange: "transform, box-shadow",
-                    transform: "translateZ(0)",
-                    boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.85)",
-                    transition:
-                      "box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.boxShadow =
-                      "12px 12px 0px rgba(0, 0, 0, 0.9)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.boxShadow =
-                      "8px 8px 0px rgba(0, 0, 0, 0.85)";
-                  }}
-                >
-                  View My Work
-                </button>
-
-                <button
-                  className="btn-brutal btn-brutal-interactive w-full text-base px-6 py-4 min-h-[52px] font-bold"
-                  style={{
-                    background: "var(--color-white)",
-                    color: "var(--color-black)",
-                    willChange: "transform, box-shadow",
-                    transform: "translateZ(0)",
-                    boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.85)",
-                    transition:
-                      "box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.boxShadow =
-                      "12px 12px 0px rgba(0, 0, 0, 0.9)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.boxShadow =
-                      "8px 8px 0px rgba(0, 0, 0, 0.85)";
-                  }}
-                >
-                  Get In Touch
-                </button>
-              </div>
-
-              {/* Quote Section - Elite Mobile Spacing */}
-              <div className="text-center space-y-4 mt-8">
-                {/* Accent Dot - Elite Spacing */}
-                <div className="w-4 h-4 bg-red-500 rounded-full mx-auto" />
-
-                {/* Quote - Elite Typography Spacing */}
-                <blockquote className="text-white text-base leading-relaxed max-w-sm mx-auto font-medium">
-                  If I had an hour to solve a problem I&apos;d spend 55 minutes
-                  thinking about the problem and 5 minutes thinking about
-                  solutions.
-                </blockquote>
-
-                {/* Attribution - Elite Spacing */}
-                <cite className="text-white/90 text-sm font-semibold block">
-                  — Albert Einstein
-                </cite>
               </div>
             </div>
+
+            {/* Role Badge - Minimal Padding */}
+            <div className="space-y-3">
+              <div
+                className="card-brutal inline-block min-w-[160px]"
+                style={{
+                  boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)",
+                  padding: "4px 8px",
+                  border: "4px solid black",
+                  background: "white",
+                }}
+              >
+                <h2 className="text-sm font-black text-black tracking-wide">
+                  {displayText}
+                  {mounted && <span className="animate-pulse">|</span>}
+                </h2>
+              </div>
+            </div>
+
+            {/* CTA Buttons - Elite Mobile Spacing */}
+            <div className="space-y-4">
+              <button
+                className="btn-brutal btn-brutal-interactive w-full text-base px-6 py-4 min-h-[52px] font-bold"
+                style={{
+                  willChange: "transform, box-shadow",
+                  transform: "translateZ(0)",
+                  boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.85)",
+                  transition:
+                    "box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.boxShadow = "12px 12px 0px rgba(0, 0, 0, 0.9)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.boxShadow = "8px 8px 0px rgba(0, 0, 0, 0.85)";
+                }}
+              >
+                View My Work
+              </button>
+
+              <button
+                className="btn-brutal btn-brutal-interactive w-full text-base px-6 py-4 min-h-[52px] font-bold"
+                style={{
+                  background: "var(--color-white)",
+                  color: "var(--color-black)",
+                  willChange: "transform, box-shadow",
+                  transform: "translateZ(0)",
+                  boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.85)",
+                  transition:
+                    "box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.boxShadow = "12px 12px 0px rgba(0, 0, 0, 0.9)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.boxShadow = "8px 8px 0px rgba(0, 0, 0, 0.85)";
+                }}
+              >
+                Get In Touch
+              </button>
+            </div>
+
+            {/* Quote Section - Elite Mobile Spacing */}
+            <div className="text-center space-y-4 mt-8">
+              {/* Accent Dot - Elite Spacing */}
+              <div className="w-4 h-4 bg-red-500 rounded-full mx-auto" />
+
+              {/* Quote - Elite Typography Spacing */}
+              <blockquote className="text-white text-base leading-relaxed max-w-sm mx-auto font-medium">
+                If I had an hour to solve a problem I&apos;d spend 55 minutes
+                thinking about the problem and 5 minutes thinking about
+                solutions.
+              </blockquote>
+
+              {/* Attribution - Elite Spacing */}
+              <cite className="text-white/90 text-sm font-semibold block">
+                — Albert Einstein
+              </cite>
+            </div>
           </div>
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center z-10 py-4 sm:py-8 lg:py-16 xl:py-24">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-6 h-full flex items-center">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 xl:gap-12 items-center hero-grid w-full">
-                {/* Left Column - Main Content */}
-                <motion.div
-                  className="lg:col-span-7 text-center lg:text-left hero-left-column"
-                  style={{
-                    y: textYValue,
-                    scale: textScaleValue,
-                    willChange: "transform",
-                    transform: "translateZ(0)",
-                  }}
-                >
-                  {/* Hero Content */}
-                  <div className="relative inline-block w-full">
-                    {/* Overlapping Name Text */}
+        </div>
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center z-10 py-4 sm:py-8 lg:py-16 xl:py-24">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-6 h-full flex items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 xl:gap-12 items-center hero-grid w-full">
+              {/* Left Column - Main Content */}
+              <motion.div
+                className="lg:col-span-7 text-center lg:text-left hero-left-column"
+                style={{
+                  y: textYValue,
+                  scale: textScaleValue,
+                  willChange: "transform",
+                  transform: "translateZ(0)",
+                }}
+              >
+                {/* Hero Content */}
+                <div className="relative inline-block w-full">
+                  {/* Overlapping Name Text */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.8,
+                      delay: 0.1,
+                      ease: [0.2, 0, 0, 1],
+                    }}
+                    className="mb-20 sm:mb-24 lg:mb-32 xl:mb-40 hero-spacing mt-2 sm:mt-4 lg:mt-8 xl:mt-10"
+                  >
+                    {/* JAKE - Primary Text */}
                     <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      initial={{ opacity: 0, x: -30, rotate: -0.5 }}
+                      animate={{ opacity: 1, x: 0, rotate: 0 }}
                       transition={{
-                        duration: 0.8,
-                        delay: 0.1,
+                        duration: 0.6,
+                        delay: 0.2,
                         ease: [0.2, 0, 0, 1],
                       }}
-                      className="mb-20 sm:mb-24 lg:mb-32 xl:mb-40 hero-spacing mt-2 sm:mt-4 lg:mt-8 xl:mt-10"
+                      className="relative z-20 mb-0 pointer-events-none"
                     >
-                      {/* JAKE - Primary Text */}
-                      <motion.div
-                        initial={{ opacity: 0, x: -30, rotate: -0.5 }}
-                        animate={{ opacity: 1, x: 0, rotate: 0 }}
-                        transition={{
-                          duration: 0.6,
-                          delay: 0.2,
-                          ease: [0.2, 0, 0, 1],
+                      <h1
+                        className="hero-name text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] 2xl:text-[12rem] leading-[0.9] tracking-tighter font-black text-white"
+                        style={{
+                          letterSpacing: "-0.02em",
+                          fontFamily:
+                            "'Inter', 'SF Pro Display', -apple-system, sans-serif",
+                          textShadow: "2px 2px 0px rgba(0, 0, 0, 0.3)",
                         }}
-                        className="relative z-20 mb-0 pointer-events-none"
                       >
+                        JAKE
+                      </h1>
+                    </motion.div>
+
+                    {/* COCHRAN - Card with Dynamic Background Color */}
+                    <motion.div
+                      initial={{ opacity: 0, x: 30, rotate: 0.5 }}
+                      animate={{ opacity: 1, x: 0, rotate: 0 }}
+                      transition={{
+                        duration: 0.6,
+                        delay: 0.3,
+                        ease: [0.2, 0, 0, 1],
+                      }}
+                      className="relative z-10 -mt-8 sm:-mt-10 lg:-mt-12 xl:-mt-16 ml-8 sm:ml-10 lg:ml-12 xl:ml-16"
+                    >
+                      <div
+                        className="card-brutal cochran-card inline-block px-6 sm:px-8 lg:px-10 xl:px-12 py-4 sm:py-6 lg:py-8 xl:py-10 border-3 border-black shadow-brutal hover:scale-105 transition-all duration-300 ease-out relative"
+                        style={{
+                          boxShadow: "6px 6px 0px rgba(0, 0, 0, 0.9)",
+                          transform:
+                            "rotate(0.5deg) scale(var(--scale, 1)) perspective(800px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg))",
+                          background:
+                            currentText === 0
+                              ? "#1f2937"
+                              : currentText === 1
+                              ? "#1e40af"
+                              : currentText === 2
+                              ? "#dc2626"
+                              : "#7c3aed",
+                          "--scale": "1",
+                          "--rotate-x": "0deg",
+                          "--rotate-y": "0deg",
+                          transition:
+                            "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                        }}
+                        onMouseMove={(e) => {
+                          if (!isMobile) {
+                            const rect =
+                              e.currentTarget.getBoundingClientRect();
+                            const x = e.clientX - rect.left;
+                            const y = e.clientY - rect.top;
+
+                            const centerX = rect.width / 2;
+                            const centerY = rect.height / 2;
+
+                            const deltaX = (x - centerX) / centerX;
+                            const deltaY = (y - centerY) / centerY;
+
+                            // Apply 3D transform with enhanced edge detection and smooth transitions
+                            const edgeMultiplier = Math.max(
+                              1,
+                              Math.abs(deltaX) * 1.2
+                            ); // Enhance edge sensitivity
+
+                            // Use CSS custom properties for smooth transitions
+                            e.currentTarget.style.setProperty(
+                              "--rotate-x",
+                              `${deltaY * -12}deg`
+                            );
+                            e.currentTarget.style.setProperty(
+                              "--rotate-y",
+                              `${deltaX * 12 * edgeMultiplier}deg`
+                            );
+                            e.currentTarget.style.setProperty(
+                              "--scale",
+                              "1.05"
+                            );
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isMobile) {
+                            // Reset to original state with smooth transition
+                            e.currentTarget.style.setProperty(
+                              "--rotate-x",
+                              "0deg"
+                            );
+                            e.currentTarget.style.setProperty(
+                              "--rotate-y",
+                              "0deg"
+                            );
+                            e.currentTarget.style.setProperty("--scale", "1");
+                          }
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isMobile) {
+                            // Ensure smooth transition by setting initial values if not already set
+                            if (
+                              !e.currentTarget.style.getPropertyValue(
+                                "--rotate-x"
+                              )
+                            ) {
+                              e.currentTarget.style.setProperty(
+                                "--rotate-x",
+                                "0deg"
+                              );
+                            }
+                            if (
+                              !e.currentTarget.style.getPropertyValue(
+                                "--rotate-y"
+                              )
+                            ) {
+                              e.currentTarget.style.setProperty(
+                                "--rotate-y",
+                                "0deg"
+                              );
+                            }
+                            if (
+                              !e.currentTarget.style.getPropertyValue("--scale")
+                            ) {
+                              e.currentTarget.style.setProperty("--scale", "1");
+                            }
+                          }
+                        }}
+                      >
+                        {/* Invisible hover extension to ensure full coverage */}
+                        <div
+                          className="absolute inset-0 pointer-events-none"
+                          style={{
+                            width: "110%",
+                            height: "110%",
+                            left: "-5%",
+                            top: "-5%",
+                            zIndex: -1,
+                          }}
+                        />
                         <h1
-                          className="hero-name text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] 2xl:text-[12rem] leading-[0.9] tracking-tighter font-black text-white"
+                          className="hero-name text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[10rem] leading-[0.9] tracking-tighter font-black text-white relative z-10"
                           style={{
                             letterSpacing: "-0.02em",
                             fontFamily:
                               "'Inter', 'SF Pro Display', -apple-system, sans-serif",
-                            textShadow: "2px 2px 0px rgba(0, 0, 0, 0.3)",
                           }}
                         >
-                          JAKE
+                          COCHRAN
                         </h1>
-                      </motion.div>
-
-                      {/* COCHRAN - Card with Dynamic Background Color */}
-                      <motion.div
-                        initial={{ opacity: 0, x: 30, rotate: 0.5 }}
-                        animate={{ opacity: 1, x: 0, rotate: 0 }}
-                        transition={{
-                          duration: 0.6,
-                          delay: 0.3,
-                          ease: [0.2, 0, 0, 1],
-                        }}
-                        className="relative z-10 -mt-8 sm:-mt-10 lg:-mt-12 xl:-mt-16 ml-8 sm:ml-10 lg:ml-12 xl:ml-16"
-                      >
-                        <div
-                          className="card-brutal cochran-card inline-block px-6 sm:px-8 lg:px-10 xl:px-12 py-4 sm:py-6 lg:py-8 xl:py-10 border-3 border-black shadow-brutal hover:scale-105 transition-all duration-300 ease-out relative"
-                          style={{
-                            boxShadow: "6px 6px 0px rgba(0, 0, 0, 0.9)",
-                            transform:
-                              "rotate(0.5deg) scale(var(--scale, 1)) perspective(800px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg))",
-                            background:
-                              currentText === 0
-                                ? "#1f2937"
-                                : currentText === 1
-                                ? "#1e40af"
-                                : currentText === 2
-                                ? "#dc2626"
-                                : "#7c3aed",
-                            "--scale": "1",
-                            "--rotate-x": "0deg",
-                            "--rotate-y": "0deg",
-                            transition:
-                              "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                          }}
-                          onMouseMove={(e) => {
-                            if (!isMobile) {
-                              const rect =
-                                e.currentTarget.getBoundingClientRect();
-                              const x = e.clientX - rect.left;
-                              const y = e.clientY - rect.top;
-
-                              const centerX = rect.width / 2;
-                              const centerY = rect.height / 2;
-
-                              const deltaX = (x - centerX) / centerX;
-                              const deltaY = (y - centerY) / centerY;
-
-                              // Apply 3D transform with enhanced edge detection and smooth transitions
-                              const edgeMultiplier = Math.max(
-                                1,
-                                Math.abs(deltaX) * 1.2
-                              ); // Enhance edge sensitivity
-
-                              // Use CSS custom properties for smooth transitions
-                              e.currentTarget.style.setProperty(
-                                "--rotate-x",
-                                `${deltaY * -12}deg`
-                              );
-                              e.currentTarget.style.setProperty(
-                                "--rotate-y",
-                                `${deltaX * 12 * edgeMultiplier}deg`
-                              );
-                              e.currentTarget.style.setProperty(
-                                "--scale",
-                                "1.05"
-                              );
-                            }
-                          }}
-                          onMouseLeave={(e) => {
-                            if (!isMobile) {
-                              // Reset to original state with smooth transition
-                              e.currentTarget.style.setProperty(
-                                "--rotate-x",
-                                "0deg"
-                              );
-                              e.currentTarget.style.setProperty(
-                                "--rotate-y",
-                                "0deg"
-                              );
-                              e.currentTarget.style.setProperty("--scale", "1");
-                            }
-                          }}
-                          onMouseEnter={(e) => {
-                            if (!isMobile) {
-                              // Ensure smooth transition by setting initial values if not already set
-                              if (
-                                !e.currentTarget.style.getPropertyValue(
-                                  "--rotate-x"
-                                )
-                              ) {
-                                e.currentTarget.style.setProperty(
-                                  "--rotate-x",
-                                  "0deg"
-                                );
-                              }
-                              if (
-                                !e.currentTarget.style.getPropertyValue(
-                                  "--rotate-y"
-                                )
-                              ) {
-                                e.currentTarget.style.setProperty(
-                                  "--rotate-y",
-                                  "0deg"
-                                );
-                              }
-                              if (
-                                !e.currentTarget.style.getPropertyValue(
-                                  "--scale"
-                                )
-                              ) {
-                                e.currentTarget.style.setProperty(
-                                  "--scale",
-                                  "1"
-                                );
-                              }
-                            }
-                          }}
-                        >
-                          {/* Invisible hover extension to ensure full coverage */}
-                          <div
-                            className="absolute inset-0 pointer-events-none"
-                            style={{
-                              width: "110%",
-                              height: "110%",
-                              left: "-5%",
-                              top: "-5%",
-                              zIndex: -1,
-                            }}
-                          />
-                          <h1
-                            className="hero-name text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[10rem] leading-[0.9] tracking-tighter font-black text-white relative z-10"
-                            style={{
-                              letterSpacing: "-0.02em",
-                              fontFamily:
-                                "'Inter', 'SF Pro Display', -apple-system, sans-serif",
-                            }}
-                          >
-                            COCHRAN
-                          </h1>
-                        </div>
-                      </motion.div>
-                    </motion.div>
-
-                    {/* Role card */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.2 }}
-                      className="hero-spacing mb-16 sm:mb-20 lg:mb-24 xl:mb-28 ml-0"
-                    >
-                      <div
-                        className="card-brutal inline-block px-3 sm:px-4 lg:px-6 xl:px-8 py-2 sm:py-2 lg:py-3 xl:py-4 min-w-[200px] sm:min-w-[240px] lg:min-w-[360px]"
-                        style={{
-                          boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)",
-                        }}
-                      >
-                        <h2 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-black font-black tracking-wide">
-                          {displayText}
-                          {mounted && <span className="animate-pulse">|</span>}
-                        </h2>
                       </div>
                     </motion.div>
-                  </div>
+                  </motion.div>
 
-                  {/* CTA Buttons */}
+                  {/* Role card */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="mb-20 sm:mb-24 lg:mb-32 xl:mb-40 hero-spacing ml-0"
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="hero-spacing mb-16 sm:mb-20 lg:mb-24 xl:mb-28 ml-0"
                   >
-                    <HeroButtons />
-                  </motion.div>
-                </motion.div>
-
-                {/* Right Column - Quote Section (Desktop Only) */}
-                {!isMobile && (
-                  <motion.div
-                    className="lg:col-span-5 hero-right-column relative order-first lg:order-last flex items-center justify-center"
-                    style={{
-                      opacity: bgOpacityValue,
-                      willChange: "opacity",
-                      transform: "translateZ(0)",
-                    }}
-                  >
-                    <div className="relative h-32 sm:h-48 md:h-64 lg:h-full min-h-[120px] sm:min-h-[200px] lg:min-h-[400px] xl:min-h-[500px] flex items-center justify-center p-2 sm:p-4 lg:p-8 w-full">
-                      <motion.div
-                        className="w-full max-w-sm sm:max-w-lg mx-auto relative z-10 lg:ml-8 xl:ml-12"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.6 }}
-                      >
-                        <blockquote
-                          className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-white/90 leading-relaxed mb-2 sm:mb-4 lg:mb-6 hero-quote px-1 sm:px-2 lg:px-6 font-normal italic"
-                          style={{ textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)" }}
-                        >
-                          If I had an hour to solve a problem I&apos;d spend 55
-                          minutes thinking about the problem and 5 minutes
-                          thinking about solutions.
-                        </blockquote>
-                        <div className="text-right">
-                          <cite
-                            className="text-xs sm:text-sm text-white/80 font-medium not-italic hero-attribution"
-                            style={{
-                              textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)",
-                            }}
-                          >
-                            — Albert Einstein
-                          </cite>
-                        </div>
-                      </motion.div>
+                    <div
+                      className="card-brutal inline-block px-3 sm:px-4 lg:px-6 xl:px-8 py-2 sm:py-2 lg:py-3 xl:py-4 min-w-[200px] sm:min-w-[240px] lg:min-w-[360px]"
+                      style={{
+                        boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)",
+                      }}
+                    >
+                      <h2 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-black font-black tracking-wide">
+                        {displayText}
+                        {mounted && <span className="animate-pulse">|</span>}
+                      </h2>
                     </div>
                   </motion.div>
-                )}
-              </div>
+                </div>
+
+                {/* CTA Buttons */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="mb-20 sm:mb-24 lg:mb-32 xl:mb-40 hero-spacing ml-0"
+                >
+                  <HeroButtons />
+                </motion.div>
+              </motion.div>
+
+              {/* Right Column - Quote Section (Desktop Only) */}
+              {!isMobile && (
+                <motion.div
+                  className="lg:col-span-5 hero-right-column relative order-first lg:order-last flex items-center justify-center"
+                  style={{
+                    opacity: bgOpacityValue,
+                    willChange: "opacity",
+                    transform: "translateZ(0)",
+                  }}
+                >
+                  <div className="relative h-32 sm:h-48 md:h-64 lg:h-full min-h-[120px] sm:min-h-[200px] lg:min-h-[400px] xl:min-h-[500px] flex items-center justify-center p-2 sm:p-4 lg:p-8 w-full">
+                    <motion.div
+                      className="w-full max-w-sm sm:max-w-lg mx-auto relative z-10 lg:ml-8 xl:ml-12"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.6 }}
+                    >
+                      <blockquote
+                        className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-white/90 leading-relaxed mb-2 sm:mb-4 lg:mb-6 hero-quote px-1 sm:px-2 lg:px-6 font-normal italic"
+                        style={{ textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)" }}
+                      >
+                        If I had an hour to solve a problem I&apos;d spend 55
+                        minutes thinking about the problem and 5 minutes
+                        thinking about solutions.
+                      </blockquote>
+                      <div className="text-right">
+                        <cite
+                          className="text-xs sm:text-sm text-white/80 font-medium not-italic hero-attribution"
+                          style={{
+                            textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)",
+                          }}
+                        >
+                          — Albert Einstein
+                        </cite>
+                      </div>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              )}
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Mobile-specific animated elements for visual interest - positioned within safe bounds */}
-        {isMobile && (
-          <div className="absolute inset-0 pointer-events-none mobile-animated-elements">
-            {/* Mobile floating shapes - positioned within safe mobile bounds */}
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={`mobile-${i}`}
-                className={`absolute rounded-full ${
-                  i % 3 === 0
-                    ? "w-2 h-2 bg-white/60"
-                    : i % 3 === 1
-                    ? "w-1.5 h-1.5 bg-white/80"
-                    : "w-3 h-3 bg-white/40"
-                }`}
-                style={{
-                  left: `${10 + ((i * 15) % 80)}%`,
-                  top: `${15 + ((i * 20) % 70)}%`,
-                  willChange: "transform, opacity",
-                  transform: "translateZ(0)",
-                  zIndex: (i % 2) + 1,
-                }}
-                animate={{
-                  y: [0, -15, 0],
-                  x: [0, (i % 3) - 1, 0],
-                  opacity: [0.3, 0.8, 0.3],
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 8 + (i % 4),
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: (i % 2) * 0.5,
-                }}
-              />
-            ))}
+      {/* Mobile-specific animated elements for visual interest - positioned within safe bounds */}
+      {isMobile && (
+        <div className="absolute inset-0 pointer-events-none mobile-animated-elements">
+          {/* Mobile floating shapes - positioned within safe mobile bounds */}
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={`mobile-${i}`}
+              className={`absolute rounded-full ${
+                i % 3 === 0
+                  ? "w-2 h-2 bg-white/60"
+                  : i % 3 === 1
+                  ? "w-1.5 h-1.5 bg-white/80"
+                  : "w-3 h-3 bg-white/40"
+              }`}
+              style={{
+                left: `${10 + ((i * 15) % 80)}%`,
+                top: `${15 + ((i * 20) % 70)}%`,
+                willChange: "transform, opacity",
+                transform: "translateZ(0)",
+                zIndex: (i % 2) + 1,
+              }}
+              animate={{
+                y: [0, -15, 0],
+                x: [0, (i % 3) - 1, 0],
+                opacity: [0.3, 0.8, 0.3],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 8 + (i % 4),
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: (i % 2) * 0.5,
+              }}
+            />
+          ))}
 
-            {/* Mobile accent lines - positioned within safe mobile bounds */}
-            {[...Array(4)].map((_, i) => (
-              <motion.div
-                key={`mobile-line-${i}`}
-                className="absolute bg-white/30"
-                style={{
-                  left: `${15 + ((i * 20) % 70)}%`,
-                  top: `${20 + (i % 3) * 15}%`,
-                  width: `${15 + (i % 2) * 8}px`,
-                  height: "1px",
-                  willChange: "transform, opacity",
-                  transform: "translateZ(0)",
-                  zIndex: 1,
-                }}
-                animate={{
-                  opacity: [0.2, 0.6, 0.2],
-                  scaleX: [0.8, 1.2, 0.8],
-                  rotate: [0, 3, 0],
-                }}
-                transition={{
-                  duration: 6 + (i % 3),
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: (i % 2) * 0.8,
-                }}
-              />
-            ))}
+          {/* Mobile accent lines - positioned within safe mobile bounds */}
+          {[...Array(4)].map((_, i) => (
+            <motion.div
+              key={`mobile-line-${i}`}
+              className="absolute bg-white/30"
+              style={{
+                left: `${15 + ((i * 20) % 70)}%`,
+                top: `${20 + (i % 3) * 15}%`,
+                width: `${15 + (i % 2) * 8}px`,
+                height: "1px",
+                willChange: "transform, opacity",
+                transform: "translateZ(0)",
+                zIndex: 1,
+              }}
+              animate={{
+                opacity: [0.2, 0.6, 0.2],
+                scaleX: [0.8, 1.2, 0.8],
+                rotate: [0, 3, 0],
+              }}
+              transition={{
+                duration: 6 + (i % 3),
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: (i % 2) * 0.8,
+              }}
+            />
+          ))}
 
-            {/* Mobile geometric accents - positioned within safe mobile bounds */}
-            {[...Array(3)].map((_, i) => (
-              <motion.div
-                key={`mobile-geo-${i}`}
-                className={`absolute border border-white/40 ${
-                  i % 2 === 0 ? "rounded-sm" : "rounded-full"
-                }`}
-                style={{
-                  left: `${20 + ((i * 25) % 60)}%`,
-                  top: `${25 + ((i * 20) % 55)}%`,
-                  width: `${8 + (i % 2) * 6}px`,
-                  height: `${8 + (i % 2) * 6}px`,
-                  willChange: "transform, opacity",
-                  transform: "translateZ(0)",
-                  zIndex: 1,
-                }}
-                animate={{
-                  opacity: [0.3, 0.7, 0.3],
-                  scale: [0.9, 1.1, 0.9],
-                  rotate: [0, 90, 180, 270],
-                }}
-                transition={{
-                  duration: 10 + (i % 4),
-                  repeat: Infinity,
-                  ease: "linear",
-                  delay: (i % 3) * 1.2,
-                }}
-              />
-            ))}
+          {/* Mobile geometric accents - positioned within safe mobile bounds */}
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={`mobile-geo-${i}`}
+              className={`absolute border border-white/40 ${
+                i % 2 === 0 ? "rounded-sm" : "rounded-full"
+              }`}
+              style={{
+                left: `${20 + ((i * 25) % 60)}%`,
+                top: `${25 + ((i * 20) % 55)}%`,
+                width: `${8 + (i % 2) * 6}px`,
+                height: `${8 + (i % 2) * 6}px`,
+                willChange: "transform, opacity",
+                transform: "translateZ(0)",
+                zIndex: 1,
+              }}
+              animate={{
+                opacity: [0.3, 0.7, 0.3],
+                scale: [0.9, 1.1, 0.9],
+                rotate: [0, 90, 180, 270],
+              }}
+              transition={{
+                duration: 10 + (i % 4),
+                repeat: Infinity,
+                ease: "linear",
+                delay: (i % 3) * 1.2,
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Floating elements - desktop only */}
+      {!isMobile && (
+        <div className="absolute inset-0 pointer-events-none floating-elements">
+          {[...Array(5)].map((_, i) => (
+            <motion.div
+              key={i}
+              className={`absolute rounded-full ${
+                i % 4 === 0
+                  ? "w-4 h-4 sm:w-5 sm:h-5 bg-white/50"
+                  : i % 4 === 1
+                  ? "w-2 h-2 sm:w-3 sm:h-3 bg-white/70"
+                  : i % 4 === 2
+                  ? "w-5 h-5 sm:w-6 sm:h-6 bg-white/30"
+                  : "w-3 h-3 sm:w-4 sm:h-4 bg-white/40"
+              }`}
+              style={{
+                left: `${(i * 17) % 100}%`,
+                top: `${(i * 29) % 100}%`,
+                willChange: "transform, opacity",
+                transform: "translateZ(0)",
+                zIndex: (i % 3) + 1,
+              }}
+              animate={{
+                y: [0, -30, 0],
+                x: [0, (i % 5) - 2, 0],
+                opacity: [0.2, 0.9, 0.2],
+                scale: [1, 1.2, 1],
+              }}
+              transition={{
+                duration: 12 + (i % 6),
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: (parseFloat(i) % 3) * 0.2,
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+
+      {/* Mobile Content Below Hero for Parallax Testing */}
+      {isMobile && (
+        <div className="relative z-10 bg-white min-h-screen p-8">
+          <div className="max-w-4xl mx-auto space-y-12">
+            <div className="text-center">
+              <h2 className="text-4xl font-black text-black mb-6">My Work</h2>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Scroll down to see the parallax effect in action. The background layers move at different speeds as you scroll.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="card-brutal p-6 border-3 border-black shadow-brutal">
+                  <h3 className="text-xl font-bold text-black mb-3">Project {i + 1}</h3>
+                  <p className="text-gray-700 mb-4">
+                    This is a sample project card to demonstrate the parallax scrolling effect on mobile devices.
+                  </p>
+                  <div className="flex space-x-3">
+                    <button className="btn-brutal btn-brutal-interactive px-4 py-2 text-sm">
+                      View Project
+                    </button>
+                    <button className="btn-brutal btn-brutal-interactive px-4 py-2 text-sm bg-white text-black">
+                      Source Code
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        )}
-
-        {/* Floating elements - desktop only */}
-        {!isMobile && (
-          <div className="absolute inset-0 pointer-events-none floating-elements">
-            {[...Array(5)].map((_, i) => (
-              <motion.div
-                key={i}
-                className={`absolute rounded-full ${
-                  i % 4 === 0
-                    ? "w-4 h-4 sm:w-5 sm:h-5 bg-white/50"
-                    : i % 4 === 1
-                    ? "w-2 h-2 sm:w-3 sm:h-3 bg-white/70"
-                    : i % 4 === 2
-                    ? "w-5 h-5 sm:w-6 sm:h-6 bg-white/30"
-                    : "w-3 h-3 sm:w-4 sm:h-4 bg-white/40"
-                }`}
-                style={{
-                  left: `${(i * 17) % 100}%`,
-                  top: `${(i * 29) % 100}%`,
-                  willChange: "transform, opacity",
-                  transform: "translateZ(0)",
-                  zIndex: (i % 3) + 1,
-                }}
-                animate={{
-                  y: [0, -30, 0],
-                  x: [0, (i % 5) - 2, 0],
-                  opacity: [0.2, 0.9, 0.2],
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{
-                  duration: 12 + (i % 6),
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: (parseFloat(i) % 3) * 0.2,
-                }}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    </MobileParallaxBackground>
+        </div>
+      )}
   );
 }

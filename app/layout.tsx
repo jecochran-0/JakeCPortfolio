@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk, Archivo_Black } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import PageTransition, {
@@ -10,6 +10,14 @@ import ScrollIndicator from "./components/ScrollIndicator";
 import PerformanceMonitor from "./components/PerformanceMonitor";
 
 const inter = Inter({ subsets: ["latin"] });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+const archivoBlack = Archivo_Black({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Jake Cochran - UX Designer & Full Stack Developer",
@@ -80,7 +88,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
+    <html
+      lang="en"
+      className={`${inter.className} ${spaceGrotesk.className} ${archivoBlack.className}`}
+    >
       <head>
         {/* Performance optimizations */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

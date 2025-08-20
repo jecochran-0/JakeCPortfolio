@@ -19,9 +19,14 @@ const ProjectCard = ({ project, index, spanTwo = false }) => {
       }}
       whileHover={{
         y: -6,
-        transition: { type: "spring", stiffness: 240, damping: 20 },
+        transition: {
+          type: "spring",
+          stiffness: 80,
+          damping: 30,
+          duration: 0.8,
+        },
       }}
-      className={`group card-brutal card-no-shift rounded-none bg-white text-black overflow-hidden transition-transform ${
+      className={`group card-brutal card-no-shift rounded-none bg-white text-black overflow-hidden ${
         spanTwo ? "lg:col-span-2" : ""
       }`}
       style={{ willChange: "transform, opacity" }}
@@ -49,16 +54,16 @@ const ProjectCard = ({ project, index, spanTwo = false }) => {
       </div>
 
       {/* Content */}
-      <div className="p-4 sm:p-5">
-        <h3 className="text-lg sm:text-xl font-black tracking-tight mb-2 line-clamp-2">
+      <div className="p-5 sm:p-6 md:p-7">
+        <h3 className="text-lg sm:text-xl font-black tracking-tight mb-3 line-clamp-2">
           {project.title}
         </h3>
-        <p className="text-gray-800 text-sm leading-relaxed mb-3 min-h-[56px] line-clamp-3">
+        <p className="text-gray-800 text-sm leading-relaxed mb-4 min-h-[56px] line-clamp-3">
           {project.description}
         </p>
 
         {/* Tags */}
-        <div className="flex flex-wrap items-center gap-1.5 mb-4">
+        <div className="flex flex-wrap items-center gap-1.5 mb-5">
           {project.tags.slice(0, 4).map((tag) => (
             <span
               key={tag}
@@ -75,19 +80,20 @@ const ProjectCard = ({ project, index, spanTwo = false }) => {
         </div>
 
         {/* Actions */}
-        <div className="grid grid-cols-2 gap-3 mt-1">
+        <div className="grid grid-cols-2 gap-3 mt-2">
           <motion.a
             href={project.links.live}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-brutal btn-card btn-no-shift btn-brutal-interactive w-full text-center min-w-[110px]"
+            className="btn-brutal btn-card btn-no-shift btn-brutal-interactive w-full text-center"
+            style={{ minWidth: "fit-content", padding: "0.75rem 1rem" }}
             whileHover={{
               y: -2,
               transition: { type: "spring", stiffness: 280, damping: 22 },
             }}
             whileTap={{ scale: 0.98 }}
           >
-            <span className="inline-flex items-center justify-center gap-2 whitespace-nowrap tracking-normal">
+            <span className="inline-flex items-center justify-center gap-2 whitespace-nowrap tracking-normal text-sm">
               <FaExternalLinkAlt size={12} />
               <span className="whitespace-nowrap">Live</span>
             </span>
@@ -97,15 +103,20 @@ const ProjectCard = ({ project, index, spanTwo = false }) => {
             href={project.links.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-brutal btn-card btn-no-shift w-full text-center min-w-[110px]"
-            style={{ background: "#ffffff", color: "#000000" }}
+            className="btn-brutal btn-card btn-no-shift w-full text-center"
+            style={{
+              background: "#ffffff",
+              color: "#000000",
+              minWidth: "fit-content",
+              padding: "0.75rem 1rem",
+            }}
             whileHover={{
               y: -2,
               transition: { type: "spring", stiffness: 280, damping: 22 },
             }}
             whileTap={{ scale: 0.98 }}
           >
-            <span className="inline-flex items-center justify-center gap-2 whitespace-nowrap tracking-normal">
+            <span className="inline-flex items-center justify-center gap-2 whitespace-nowrap tracking-normal text-sm">
               <FaGithub size={14} />
               <span className="whitespace-nowrap" style={{ color: "#000000" }}>
                 GitHub

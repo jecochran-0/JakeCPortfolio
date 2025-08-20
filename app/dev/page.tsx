@@ -80,13 +80,13 @@ export default function DevPage() {
 
         {/* Oversized ghost typography */}
         <motion.div
-          className="pointer-events-none absolute inset-0 flex items-center justify-center"
+          className="pointer-events-none absolute inset-0 flex items-center justify-center px-4"
           initial={{ opacity: 0, y: 20 }}
           animate={heroReady ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <motion.div
-            className="text-black/5 font-black tracking-[-0.1em] leading-none select-none text-[15vw] sm:text-[12vw] md:text-[10vw]"
+            className="text-black/5 font-black tracking-[-0.1em] leading-none select-none text-[25vw] xs:text-[22vw] sm:text-[18vw] md:text-[15vw] lg:text-[12vw] xl:text-[10vw] text-center"
             animate={{ x: heroReady ? [0, 8, -8, 0] : 0 }}
             transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
           >
@@ -94,13 +94,13 @@ export default function DevPage() {
           </motion.div>
         </motion.div>
 
-        <div className="relative container mx-auto px-4 py-16 sm:py-20 md:py-24 lg:py-28">
+        <div className="relative container mx-auto px-4 py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24">
           <div className="flex flex-col items-center text-center max-w-5xl mx-auto z-10">
             <motion.h1
               initial="hidden"
               animate={heroReady ? "show" : "hidden"}
               variants={itemVariants}
-              className="mb-4 leading-none tracking-tighter text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-black"
+              className="mb-3 sm:mb-4 leading-none tracking-tighter text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-black"
               style={{ willChange: "transform, opacity" }}
             >
               SOFTWARE <span className="text-orange-400">DEVELOPMENT</span>
@@ -111,7 +111,7 @@ export default function DevPage() {
               variants={containerVariants}
               initial="hidden"
               animate={heroReady ? "show" : "hidden"}
-              className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-4 mb-6"
+              className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4 mt-3 sm:mt-4 mb-4 sm:mb-6"
             >
               {["Frontend", "Clean Code", "Performance"].map((chip) => (
                 <motion.span
@@ -119,7 +119,7 @@ export default function DevPage() {
                   variants={itemVariants}
                   whileHover={{ y: -3, rotate: -1 }}
                   transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                  className="px-3 py-2 bg-orange-100 text-orange-800 border-2 border-black font-black text-xs sm:text-sm tracking-wide"
+                  className="px-2 sm:px-3 py-1.5 sm:py-2 bg-orange-100 text-orange-800 border-2 border-black font-black text-xs sm:text-sm tracking-wide"
                 >
                   {chip}
                 </motion.span>
@@ -130,7 +130,7 @@ export default function DevPage() {
               initial="hidden"
               animate={heroReady ? "show" : "hidden"}
               variants={itemVariants}
-              className="text-xl sm:text-2xl md:text-[1.35rem] text-gray-800 mb-10 leading-relaxed max-w-3xl"
+              className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-800 mb-6 sm:mb-8 md:mb-10 leading-relaxed max-w-3xl px-2 sm:px-0"
               style={{ willChange: "transform, opacity" }}
             >
               I build clean, efficient, and maintainable applications with a
@@ -147,13 +147,13 @@ export default function DevPage() {
                 damping: 14,
                 mass: 0.6,
               }}
-              className="card-brutal p-4 sm:p-5 bg-white text-black inline-flex items-center gap-3 select-none"
+              className="card-brutal p-3 sm:p-4 md:p-5 bg-white text-black inline-flex items-center gap-2 sm:gap-3 select-none"
               style={{ willChange: "transform" }}
             >
-              <span className="inline-flex items-center justify-center w-10 h-10 bg-orange-400 text-black border-4 border-black">
-                <FaCode />
+              <span className="inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-orange-400 text-black border-3 sm:border-4 border-black">
+                <FaCode className="text-sm sm:text-base" />
               </span>
-              <span className="font-black tracking-wider text-sm sm:text-base">
+              <span className="font-black tracking-wider text-xs sm:text-sm md:text-base">
                 MAGNETIC INTERFACE
               </span>
             </motion.div>
@@ -162,7 +162,7 @@ export default function DevPage() {
       </div>
 
       {/* Development Approach section with brutalist cards */}
-      <section className="py-20 bg-white text-black">
+      <section className="py-12 sm:py-16 md:py-20 bg-white text-black">
         <div className="container mx-auto px-4">
           <motion.h2
             initial={{ opacity: 0, y: isMobile ? 10 : 20 }}

@@ -57,16 +57,23 @@ export default function DynamicCursor() {
       }
     };
 
-    // Simple hover detection - check if current element is clickable
+    // Enhanced hover detection - only activate on actual clickable navigation elements
     const updateHoverState = (e) => {
       const target = e.target;
+
+      // Check for actual clickable elements that navigate somewhere
       const isClickable =
         target.closest(
-          'button, a, [role="button"], .cursor-pointer, [class*="btn"], [class*="card-brutal"]'
+          'button, a[href], [role="button"], .cursor-pointer, [class*="btn-brutal"], [class*="btn-card"], .nav-item-hover'
         ) !== null;
 
-      // Simple state update
-      setIsHovering(isClickable);
+      // Additional check: ensure it's not just a decorative element
+      const isNavigationElement =
+        target.closest("a[href], button, [role='button'], .nav-item-hover") !==
+        null;
+
+      // Only activate cursor on actual navigation elements
+      setIsHovering(isClickable && isNavigationElement);
     };
 
     const updateMousePosition = (e) => {

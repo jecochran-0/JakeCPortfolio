@@ -31,13 +31,13 @@ export default function Navbar() {
   const navbarHeight = useTransform(scrollY, [0, 100], [120, 80]);
   const navbarBlur = useTransform(scrollY, [0, 100], [0, 15]); // Reduced blur for performance
 
-  // Memoized nav items for performance
+  // Memoized nav items for performance - reordered as requested
   const navItems = useMemo(
     () => [
       { name: "home", path: "/", icon: FaHome, label: "Home" },
-      { name: "about", path: "/about", icon: FaUser, label: "About" },
-      { name: "dev", path: "/dev", icon: FaCode, label: "Development" },
       { name: "ux-ui", path: "/ux-ui", icon: FaPalette, label: "UX/UI" },
+      { name: "dev", path: "/dev", icon: FaCode, label: "Development" },
+      { name: "about", path: "/about", icon: FaUser, label: "About" },
     ],
     []
   );
@@ -106,16 +106,17 @@ export default function Navbar() {
         initial: { opacity: 0 },
         animate: { opacity: 1 },
         exit: { opacity: 0 },
-        transition: { duration: 0.2 }, // Faster
+        transition: { duration: 0.3, ease: "easeOut" }, // Smoother entry
       },
       mobileMenu: {
-        initial: { x: "100%" },
-        animate: { x: 0 },
-        exit: { x: "100%" },
+        initial: { x: "100%", opacity: 0 },
+        animate: { x: 0, opacity: 1 },
+        exit: { x: "100%", opacity: 0 },
         transition: {
           type: "spring",
-          stiffness: 400, // Higher for faster animation
-          damping: 35, // Higher for less bounce
+          stiffness: 300, // Lower for smoother animation
+          damping: 25, // Lower for more natural movement
+          duration: 0.4,
         },
       },
       iconRotation: {
@@ -170,7 +171,9 @@ export default function Navbar() {
                     className={`flex items-center space-x-2 xl:space-x-3 px-4 xl:px-6 py-2 xl:py-3 rounded-lg transition-all duration-300 font-bold nav-item-hover ${
                       isActive
                         ? "nav-active"
-                        : "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm"
+                        : pathname === "/"
+                        ? "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm"
+                        : "bg-white text-black border-2 border-black hover:bg-gray-100 shadow-brutal"
                     }`}
                     style={{
                       willChange: "transform",
@@ -249,27 +252,28 @@ export default function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               style={{
                 willChange: "opacity",
                 transform: "translateZ(0)",
               }}
             />
 
-            {/* Mobile Menu Content - Brutalist design */}
+            {/* Mobile Menu Content - Brutalist design - Full screen */}
             <motion.div
               id="mobile-navigation-menu"
-              className="absolute top-0 right-0 w-full max-w-sm h-full"
+              className="absolute top-0 right-0 w-full h-full"
               {...animationVariants.mobileMenu}
               style={{
-                willChange: "transform",
+                willChange: "transform, opacity",
                 transform: "translateZ(0)",
                 backfaceVisibility: "hidden",
                 WebkitBackfaceVisibility: "hidden",
                 contain: "layout paint",
               }}
             >
-              {/* Brutalist inner design */}
-              <div className="h-full bg-white border-l-4 border-black shadow-brutal mobile-menu-content">
+              {/* Brutalist inner design - Full width */}
+              <div className="h-full bg-white border-l-4 border-black shadow-brutal mobile-menu-content w-full">
                 {/* Mobile Menu Header */}
                 <div className="flex items-center justify-between p-4 sm:p-6 border-b-4 border-black bg-orange-400 mobile-menu-header">
                   <h2 className="text-lg sm:text-xl font-black text-black uppercase tracking-widest">
@@ -287,12 +291,12 @@ export default function Navbar() {
                     return (
                       <motion.div
                         key={item.name}
-                        initial={{ opacity: 0, x: 30 }} // Reduced movement
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, x: 50, scale: 0.95 }} // Enhanced initial state
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
                         transition={{
-                          delay: index * 0.08, // Faster stagger
-                          duration: 0.25, // Faster
-                          ease: "easeOut",
+                          delay: index * 0.1, // Slightly slower stagger for smoother effect
+                          duration: 0.4, // Longer duration for smoother animation
+                          ease: [0.25, 0.46, 0.45, 0.94], // Custom easing for natural feel
                         }}
                         style={{
                           willChange: "transform, opacity",

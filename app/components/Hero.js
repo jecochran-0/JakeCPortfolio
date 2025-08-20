@@ -294,7 +294,7 @@ export default function Hero() {
           />
         )}
 
-                {/* Mobile Scroll-Based Parallax Background */}
+        {/* Mobile Scroll-Based Parallax Background */}
         {isMobile && (
           <>
             {/* Far Background Layer - Slowest Scroll Speed */}
@@ -353,15 +353,15 @@ export default function Hero() {
               {/* Top-left geometric shape */}
               <div className="absolute top-20 left-10 w-16 h-16 border-2 border-orange-400/20 rotate-45" />
               <div className="absolute top-24 left-16 w-8 h-8 bg-orange-400/10 border border-orange-400/30" />
-              
+
               {/* Top-right geometric shape */}
               <div className="absolute top-16 right-16 w-12 h-12 border-2 border-cyan-400/20 -rotate-12" />
               <div className="absolute top-20 right-20 w-6 h-6 bg-cyan-400/10 border border-cyan-400/30" />
-              
+
               {/* Bottom-left geometric shape */}
               <div className="absolute bottom-24 left-20 w-10 h-10 border-2 border-blue-400/20 rotate-30" />
               <div className="absolute bottom-28 left-24 w-5 h-5 bg-blue-400/10 border border-blue-400/30" />
-              
+
               {/* Bottom-right geometric shape */}
               <div className="absolute bottom-20 right-12 w-14 h-14 border-2 border-green-400/20 -rotate-45" />
               <div className="absolute bottom-24 right-16 w-7 h-7 bg-green-400/10 border border-green-400/30" />
@@ -950,38 +950,5 @@ export default function Hero() {
         </div>
       )}
     </div>
-
-      {/* Mobile Content Below Hero for Parallax Testing */}
-      {isMobile && (
-        <div className="relative z-10 bg-white min-h-screen p-8">
-          <div className="max-w-4xl mx-auto space-y-12">
-            <div className="text-center">
-              <h2 className="text-4xl font-black text-black mb-6">My Work</h2>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Scroll down to see the parallax effect in action. The background layers move at different speeds as you scroll.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="card-brutal p-6 border-3 border-black shadow-brutal">
-                  <h3 className="text-xl font-bold text-black mb-3">Project {i + 1}</h3>
-                  <p className="text-gray-700 mb-4">
-                    This is a sample project card to demonstrate the parallax scrolling effect on mobile devices.
-                  </p>
-                  <div className="flex space-x-3">
-                    <button className="btn-brutal btn-brutal-interactive px-4 py-2 text-sm">
-                      View Project
-                    </button>
-                    <button className="btn-brutal btn-brutal-interactive px-4 py-2 text-sm bg-white text-black">
-                      Source Code
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
   );
 }

@@ -80,7 +80,7 @@ const ProjectCard = ({ project, index, spanTwo = false }) => {
         </div>
 
         {/* Actions */}
-        <div className="grid grid-cols-2 gap-3 mt-2">
+        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-2 sm:gap-3 mt-2">
           <motion.a
             href={project.links.live}
             target="_blank"

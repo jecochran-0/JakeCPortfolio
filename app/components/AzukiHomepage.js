@@ -1,12 +1,69 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 const AzukiHomepage = () => {
   const [hoveredPanel, setHoveredPanel] = useState(null);
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const scrollRef = useRef(null);
+  const animationFrameRef = useRef(null);
+
+  // Refs for 5th column elements
+  const contactColumnRef = useRef(null);
+  const contactTitleRef = useRef(null);
+  const contactPhotoRef = useRef(null);
+  const contactInfoRef = useRef(null);
+
+  // InView hooks for animations - trigger every time column comes into view
+  const contactColumnInView = useInView(contactColumnRef, {
+    once: false,
+    margin: "-10% 0px -10% 0px",
+  });
+  const contactTitleInView = useInView(contactTitleRef, { once: false });
+  const contactPhotoInView = useInView(contactPhotoRef, { once: false });
+  const contactInfoInView = useInView(contactInfoRef, { once: false });
+
+  // Animation variants for staggered fly-in from right
+  const flyInFromRight = {
+    hidden: {
+      opacity: 0,
+      x: 100,
+      transition: { duration: 0.3, ease: [0.25, 0.1, 0.25, 1] },
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
+    },
+  };
+
+  // Throttled scroll handler using requestAnimationFrame for smooth performance
+  const handleScroll = useCallback((e) => {
+    e.preventDefault();
+
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+
+    animationFrameRef.current = requestAnimationFrame(() => {
+      const scrollAmount = e.deltaY * 2; // Increased sensitivity for smoother feel
+      const maxScrollDistance = window.innerWidth * 0.25; // 25% of viewport width
+
+      setScrollPosition((prev) => {
+        const newPosition = prev + scrollAmount;
+        return Math.max(0, Math.min(maxScrollDistance, newPosition));
+      });
+    });
+  }, []);
+
+  // Update scroll indicator based on scroll position
+  useEffect(() => {
+    const maxScrollDistance = window.innerWidth * 0.25; // 25% of viewport width
+    setShowScrollIndicator(scrollPosition < maxScrollDistance - 50); // 50px threshold
+  }, [scrollPosition]);
 
   // Panel data with 4 columns: Forest, City, Space, Room (left to right)
   const panels = [
@@ -64,16 +121,12 @@ const AzukiHomepage = () => {
       )}
 
       <div
-        className="h-screen w-screen overflow-x-auto overflow-y-hidden"
-        onWheel={(e) => {
-          e.preventDefault();
-          e.currentTarget.scrollLeft += e.deltaY;
-        }}
-        onScroll={(e) => {
-          // Hide scroll indicator when scrolled to 5th column
-          const scrollLeft = e.target.scrollLeft;
-          const maxScroll = e.target.scrollWidth - e.target.clientWidth;
-          setShowScrollIndicator(scrollLeft < maxScroll - 50); // 50px threshold
+        ref={scrollRef}
+        className="h-screen w-screen overflow-hidden"
+        onWheel={handleScroll}
+        style={{
+          scrollbarWidth: "none", // Hide scrollbar on Firefox
+          msOverflowStyle: "none", // Hide scrollbar on IE/Edge
         }}
       >
         <div
@@ -81,6 +134,9 @@ const AzukiHomepage = () => {
           style={{
             border: "8px solid #171717",
             width: "125vw", // 5 columns × 25vw each
+            transform: `translate3d(-${scrollPosition}px, 0, 0)`, // Hardware acceleration
+            willChange: "transform", // Optimize for animations
+            transition: "transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)", // Faster, smoother easing
           }}
         >
           {panels.map((panel, index) => (
@@ -115,7 +171,7 @@ const AzukiHomepage = () => {
                       hoveredPanel === panel.id
                         ? "grayscale(0%)"
                         : panel.id === "about"
-                        ? "grayscale(70%)"
+                        ? "grayscale(55%)"
                         : "grayscale(100%)",
                     transform:
                       hoveredPanel === panel.id
@@ -150,7 +206,7 @@ const AzukiHomepage = () => {
                 <div className="flex items-center h-full pl-6">
                   <div
                     className="text-white font-black text-4xl md:text-5xl tracking-tight"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                    style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
                   >
                     {panel.title}
                   </div>
@@ -161,57 +217,80 @@ const AzukiHomepage = () => {
 
           {/* 5th Column - Contact */}
           <div
-            className="h-full relative flex flex-col justify-center items-start pl-8"
+            ref={contactColumnRef}
+            className="h-full relative flex flex-col justify-between items-start py-8 pl-8"
             style={{ backgroundColor: "#171717", width: "25vw" }}
           >
-            {/* Contact Title */}
-            <div className="mb-12">
+            {/* Contact Title - Top */}
+            <motion.div
+              ref={contactTitleRef}
+              variants={flyInFromRight}
+              initial="hidden"
+              animate={contactTitleInView ? "visible" : "hidden"}
+              transition={{ delay: 0.1 }}
+            >
               <div
                 className="text-white font-black text-4xl md:text-5xl tracking-tight"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
               >
                 CONTACT
               </div>
-            </div>
+            </motion.div>
 
-            {/* Photo */}
-            <div className="mb-12">
+            {/* Photo - Middle */}
+            <motion.div
+              ref={contactPhotoRef}
+              variants={flyInFromRight}
+              initial="hidden"
+              animate={contactPhotoInView ? "visible" : "hidden"}
+              transition={{ delay: 0.3 }}
+            >
               <img
                 src="/Headshot3.png"
                 alt="Jake Cochran"
-                className="w-80 h-80 object-cover rounded-lg"
+                className="w-96 h-96 object-cover rounded-lg"
               />
-            </div>
+            </motion.div>
 
-            {/* Email */}
-            <div className="mb-12">
-              <div
-                className="text-white text-2xl font-black"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                jakecochran@gmail.com
+            {/* Contact Info - Bottom */}
+            <motion.div
+              ref={contactInfoRef}
+              variants={flyInFromRight}
+              initial="hidden"
+              animate={contactInfoInView ? "visible" : "hidden"}
+              transition={{ delay: 0.5 }}
+              className="flex flex-col items-start gap-6"
+            >
+              {/* Email */}
+              <div>
+                <div
+                  className="text-white text-2xl font-black"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  jakecochran@gmail.com
+                </div>
               </div>
-            </div>
 
-            {/* Social Links */}
-            <div className="flex gap-8">
-              <a
-                href="https://linkedin.com/in/jakecochran"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:opacity-70 transition-opacity"
-              >
-                <FaLinkedin size={40} />
-              </a>
-              <a
-                href="https://github.com/jakecochran"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:opacity-70 transition-opacity"
-              >
-                <FaGithub size={40} />
-              </a>
-            </div>
+              {/* Social Links */}
+              <div className="flex gap-8">
+                <a
+                  href="https://linkedin.com/in/jakecochran"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:opacity-70 transition-opacity"
+                >
+                  <FaLinkedin size={40} />
+                </a>
+                <a
+                  href="https://github.com/jakecochran"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:opacity-70 transition-opacity"
+                >
+                  <FaGithub size={40} />
+                </a>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>

@@ -10,88 +10,6 @@ import {
 } from "framer-motion";
 import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope } from "react-icons/fa";
 
-// Custom Cursor Component
-const CustomCursor = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isOverVideo, setIsOverVideo] = useState(false);
-
-  useEffect(() => {
-    let animationFrameId: number;
-
-    const updateMousePosition = (e: MouseEvent) => {
-      // Use requestAnimationFrame for smooth 60fps updates
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
-
-      animationFrameId = requestAnimationFrame(() => {
-        setMousePosition({ x: e.clientX, y: e.clientY });
-      });
-    };
-
-    const handleMouseEnter = (e: MouseEvent) => {
-      if (
-        e.target &&
-        (e.target as HTMLElement).classList &&
-        (e.target as HTMLElement).classList.contains("cursor-view")
-      ) {
-        setIsOverVideo(true);
-      }
-    };
-
-    const handleMouseLeave = (e: MouseEvent) => {
-      if (
-        e.target &&
-        (e.target as HTMLElement).classList &&
-        (e.target as HTMLElement).classList.contains("cursor-view")
-      ) {
-        setIsOverVideo(false);
-      }
-    };
-
-    document.addEventListener("mousemove", updateMousePosition);
-    document.addEventListener("mouseenter", handleMouseEnter, true);
-    document.addEventListener("mouseleave", handleMouseLeave, true);
-
-    return () => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
-      document.removeEventListener("mousemove", updateMousePosition);
-      document.removeEventListener("mouseenter", handleMouseEnter, true);
-      document.removeEventListener("mouseleave", handleMouseLeave, true);
-    };
-  }, []);
-
-  return (
-    <>
-      {/* Default cursor - only show when NOT over video */}
-      {!isOverVideo && (
-        <div
-          className="fixed w-4 h-4 bg-black rounded-full pointer-events-none z-50 transition-all duration-200"
-          style={{
-            left: mousePosition.x - 8,
-            top: mousePosition.y - 8,
-          }}
-        />
-      )}
-
-      {/* Video cursor - only show when over video */}
-      {isOverVideo && (
-        <div
-          className="custom-cursor visible"
-          style={{
-            left: mousePosition.x,
-            top: mousePosition.y,
-          }}
-        >
-          VIEW
-        </div>
-      )}
-    </>
-  );
-};
-
 export default function UXUIPage() {
   const { scrollY, scrollYProgress } = useScroll();
   const [mounted, setMounted] = useState(false);
@@ -177,7 +95,6 @@ export default function UXUIPage() {
 
   return (
     <>
-      <CustomCursor />
       <main
         className="bg-white text-black relative font-sans"
         role="main"
@@ -395,7 +312,7 @@ export default function UXUIPage() {
                     /* Full-width Video Card with Overlay */
                     <motion.a
                       href={project.links.live}
-                      className="relative h-[600px] rounded-2xl overflow-hidden bg-gray-200 group block cursor-view"
+                      className="relative h-[600px] rounded-2xl overflow-hidden bg-gray-200 group block"
                       whileHover={{ scale: 1.01 }}
                       transition={{ duration: 0.3 }}
                     >

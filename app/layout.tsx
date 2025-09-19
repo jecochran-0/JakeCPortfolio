@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Archivo_Black } from "next/font/google";
+import { Inter, Space_Grotesk, Archivo_Black, Bungee } from "next/font/google";
 import "./globals.css";
-import DynamicCursor from "./components/DynamicCursor";
 import PerformanceMonitor from "./components/PerformanceMonitor";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -10,6 +9,10 @@ const spaceGrotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
 });
 const archivoBlack = Archivo_Black({
+  weight: "400",
+  subsets: ["latin"],
+});
+const bungee = Bungee({
   weight: "400",
   subsets: ["latin"],
 });
@@ -85,7 +88,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.className} ${spaceGrotesk.className} ${archivoBlack.className}`}
+      className={`${inter.className} ${spaceGrotesk.className} ${archivoBlack.className} ${bungee.className}`}
     >
       <head>
         {/* Performance optimizations */}
@@ -121,7 +124,6 @@ export default function RootLayout({
       <body className="antialiased">
         <PerformanceMonitor />
         {children}
-        <DynamicCursor />
       </body>
     </html>
   );

@@ -8,7 +8,6 @@ import {
   useTransform,
 } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { useNavigation } from "./PageTransition";
 import {
   FaHome,
   FaUser,
@@ -25,7 +24,6 @@ export default function Navbar() {
   const pathname = usePathname();
   const navbarRef = useRef(null);
   const { scrollY } = useScroll();
-  const { navigate } = useNavigation();
 
   // Optimized transform values with reduced computation
   const navbarHeight = useTransform(scrollY, [0, 100], [120, 80]);
@@ -70,21 +68,12 @@ export default function Navbar() {
   }, [handleScroll]);
 
   // Optimized navigation handler
-  const handleNavigation = useCallback(
-    (path) => {
-      console.log("Navigation triggered:", path); // Debug log
-      setIsOpen(false); // Close mobile menu
-      try {
-        navigate(path);
-        console.log("Navigation successful to:", path); // Debug log
-      } catch (error) {
-        console.error("Navigation error:", error); // Debug log
-        // Fallback to direct navigation if custom navigation fails
-        window.location.href = path;
-      }
-    },
-    [navigate]
-  );
+  const handleNavigation = useCallback((path) => {
+    console.log("Navigation triggered:", path); // Debug log
+    setIsOpen(false); // Close mobile menu
+    // Direct navigation
+    window.location.href = path;
+  }, []);
 
   // Memoized animation variants for performance
   const animationVariants = useMemo(

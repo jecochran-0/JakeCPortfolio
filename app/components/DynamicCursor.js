@@ -9,6 +9,7 @@ export default function DynamicCursor() {
   const [isMobile, setIsMobile] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [isDarkBackground, setIsDarkBackground] = useState(false);
   const cursorRef = useRef(null);
 
   useEffect(() => {
@@ -57,23 +58,43 @@ export default function DynamicCursor() {
       }
     };
 
-    // Enhanced hover detection - only activate on actual clickable navigation elements
+    // Enhanced hover detection - activate on clickable elements and homepage columns
     const updateHoverState = (e) => {
       const target = e.target;
 
       // Check for actual clickable elements that navigate somewhere
-      const isClickable =
-        target.closest(
-          'button, a[href], [role="button"], .cursor-pointer, [class*="btn-brutal"], [class*="btn-card"], .nav-item-hover'
-        ) !== null;
+      const clickableElement = target.closest(
+        'button, a[href], [role="button"], .cursor-pointer, [class*="btn-brutal"], [class*="btn-card"], .nav-item-hover, [class*="w-1/4"]'
+      );
+
+      const isClickable = clickableElement !== null;
 
       // Additional check: ensure it's not just a decorative element
       const isNavigationElement =
-        target.closest("a[href], button, [role='button'], .nav-item-hover") !==
-        null;
+        target.closest(
+          "a[href], button, [role='button'], .nav-item-hover, [class*='w-1/4']"
+        ) !== null;
 
       // Only activate cursor on actual navigation elements
       setIsHovering(isClickable && isNavigationElement);
+
+      // Check background color - look for sections with dark backgrounds
+      const section = target.closest("section");
+      if (section) {
+        const styles = window.getComputedStyle(section);
+        const bgColor = styles.backgroundColor;
+
+        // Check if background is dark (black or very dark)
+        // Also check for class-based dark backgrounds
+        const hasBlackBg =
+          section.classList.contains("bg-black") ||
+          section.classList.contains("bg-gray-800") ||
+          section.classList.contains("bg-gray-900") ||
+          bgColor === "rgb(0, 0, 0)" ||
+          bgColor === "rgba(0, 0, 0, 1)";
+
+        setIsDarkBackground(hasBlackBg);
+      }
     };
 
     const updateMousePosition = (e) => {
@@ -101,7 +122,7 @@ export default function DynamicCursor() {
         window.removeEventListener("resize", checkMobile);
       }
     };
-  }, []);
+  }, [isHovering]);
 
   // Don't render anything on mobile or during SSR
   if (isMobile || !isMounted) {
@@ -113,8 +134,8 @@ export default function DynamicCursor() {
       ref={cursorRef}
       className="fixed top-0 left-0 pointer-events-none z-[9999]"
       style={{
-        x: mousePosition.x - 8,
-        y: mousePosition.y - 8,
+        x: mousePosition.x - 12, // Center the 24px circle (w-6 h-6)
+        y: mousePosition.y - 12,
         willChange: "transform",
         transform: "translateZ(0)",
       }}
@@ -127,22 +148,21 @@ export default function DynamicCursor() {
         ease: "easeOut",
       }}
     >
-      {/* Minimal brutalist cursor */}
+      {/* Dynamic colored cursor based on background */}
       <motion.div
-        className="w-4 h-4 border-2 border-black"
+        className={`w-6 h-6 rounded-full border-2 ${
+          isDarkBackground ? "border-white" : "border-black"
+        }`}
         style={{
-          backgroundColor: isHovering ? "#ec4899" : "#fb923c", // pink-500 when hovering, orange-400 normally
-          boxShadow: isHovering
-            ? "3px 3px 0px rgba(0, 0, 0, 0.9)"
-            : "2px 2px 0px rgba(0, 0, 0, 0.9)",
+          backgroundColor: "transparent",
         }}
         animate={{
           scale: isHovering ? 1.5 : 1,
-          rotate: isHovering ? 15 : 0, // tilt 15 degrees when hovering
+          borderWidth: isHovering ? "3px" : "2px",
         }}
         transition={{
-          duration: 0.2,
-          ease: "easeOut",
+          duration: 0.3,
+          ease: [0.25, 0.46, 0.45, 0.94],
         }}
       />
     </motion.div>

@@ -1,865 +1,649 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   motion,
   useScroll,
   useTransform,
-  AnimatePresence,
-  useReducedMotion,
+  useSpring,
+  useVelocity,
 } from "framer-motion";
-import {
-  FaArrowRight,
-  FaSearch,
-  FaPalette,
-  FaCode,
-  FaLightbulb,
-  FaRocket,
-  FaUsers,
-  FaChartLine,
-  FaPlay,
-  FaPause,
-} from "react-icons/fa";
-import Link from "next/link";
-import Image from "next/image";
+import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope } from "react-icons/fa";
+
+// Custom Cursor Component
+const CustomCursor = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isOverVideo, setIsOverVideo] = useState(false);
+
+  useEffect(() => {
+    let animationFrameId: number;
+
+    const updateMousePosition = (e: MouseEvent) => {
+      // Use requestAnimationFrame for smooth 60fps updates
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+
+      animationFrameId = requestAnimationFrame(() => {
+        setMousePosition({ x: e.clientX, y: e.clientY });
+      });
+    };
+
+    const handleMouseEnter = (e: MouseEvent) => {
+      if (
+        e.target &&
+        (e.target as HTMLElement).classList &&
+        (e.target as HTMLElement).classList.contains("cursor-view")
+      ) {
+        setIsOverVideo(true);
+      }
+    };
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (
+        e.target &&
+        (e.target as HTMLElement).classList &&
+        (e.target as HTMLElement).classList.contains("cursor-view")
+      ) {
+        setIsOverVideo(false);
+      }
+    };
+
+    document.addEventListener("mousemove", updateMousePosition);
+    document.addEventListener("mouseenter", handleMouseEnter, true);
+    document.addEventListener("mouseleave", handleMouseLeave, true);
+
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      document.removeEventListener("mousemove", updateMousePosition);
+      document.removeEventListener("mouseenter", handleMouseEnter, true);
+      document.removeEventListener("mouseleave", handleMouseLeave, true);
+    };
+  }, []);
+
+  return (
+    <>
+      {/* Default cursor - only show when NOT over video */}
+      {!isOverVideo && (
+        <div
+          className="fixed w-4 h-4 bg-black rounded-full pointer-events-none z-50 transition-all duration-200"
+          style={{
+            left: mousePosition.x - 8,
+            top: mousePosition.y - 8,
+          }}
+        />
+      )}
+
+      {/* Video cursor - only show when over video */}
+      {isOverVideo && (
+        <div
+          className="custom-cursor visible"
+          style={{
+            left: mousePosition.x,
+            top: mousePosition.y,
+          }}
+        >
+          VIEW
+        </div>
+      )}
+    </>
+  );
+};
 
 export default function UXUIPage() {
-  const { scrollY } = useScroll();
-  const [activePhilosophy, setActivePhilosophy] = useState(0);
-  const [isProcessPlaying, setIsProcessPlaying] = useState(false);
+  const { scrollY, scrollYProgress } = useScroll();
   const [mounted, setMounted] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
-  const spotifyVideoRef = useRef(null);
+
+  // Professional scroll tracking with physics
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, {
+    damping: 50,
+    stiffness: 400,
+  });
+
+  // Smooth scroll progress with spring physics
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 30,
+    stiffness: 100,
+  });
+
+  // Advanced parallax and scroll effects
+  const backgroundY = useTransform(scrollY, [0, 1000], [0, -200]);
+  const heroParallax = useTransform(scrollY, [0, 800], [0, -100]);
+  const heroScale = useTransform(scrollY, [0, 300], [1, 1.05]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.8]);
+
+  // Professional section scroll effects
+  const sectionTwoY = useTransform(scrollY, [400, 1200], [30, -30]);
+
+  // Velocity-based background effect
+  const velocityBackground = useTransform(
+    smoothVelocity,
+    [-1000, 0, 1000],
+    [
+      "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.01) 0%, transparent 50%)",
+      "radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, transparent 50%)",
+      "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.01) 0%, transparent 50%)",
+    ]
+  );
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Intersection Observer for video autoplay
-  useEffect(() => {
-    const videoElement = spotifyVideoRef.current;
-    if (!videoElement) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            videoElement.play().catch(() => {
-              // Autoplay failed, which is expected for some browsers
-            });
-          } else {
-            videoElement.pause();
-          }
-        });
+  const projects = [
+    {
+      title: "Spotify Redesign",
+      description:
+        "Redesigned the Spotify mobile app to improve discoverability and user engagement through better visual hierarchy and intuitive navigation.",
+      tech: ["Figma", "Prototyping", "User Research", "Wireframing"],
+      video: "/HeroScreen.mp4",
+      links: {
+        live: "#",
+        github: "#",
       },
-      { threshold: 0.5 } // Play when 50% of video is visible
-    );
-
-    observer.observe(videoElement);
-
-    return () => {
-      observer.unobserve(videoElement);
-    };
-  }, [mounted]);
-
-  // Optimized parallax effects with mobile considerations
-  const heroY = useTransform(
-    scrollY,
-    [0, 1200],
-    [0, shouldReduceMotion ? 0 : -80]
-  );
-  const heroRotate = useTransform(
-    scrollY,
-    [0, 1200],
-    [0, shouldReduceMotion ? 0 : 0.5]
-  );
-  const philosophyY = useTransform(
-    scrollY,
-    [600, 1800],
-    [0, shouldReduceMotion ? 0 : -40]
-  );
-  const processX = useTransform(
-    scrollY,
-    [1000, 2200],
-    [0, shouldReduceMotion ? 0 : 20]
-  );
-  const projectsScale = useTransform(
-    scrollY,
-    [1400, 2800],
-    [1, shouldReduceMotion ? 1 : 0.99]
-  );
-
-  // Optimized animation variants
-  const fadeInVariant = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0 },
-  };
-
-  const slideInVariant = {
-    hidden: { opacity: 0, x: -50 },
-    visible: { opacity: 1, x: 0 },
-  };
+    },
+    {
+      title: "Grammarly Go",
+      description:
+        "Designed an AI-powered writing assistant that helps users improve their communication with intelligent suggestions and real-time feedback.",
+      tech: ["UI Design", "UX Research", "Figma", "Prototyping"],
+      isButton: true,
+      buttonText: "View Case Study",
+      links: {
+        live: "#",
+        github: "#",
+      },
+    },
+  ];
 
   if (!mounted) {
-    return null;
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <div className="w-12 h-12 border-2 border-gray-300 border-t-gray-900 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 font-light">Loading design...</p>
+        </motion.div>
+      </div>
+    );
   }
 
   return (
-    <div className="relative min-h-screen bg-white text-black overflow-hidden">
-      {/* Background removed for brutalist theme */}
-      <div className="hidden" />
-
-      {/* Hero Section - Mobile Optimized */}
-      <section className="relative min-h-screen flex items-center z-10 pt-16 sm:pt-20 pb-8 sm:pb-16">
+    <>
+      <CustomCursor />
+      <main
+        className="bg-white text-black relative font-sans"
+        role="main"
+        aria-label="UX/UI Design Portfolio - Jake Cochran"
+        style={{ minHeight: "100vh" }}
+      >
+        {/* Professional Scroll Progress Indicator */}
         <motion.div
-          style={{ y: heroY, rotate: heroRotate }}
-          className="container mx-auto px-4 sm:px-6 lg:px-8"
+          className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-gray-900 to-gray-600 origin-left z-50"
+          style={{ scaleX: smoothProgress }}
+        />
+
+        {/* Subtle Scroll Velocity Effect */}
+        <motion.div
+          className="fixed inset-0 pointer-events-none z-10"
+          style={{
+            background: velocityBackground,
+          }}
+        />
+
+        {/* Enhanced Background Elements with Parallax */}
+        <motion.div
+          className="absolute inset-0 opacity-5 pointer-events-none"
+          style={{ y: backgroundY }}
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
-            {/* Left Column - Main Title - Mobile First */}
-            <div className="lg:col-span-8 text-center lg:text-left">
-              <motion.div
-                variants={slideInVariant}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 1, ease: "easeOut" }}
-              >
-                {/* Mobile optimized typography */}
-                <h1 className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-black leading-none tracking-tight mb-6 sm:mb-8">
-                  <motion.span
-                    className="inline-block text-black"
-                    whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    UX
-                  </motion.span>
-                  <motion.span
-                    className="text-orange-400 ml-2 sm:ml-4 inline-block"
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                    whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
-                  >
-                    UI
-                  </motion.span>
-                </h1>
-
-                {/* Subtitle cards converted to brutalist chips */}
-                <div className="flex flex-wrap justify-center lg:justify-start gap-3 sm:gap-4 mb-6 sm:mb-8">
-                  {[
-                    { word: "DISCOVER", delay: 0.4 },
-                    { word: "DEFINE", delay: 0.5 },
-                    { word: "DELIVER", delay: 0.6 },
-                  ].map((item) => (
-                    <motion.div
-                      key={item.word}
-                      variants={fadeInVariant}
-                      initial="hidden"
-                      animate="visible"
-                      transition={{ duration: 0.6, delay: item.delay }}
-                      whileHover={
-                        shouldReduceMotion ? {} : { scale: 1.03, y: -3 }
-                      }
-                      className="px-4 sm:px-6 md:px-8 py-3 sm:py-4 bg-white text-black border-4 border-black shadow-brutal cursor-pointer transition-all duration-300 hover:translate-x-[-6px] hover:translate-y-[-6px]"
-                    >
-                      <span className="text-sm sm:text-base md:text-lg font-black tracking-wide">
-                        {item.word}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Right Column - Mobile Optimized Layout */}
-            <div className="lg:col-span-4 space-y-6 sm:space-y-8 w-full max-w-md mx-auto lg:max-w-none">
-              {/* Description Card - Brutalist */}
-              <motion.div
-                variants={fadeInVariant}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 0.8, delay: 0.7 }}
-                whileHover={shouldReduceMotion ? {} : { scale: 1.01, y: -3 }}
-                className="card-brutal p-6 sm:p-8"
-              >
-                <p className="text-base sm:text-lg md:text-xl text-gray-800 leading-relaxed tracking-wide font-medium">
-                  I blend aesthetic sensibility with technical expertise to
-                  create interfaces that are both beautiful and functional.
-                </p>
-              </motion.div>
-
-              {/* Stats cards - Brutalist */}
-              <div className="grid grid-cols-2 gap-4 sm:gap-6">
-                <motion.div
-                  variants={fadeInVariant}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ duration: 0.6, delay: 0.8 }}
-                  whileHover={shouldReduceMotion ? {} : { scale: 1.03, y: -3 }}
-                  className="card-brutal p-4 sm:p-6 text-center"
-                >
-                  <div className="text-2xl sm:text-3xl font-black text-black mb-1 sm:mb-2">
-                    2
-                  </div>
-                  <div className="text-gray-700 font-bold tracking-wide text-xs sm:text-sm leading-tight">
-                    Case Studies
-                  </div>
-                </motion.div>
-                <motion.div
-                  variants={fadeInVariant}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ duration: 0.6, delay: 0.9 }}
-                  whileHover={shouldReduceMotion ? {} : { scale: 1.03, y: -3 }}
-                  className="card-brutal p-4 sm:p-6 text-center"
-                >
-                  <div className="text-2xl sm:text-3xl font-black text-orange-400 mb-1 sm:mb-2">
-                    2+
-                  </div>
-                  <div className="text-gray-700 font-bold tracking-wide text-xs sm:text-sm leading-tight">
-                    Years Experience
-                  </div>
-                </motion.div>
-              </div>
-
-              {/* CTA Button - Brutalist */}
-              <motion.div
-                variants={fadeInVariant}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 0.6, delay: 1.0 }}
-              >
-                <Link href="#philosophy">
-                  <motion.button
-                    whileHover={
-                      shouldReduceMotion
-                        ? {}
-                        : {
-                            scale: 1.02,
-                            y: -3,
-                            transition: {
-                              type: "spring",
-                              stiffness: 260,
-                              damping: 22,
-                            },
-                          }
-                    }
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full btn-brutal btn-card btn-no-shift bg-orange-400 text-black"
-                  >
-                    <span className="tracking-wide font-bold">
-                      Explore Journey
-                    </span>
-                    <motion.div
-                      className="inline-block ml-3 sm:ml-4"
-                      animate={shouldReduceMotion ? {} : { x: [0, 5, 0] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      <FaArrowRight className="text-sm sm:text-base" />
-                    </motion.div>
-                  </motion.button>
-                </Link>
-              </motion.div>
-            </div>
+          {/* Subtle geometric accents */}
+          <div className="absolute top-20 right-20 text-4xl font-thin opacity-20">
+            ×
+          </div>
+          <div className="absolute bottom-40 left-20 text-6xl font-thin opacity-10">
+            ×
+          </div>
+          <div className="absolute top-1/2 right-10 text-3xl font-thin opacity-15">
+            ×
           </div>
         </motion.div>
-      </section>
 
-      {/* Philosophy Section - Mobile Optimized */}
-      <section
-        id="philosophy"
-        className="relative py-16 sm:py-24 md:py-32 lg:py-48 z-10"
-      >
-        <motion.div
-          style={{ y: philosophyY }}
-          className="container mx-auto px-4 sm:px-6 lg:px-8"
+        {/* Hero Section - Unique Top Section */}
+        <motion.section
+          className="relative min-h-screen flex items-center px-4 pt-20 overflow-hidden"
+          style={{
+            y: heroParallax,
+            scale: heroScale,
+            opacity: heroOpacity,
+          }}
         >
+          {/* Top Right Navigation */}
           <motion.div
-            variants={fadeInVariant}
-            initial="hidden"
-            whileInView="visible"
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true, margin: "-50px" }}
-            className="text-center mb-12 sm:mb-16"
+            className="absolute top-8 right-8 z-20 flex items-center space-x-6"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black text-black mb-6 sm:mb-8 tracking-tight">
-              Design Philosophy
-            </h2>
+            <motion.a
+              href="/"
+              className="text-black hover:text-gray-600 transition-colors duration-300 font-light text-sm tracking-wider nav-item-hover"
+              whileHover={{ scale: 1.05 }}
+              aria-label="Go to homepage"
+            >
+              HOME
+            </motion.a>
+            <motion.a
+              href="/about"
+              className="text-black hover:text-gray-600 transition-colors duration-300 font-light text-sm tracking-wider nav-item-hover"
+              whileHover={{ scale: 1.05 }}
+              aria-label="Go to about page"
+            >
+              ABOUT
+            </motion.a>
+            <motion.a
+              href="/dev"
+              className="text-black hover:text-gray-600 transition-colors duration-300 font-light text-sm tracking-wider nav-item-hover"
+              whileHover={{ scale: 1.05 }}
+              aria-label="Go to development page"
+            >
+              DEV
+            </motion.a>
+            <motion.a
+              href="/contact"
+              className="text-black hover:text-gray-600 transition-colors duration-300 font-light text-sm tracking-wider nav-item-hover"
+              whileHover={{ scale: 1.05 }}
+              aria-label="Go to contact page"
+            >
+              CONTACT
+            </motion.a>
           </motion.div>
 
-          <div className="max-w-6xl mx-auto">
-            {/* Philosophy tabs - Brutalist */}
-            <div className="grid grid-cols-2 lg:flex lg:flex-wrap lg:justify-center gap-3 sm:gap-4 md:gap-6 mb-12 sm:mb-16">
-              {[
-                { id: 0, icon: FaUsers, title: "User-Centered" },
-                { id: 1, icon: FaPalette, title: "Aesthetic" },
-                { id: 2, icon: FaCode, title: "Technical" },
-                { id: 3, icon: FaLightbulb, title: "Innovation" },
-              ].map((item) => {
-                const Icon = item.icon;
-                const isActive = activePhilosophy === item.id;
-                return (
-                  <motion.button
-                    key={item.title}
-                    onClick={() => setActivePhilosophy(item.id)}
-                    whileHover={
-                      shouldReduceMotion ? {} : { scale: 1.03, y: -3 }
-                    }
-                    whileTap={{ scale: 0.98 }}
-                    className={`p-4 sm:p-6 md:p-8 cursor-pointer transition-all duration-200 border-4 border-black shadow-brutal ${
-                      isActive
-                        ? "bg-orange-400 text-black"
-                        : "bg-white text-black"
-                    }`}
-                  >
-                    <Icon className="text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-4" />
-                    <div className="font-black tracking-wide text-xs sm:text-sm md:text-base lg:text-lg">
-                      {item.title}
+          {/* Enhanced Hero Layout */}
+          <div className="max-w-7xl mx-auto h-full flex items-center">
+            <div className="w-full">
+              {/* Typography and Content */}
+              <motion.div
+                className="space-y-12 max-w-4xl mx-auto text-center"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.8 }}
+                >
+                  <div className="text-[8px] text-gray-500 tracking-[0.5em] uppercase mb-6 font-medium">
+                    UX/UI DESIGN PORTFOLIO
+                  </div>
+                  <h1 className="text-[4rem] md:text-[6rem] lg:text-[8rem] font-black text-black leading-[0.75] tracking-tighter mb-8">
+                    DESIGN
+                  </h1>
+                  <h1 className="text-[1.8rem] md:text-[2.5rem] lg:text-[3rem] font-light text-gray-700 leading-[0.9] tracking-[0.2em] uppercase">
+                    CREATOR
+                  </h1>
+                </motion.div>
+
+                <motion.div
+                  className="space-y-12"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.6 }}
+                >
+                  <div className="max-w-3xl mx-auto">
+                    <p className="text-lg text-gray-800 leading-relaxed font-light tracking-wide">
+                      Crafting intuitive user experiences through thoughtful
+                      design. Every interface tells a story, every interaction
+                      has purpose.
+                    </p>
+                  </div>
+
+                  {/* Design Skills Preview */}
+                  <div className="space-y-4">
+                    <div className="text-sm text-gray-500 tracking-[0.3em] uppercase font-medium">
+                      DESIGN SKILLS
                     </div>
-                  </motion.button>
-                );
-              })}
-            </div>
-
-            {/* Philosophy Content - Converted to brutalist card */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activePhilosophy}
-                variants={fadeInVariant}
-                initial="hidden"
-                animate="visible"
-                exit="hidden"
-                transition={{ duration: 0.3 }}
-                className="card-brutal p-8 sm:p-12 md:p-16"
-              >
-                <div className="text-center">
-                  {activePhilosophy === 0 && (
-                    <>
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black flex items-center justify-center text-black mx-auto mb-6 sm:mb-8">
-                        <FaUsers className="text-2xl sm:text-3xl" />
-                      </div>
-                      <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-black mb-6 sm:mb-8 tracking-tight">
-                        User-Centered Design
-                      </h3>
-                      <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed tracking-wide max-w-3xl mx-auto font-medium">
-                        Every design decision is made with the end user in mind.
-                        I conduct thorough user research, create detailed
-                        personas, and validate designs through testing to ensure
-                        intuitive and meaningful experiences that solve real
-                        problems.
-                      </p>
-                    </>
-                  )}
-                  {activePhilosophy === 1 && (
-                    <>
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black flex items-center justify-center text-black mx-auto mb-6 sm:mb-8">
-                        <FaPalette className="text-2xl sm:text-3xl" />
-                      </div>
-                      <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-black mb-6 sm:mb-8 tracking-tight">
-                        Aesthetic Excellence
-                      </h3>
-                      <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed tracking-wide max-w-3xl mx-auto font-medium">
-                        Visual clarity, hierarchy, and rhythm guide my design
-                        decisions. I favor bold typography, strong grids, and
-                        purposeful color to create memorable interfaces.
-                      </p>
-                    </>
-                  )}
-                  {activePhilosophy === 2 && (
-                    <>
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black flex items-center justify-center text-black mx-auto mb-6 sm:mb-8">
-                        <FaCode className="text-2xl sm:text-3xl" />
-                      </div>
-                      <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-black mb-6 sm:mb-8 tracking-tight">
-                        Technical Integrity
-                      </h3>
-                      <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed tracking-wide max-w-3xl mx-auto font-medium">
-                        I bridge design and engineering. My solutions are
-                        feasible, scalable, and considerate of performance and
-                        accessibility from day one.
-                      </p>
-                    </>
-                  )}
-                  {activePhilosophy === 3 && (
-                    <>
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black flex items-center justify-center text-black mx-auto mb-6 sm:mb-8">
-                        <FaLightbulb className="text-2xl sm:text-3xl" />
-                      </div>
-                      <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-black mb-6 sm:mb-8 tracking-tight">
-                        Innovation Mindset
-                      </h3>
-                      <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed tracking-wide max-w-3xl mx-auto font-medium">
-                        I prototype quickly and iterate on feedback. The focus
-                        is on delivering measurable impact, not novelty for its
-                        own sake.
-                      </p>
-                    </>
-                  )}
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Process Section - Mobile Optimized */}
-      <section
-        id="process"
-        className="relative py-16 sm:py-24 md:py-32 lg:py-48 z-10 bg-white"
-      >
-        <motion.div
-          style={{ x: processX }}
-          className="container mx-auto px-4 sm:px-6 lg:px-8"
-        >
-          <motion.div
-            variants={fadeInVariant}
-            initial="hidden"
-            whileInView="visible"
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true, margin: "-50px" }}
-            className="text-center mb-16 sm:mb-20 md:mb-24"
-          >
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mb-6 sm:mb-8">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black text-black tracking-wide">
-                My Process
-              </h2>
-              <motion.button
-                onClick={() => setIsProcessPlaying(!isProcessPlaying)}
-                whileHover={
-                  shouldReduceMotion
-                    ? {}
-                    : {
-                        scale: 1.04,
-                        transition: {
-                          type: "spring",
-                          stiffness: 240,
-                          damping: 20,
-                        },
-                      }
-                }
-                whileTap={{ scale: 0.95 }}
-                className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black rounded-none flex items-center justify-center text-black text-lg sm:text-xl md:text-2xl shadow-brutal shrink-0"
-              >
-                {isProcessPlaying ? <FaPause /> : <FaPlay className="ml-1" />}
-              </motion.button>
-            </div>
-          </motion.div>
-
-          {/* Process Steps - Mobile Optimized */}
-          <div className="relative space-y-16 sm:space-y-20 md:space-y-24">
-            {[
-              {
-                step: "01",
-                title: "Research & Discovery",
-                description:
-                  "I begin by asking the right questions. You cannot identify the problem if you are not asking the right questions. This includes user interviews and competitive analysis.",
-                image: "/UserResearch.png",
-                icon: FaSearch,
-                gradient: "",
-                bg: "",
-              },
-              {
-                step: "02",
-                title: "Design & Prototyping",
-                description:
-                  "From wireframes to high-fidelity mockups, I create solutions that solve real problems. Interactive prototypes help validate ideas before implementation.",
-                image: "/Prototyping.png",
-                icon: FaPalette,
-                gradient: "",
-                bg: "",
-              },
-              {
-                step: "03",
-                title: "Testing & Implementation",
-                description:
-                  "User testing validates designs, while close collaboration with developers ensures successful implementation. I remain involved through launch and beyond.",
-                image: "/Testing.png",
-                icon: FaChartLine,
-                gradient: "",
-                bg: "",
-              },
-            ].map((item, index) => {
-              const Icon = item.icon;
-
-              return (
-                <motion.div
-                  key={item.step}
-                  variants={slideInVariant}
-                  initial="hidden"
-                  whileInView="visible"
-                  transition={{ duration: 0.8, delay: index * 0.1 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  className={`${
-                    index === 1
-                      ? "md:ml-16 lg:ml-32"
-                      : index === 2
-                      ? "md:ml-8 lg:ml-16"
-                      : "ml-0"
-                  }`}
-                >
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
-                    {/* Content Card */}
-                    <motion.div
-                      whileHover={
-                        shouldReduceMotion
-                          ? {}
-                          : {
-                              scale: 1.01,
-                              y: -4,
-                              transition: {
-                                type: "spring",
-                                stiffness: 260,
-                                damping: 22,
-                              },
-                            }
-                      }
-                      transition={{ duration: 0.2 }}
-                      className={index === 1 ? "lg:order-2" : ""}
-                    >
-                      <div className="card-brutal p-8 sm:p-10 md:p-12 relative overflow-hidden">
-                        <motion.div
-                          className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-orange-400 border-4 border-black rounded-none flex items-center justify-center text-black font-black text-lg sm:text-xl md:text-2xl shadow-brutal"
-                          animate={
-                            isProcessPlaying && !shouldReduceMotion
-                              ? {
-                                  rotate: [0, 360],
-                                  scale: [1, 1.05, 1],
-                                }
-                              : {}
-                          }
+                    <div className="flex flex-wrap gap-3 justify-center">
+                      {[
+                        "Figma",
+                        "Prototyping",
+                        "User Research",
+                        "Wireframing",
+                        "Visual Design",
+                        "Accessibility",
+                      ].map((skill, index) => (
+                        <motion.span
+                          key={skill}
+                          className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full font-medium"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
                           transition={{
-                            duration: 4,
-                            repeat: isProcessPlaying ? Infinity : 0,
-                            delay: index * 0.5,
+                            delay: 0.8 + index * 0.1,
+                            duration: 0.4,
+                          }}
+                          whileHover={{
+                            scale: 1.05,
+                            backgroundColor: "#f3f4f6",
                           }}
                         >
-                          {item.step}
-                        </motion.div>
-                        <div className="mt-6 sm:mt-8">
-                          <div className="flex flex-col sm:flex-row sm:items-center mb-6 sm:mb-8">
-                            <motion.div
-                              className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-400 border-4 border-black flex items-center justify-center text-black mb-4 sm:mb-0 sm:mr-6"
-                              whileHover={
-                                shouldReduceMotion ? {} : { scale: 1.1 }
-                              }
-                              transition={{ duration: 0.2 }}
-                            >
-                              <Icon />
-                            </motion.div>
-                            <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-wide">
-                              {item.title}
-                            </h3>
-                          </div>
-                          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 leading-relaxed tracking-wide font-medium">
-                            {item.description}
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    {/* Image */}
-                    <motion.div
-                      className={index === 1 ? "lg:order-1" : ""}
-                      whileHover={
-                        shouldReduceMotion
-                          ? {}
-                          : {
-                              scale: 1.01,
-                              transition: {
-                                type: "spring",
-                                stiffness: 250,
-                                damping: 20,
-                              },
-                            }
-                      }
-                      transition={{ duration: 0.3 }}
-                    >
-                      <div className="relative">
-                        <div className="card-brutal p-0 overflow-hidden">
-                          <div className="relative overflow-hidden">
-                            <Image
-                              src={item.image}
-                              alt={item.title}
-                              width={600}
-                              height={400}
-                              className="w-full h-auto transition-transform duration-500 hover:scale-105"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
+                          {skill}
+                        </motion.span>
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
-              );
-            })}
+              </motion.div>
+            </div>
           </div>
-        </motion.div>
-      </section>
+        </motion.section>
 
-      {/* Projects Section - Mobile Optimized */}
-      <section className="relative py-16 sm:py-24 md:py-32 lg:py-48 z-10">
-        <motion.div
-          style={{ scale: projectsScale }}
-          className="container mx-auto px-4 sm:px-6 lg:px-8"
+        {/* Projects Section - Single Column Layout */}
+        <motion.section
+          className="py-24 px-8 bg-white rounded-t-[60px] relative z-20"
+          style={{ y: sectionTwoY }}
         >
-          <motion.div
-            variants={fadeInVariant}
-            initial="hidden"
-            whileInView="visible"
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true, margin: "-50px" }}
-            className="text-center mb-16 sm:mb-20 md:mb-24"
-          >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black text-black mb-6 sm:mb-8 tracking-wide">
-              Featured Work
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 gap-12 md:gap-16 max-w-7xl mx-auto">
-            {/* GrammarlyGO - Brutalist */}
+          <div className="max-w-7xl mx-auto">
+            {/* Section Header */}
             <motion.div
-              variants={slideInVariant}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true, margin: "-50px" }}
-              whileHover={
-                shouldReduceMotion
-                  ? {}
-                  : {
-                      scale: 1.01,
-                      y: -6,
-                      transition: {
-                        type: "spring",
-                        stiffness: 240,
-                        damping: 20,
-                      },
-                    }
-              }
-              className="group"
+              className="mb-20"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
             >
-              <div className="relative">
-                <div className="card-brutal p-6 sm:p-8 md:p-10 h-full">
-                  <div className="h-full flex flex-col">
-                    <div className="flex flex-col sm:flex-row sm:items-center mb-6 sm:mb-8">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black flex items-center justify-center text-black mb-4 sm:mb-0 sm:mr-6">
-                        <FaLightbulb className="text-2xl sm:text-3xl" />
-                      </div>
-                      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-wide">
-                        GrammarlyGO
-                      </h3>
-                    </div>
-
-                    <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed tracking-wide mb-6 sm:mb-8 flex-grow font-medium">
-                      Turning one-time AI users into loyal daily writers through
-                      strategic UX improvements and user-centered design.
-                    </p>
-
-                    {/* Preview block intentionally removed per request */}
-
-                    <Link href="/ux-ui/grammarlygo">
-                      <motion.button
-                        whileHover={
-                          shouldReduceMotion
-                            ? {}
-                            : {
-                                scale: 1.02,
-                                y: -2,
-                                transition: {
-                                  type: "spring",
-                                  stiffness: 260,
-                                  damping: 22,
-                                },
-                              }
-                        }
-                        whileTap={{ scale: 0.98 }}
-                        className="w-full btn-brutal btn-card btn-no-shift bg-orange-400 text-black"
-                      >
-                        <span className="tracking-wide font-bold">
-                          View Case Study
-                        </span>
-                        <FaArrowRight className="ml-2 sm:ml-3 inline" />
-                      </motion.button>
-                    </Link>
-                  </div>
+              <div className="max-w-4xl mx-auto text-center">
+                <div className="text-[11px] text-gray-500 tracking-[0.3em] uppercase mb-4 font-medium">
+                  UX/UI DESIGN PORTFOLIO
                 </div>
+                <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6 leading-tight">
+                  Design projects with real impact
+                </h2>
+                <p className="text-lg text-gray-600 leading-relaxed font-light max-w-3xl mx-auto">
+                  Each project represents a unique design challenge solved with
+                  user-centered thinking and modern design principles.
+                </p>
               </div>
             </motion.div>
 
-            {/* Spotify - Brutalist */}
-            <motion.div
-              variants={slideInVariant}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 0.8, delay: 0.1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              whileHover={
-                shouldReduceMotion
-                  ? {}
-                  : {
-                      scale: 1.01,
-                      y: -6,
-                      transition: {
-                        type: "spring",
-                        stiffness: 240,
-                        damping: 20,
-                      },
-                    }
-              }
-              className="group"
-            >
-              <div className="relative">
-                <div className="card-brutal p-6 sm:p-8 md:p-10 h-full">
-                  <div className="h-full flex flex-col">
-                    <div className="flex flex-col sm:flex-row sm:items-center mb-6 sm:mb-8">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-400 border-4 border-black flex items-center justify-center text-black mb-4 sm:mb-0 sm:mr-6">
-                        <FaRocket className="text-2xl sm:text-3xl" />
-                      </div>
-                      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-black tracking-wide">
-                        Spotify Redesign
-                      </h3>
-                    </div>
-
-                    <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed tracking-wide mb-6 sm:mb-8 flex-grow font-medium">
-                      Millions of clicks saved a day through intuitive
-                      navigation improvements and enhanced user experience.
-                    </p>
-
-                    <div className="mb-6 sm:mb-8 card-brutal p-4 sm:p-6 relative overflow-hidden h-48 sm:h-64 md:h-80 lg:h-96">
-                      <video
-                        ref={spotifyVideoRef}
-                        className="w-full h-full object-cover rounded-sm"
-                        controls
-                        poster="/Spotify_Project/Desktop-Home-Revamped.jpg"
-                        preload="metadata"
-                        muted
-                      >
-                        <source src="/HeroScreen.mp4" type="video/mp4" />
-                        Your browser does not support the video tag.
-                      </video>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                      <Link href="/ux-ui/spotify" className="flex-1">
-                        <motion.button
-                          whileHover={
-                            shouldReduceMotion
-                              ? {}
-                              : {
-                                  scale: 1.02,
-                                  y: -2,
-                                  transition: {
-                                    type: "spring",
-                                    stiffness: 260,
-                                    damping: 22,
-                                  },
-                                }
-                          }
-                          whileTap={{ scale: 0.98 }}
-                          className="w-full btn-brutal btn-card btn-no-shift bg-orange-400 text-black"
-                        >
-                          <span className="tracking-wide font-bold">
-                            View Project
-                          </span>
-                        </motion.button>
-                      </Link>
-
-                      <Link
-                        href="https://www.figma.com/design/HROuWDR5pEsbKCKsZqNSyW/Personal?node-id=112-2&t=SqzgTnrOjo0heMmc-1"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1"
-                      >
-                        <motion.button
-                          whileHover={
-                            shouldReduceMotion
-                              ? {}
-                              : {
-                                  scale: 1.02,
-                                  y: -2,
-                                  transition: {
-                                    type: "spring",
-                                    stiffness: 260,
-                                    damping: 22,
-                                  },
-                                }
-                          }
-                          whileTap={{ scale: 0.98 }}
-                          className="w-full btn-brutal btn-card btn-no-shift bg-white text-black"
-                        >
-                          <span className="tracking-wide font-bold">Figma</span>
-                        </motion.button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* CTA Section - Brutalist */}
-      <section className="relative py-16 sm:py-24 md:py-32 lg:py-48 z-10 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            variants={fadeInVariant}
-            initial="hidden"
-            whileInView="visible"
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="text-center max-w-6xl mx-auto"
-          >
-            <motion.div
-              whileHover={shouldReduceMotion ? {} : { scale: 1.01, y: -5 }}
-              transition={{ duration: 0.3 }}
-              className="card-brutal p-8 sm:p-12 md:p-16 lg:p-20"
-            >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-black text-black mb-8 sm:mb-10 md:mb-12 leading-tight tracking-tight">
-                Ready to See My
-                <br />
-                <span className="text-orange-400">Development Skills?</span>
-              </h2>
-
-              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-800 mb-12 sm:mb-14 md:mb-16 leading-relaxed max-w-4xl mx-auto tracking-wide font-medium">
-                Discover how I bridge design and code to create exceptional
-                digital experiences from concept to deployment.
-              </p>
-
-              <Link href="/dev">
-                <motion.button
-                  whileHover={
-                    shouldReduceMotion
-                      ? {}
-                      : {
-                          scale: 1.02,
-                          y: -3,
-                          transition: {
-                            type: "spring",
-                            stiffness: 260,
-                            damping: 22,
-                          },
-                        }
+            {/* Projects Layout */}
+            <div className="space-y-24">
+              {projects.map((project, index) => (
+                <motion.div
+                  key={project.title}
+                  className={
+                    project.video
+                      ? "w-full"
+                      : "grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
                   }
-                  whileTap={{ scale: 0.98 }}
-                  className="btn-brutal btn-brutal-interactive btn-no-shift bg-orange-400 text-black"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{
+                    delay: index * 0.2,
+                    duration: 0.6,
+                    ease: "easeOut",
+                  }}
+                  viewport={{ once: true, margin: "-100px" }}
                 >
-                  <span className="tracking-wide font-black">
-                    View Development Work
-                  </span>
-                  <motion.div
-                    className="inline-block ml-4 sm:ml-6"
-                    animate={shouldReduceMotion ? {} : { x: [0, 5, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <FaArrowRight className="text-sm sm:text-base md:text-lg lg:text-xl" />
-                  </motion.div>
-                </motion.button>
-              </Link>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-    </div>
+                  {project.video ? (
+                    /* Full-width Video Card with Overlay */
+                    <motion.a
+                      href={project.links.live}
+                      className="relative h-[600px] rounded-2xl overflow-hidden bg-gray-200 group block cursor-view"
+                      whileHover={{ scale: 1.01 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {/* Video Background */}
+                      <video
+                        src={project.video}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                        style={{
+                          filter: "brightness(0.8) contrast(1.1)",
+                        }}
+                        onTimeUpdate={(e) => {
+                          const video = e.target;
+                          const duration = video.duration;
+                          const currentTime = video.currentTime;
+
+                          // Add fade transition near the end of the video
+                          if (duration - currentTime < 0.5) {
+                            video.style.opacity = "0.3";
+                          } else if (currentTime < 0.5) {
+                            video.style.opacity = "1";
+                          }
+                        }}
+                      />
+
+                      {/* Dark Overlay */}
+                      <div className="absolute inset-0 bg-black/40"></div>
+
+                      {/* Content Overlay */}
+                      <div className="absolute inset-0 flex items-center justify-center p-12">
+                        <div className="text-center text-white max-w-4xl">
+                          {/* Project Number */}
+                          <div className="flex items-center justify-center space-x-4 mb-8">
+                            <div className="text-sm text-white/80 font-medium">
+                              {String(index + 1).padStart(2, "0")}
+                            </div>
+                            <div className="h-px bg-white/30 flex-1 max-w-20"></div>
+                          </div>
+
+                          {/* Project Title */}
+                          <h3 className="text-4xl md:text-5xl font-medium text-white mb-6">
+                            {project.title}
+                          </h3>
+
+                          {/* Project Description */}
+                          <p className="text-xl text-white/90 leading-relaxed mb-8 max-w-3xl mx-auto">
+                            {project.description}
+                          </p>
+
+                          {/* Tech Stack */}
+                          <div className="flex flex-wrap gap-3 justify-center mb-10">
+                            {project.tech.map((tech) => (
+                              <span
+                                key={tech}
+                                className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white text-sm rounded-full font-medium border border-white/30"
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </motion.a>
+                  ) : (
+                    /* Regular Two-Column Layout for Other Projects */
+                    <>
+                      {/* Project Content */}
+                      <div className="space-y-6">
+                        <div className="flex items-center space-x-4">
+                          <div className="text-sm text-gray-500 font-medium">
+                            {String(index + 1).padStart(2, "0")}
+                          </div>
+                          <div className="h-px bg-gray-300 flex-1"></div>
+                        </div>
+
+                        <div>
+                          <h3 className="text-3xl font-medium text-gray-900 mb-4">
+                            {project.title}
+                          </h3>
+                          <p className="text-lg text-gray-600 leading-relaxed mb-6">
+                            {project.description}
+                          </p>
+
+                          <div className="flex flex-wrap gap-2 mb-8">
+                            {project.tech.map((tech) => (
+                              <span
+                                key={tech}
+                                className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-full font-medium"
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+
+                          <div className="flex space-x-4">
+                            <motion.a
+                              href={project.links.live}
+                              className="bg-black text-white px-8 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors duration-300"
+                              whileHover={{ scale: 1.05, y: -2 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              View Live
+                            </motion.a>
+                            <motion.a
+                              href={project.links.github}
+                              className="border-2 border-gray-300 text-gray-700 px-8 py-3 rounded-full font-medium hover:border-gray-400 transition-colors duration-300"
+                              whileHover={{ scale: 1.05, y: -2 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              GitHub
+                            </motion.a>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Project Media */}
+                      <motion.div
+                        className="relative h-[400px] rounded-2xl overflow-hidden bg-gray-200 group"
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {project.isButton ? (
+                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                            <motion.button
+                              className="px-12 py-6 bg-black text-white text-xl font-medium rounded-full shadow-lg"
+                              whileHover={{
+                                scale: 1.1,
+                                y: -5,
+                                boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
+                              }}
+                              whileTap={{ scale: 0.95 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 400,
+                                damping: 10,
+                              }}
+                            >
+                              {project.buttonText}
+                            </motion.button>
+                          </div>
+                        ) : (
+                          <img
+                            src={project.image}
+                            alt={project.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        )}
+                      </motion.div>
+                    </>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Footer */}
+        <motion.footer
+          className="bg-black text-white py-20 px-8"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center space-y-8">
+              {/* Brand */}
+              <div className="space-y-4">
+                <h3 className="text-3xl font-bold">Jake Cochran</h3>
+                <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                  UX/UI Designer crafting exceptional digital experiences with
+                  modern design principles.
+                </p>
+              </div>
+
+              {/* Navigation */}
+              <div className="flex flex-wrap justify-center gap-8">
+                <a
+                  href="/"
+                  className="text-gray-400 hover:text-white transition-colors duration-300 text-sm tracking-wider uppercase"
+                >
+                  Home
+                </a>
+                <a
+                  href="/about"
+                  className="text-gray-400 hover:text-white transition-colors duration-300 text-sm tracking-wider uppercase"
+                >
+                  About
+                </a>
+                <a
+                  href="/dev"
+                  className="text-gray-400 hover:text-white transition-colors duration-300 text-sm tracking-wider uppercase"
+                >
+                  Development
+                </a>
+                <a
+                  href="/contact"
+                  className="text-gray-400 hover:text-white transition-colors duration-300 text-sm tracking-wider uppercase"
+                >
+                  Contact
+                </a>
+              </div>
+
+              {/* Social Links */}
+              <div className="flex justify-center space-x-6">
+                <a
+                  href="https://github.com"
+                  className="text-gray-400 hover:text-white transition-colors duration-300"
+                  aria-label="GitHub"
+                >
+                  <FaGithub className="text-2xl" />
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  className="text-gray-400 hover:text-white transition-colors duration-300"
+                  aria-label="LinkedIn"
+                >
+                  <FaLinkedin className="text-2xl" />
+                </a>
+                <a
+                  href="https://twitter.com"
+                  className="text-gray-400 hover:text-white transition-colors duration-300"
+                  aria-label="Twitter"
+                >
+                  <FaTwitter className="text-2xl" />
+                </a>
+                <a
+                  href="mailto:hello@jakecochran.com"
+                  className="text-gray-400 hover:text-white transition-colors duration-300"
+                  aria-label="Email"
+                >
+                  <FaEnvelope className="text-2xl" />
+                </a>
+              </div>
+
+              {/* Copyright */}
+              <div className="pt-8 border-t border-gray-800">
+                <p className="text-gray-500 text-sm">
+                  © 2024 Jake Cochran. All rights reserved.
+                </p>
+              </div>
+            </div>
+          </div>
+        </motion.footer>
+      </main>
+    </>
   );
 }

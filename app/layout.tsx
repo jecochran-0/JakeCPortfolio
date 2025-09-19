@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, Archivo_Black } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import PageTransition, {
-  NavigationProvider,
-} from "./components/PageTransition";
 import DynamicCursor from "./components/DynamicCursor";
-import ScrollIndicator from "./components/ScrollIndicator";
 import PerformanceMonitor from "./components/PerformanceMonitor";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -124,13 +119,9 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
       <body className="antialiased">
-        <NavigationProvider>
-          <PerformanceMonitor />
-          <Navbar />
-          <PageTransition>{children}</PageTransition>
-          <DynamicCursor />
-          <ScrollIndicator />
-        </NavigationProvider>
+        <PerformanceMonitor />
+        {children}
+        <DynamicCursor />
       </body>
     </html>
   );

@@ -3,208 +3,261 @@
 import { motion } from "framer-motion";
 import { FaReact, FaNodeJs, FaFigma, FaMobile, FaGitAlt } from "react-icons/fa";
 import { SiTailwindcss } from "react-icons/si";
-import { memo, useMemo } from "react";
 
-// Memoized skill group component for performance
-const SkillGroup = memo(({ skillGroup, index }) => {
-  // Memoized animation variants for performance
-  const animationVariants = useMemo(
-    () => ({
-      container: {
-        initial: { opacity: 0, y: 30 }, // Reduced movement
-        animate: { opacity: 1, y: 0 },
-        transition: {
-          duration: 0.4, // Faster
-          delay: index * 0.08, // Slightly faster stagger
-          ease: [0.25, 0.46, 0.45, 0.94],
-        },
-      },
-      hover: {
-        scale: 1.01, // Reduced scale
-        y: -4, // Reduced movement
-        transition: {
-          duration: 0.2, // Faster
-          ease: [0.25, 0.46, 0.45, 0.94],
-        },
-      },
-      skillItem: {
-        initial: { opacity: 0, x: -15 }, // Reduced movement
-        animate: { opacity: 1, x: 0 },
-        transition: (skillIndex) => ({
-          duration: 0.3, // Faster
-          delay: index * 0.08 + skillIndex * 0.03, // Optimized timing
-          ease: [0.25, 0.46, 0.45, 0.94],
-        }),
-      },
-    }),
-    [index]
-  );
+export default function Skills() {
+  const skillCategories = [
+    {
+      category: "Frontend Development",
+      icon: FaReact,
+      skills: [
+        "React.js",
+        "JavaScript",
+        "HTML5",
+        "CSS3",
+        "TypeScript",
+        "Redux",
+        "Next.js",
+      ],
+    },
+    {
+      category: "Backend & APIs",
+      icon: FaNodeJs,
+      skills: [
+        "Node.js",
+        "RESTful APIs",
+        "Express",
+        "Database Design",
+        "API Integration",
+        "MongoDB",
+      ],
+    },
+    {
+      category: "Design & Prototyping",
+      icon: FaFigma,
+      skills: [
+        "Figma",
+        "UI Design",
+        "UX Design",
+        "Wireframing",
+        "Prototyping",
+        "User Research",
+        "Design Systems",
+      ],
+    },
+    {
+      category: "Styling & Frameworks",
+      icon: SiTailwindcss,
+      skills: [
+        "Tailwind CSS",
+        "Bootstrap",
+        "Responsive Design",
+        "CSS Grid",
+        "Flexbox",
+        "Framer Motion",
+      ],
+    },
+    {
+      category: "Version Control & Tools",
+      icon: FaGitAlt,
+      skills: ["Git", "GitHub", "Agile", "Jira", "Project Management", "CI/CD"],
+    },
+    {
+      category: "Additional Skills",
+      icon: FaMobile,
+      skills: [
+        "Mobile-First Design",
+        "Performance Optimization",
+        "Cross-browser Testing",
+        "Accessibility",
+        "SEO",
+      ],
+    },
+  ];
 
   return (
-    <motion.div
-      initial={animationVariants.container.initial}
-      whileInView={animationVariants.container.animate}
-      transition={animationVariants.container.transition}
-      viewport={{ once: true, margin: "-50px" }}
-      whileHover={animationVariants.hover}
-      className="card-brutal group cursor-pointer relative overflow-hidden w-full min-h-[280px] sm:min-h-[300px]"
-      style={{
-        willChange: "transform, opacity",
-        transform: "translateZ(0)", // Hardware acceleration
-      }}
+    <div
+      className="min-h-screen py-20 px-6 space-y-16"
+      style={{ backgroundColor: "#171717" }}
     >
-      {/* Brutalist accent line */}
-      <div
-        className="absolute top-0 left-0 right-0 h-1.5 sm:h-2"
-        style={{ background: skillGroup.color }}
-      />
-
-      {/* Icon and Title */}
-      <div className="flex items-center mb-4 sm:mb-6">
-        <div
-          className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mr-3 sm:mr-4 border-3 sm:border-4 border-black flex-shrink-0"
-          style={{
-            background: skillGroup.color,
-            willChange: "transform",
-            transform: "translateZ(0)",
-          }}
+      {/* Header */}
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center space-y-6"
         >
-          <skillGroup.icon
-            className="text-white text-lg sm:text-xl"
-            style={{ color: "#ffffff" }}
-          />
-        </div>
-        <h3 className="text-base sm:text-lg font-bold text-black leading-tight">
-          {skillGroup.category}
-        </h3>
+          <h2
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white"
+            style={{ fontFamily: "Montserrat, sans-serif" }}
+          >
+            SKILLS
+          </h2>
+          <p
+            className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
+            style={{ fontFamily: "Montserrat, sans-serif" }}
+          >
+            A comprehensive overview of my technical capabilities across
+            development and design disciplines.
+          </p>
+        </motion.div>
       </div>
 
-      {/* Skills List */}
-      <div className="space-y-2 sm:space-y-3">
-        {skillGroup.skills.map((skill, skillIndex) => (
+      {/* Skills Grid */}
+      <div className="max-w-6xl mx-auto space-y-20">
+        {skillCategories.map((category, index) => (
           <motion.div
-            key={skill}
-            className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors duration-200 min-h-[44px]"
-            initial={animationVariants.skillItem.initial}
-            whileInView={animationVariants.skillItem.animate}
-            transition={animationVariants.skillItem.transition(skillIndex)}
+            key={category.category}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            style={{
-              willChange: "transform, opacity",
-              transform: "translateZ(0)",
-            }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            className="space-y-8"
           >
-            <div
-              className="w-2 h-2 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
-              style={{ background: skillGroup.color }}
-            />
-            <span className="text-sm sm:text-base text-gray-900 hover:text-black transition-colors duration-200 font-medium">
-              {skill}
-            </span>
+            {/* Category Header */}
+            <div className="flex items-center gap-6">
+              <div
+                className="w-16 h-16 rounded-lg flex items-center justify-center"
+                style={{
+                  backgroundColor: "#CD535A",
+                  fontFamily: "Montserrat, sans-serif",
+                }}
+              >
+                <category.icon className="text-white text-2xl" />
+              </div>
+              <h3
+                className="text-2xl md:text-3xl font-bold text-white"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                {category.category}
+              </h3>
+            </div>
+
+            {/* Skills List */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {category.skills.map((skill, skillIndex) => (
+                <motion.div
+                  key={skill}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.4,
+                    delay: index * 0.1 + skillIndex * 0.05,
+                  }}
+                  className="flex items-center gap-3"
+                >
+                  <div
+                    className="w-2 h-2 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: "#CD535A" }}
+                  />
+                  <span
+                    className="text-lg text-gray-300"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    {skill}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Separator */}
+            {index < skillCategories.length - 1 && (
+              <div className="pt-8 border-b border-white/20" />
+            )}
           </motion.div>
         ))}
       </div>
 
-      {/* Hover effect overlay */}
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 pointer-events-none"
-        style={{
-          background: skillGroup.color,
-          willChange: "opacity",
-        }}
-      />
-    </motion.div>
-  );
-});
+      {/* Summary Section */}
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="pt-12 border-t border-white/20 space-y-8"
+        >
+          <h3
+            className="text-2xl md:text-3xl font-bold text-white text-center"
+            style={{ fontFamily: "Montserrat, sans-serif" }}
+          >
+            EXPERIENCE LEVELS
+          </h3>
 
-SkillGroup.displayName = "SkillGroup";
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="text-center space-y-4">
+              <h4
+                className="text-xl font-bold text-white"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                EXPERT
+              </h4>
+              <div className="space-y-3">
+                <p
+                  className="text-lg text-gray-300"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  React.js • JavaScript • TypeScript
+                </p>
+                <p
+                  className="text-lg text-gray-300"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Figma • UI/UX Design • Tailwind CSS
+                </p>
+              </div>
+            </div>
 
-// Memoized skills data for performance
-const skills = [
-  {
-    category: "Frontend Development",
-    icon: FaReact,
-    skills: ["React.js", "JavaScript", "HTML5", "CSS3", "TypeScript", "Redux"],
-    color: "#ff6b35",
-    iconColor: "#61DAFB",
-  },
-  {
-    category: "Design & Prototyping",
-    icon: FaFigma,
-    skills: [
-      "Figma",
-      "UI Design",
-      "UX Design",
-      "Wireframing",
-      "Prototyping",
-      "User Research",
-    ],
-    color: "#4ecdc4",
-    iconColor: "#F24E1E",
-  },
-  {
-    category: "Backend & APIs",
-    icon: FaNodeJs,
-    skills: [
-      "Node.js",
-      "RESTful APIs",
-      "Express",
-      "Database Design",
-      "API Integration",
-    ],
-    color: "#45b7d1",
-    iconColor: "#68A063",
-  },
-  {
-    category: "Styling & Frameworks",
-    icon: SiTailwindcss,
-    skills: [
-      "Tailwind CSS",
-      "Bootstrap",
-      "Responsive Design",
-      "CSS Grid",
-      "Flexbox",
-    ],
-    color: "#f7b731",
-    iconColor: "#06B6D4",
-  },
-  {
-    category: "Version Control & Tools",
-    icon: FaGitAlt,
-    skills: ["Git", "GitHub", "Agile", "Jira", "Project Management"],
-    color: "#26de81",
-    iconColor: "#F05032",
-  },
-  {
-    category: "Additional Skills",
-    icon: FaMobile,
-    skills: [
-      "Mobile-First Design",
-      "Performance Optimization",
-      "Cross-browser Testing",
-      "Accessibility",
-    ],
-    color: "#fc5c65",
-    iconColor: "#00D4AA",
-  },
-];
+            <div className="text-center space-y-4">
+              <h4
+                className="text-xl font-bold text-white"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                PROFICIENT
+              </h4>
+              <div className="space-y-3">
+                <p
+                  className="text-lg text-gray-300"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Node.js • Next.js • Git
+                </p>
+                <p
+                  className="text-lg text-gray-300"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  User Research • Prototyping
+                </p>
+              </div>
+            </div>
 
-export default memo(function Skills() {
-  return (
-    <div
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 max-w-none"
-      style={{
-        willChange: "contents",
-        transform: "translateZ(0)",
-      }}
-    >
-      {skills.map((skillGroup, index) => (
-        <SkillGroup
-          key={skillGroup.category}
-          skillGroup={skillGroup}
-          index={index}
-        />
-      ))}
+            <div className="text-center space-y-4">
+              <h4
+                className="text-xl font-bold text-white"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                EXPERIENCED
+              </h4>
+              <div className="space-y-3">
+                <p
+                  className="text-lg text-gray-300"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Express • MongoDB • RESTful APIs
+                </p>
+                <p
+                  className="text-lg text-gray-300"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Performance Optimization • SEO
+                </p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
-});
+}

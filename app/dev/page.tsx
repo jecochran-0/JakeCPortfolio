@@ -1,336 +1,540 @@
 "use client";
 
-import React, { lazy, Suspense, useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { FaCode, FaLaptopCode, FaRocket } from "react-icons/fa";
-import Link from "next/link";
+import React, { useState, useEffect } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useVelocity,
+} from "framer-motion";
+import {
+  FaGithub,
+  FaLinkedin,
+  FaEnvelope,
+  FaCode,
+  FaRocket,
+  FaCog,
+} from "react-icons/fa";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
-// Lazy load components
-const Projects = lazy(() => import("../components/Projects"));
+// Custom Cursor Component
+const CustomCursor = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isVisible, setIsVisible] = useState(false);
+  const [isOverProject, setIsOverProject] = useState(false);
 
-export default function DevPage() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [heroReady, setHeroReady] = useState(false);
-  const heroRef = useRef<HTMLDivElement | null>(null);
-  const [badgePos, setBadgePos] = useState({ x: 0, y: 0 });
-
-  // Check if device is mobile
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+    const updateMousePosition = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+      setIsVisible(true);
     };
 
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
+    const handleMouseLeave = () => {
+      setIsVisible(false);
+      setIsOverProject(false);
+    };
 
-    return () => window.removeEventListener("resize", checkMobile);
+    // Check if mouse is over project images
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest(".project-image-container")) {
+        setIsOverProject(true);
+      } else {
+        setIsOverProject(false);
+      }
+    };
+
+    window.addEventListener("mousemove", updateMousePosition);
+    window.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("mouseover", handleMouseOver);
+
+    return () => {
+      window.removeEventListener("mousemove", updateMousePosition);
+      window.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("mouseover", handleMouseOver);
+    };
   }, []);
-
-  // Start hero animation after page load transition
-  useEffect(() => {
-    const timer = setTimeout(() => setHeroReady(true), 1100);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Animation variants - simplified for mobile
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: isMobile ? 0.08 : 0.12,
-        delayChildren: isMobile ? 0.06 : 0.12,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: isMobile ? 8 : 16 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: isMobile ? 0.28 : 0.4,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
-    },
-  };
-
-  const handleHeroMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!heroRef.current) return;
-    const rect = heroRef.current.getBoundingClientRect();
-    const relX = e.clientX - rect.left;
-    const relY = e.clientY - rect.top;
-    const nx = (relX / rect.width) * 2 - 1; // -1..1
-    const ny = (relY / rect.height) * 2 - 1; // -1..1
-    const maxOffset = 40; // px
-    setBadgePos({ x: nx * maxOffset, y: ny * maxOffset });
-  };
 
   return (
-    <div className="pt-20">
-      {/* Hero Section - brutalist white block */}
+    <motion.div
+      className="fixed pointer-events-none z-50"
+      style={{
+        left: mousePosition.x,
+        top: mousePosition.y,
+        transform: "translate(-50%, -50%)",
+      }}
+      animate={{
+        scale: isVisible ? (isOverProject ? 1.5 : 1) : 0,
+        opacity: isVisible ? 1 : 0,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 150,
+        damping: 20,
+        mass: 0.8,
+      }}
+    >
       <div
-        className="relative bg-white text-black overflow-hidden"
-        ref={heroRef}
-        onMouseMove={handleHeroMouseMove}
+        className={`rounded-full flex items-center justify-center ${
+          isOverProject ? "w-24 h-24" : "w-8 h-8"
+        }`}
+        style={{
+          backgroundColor: isOverProject ? "#3B82F6" : "#F5F5DC",
+        }}
       >
-        {/* subtle interactive background matching theme */}
-        <div className="interactive-bg absolute inset-0 opacity-30 pointer-events-none"></div>
-
-        {/* Oversized ghost typography */}
-        <motion.div
-          className="pointer-events-none absolute inset-0 flex items-center justify-center px-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={heroReady ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
-          <motion.div
-            className="text-black/5 font-black tracking-[-0.1em] leading-none select-none text-[25vw] xs:text-[22vw] sm:text-[18vw] md:text-[15vw] lg:text-[12vw] xl:text-[10vw] text-center"
-            animate={{ x: heroReady ? [0, 8, -8, 0] : 0 }}
-            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        {isOverProject && (
+          <span
+            className="text-white font-bold text-sm"
+            style={{ fontFamily: "Montserrat, sans-serif" }}
           >
-            BUILD • SHIP • SCALE
-          </motion.div>
+            VIEW
+          </span>
+        )}
+      </div>
+    </motion.div>
+  );
+};
+
+export default function DevPage() {
+  const { scrollY, scrollYProgress } = useScroll();
+  const [mounted, setMounted] = useState(false);
+  const [activeTab, setActiveTab] = useState("all");
+  const [showCursor, setShowCursor] = useState(true);
+  const searchParams = useSearchParams();
+
+  // Professional scroll tracking with physics
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, {
+    damping: 50,
+    stiffness: 400,
+  });
+
+  // Smooth scroll progress with spring physics
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 30,
+    stiffness: 100,
+  });
+
+  // Reduced parallax and scroll effects for smoother scrolling
+  const backgroundY = useTransform(scrollY, [0, 1000], [0, -50]);
+  const heroParallax = useTransform(scrollY, [0, 800], [0, -20]);
+  const heroScale = useTransform(scrollY, [0, 300], [1, 1.01]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.9]);
+
+  // Reduced section scroll effects
+  const sectionOneY = useTransform(scrollY, [200, 800], [10, -10]);
+  const sectionTwoY = useTransform(scrollY, [400, 1200], [5, -5]);
+  const sectionThreeY = useTransform(scrollY, [600, 1400], [5, -5]);
+
+  // Velocity-based background effect
+  const velocityBackground = useTransform(
+    smoothVelocity,
+    [-1000, 0, 1000],
+    [
+      "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.01) 0%, transparent 50%)",
+      "radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, transparent 50%)",
+      "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.01) 0%, transparent 50%)",
+    ]
+  );
+
+  useEffect(() => {
+    setMounted(true);
+    // Check URL params to set initial state
+    const initialTab = searchParams.get("tab");
+    if (initialTab === "ux" || initialTab === "design") {
+      setActiveTab("ux");
+    } else if (initialTab === "development" || initialTab === "dev") {
+      setActiveTab("development");
+    } else {
+      setActiveTab("all");
+    }
+
+    // Add smooth scrolling to the document
+    document.documentElement.style.scrollBehavior = "smooth";
+
+    // Cleanup function to remove smooth scrolling
+    return () => {
+      document.documentElement.style.scrollBehavior = "auto";
+    };
+  }, [searchParams]);
+
+  // Typing cursor animation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 530);
+    return () => clearInterval(interval);
+  }, []);
+
+  const socialLinks = [
+    { icon: FaGithub, href: "https://github.com/jakecochran", label: "GitHub" },
+    {
+      icon: FaLinkedin,
+      href: "https://linkedin.com/in/jakecochran",
+      label: "LinkedIn",
+    },
+    { icon: FaEnvelope, href: "mailto:jakecochran@gmail.com", label: "Email" },
+  ];
+
+  const developmentProjects = [
+    {
+      title: "Pizza E-Commerce Store",
+      description:
+        "A fully functional e-commerce prototype featuring a dynamic menu API, shopping cart system, and Redux state management.",
+      technologies: ["React.js", "Tailwind", "Redux"],
+      image: "/PizzaStore.png",
+      emoji: "🍕",
+    },
+    {
+      title: "Wizards Chess",
+      description:
+        "A chess game with integrated spells to drastically change the game. Built with React, CSS, and JavaScript.",
+      technologies: ["React.js", "Tailwind", "JavaScript"],
+      image: "/WizardChessPreview.png",
+      emoji: "♟️",
+    },
+    {
+      title: "BentoBox",
+      description:
+        "A modern web application that uses AI to create beautiful, responsive Bento grid layouts from your photos.",
+      technologies: ["JavaScript", "API", "CSS"],
+      image: "/BentoBoxPreview.png",
+      emoji: "📦",
+    },
+    {
+      title: "Pixel Character Creator",
+      description:
+        "A browser-based application that dynamically generates unique pixel-art heroes using OpenAI's API.",
+      technologies: ["HTML", "CSS", "JavaScript", "OpenAI"],
+      image: "/PixelCharacterGenerator.png",
+      emoji: "🎮",
+    },
+    {
+      title: "Algorithm Visualizer",
+      description:
+        "A full-stack task management application with user authentication, task prioritization, and deadline tracking.",
+      technologies: ["React.js", "Node.js", "MongoDB"],
+      image: "/AlgorithmVisualizer_Preview.png",
+      emoji: "📊",
+    },
+  ];
+
+  const uxProjects = [
+    {
+      title: "Spotify Redesign",
+      description:
+        "Redesigned the Spotify mobile app to improve discoverability and user engagement through better visual hierarchy and intuitive navigation.",
+      technologies: ["Figma", "Prototyping", "User Research", "Wireframing"],
+      image: "/HeroScreen.mp4",
+      emoji: "🎵",
+    },
+    {
+      title: "Grammarly Go",
+      description:
+        "Designed an AI-powered writing assistant that helps users improve their communication with intelligent suggestions and real-time feedback.",
+      technologies: ["UI Design", "UX Research", "Figma", "Prototyping"],
+      image: "/Grammarly-Go.png",
+      emoji: "✍️",
+    },
+  ];
+
+  const allProjects = [...developmentProjects, ...uxProjects];
+  const currentProjects =
+    activeTab === "all"
+      ? allProjects
+      : activeTab === "development"
+      ? developmentProjects
+      : uxProjects;
+
+  if (!mounted) {
+    return (
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ backgroundColor: "#171717" }}
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <div className="w-12 h-12 border-2 border-gray-300 border-t-white rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-white font-light">Loading...</p>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <CustomCursor />
+      <main
+        className="relative font-sans scroll-smooth"
+        style={{
+          backgroundColor: "#171717",
+          scrollBehavior: "smooth",
+          cursor: "none",
+        }}
+        role="main"
+        aria-label="Development - Jake Cochran Portfolio"
+      >
+        {/* Top Navigation */}
+        <motion.div
+          className="absolute top-8 right-8 z-20 flex items-center space-x-8"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          <motion.a
+            href="/"
+            className="text-white hover:text-gray-300 transition-colors duration-300 font-light text-sm tracking-wider"
+            whileHover={{ scale: 1.05 }}
+            aria-label="Go to homepage"
+          >
+            HOME
+          </motion.a>
+          <motion.a
+            href="/about"
+            className="text-white hover:text-gray-300 transition-colors duration-300 font-light text-sm tracking-wider"
+            whileHover={{ scale: 1.05 }}
+            aria-label="Go to about page"
+          >
+            ABOUT
+          </motion.a>
+          <motion.a
+            href="/ux-ui"
+            className="text-white hover:text-gray-300 transition-colors duration-300 font-light text-sm tracking-wider"
+            whileHover={{ scale: 1.05 }}
+            aria-label="Go to UX/UI page"
+          >
+            SKILLS
+          </motion.a>
+          <motion.a
+            href="/contact"
+            className="text-white hover:text-gray-300 transition-colors duration-300 font-light text-sm tracking-wider"
+            whileHover={{ scale: 1.05 }}
+            aria-label="Go to contact page"
+          >
+            WORK
+          </motion.a>
         </motion.div>
 
-        <div className="relative container mx-auto px-4 py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24">
-          <div className="flex flex-col items-center text-center max-w-5xl mx-auto z-10">
-            <motion.h1
-              initial="hidden"
-              animate={heroReady ? "show" : "hidden"}
-              variants={itemVariants}
-              className="mb-3 sm:mb-4 leading-none tracking-tighter text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-black"
-              style={{ willChange: "transform, opacity" }}
-            >
-              SOFTWARE <span className="text-orange-400">DEVELOPMENT</span>
-            </motion.h1>
-
-            {/* Mini interactive chips */}
+        {/* Hero Section */}
+        <motion.section
+          className="relative flex items-start justify-start px-8 pt-52 pb-16"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          <div className="max-w-6xl mx-auto">
+            {/* Main Hero Text */}
             <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate={heroReady ? "show" : "hidden"}
-              className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4 mt-3 sm:mt-4 mb-4 sm:mb-6"
+              className="mb-8"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
-              {["Frontend", "Clean Code", "Performance"].map((chip) => (
-                <motion.span
-                  key={chip}
-                  variants={itemVariants}
-                  whileHover={{ y: -3, rotate: -1 }}
-                  transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                  className="px-2 sm:px-3 py-1.5 sm:py-2 bg-orange-100 text-orange-800 border-2 border-black font-black text-xs sm:text-sm tracking-wide"
-                >
-                  {chip}
-                </motion.span>
-              ))}
+              <h1
+                className="text-6xl md:text-7xl lg:text-8xl font-black text-white leading-tight tracking-tight mb-6"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              >
+                BRIDGING UX AND DEVELOPMENT
+                <span
+                  className="inline-block w-1 h-20 bg-white ml-2"
+                  style={{
+                    opacity: showCursor ? 1 : 0,
+                    transition: "opacity 0.1s ease-in-out",
+                  }}
+                ></span>
+              </h1>
             </motion.div>
 
-            <motion.p
-              initial="hidden"
-              animate={heroReady ? "show" : "hidden"}
-              variants={itemVariants}
-              className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-800 mb-6 sm:mb-8 md:mb-10 leading-relaxed max-w-3xl px-2 sm:px-0"
-              style={{ willChange: "transform, opacity" }}
-            >
-              I build clean, efficient, and maintainable applications with a
-              focus on user experience. My engineering approach prioritizes
-              modular code, performance, and accessibility.
-            </motion.p>
-
-            {/* Moderate interactive: magnetic badge following cursor */}
+            {/* Tab Filter Buttons */}
             <motion.div
-              animate={heroReady ? { x: badgePos.x, y: badgePos.y } : {}}
-              transition={{
-                type: "spring",
-                stiffness: 120,
-                damping: 14,
-                mass: 0.6,
-              }}
-              className="card-brutal p-3 sm:p-4 md:p-5 bg-white text-black inline-flex items-center gap-2 sm:gap-3 select-none"
-              style={{ willChange: "transform" }}
+              className="flex justify-start gap-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
             >
-              <span className="inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-orange-400 text-black border-3 sm:border-4 border-black">
-                <FaCode className="text-sm sm:text-base" />
-              </span>
-              <span className="font-black tracking-wider text-xs sm:text-sm md:text-base">
-                MAGNETIC INTERFACE
-              </span>
+              <button
+                onClick={() => setActiveTab("all")}
+                className={`px-16 py-8 text-2xl font-medium transition-all duration-300 border-2 ${
+                  activeTab === "all"
+                    ? "border-transparent text-white"
+                    : "border-white text-white hover:bg-white hover:text-black"
+                }`}
+                style={{
+                  backgroundColor:
+                    activeTab === "all" ? "#CD535A" : "transparent",
+                  borderRadius: "50px",
+                }}
+              >
+                All
+              </button>
+              <button
+                onClick={() => setActiveTab("development")}
+                className={`px-16 py-8 text-2xl font-medium transition-all duration-300 border-2 ${
+                  activeTab === "development"
+                    ? "border-transparent text-white"
+                    : "border-white text-white hover:bg-white hover:text-black"
+                }`}
+                style={{
+                  backgroundColor:
+                    activeTab === "development" ? "#CD535A" : "transparent",
+                  borderRadius: "50px",
+                }}
+              >
+                Dev
+              </button>
+              <button
+                onClick={() => setActiveTab("ux")}
+                className={`px-16 py-8 text-2xl font-medium transition-all duration-300 border-2 ${
+                  activeTab === "ux"
+                    ? "border-transparent text-white"
+                    : "border-white text-white hover:bg-white hover:text-black"
+                }`}
+                style={{
+                  backgroundColor:
+                    activeTab === "ux" ? "#CD535A" : "transparent",
+                  borderRadius: "50px",
+                }}
+              >
+                UX/UI
+              </button>
             </motion.div>
           </div>
-        </div>
-      </div>
+        </motion.section>
 
-      {/* Development Approach section with brutalist cards */}
-      <section className="py-12 sm:py-16 md:py-20 bg-white text-black">
-        <div className="container mx-auto px-4">
-          <motion.h2
-            initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: isMobile ? 0.3 : 0.5,
-              ease: [0.25, 0.46, 0.45, 0.94],
-            }}
-            className="text-title text-center mb-16 tracking-tight text-black"
-            style={{ willChange: "transform, opacity" }}
-          >
-            MY DEVELOPMENT APPROACH
-          </motion.h2>
-
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="show"
-            className="max-w-6xl mx-auto"
-          >
-            <div className="flex flex-col md:flex-row gap-8">
-              <motion.div
-                variants={itemVariants}
-                whileHover={{ y: -6 }}
-                transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                className="card-brutal p-8 rounded-none"
-                style={{ willChange: "transform" }}
-              >
-                <div className="w-16 h-16 bg-orange-400 border-4 border-black flex items-center justify-center mb-6 mx-auto text-black">
-                  <FaLaptopCode className="text-2xl" />
-                </div>
-                <h3 className="text-xl font-black text-center mb-4 tracking-wide text-black">
-                  Frontend Excellence
-                </h3>
-                <p className="text-lg text-gray-800 text-center">
-                  Creating responsive, accessible interfaces with modern
-                  frameworks and performance optimization techniques.
-                </p>
-              </motion.div>
-
-              <motion.div
-                variants={itemVariants}
-                whileHover={{ y: -6 }}
-                transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                className="card-brutal p-8 rounded-none"
-                style={{ willChange: "transform" }}
-              >
-                <div className="w-16 h-16 bg-orange-400 border-4 border-black flex items-center justify-center mb-6 mx-auto text-black">
-                  <FaCode className="text-2xl" />
-                </div>
-                <h3 className="text-xl font-black text-center mb-4 tracking-wide text-black">
-                  Clean Code Philosophy
-                </h3>
-                <p className="text-lg text-gray-800 text-center">
-                  Writing maintainable, tested code that scales with consistent
-                  patterns and thorough documentation.
-                </p>
-              </motion.div>
-
-              <motion.div
-                variants={itemVariants}
-                whileHover={{ y: -6 }}
-                transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                className="card-brutal p-8 rounded-none"
-                style={{ willChange: "transform" }}
-              >
-                <div className="w-16 h-16 bg-orange-400 border-4 border-black flex items-center justify-center mb-6 mx-auto text-black">
-                  <FaRocket className="text-2xl" />
-                </div>
-                <h3 className="text-xl font-black text-center mb-4 tracking-wide text-black">
-                  Performance Optimization
-                </h3>
-                <p className="text-lg text-gray-800 text-center">
-                  Optimizing for speed, accessibility, and resource efficiency
-                  through measured improvements and best practices.
-                </p>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Projects Section with enhanced styling */}
-      <div className="relative bg-white text-black">
-        {/* Background pattern for visual interest - shifted to orange/neutral */}
-        <div className="absolute inset-0 opacity-40 overflow-hidden pointer-events-none">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-orange-200 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/3 -left-24 w-80 h-80 bg-gray-100 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-60 h-60 bg-orange-100 rounded-full blur-3xl"></div>
-        </div>
-
-        {/* Projects content with enhanced container */}
-        <div className="relative z-10">
-          <div className="container mx-auto px-4 py-16">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="text-title text-center mb-8 text-black"
-              style={{ willChange: "transform, opacity" }}
-            >
-              MY PROJECTS
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.5,
-                delay: 0.1,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-              className="text-lg text-gray-900 max-w-2xl mx-auto mb-16 text-center"
-              style={{ willChange: "transform, opacity" }}
-            >
-              A showcase of applications built with modern technologies and best
-              practices in web development.
-            </motion.p>
-          </div>
-
-          {/* Projects component with brutalist-friendly wrapper */}
-          <div className="bg-white py-8">
-            <Suspense
-              fallback={
-                <div className="h-[500px] flex items-center justify-center">
-                  <div className="card-brutal p-6 text-center">
-                    <div className="skeleton w-24 h-24 rounded-none mx-auto mb-4"></div>
-                    <div className="skeleton h-6 w-48 rounded-none mx-auto"></div>
-                  </div>
-                </div>
+        {/* Projects Section */}
+        <motion.section
+          className="py-32 px-8 relative z-20"
+          style={{ backgroundColor: "#171717" }}
+        >
+          <div className="max-w-7xl mx-auto">
+            {/* Projects Grid */}
+            <div
+              className={
+                activeTab === "ux"
+                  ? "space-y-24"
+                  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"
               }
             >
-              <Projects />
-            </Suspense>
-          </div>
-        </div>
-      </div>
-
-      {/* CTA Section - match About CTA style */}
-      <section className="py-20 bg-white text-black">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="max-w-4xl mx-auto text-center"
-            style={{ willChange: "transform, opacity" }}
-          >
-            <div className="card-brutal p-10 md:p-14">
-              <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-black mb-6 tracking-tighter text-black">
-                SEE MY <span className="text-orange-400">DESIGN WORK</span>
-              </h2>
-              <p className="text-subtitle mb-10 text-gray-800">
-                Explore UX/UI projects to see how I bridge design and code.
-              </p>
-              <Link href="/ux-ui">
-                <motion.button
-                  whileHover={{ scale: 1.03, y: -4 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                  className="btn-brutal btn-brutal-interactive bg-orange-400 text-black border-4 border-black"
+              {currentProjects.map((project, index) => (
+                <motion.div
+                  key={project.title}
+                  className=""
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -8 }}
                 >
-                  View UX/UI Projects
-                </motion.button>
-              </Link>
+                  {/* Project Image */}
+                  <div className="relative overflow-hidden mb-12 rounded-lg project-image-container cursor-pointer">
+                    <motion.a
+                      href={
+                        project.title === "Spotify Redesign"
+                          ? "/ux-ui/spotify"
+                          : project.title === "Grammarly Go"
+                          ? "/ux-ui/grammarlygo"
+                          : "#"
+                      }
+                      className="block"
+                      whileHover={{ scale: 1.02 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                      }}
+                    >
+                      {project.image.endsWith(".mp4") ? (
+                        <video
+                          src={project.image}
+                          muted
+                          loop
+                          className={`w-full object-cover ${
+                            activeTab === "ux"
+                              ? "h-[500px] md:h-[600px]"
+                              : "h-80 md:h-96"
+                          }`}
+                          onMouseEnter={(e) => {
+                            try {
+                              e.target.play();
+                            } catch (error) {
+                              console.log("Video play failed:", error);
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            try {
+                              e.target.pause();
+                            } catch (error) {
+                              console.log("Video pause failed:", error);
+                            }
+                          }}
+                          onError={(e) => {
+                            console.log("Video error:", e);
+                            // Fallback to a placeholder or hide the video
+                            e.target.style.display = "none";
+                          }}
+                        />
+                      ) : (
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          width={1200}
+                          height={activeTab === "ux" ? 800 : 600}
+                          className={`w-full object-cover ${
+                            activeTab === "ux"
+                              ? "h-[500px] md:h-[600px]"
+                              : "h-80 md:h-96"
+                          }`}
+                        />
+                      )}
+                    </motion.a>
+                  </div>
+
+                  {/* Project Content */}
+                  <div className="text-left space-y-4">
+                    <h3
+                      className="text-2xl font-bold text-white"
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
+                      {project.title}
+                    </h3>
+                    <p className="text-gray-300 leading-relaxed text-lg max-w-2xl">
+                      {project.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
-          </motion.div>
-        </div>
-      </section>
-    </div>
+
+            {/* CTA Section */}
+            <motion.div
+              className="text-center mt-20"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <motion.a
+                href="/contact"
+                className="inline-block text-white px-16 py-6 text-xl font-black tracking-[0.2em] uppercase hover:bg-gray-800 transition-colors duration-300 transform hover:scale-105 border-2 border-white rounded-lg"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                whileHover={{
+                  y: -4,
+                  transition: { type: "spring", stiffness: 400, damping: 10 },
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Start a Project
+              </motion.a>
+            </motion.div>
+          </div>
+        </motion.section>
+      </main>
+    </>
   );
 }

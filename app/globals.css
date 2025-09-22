@@ -23,12 +23,7 @@ body::-webkit-scrollbar {
   display: none; /* WebKit browsers (Chrome, Safari, Edge) */
 }
 
-/* Prevent scrolling on homepage */
-html,
-body {
-  height: 100%;
-  overflow: hidden;
-}
+/* Prevent scrolling only on homepage - removed global overflow hidden */
 
 /* Ensure all elements can scroll without showing scrollbars */
 * {

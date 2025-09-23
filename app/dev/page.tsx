@@ -1,21 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  useVelocity,
-} from "framer-motion";
-import {
-  FaGithub,
-  FaLinkedin,
-  FaEnvelope,
-  FaCode,
-  FaRocket,
-  FaCog,
-} from "react-icons/fa";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 
@@ -98,46 +84,12 @@ const CustomCursor = () => {
 };
 
 export default function DevPage() {
-  const { scrollY, scrollYProgress } = useScroll();
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
   const [showCursor, setShowCursor] = useState(true);
   const searchParams = useSearchParams();
 
-  // Professional scroll tracking with physics
-  const scrollVelocity = useVelocity(scrollY);
-  const smoothVelocity = useSpring(scrollVelocity, {
-    damping: 50,
-    stiffness: 400,
-  });
 
-  // Smooth scroll progress with spring physics
-  const smoothProgress = useSpring(scrollYProgress, {
-    damping: 30,
-    stiffness: 100,
-  });
-
-  // Reduced parallax and scroll effects for smoother scrolling
-  const backgroundY = useTransform(scrollY, [0, 1000], [0, -50]);
-  const heroParallax = useTransform(scrollY, [0, 800], [0, -20]);
-  const heroScale = useTransform(scrollY, [0, 300], [1, 1.01]);
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.9]);
-
-  // Reduced section scroll effects
-  const sectionOneY = useTransform(scrollY, [200, 800], [10, -10]);
-  const sectionTwoY = useTransform(scrollY, [400, 1200], [5, -5]);
-  const sectionThreeY = useTransform(scrollY, [600, 1400], [5, -5]);
-
-  // Velocity-based background effect
-  const velocityBackground = useTransform(
-    smoothVelocity,
-    [-1000, 0, 1000],
-    [
-      "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.01) 0%, transparent 50%)",
-      "radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, transparent 50%)",
-      "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.01) 0%, transparent 50%)",
-    ]
-  );
 
   useEffect(() => {
     setMounted(true);
@@ -168,15 +120,6 @@ export default function DevPage() {
     return () => clearInterval(interval);
   }, []);
 
-  const socialLinks = [
-    { icon: FaGithub, href: "https://github.com/jakecochran", label: "GitHub" },
-    {
-      icon: FaLinkedin,
-      href: "https://linkedin.com/in/jakecochran",
-      label: "LinkedIn",
-    },
-    { icon: FaEnvelope, href: "mailto:jakecochran@gmail.com", label: "Email" },
-  ];
 
   const developmentProjects = [
     {
@@ -186,14 +129,6 @@ export default function DevPage() {
       technologies: ["React.js", "Tailwind", "Redux"],
       image: "/PizzaStore.png",
       emoji: "🍕",
-    },
-    {
-      title: "Wizards Chess",
-      description:
-        "A chess game with integrated spells to drastically change the game. Built with React, CSS, and JavaScript.",
-      technologies: ["React.js", "Tailwind", "JavaScript"],
-      image: "/WizardChessPreview.png",
-      emoji: "♟️",
     },
     {
       title: "BentoBox",
@@ -220,6 +155,15 @@ export default function DevPage() {
       emoji: "📊",
     },
   ];
+
+  const featuredProject = {
+    title: "Wizards Chess",
+    description:
+      "A chess game with integrated spells to drastically change the game. Built with React, CSS, and JavaScript.",
+    technologies: ["React.js", "Tailwind", "JavaScript"],
+    image: "/WizardChessPreview.png",
+    emoji: "♟️",
+  };
 
   const uxProjects = [
     {
@@ -413,6 +357,64 @@ export default function DevPage() {
           style={{ backgroundColor: "#171717" }}
         >
           <div className="max-w-7xl mx-auto">
+            {/* Featured Project (Development tab only) */}
+            {activeTab === "development" && (
+              <motion.div
+                className="mb-20"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -8 }}
+              >
+                {/* Featured Project Image */}
+                <div className="relative overflow-hidden mb-12 rounded-lg project-image-container cursor-pointer">
+                  <motion.a
+                    href="#"
+                    className="block"
+                    whileHover={{ scale: 1.02 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 30,
+                    }}
+                  >
+                    <Image
+                      src={featuredProject.image}
+                      alt={featuredProject.title}
+                      width={1200}
+                      height={600}
+                      className="w-full object-cover h-80 md:h-96"
+                    />
+                  </motion.a>
+                </div>
+
+                {/* Featured Project Content */}
+                <div className="text-left space-y-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span
+                      className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
+                      style={{
+                        backgroundColor: "#CD535A",
+                        fontFamily: "Montserrat, sans-serif",
+                      }}
+                    >
+                      Featured Project
+                    </span>
+                  </div>
+                  <h3
+                    className="text-3xl md:text-4xl font-bold text-white"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    {featuredProject.title}
+                  </h3>
+                  <p className="text-gray-300 leading-relaxed text-xl max-w-3xl">
+                    {featuredProject.description}
+                  </p>
+                </div>
+              </motion.div>
+            )}
+
             {/* Projects Grid */}
             <div
               className={
@@ -461,14 +463,14 @@ export default function DevPage() {
                           }`}
                           onMouseEnter={(e) => {
                             try {
-                              e.target.play();
+                              (e.target as HTMLVideoElement).play();
                             } catch (error) {
                               console.log("Video play failed:", error);
                             }
                           }}
                           onMouseLeave={(e) => {
                             try {
-                              e.target.pause();
+                              (e.target as HTMLVideoElement).pause();
                             } catch (error) {
                               console.log("Video pause failed:", error);
                             }
@@ -476,7 +478,7 @@ export default function DevPage() {
                           onError={(e) => {
                             console.log("Video error:", e);
                             // Fallback to a placeholder or hide the video
-                            e.target.style.display = "none";
+                            (e.target as HTMLVideoElement).style.display = "none";
                           }}
                         />
                       ) : (

@@ -167,7 +167,7 @@ export default function DevPage() {
 
   const uxProjects = [
     {
-      title: "Spotify Redesign",
+      title: "Spotify Redesign • Design Focus",
       description:
         "Redesigned the Spotify mobile app to improve discoverability and user engagement through better visual hierarchy and intuitive navigation.",
       technologies: ["Figma", "Prototyping", "User Research", "Wireframing"],
@@ -175,7 +175,7 @@ export default function DevPage() {
       emoji: "🎵",
     },
     {
-      title: "Grammarly Go",
+      title: "Grammarly Go • Research Process",
       description:
         "Designed an AI-powered writing assistant that helps users improve their communication with intelligent suggestions and real-time feedback.",
       technologies: ["UI Design", "UX Research", "Figma", "Prototyping"],

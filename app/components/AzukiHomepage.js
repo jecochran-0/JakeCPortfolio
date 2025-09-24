@@ -292,7 +292,7 @@ const AzukiHomepage = () => {
                 transition={{ delay: 0.3 }}
               >
                 <img
-                  src="/Headshot3.png"
+                  src="/Headshot3.jpg"
                   alt="Jake Cochran"
                   className="w-64 h-64 object-cover rounded-lg"
                 />
@@ -465,7 +465,7 @@ const AzukiHomepage = () => {
                 transition={{ delay: 0.3 }}
               >
                 <img
-                  src="/Headshot3.png"
+                  src="/Headshot3.jpg"
                   alt="Jake Cochran"
                   className="w-96 h-96 object-cover rounded-lg"
                 />

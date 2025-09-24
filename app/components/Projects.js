@@ -136,7 +136,7 @@ const Projects = () => {
       title: "Pizza E-Commerce Store",
       description:
         "A fully functional e-commerce prototype featuring a dynamic menu API, shopping cart system, and Redux state management.",
-      image: "/PizzaStore.png",
+      image: "/PizzaStore2.png",
       tags: ["React.js", "Tailwind", "Redux"],
       links: {
         live: "https://react-pizza-store-omega.vercel.app/",
@@ -148,7 +148,7 @@ const Projects = () => {
       title: "Wizards Chess",
       description:
         "A chess game with integrated spells to drastically change the game. Built with React, CSS, and JavaScript.",
-      image: "/WizardChessPreview.png",
+      image: "/WizardChessPreview.jpg",
       tags: ["React.js", "Tailwind", "JavaScript"],
       links: {
         live: "https://react-wizard-chess.vercel.app/",
@@ -160,7 +160,7 @@ const Projects = () => {
       title: "BentoBox",
       description:
         "A modern web application that uses AI to create beautiful, responsive Bento grid layouts from your photos. Upload 3-5 images and the app will generate three distinct grid layouts optimized for your specific photos.",
-      image: "/BentoBoxPreview.png",
+      image: "/BentoBoxPreview.jpg",
       tags: ["JavaScript", "API", "CSS"],
       links: {
         live: "https://jecochran-0.github.io/BentoBox/",
@@ -172,7 +172,7 @@ const Projects = () => {
       title: "Pixel Character Creator",
       description:
         "A browser-based application that dynamically generates unique pixel-art heroes using OpenAI's API.",
-      image: "/PixelCharacterGenerator.png",
+      image: "/PixelCharacterGenerator2.png",
       tags: ["HTML", "CSS", "JavaScript", "OpenAI", "api"],
       links: {
         live: "https://pixel-character-generator.vercel.app/",

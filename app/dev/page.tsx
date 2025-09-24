@@ -140,7 +140,7 @@ export default function DevPage() {
       description:
         "A fully functional e-commerce prototype featuring a dynamic menu API, shopping cart system, and Redux state management.",
       technologies: ["React.js", "Tailwind", "Redux"],
-      image: "/PizzaStore.png",
+      image: "/PizzaStore2.png",
       emoji: "🍕",
       githubUrl: "https://github.com/jecochran-0/React-Pizza-Store",
       liveUrl: "https://react-pizza-store-omega.vercel.app/",
@@ -150,7 +150,7 @@ export default function DevPage() {
       description:
         "A modern web application that uses AI to create beautiful, responsive Bento grid layouts from your photos.",
       technologies: ["JavaScript", "API", "CSS"],
-      image: "/BentoBoxPreview.png",
+      image: "/BentoBoxPreview.jpg",
       emoji: "📦",
       githubUrl: "https://github.com/jecochran-0/BentoBox/tree/main",
       liveUrl: "https://jecochran-0.github.io/BentoBox/",
@@ -160,7 +160,7 @@ export default function DevPage() {
       description:
         "A browser-based application that dynamically generates unique pixel-art heroes using OpenAI's API.",
       technologies: ["HTML", "CSS", "JavaScript", "OpenAI"],
-      image: "/PixelCharacterGenerator.png",
+      image: "/PixelCharacterGenerator2.png",
       emoji: "🎮",
       githubUrl: "https://github.com/jecochran-0/pixelCharacterGenerator",
       liveUrl: "https://pixel-character-generator.vercel.app/",
@@ -182,7 +182,7 @@ export default function DevPage() {
     description:
       "A chess game with integrated spells to drastically change the game. Built with React, CSS, and JavaScript.",
     technologies: ["React.js", "Tailwind", "JavaScript"],
-    image: "/WizardChessPreview.png",
+    image: "/WizardChessPreview.jpg",
     emoji: "♟️",
     githubUrl: "https://github.com/jecochran-0/React-Wizard-Chess",
     liveUrl: "https://react-wizard-chess.vercel.app/",
@@ -419,8 +419,54 @@ export default function DevPage() {
                 whileHover={{ y: -8 }}
                 data-project-type="development"
               >
-                {/* Featured Project Image */}
-                <div className="relative overflow-hidden mb-8 rounded-lg project-image-container cursor-pointer">
+                {/* Featured Project Images */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                  <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                    <motion.a
+                      href={featuredProject.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                      whileHover={{ scale: 1.02 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                      }}
+                    >
+                      <Image
+                        src="/WizardChessPreview.jpg"
+                        alt="Wizards Chess Main View"
+                        width={1200}
+                        height={600}
+                        className="w-full object-cover h-96 md:h-[500px]"
+                      />
+                    </motion.a>
+                  </div>
+                  <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                    <motion.a
+                      href={featuredProject.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                      whileHover={{ scale: 1.02 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                      }}
+                    >
+                      <Image
+                        src="/Wizards-Chess.jpg"
+                        alt="Wizards Chess Gameplay"
+                        width={1200}
+                        height={600}
+                        className="w-full object-cover h-96 md:h-[500px]"
+                      />
+                    </motion.a>
+                  </div>
+                </div>
+                <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer mb-8">
                   <motion.a
                     href={featuredProject.liveUrl}
                     target="_blank"
@@ -434,11 +480,11 @@ export default function DevPage() {
                     }}
                   >
                     <Image
-                      src={featuredProject.image}
-                      alt={featuredProject.title}
+                      src="/WizardsChessSpells.jpg"
+                      alt="Wizards Chess Spells Interface"
                       width={1200}
-                      height={600}
-                      className="w-full object-cover h-96 md:h-[500px]"
+                      height={400}
+                      className="w-full object-cover h-64 md:h-80"
                     />
                   </motion.a>
                 </div>

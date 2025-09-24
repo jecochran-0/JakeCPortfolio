@@ -136,7 +136,7 @@ export default function AboutPage() {
             >
               <div className="relative h-[70vh] overflow-hidden rounded-lg">
                 <Image
-                  src="/Headshot3.png"
+                  src="/Headshot3.jpg"
                   alt="Jake Cochran - Full Stack Developer and UX/UI Designer"
                   fill
                   className="object-cover object-center"

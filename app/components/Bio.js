@@ -6,7 +6,7 @@ const Bio = memo(() => {
   return (
     <div className="w-full h-full">
       <Image
-        src="/Headshot3.png"
+        src="/Headshot3.jpg"
         alt="Jake Cochran"
         fill
         sizes="(max-width: 640px) 180px, (max-width: 768px) 240px, 300px"

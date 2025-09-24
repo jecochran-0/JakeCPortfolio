@@ -417,6 +417,7 @@ export default function DevPage() {
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -8 }}
+                data-project-type="development"
               >
                 {/* Featured Project Image */}
                 <div className="relative overflow-hidden mb-12 rounded-lg project-image-container cursor-pointer">

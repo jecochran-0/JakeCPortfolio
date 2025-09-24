@@ -348,7 +348,7 @@ export default function DevPage() {
 
             {/* Tab Filter Buttons */}
             <motion.div
-              className="flex justify-start gap-8 max-w-7xl mx-auto"
+              className="flex justify-start gap-8"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
@@ -420,7 +420,7 @@ export default function DevPage() {
                 data-project-type="development"
               >
                 {/* Featured Project Image */}
-                <div className="relative overflow-hidden mb-16 rounded-lg project-image-container cursor-pointer max-w-7xl mx-auto">
+                <div className="relative overflow-hidden mb-16 rounded-lg project-image-container cursor-pointer">
                   <motion.a
                     href={featuredProject.liveUrl}
                     target="_blank"
@@ -444,7 +444,7 @@ export default function DevPage() {
                 </div>
 
                 {/* Featured Project Content */}
-                <div className="text-left space-y-6 max-w-7xl mx-auto">
+                <div className="text-left space-y-6">
                   <div className="flex items-center gap-3 mb-4">
                     <span
                       className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
@@ -499,8 +499,8 @@ export default function DevPage() {
             <div
               className={
                 activeTab === "ux"
-                  ? "space-y-32 max-w-7xl mx-auto"
-                  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 max-w-7xl mx-auto"
+                  ? "space-y-32"
+                  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16"
               }
             >
               {currentProjects.map((project, index) => (

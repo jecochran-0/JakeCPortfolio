@@ -34,7 +34,7 @@ export default function Footer() {
     <footer className="py-24 px-12" style={{ backgroundColor: "#171717" }}>
       <div className="max-w-none mx-auto">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-24 mb-16 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-24 mb-16">
           {/* Contact Information */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -128,7 +128,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Separator */}
-        <div className="border-b border-white/20 mb-12 max-w-7xl mx-auto" />
+        <div className="border-b border-white/20 mb-12" />
 
         {/* Bottom Bar */}
         <motion.div
@@ -136,7 +136,7 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-center max-w-7xl mx-auto"
+          className="text-center"
         >
           <p
             className="text-gray-400 text-lg"

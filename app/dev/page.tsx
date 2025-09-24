@@ -22,10 +22,11 @@ const CustomCursor = () => {
       setIsOverProject(false);
     };
 
-    // Check if mouse is over project images
+    // Check if mouse is over project images (only for UX projects)
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.closest(".project-image-container")) {
+      const projectContainer = target.closest(".project-image-container");
+      if (projectContainer && projectContainer.closest("[data-project-type='ux']")) {
         setIsOverProject(true);
       } else {
         setIsOverProject(false);
@@ -129,6 +130,8 @@ export default function DevPage() {
       technologies: ["React.js", "Tailwind", "Redux"],
       image: "/PizzaStore.png",
       emoji: "🍕",
+      githubUrl: "https://github.com/jakecochran/pizza-ecommerce-store",
+      liveUrl: "https://pizza-ecommerce-store.vercel.app",
     },
     {
       title: "BentoBox",
@@ -137,6 +140,8 @@ export default function DevPage() {
       technologies: ["JavaScript", "API", "CSS"],
       image: "/BentoBoxPreview.png",
       emoji: "📦",
+      githubUrl: "https://github.com/jakecochran/bentobox",
+      liveUrl: "https://bentobox-ai.vercel.app",
     },
     {
       title: "Pixel Character Creator",
@@ -145,6 +150,8 @@ export default function DevPage() {
       technologies: ["HTML", "CSS", "JavaScript", "OpenAI"],
       image: "/PixelCharacterGenerator.png",
       emoji: "🎮",
+      githubUrl: "https://github.com/jakecochran/pixel-character-creator",
+      liveUrl: "https://pixel-character-creator.vercel.app",
     },
     {
       title: "Algorithm Visualizer",
@@ -153,6 +160,8 @@ export default function DevPage() {
       technologies: ["React.js", "Node.js", "MongoDB"],
       image: "/AlgorithmVisualizer_Preview.png",
       emoji: "📊",
+      githubUrl: "https://github.com/jakecochran/algorithm-visualizer",
+      liveUrl: "https://algorithm-visualizer.vercel.app",
     },
   ];
 
@@ -163,6 +172,8 @@ export default function DevPage() {
     technologies: ["React.js", "Tailwind", "JavaScript"],
     image: "/WizardChessPreview.png",
     emoji: "♟️",
+    githubUrl: "https://github.com/jakecochran/wizards-chess",
+    liveUrl: "https://wizards-chess.vercel.app",
   };
 
   const uxProjects = [
@@ -368,25 +379,14 @@ export default function DevPage() {
                 whileHover={{ y: -8 }}
               >
                 {/* Featured Project Image */}
-                <div className="relative overflow-hidden mb-12 rounded-lg project-image-container cursor-pointer">
-                  <motion.a
-                    href="#"
-                    className="block"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 30,
-                    }}
-                  >
-                    <Image
-                      src={featuredProject.image}
-                      alt={featuredProject.title}
-                      width={1200}
-                      height={600}
-                      className="w-full object-cover h-80 md:h-96"
-                    />
-                  </motion.a>
+                <div className="relative overflow-hidden mb-12 rounded-lg project-image-container">
+                  <Image
+                    src={featuredProject.image}
+                    alt={featuredProject.title}
+                    width={1200}
+                    height={600}
+                    className="w-full object-cover h-80 md:h-96"
+                  />
                 </div>
 
                 {/* Featured Project Content */}
@@ -411,6 +411,32 @@ export default function DevPage() {
                   <p className="text-gray-300 leading-relaxed text-xl max-w-3xl">
                     {featuredProject.description}
                   </p>
+                  
+                  {/* Live and GitHub buttons for featured project */}
+                  <div className="flex gap-4 mt-6">
+                    <motion.a
+                      href={featuredProject.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-6 py-3 bg-white text-black font-bold text-base hover:bg-gray-300 transition-colors duration-300"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
+                      Live
+                    </motion.a>
+                    <motion.a
+                      href={featuredProject.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-6 py-3 border-2 border-white text-white font-bold text-base hover:bg-white hover:text-black transition-colors duration-300"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
+                      GitHub
+                    </motion.a>
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -432,9 +458,10 @@ export default function DevPage() {
                   transition={{ delay: index * 0.1, duration: 0.6 }}
                   viewport={{ once: true }}
                   whileHover={{ y: -8 }}
+                  data-project-type={activeTab}
                 >
                   {/* Project Image */}
-                  <div className="relative overflow-hidden mb-12 rounded-lg project-image-container cursor-pointer">
+                  <div className={`relative overflow-hidden mb-12 rounded-lg project-image-container ${activeTab === "ux" ? "cursor-pointer" : ""}`}>
                     <motion.a
                       href={
                         project.title === "Spotify Redesign"
@@ -508,6 +535,34 @@ export default function DevPage() {
                     <p className="text-gray-300 leading-relaxed text-lg max-w-2xl">
                       {project.description}
                     </p>
+                    
+                    {/* Live and GitHub buttons for development projects */}
+                    {activeTab === "development" && 'githubUrl' in project && 'liveUrl' in project && (
+                      <div className="flex gap-4 mt-6">
+                        <motion.a
+                          href={project.liveUrl as string}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-2 bg-white text-black font-bold text-sm hover:bg-gray-300 transition-colors duration-300"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          style={{ fontFamily: "Montserrat, sans-serif" }}
+                        >
+                          Live
+                        </motion.a>
+                        <motion.a
+                          href={project.githubUrl as string}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-2 border-2 border-white text-white font-bold text-sm hover:bg-white hover:text-black transition-colors duration-300"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          style={{ fontFamily: "Montserrat, sans-serif" }}
+                        >
+                          GitHub
+                        </motion.a>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}

@@ -556,9 +556,9 @@ export default function DevPage() {
                   {/* Project Images Section */}
                   <div className="space-y-12">
                     {project.title === "Pizza E-Commerce Store" ? (
-                      // Pizza Store - Multiple images
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                        <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                      // Pizza Store - Asymmetric layout
+                      <div className="grid grid-cols-12 gap-8">
+                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={'liveUrl' in project ? project.liveUrl as string : "#"}
                             target="_blank"
@@ -576,11 +576,11 @@ export default function DevPage() {
                               alt="Pizza Store Main Interface"
                               width={1200}
                               height={600}
-                              className="w-full object-cover h-96 md:h-[500px]"
+                              className="w-full object-cover h-96 md:h-[600px]"
                             />
                           </motion.a>
                         </div>
-                        <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={'liveUrl' in project ? project.liveUrl as string : "#"}
                             target="_blank"
@@ -598,15 +598,15 @@ export default function DevPage() {
                               alt="Pizza Store Cart Interface"
                               width={1200}
                               height={600}
-                              className="w-full object-cover h-96 md:h-[500px]"
+                              className="w-full object-cover h-96 md:h-[600px]"
                             />
                           </motion.a>
                         </div>
                       </div>
                     ) : project.title === "Pixel Character Creator" ? (
-                      // Pixel Character Creator - Multiple images
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                        <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                      // Pixel Character Creator - Asymmetric layout
+                      <div className="grid grid-cols-12 gap-8">
+                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={'liveUrl' in project ? project.liveUrl as string : "#"}
                             target="_blank"
@@ -624,11 +624,11 @@ export default function DevPage() {
                               alt="Pixel Character Generator Interface"
                               width={1200}
                               height={600}
-                              className="w-full object-cover h-96 md:h-[500px]"
+                              className="w-full object-cover h-96 md:h-[600px]"
                             />
                           </motion.a>
                         </div>
-                        <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={'liveUrl' in project ? project.liveUrl as string : "#"}
                             target="_blank"
@@ -646,7 +646,7 @@ export default function DevPage() {
                               alt="Pixel Character Generator Output"
                               width={1200}
                               height={600}
-                              className="w-full object-cover h-96 md:h-[500px]"
+                              className="w-full object-cover h-96 md:h-[600px]"
                             />
                           </motion.a>
                         </div>
@@ -714,43 +714,43 @@ export default function DevPage() {
                   </div>
 
                   {/* Project Content */}
-                  <div className="text-left space-y-8">
-                    <div>
+                  <div className="text-left space-y-6">
+                    <div className="border-b border-white/10 pb-6">
                       <h3
-                        className="text-4xl md:text-5xl font-bold text-white mb-6"
+                        className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {project.title}
                       </h3>
-                      <p className="text-gray-300 leading-relaxed text-xl md:text-2xl max-w-4xl">
+                      <p className="text-gray-400 leading-relaxed text-lg max-w-3xl font-light">
                         {project.description}
                       </p>
                     </div>
                     
                     {/* Live and GitHub buttons for development projects */}
                     {activeTab === "development" && 'githubUrl' in project && 'liveUrl' in project && (
-                      <div className="flex gap-6">
+                      <div className="flex gap-4">
                         <motion.a
                           href={project.liveUrl as string}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-3 px-10 py-5 bg-white text-black font-bold text-lg hover:bg-gray-300 transition-colors duration-300 rounded-full"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
+                          className="flex items-center gap-2 px-6 py-3 bg-white text-black font-medium text-sm hover:bg-gray-200 transition-colors duration-300 rounded-sm"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
                           style={{ fontFamily: "Montserrat, sans-serif" }}
                         >
-                          Live
+                          LIVE
                         </motion.a>
                         <motion.a
                           href={project.githubUrl as string}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-3 px-10 py-5 border-2 border-white/30 text-white font-bold text-lg hover:bg-white hover:text-black transition-colors duration-300 rounded-full"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
+                          className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-medium text-sm hover:bg-white hover:text-black transition-colors duration-300 rounded-sm"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
                           style={{ fontFamily: "Montserrat, sans-serif" }}
                         >
-                          GitHub
+                          GITHUB
                         </motion.a>
                       </div>
                     )}

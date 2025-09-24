@@ -541,113 +541,200 @@ export default function DevPage() {
               </motion.div>
             )}
 
-            {/* Projects Grid */}
-            <div
-              className={
-                activeTab === "ux"
-                  ? "space-y-48"
-                  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24 auto-rows-max"
-              }
-            >
+            {/* Individual Project Sections */}
+            <div className="space-y-80">
               {currentProjects.map((project, index) => (
                 <motion.div
                   key={project.title}
-                  className={`${index === 1 ? "md:mt-16" : index === 2 ? "md:mt-32" : ""}`}
+                  className="space-y-16"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                  transition={{ delay: index * 0.2, duration: 0.8 }}
                   viewport={{ once: true }}
-                  whileHover={{ y: -8 }}
                   data-project-type={activeTab}
                 >
-                  {/* Project Image */}
-                  <div className="relative overflow-hidden mb-6 rounded-lg project-image-container cursor-pointer">
-                    <motion.a
-                      href={
-                        project.title === "Spotify Redesign • Design Focus"
-                          ? "/ux-ui/spotify"
-                          : project.title === "Grammarly Go • Research Process"
-                          ? "/ux-ui/grammarlygo"
-                          : activeTab === "development" && 'liveUrl' in project
-                          ? project.liveUrl as string
-                          : "#"
-                      }
-                      target={activeTab === "development" && 'liveUrl' in project ? "_blank" : undefined}
-                      rel={activeTab === "development" && 'liveUrl' in project ? "noopener noreferrer" : undefined}
-                      className="block"
-                      whileHover={{ scale: 1.02 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 30,
-                      }}
-                    >
-                      {project.image.endsWith(".mp4") ? (
-                        <video
-                          src={project.image}
-                          muted
-                          loop
-                          className={`w-full object-cover ${
-                            activeTab === "ux"
-                              ? "h-[500px] md:h-[600px]"
-                              : "h-80 md:h-96"
-                          }`}
-                          onMouseEnter={(e) => {
-                            try {
-                              (e.target as HTMLVideoElement).play();
-                            } catch (error) {
-                              console.log("Video play failed:", error);
-                            }
+                  {/* Project Images Section */}
+                  <div className="space-y-12">
+                    {project.title === "Pizza E-Commerce Store" ? (
+                      // Pizza Store - Multiple images
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                          <motion.a
+                            href={'liveUrl' in project ? project.liveUrl as string : "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                            whileHover={{ scale: 1.02 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 30,
+                            }}
+                          >
+                            <Image
+                              src="/PizzaStore2.png"
+                              alt="Pizza Store Main Interface"
+                              width={1200}
+                              height={600}
+                              className="w-full object-cover h-96 md:h-[500px]"
+                            />
+                          </motion.a>
+                        </div>
+                        <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                          <motion.a
+                            href={'liveUrl' in project ? project.liveUrl as string : "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                            whileHover={{ scale: 1.02 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 30,
+                            }}
+                          >
+                            <Image
+                              src="/PizzaStore.png"
+                              alt="Pizza Store Cart Interface"
+                              width={1200}
+                              height={600}
+                              className="w-full object-cover h-96 md:h-[500px]"
+                            />
+                          </motion.a>
+                        </div>
+                      </div>
+                    ) : project.title === "Pixel Character Creator" ? (
+                      // Pixel Character Creator - Multiple images
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                          <motion.a
+                            href={'liveUrl' in project ? project.liveUrl as string : "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                            whileHover={{ scale: 1.02 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 30,
+                            }}
+                          >
+                            <Image
+                              src="/PixelCharacterGenerator2.png"
+                              alt="Pixel Character Generator Interface"
+                              width={1200}
+                              height={600}
+                              className="w-full object-cover h-96 md:h-[500px]"
+                            />
+                          </motion.a>
+                        </div>
+                        <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                          <motion.a
+                            href={'liveUrl' in project ? project.liveUrl as string : "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                            whileHover={{ scale: 1.02 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 30,
+                            }}
+                          >
+                            <Image
+                              src="/PixelCharacterGenerator.png"
+                              alt="Pixel Character Generator Output"
+                              width={1200}
+                              height={600}
+                              className="w-full object-cover h-96 md:h-[500px]"
+                            />
+                          </motion.a>
+                        </div>
+                      </div>
+                    ) : (
+                      // Other projects - Single image
+                      <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                        <motion.a
+                          href={
+                            project.title === "Spotify Redesign • Design Focus"
+                              ? "/ux-ui/spotify"
+                              : project.title === "Grammarly Go • Research Process"
+                              ? "/ux-ui/grammarlygo"
+                              : activeTab === "development" && 'liveUrl' in project
+                              ? project.liveUrl as string
+                              : "#"
+                          }
+                          target={activeTab === "development" && 'liveUrl' in project ? "_blank" : undefined}
+                          rel={activeTab === "development" && 'liveUrl' in project ? "noopener noreferrer" : undefined}
+                          className="block"
+                          whileHover={{ scale: 1.02 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 30,
                           }}
-                          onMouseLeave={(e) => {
-                            try {
-                              (e.target as HTMLVideoElement).pause();
-                            } catch (error) {
-                              console.log("Video pause failed:", error);
-                            }
-                          }}
-                          onError={(e) => {
-                            console.log("Video error:", e);
-                            // Fallback to a placeholder or hide the video
-                            (e.target as HTMLVideoElement).style.display = "none";
-                          }}
-                        />
-                      ) : (
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          width={1200}
-                          height={activeTab === "ux" ? 800 : 600}
-                          className={`w-full object-cover ${
-                            activeTab === "ux"
-                              ? "h-[600px] md:h-[700px]"
-                              : "h-96 md:h-[500px]"
-                          }`}
-                        />
-                      )}
-                    </motion.a>
-      </div>
+                        >
+                          {project.image.endsWith(".mp4") ? (
+                            <video
+                              src={project.image}
+                              muted
+                              loop
+                              className="w-full object-cover h-[600px] md:h-[700px]"
+                              onMouseEnter={(e) => {
+                                try {
+                                  (e.target as HTMLVideoElement).play();
+                                } catch (error) {
+                                  console.log("Video play failed:", error);
+                                }
+                              }}
+                              onMouseLeave={(e) => {
+                                try {
+                                  (e.target as HTMLVideoElement).pause();
+                                } catch (error) {
+                                  console.log("Video pause failed:", error);
+                                }
+                              }}
+                              onError={(e) => {
+                                console.log("Video error:", e);
+                                (e.target as HTMLVideoElement).style.display = "none";
+                              }}
+                            />
+                          ) : (
+                            <Image
+                              src={project.image}
+                              alt={project.title}
+                              width={1200}
+                              height={activeTab === "ux" ? 800 : 600}
+                              className="w-full object-cover h-[600px] md:h-[700px]"
+                            />
+                          )}
+                        </motion.a>
+                      </div>
+                    )}
+                  </div>
 
                   {/* Project Content */}
-                  <div className="text-left space-y-3">
-                    <h3
-                      className="text-3xl font-bold text-white"
-                      style={{ fontFamily: "Montserrat, sans-serif" }}
-                    >
-                      {project.title}
-                    </h3>
-                    <p className="text-gray-300 leading-relaxed text-xl max-w-2xl">
-                      {project.description}
-                    </p>
+                  <div className="text-left space-y-8">
+                    <div>
+                      <h3
+                        className="text-4xl md:text-5xl font-bold text-white mb-6"
+                        style={{ fontFamily: "Montserrat, sans-serif" }}
+                      >
+                        {project.title}
+                      </h3>
+                      <p className="text-gray-300 leading-relaxed text-xl md:text-2xl max-w-4xl">
+                        {project.description}
+                      </p>
+                    </div>
                     
                     {/* Live and GitHub buttons for development projects */}
                     {activeTab === "development" && 'githubUrl' in project && 'liveUrl' in project && (
-                      <div className="flex gap-4 mt-4">
+                      <div className="flex gap-6">
                         <motion.a
                           href={project.liveUrl as string}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-8 py-4 bg-white text-black font-bold text-base hover:bg-gray-300 transition-colors duration-300 rounded-full"
+                          className="flex items-center gap-3 px-10 py-5 bg-white text-black font-bold text-lg hover:bg-gray-300 transition-colors duration-300 rounded-full"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -658,7 +745,7 @@ export default function DevPage() {
                           href={project.githubUrl as string}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-bold text-base hover:bg-white hover:text-black transition-colors duration-300 rounded-full"
+                          className="flex items-center gap-3 px-10 py-5 border-2 border-white/30 text-white font-bold text-lg hover:bg-white hover:text-black transition-colors duration-300 rounded-full"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           style={{ fontFamily: "Montserrat, sans-serif" }}

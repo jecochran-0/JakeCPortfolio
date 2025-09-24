@@ -419,123 +419,128 @@ export default function DevPage() {
                 whileHover={{ y: -8 }}
                 data-project-type="development"
               >
-                {/* Featured Project Images */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                  <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
-                    <motion.a
-                      href={featuredProject.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block"
-                      whileHover={{ scale: 1.02 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 30,
-                      }}
-                    >
-                      <Image
-                        src="/WizardChessPreview.jpg"
-                        alt="Wizards Chess Main View"
-                        width={1200}
-                        height={600}
-                        className="w-full object-cover h-96 md:h-[500px]"
-                      />
-                    </motion.a>
+                {/* Featured Project Layout */}
+                <div className="space-y-12">
+                  {/* First Row: Large image + Text content */}
+                  <div className="grid grid-cols-12 gap-8 items-start">
+                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                      <motion.a
+                        href={featuredProject.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                        whileHover={{ scale: 1.02 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 30,
+                        }}
+                      >
+                        <Image
+                          src="/WizardChessPreview.jpg"
+                          alt="Wizards Chess Main View"
+                          width={1200}
+                          height={600}
+                          className="w-full object-cover h-96 md:h-[500px]"
+                        />
+                      </motion.a>
+                    </div>
+                    <div className="col-span-4 space-y-6">
+                      <div className="flex items-center gap-3 mb-4">
+                        <span
+                          className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
+                          style={{
+                            backgroundColor: "#CD535A",
+                            fontFamily: "Montserrat, sans-serif",
+                          }}
+                        >
+                          Featured Project
+                        </span>
+                      </div>
+                      <h3
+                        className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
+                        style={{ fontFamily: "Montserrat, sans-serif" }}
+                      >
+                        {featuredProject.title}
+                      </h3>
+                      <p className="text-gray-400 leading-relaxed text-lg font-light">
+                        {featuredProject.description}
+                      </p>
+                      
+                      {/* Live and GitHub buttons for featured project */}
+                      <div className="flex flex-col gap-3">
+                        <motion.a
+                          href={featuredProject.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-6 py-3 bg-white text-black font-medium text-sm hover:bg-gray-200 transition-colors duration-300 rounded-sm"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          style={{ fontFamily: "Montserrat, sans-serif" }}
+                        >
+                          LIVE
+                        </motion.a>
+                        <motion.a
+                          href={featuredProject.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-medium text-sm hover:bg-white hover:text-black transition-colors duration-300 rounded-sm"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          style={{ fontFamily: "Montserrat, sans-serif" }}
+                        >
+                          GITHUB
+                        </motion.a>
+                      </div>
+                    </div>
                   </div>
-                  <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
-                    <motion.a
-                      href={featuredProject.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block"
-                      whileHover={{ scale: 1.02 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 30,
-                      }}
-                    >
-                      <Image
-                        src="/Wizards-Chess.jpg"
-                        alt="Wizards Chess Gameplay"
-                        width={1200}
-                        height={600}
-                        className="w-full object-cover h-96 md:h-[500px]"
-                      />
-                    </motion.a>
-                  </div>
-                </div>
-                <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer mb-8">
-                  <motion.a
-                    href={featuredProject.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 30,
-                    }}
-                  >
-                    <Image
-                      src="/WizardsChessSpells.jpg"
-                      alt="Wizards Chess Spells Interface"
-                      width={1200}
-                      height={400}
-                      className="w-full object-cover h-64 md:h-80"
-                    />
-                  </motion.a>
-                </div>
 
-                {/* Featured Project Content */}
-                <div className="text-left space-y-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span
-                      className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
-                      style={{
-                        backgroundColor: "#CD535A",
-                        fontFamily: "Montserrat, sans-serif",
-                      }}
-                    >
-                      Featured Project
-                    </span>
-                </div>
-                  <h3
-                    className="text-4xl md:text-5xl font-bold text-white"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                  >
-                    {featuredProject.title}
-                </h3>
-                  <p className="text-gray-300 leading-relaxed text-2xl max-w-4xl">
-                    {featuredProject.description}
-                  </p>
-                  
-                  {/* Live and GitHub buttons for featured project */}
-                  <div className="flex gap-6 mt-8">
-                    <motion.a
-                      href={featuredProject.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-8 py-4 bg-white text-black font-bold text-lg hover:bg-gray-300 transition-colors duration-300 rounded-full"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      style={{ fontFamily: "Montserrat, sans-serif" }}
-                    >
-                      Live
-                    </motion.a>
-                    <motion.a
-                      href={featuredProject.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-bold text-lg hover:bg-white hover:text-black transition-colors duration-300 rounded-full"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      style={{ fontFamily: "Montserrat, sans-serif" }}
-                    >
-                      GitHub
-                    </motion.a>
+                  {/* Second Row: Small image + Spells interface */}
+                  <div className="grid grid-cols-12 gap-8 items-start">
+                    <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                      <motion.a
+                        href={featuredProject.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                        whileHover={{ scale: 1.02 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 30,
+                        }}
+                      >
+                        <Image
+                          src="/Wizards-Chess.jpg"
+                          alt="Wizards Chess Gameplay"
+                          width={1200}
+                          height={600}
+                          className="w-full object-cover h-64 md:h-[400px]"
+                        />
+                      </motion.a>
+                    </div>
+                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                      <motion.a
+                        href={featuredProject.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                        whileHover={{ scale: 1.02 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 30,
+                        }}
+                      >
+                        <Image
+                          src="/WizardsChessSpells.jpg"
+                          alt="Wizards Chess Spells Interface"
+                          width={1200}
+                          height={400}
+                          className="w-full object-cover h-64 md:h-[400px]"
+                        />
+                      </motion.a>
+                    </div>
                   </div>
                 </div>
               </motion.div>

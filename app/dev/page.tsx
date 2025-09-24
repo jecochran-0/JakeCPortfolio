@@ -6,6 +6,165 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
+// Scroll Effects Component (only renders after hydration)
+const ScrollEffects = ({ containerRef, mounted, prefersReducedMotion }: {
+  containerRef: React.RefObject<HTMLDivElement>;
+  mounted: boolean;
+  prefersReducedMotion: boolean;
+}) => {
+  // Always create hooks to avoid conditional hook calls
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+  
+  const smoothScrollProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  const navY = useTransform(smoothScrollProgress, [0, 1], [0, -50]);
+  const heroY = useTransform(smoothScrollProgress, [0, 0.3], [0, -100]);
+  const heroOpacity = useTransform(smoothScrollProgress, [0, 0.3], [1, 0.7]);
+  const bgElement1X = useTransform(smoothScrollProgress, [0, 1], [0, 100]);
+  const bgElement1Y = useTransform(smoothScrollProgress, [0, 1], [0, -50]);
+  const bgElement2X = useTransform(smoothScrollProgress, [0, 1], [0, -80]);
+  const bgElement2Y = useTransform(smoothScrollProgress, [0, 1], [0, 30]);
+
+  // Don't render anything until mounted
+  if (!mounted) return null;
+
+  return (
+    <>
+      {/* Floating Background Elements */}
+      {!prefersReducedMotion && (
+        <motion.div
+          className="absolute inset-0 pointer-events-none overflow-hidden"
+          style={{
+            opacity: 0.03,
+          }}
+        >
+          <motion.div
+            className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full"
+            style={{
+              background: "radial-gradient(circle, #CD535A 0%, transparent 70%)",
+              x: bgElement1X,
+              y: bgElement1Y,
+            }}
+          />
+          <motion.div
+            className="absolute top-3/4 right-1/3 w-64 h-64 rounded-full"
+            style={{
+              background: "radial-gradient(circle, #B4323B 0%, transparent 70%)",
+              x: bgElement2X,
+              y: bgElement2Y,
+            }}
+          />
+        </motion.div>
+      )}
+
+      {/* Top Left Branding with Parallax */}
+      <motion.div
+        className="absolute top-8 left-8 z-20"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+        style={{
+          y: navY,
+        }}
+      >
+        <Link href="/">
+          <motion.div
+            className="px-4 py-2 rounded-lg cursor-pointer"
+            style={{ backgroundColor: "#B4323B" }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <span
+              className="text-white font-black text-lg tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+            >
+              Jake Cochran
+            </span>
+          </motion.div>
+        </Link>
+      </motion.div>
+
+      {/* Top Navigation with Parallax */}
+      <motion.div
+        className="absolute top-8 right-8 z-20 flex items-center space-x-6"
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+        style={{
+          y: navY,
+        }}
+      >
+        <motion.a
+          href="/"
+          className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Go to homepage"
+        >
+          HOME
+        </motion.a>
+        <motion.a
+          href="/about"
+          className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Go to about page"
+        >
+          ABOUT
+        </motion.a>
+        <motion.a
+          href="/skills"
+          className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Go to skills page"
+        >
+          SKILLS
+        </motion.a>
+        <motion.a
+          href="/contact"
+          className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Go to contact page"
+        >
+          WORK
+        </motion.a>
+      </motion.div>
+
+      {/* Hero Text with Parallax */}
+      <motion.div
+        className="absolute top-60 left-16 right-16 z-10"
+        style={{
+          y: heroY,
+          opacity: heroOpacity,
+        }}
+      >
+        <h1
+          className="text-7xl md:text-8xl lg:text-9xl font-black text-white leading-tight tracking-tight mb-8"
+          style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+        >
+          BRIDGING UX AND DEVELOPMENT
+          <span
+            className="inline-block w-1 h-20 bg-white ml-2"
+            style={{
+              opacity: 1, // We'll handle cursor animation separately
+              transition: "opacity 0.1s ease-in-out",
+            }}
+          ></span>
+        </h1>
+      </motion.div>
+    </>
+  );
+};
+
 // Custom Cursor Component
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -99,34 +258,11 @@ const CustomCursor = () => {
 export default function DevPage() {
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
-  const [showCursor, setShowCursor] = useState(true);
   const searchParams = useSearchParams();
   
   // Smooth scrolling physics
   const containerRef = useRef<HTMLDivElement>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  // Only create scroll hooks after component is mounted and hydrated
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-  
-  // Smooth scroll physics with spring damping
-  const smoothScrollProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  // Transform values (only create when mounted to avoid hydration issues)
-  const navY = useTransform(smoothScrollProgress, [0, 1], [0, -50]);
-  const heroY = useTransform(smoothScrollProgress, [0, 0.3], [0, -100]);
-  const heroOpacity = useTransform(smoothScrollProgress, [0, 0.3], [1, 0.7]);
-  const bgElement1X = useTransform(smoothScrollProgress, [0, 1], [0, 100]);
-  const bgElement1Y = useTransform(smoothScrollProgress, [0, 1], [0, -50]);
-  const bgElement2X = useTransform(smoothScrollProgress, [0, 1], [0, -80]);
-  const bgElement2Y = useTransform(smoothScrollProgress, [0, 1], [0, 30]);
 
 
 
@@ -163,13 +299,6 @@ export default function DevPage() {
     };
   }, [searchParams]);
 
-  // Typing cursor animation
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShowCursor((prev) => !prev);
-    }, 530);
-    return () => clearInterval(interval);
-  }, []);
 
 
   const developmentProjects = [
@@ -286,107 +415,12 @@ export default function DevPage() {
         role="main"
         aria-label="Development - Jake Cochran Portfolio"
       >
-        {/* Floating Background Elements */}
-        {!prefersReducedMotion && (
-          <motion.div
-            className="absolute inset-0 pointer-events-none overflow-hidden"
-            style={{
-              opacity: 0.03,
-            }}
-          >
-            <motion.div
-              className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full"
-              style={{
-                background: "radial-gradient(circle, #CD535A 0%, transparent 70%)",
-                x: !mounted || prefersReducedMotion ? 0 : bgElement1X,
-                y: !mounted || prefersReducedMotion ? 0 : bgElement1Y,
-              }}
-            />
-            <motion.div
-              className="absolute top-3/4 right-1/3 w-64 h-64 rounded-full"
-              style={{
-                background: "radial-gradient(circle, #B4323B 0%, transparent 70%)",
-                x: !mounted || prefersReducedMotion ? 0 : bgElement2X,
-                y: !mounted || prefersReducedMotion ? 0 : bgElement2Y,
-              }}
-            />
-          </motion.div>
-        )}
-
-        {/* Top Left Branding */}
-        <motion.div
-          className="absolute top-8 left-8 z-20"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          style={{
-            y: !mounted || prefersReducedMotion ? 0 : navY,
-          }}
-        >
-          <Link href="/">
-            <motion.div
-              className="px-4 py-2 rounded-lg cursor-pointer"
-              style={{ backgroundColor: "#B4323B" }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <span
-                className="text-white font-black text-lg tracking-wider uppercase"
-                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-              >
-                Jake Cochran
-              </span>
-            </motion.div>
-          </Link>
-        </motion.div>
-
-        {/* Top Navigation */}
-          <motion.div
-          className="absolute top-8 right-8 z-20 flex items-center space-x-6"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          style={{
-            y: !mounted || prefersReducedMotion ? 0 : navY,
-          }}
-        >
-          <motion.a
-            href="/"
-            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Go to homepage"
-          >
-            HOME
-          </motion.a>
-          <motion.a
-            href="/about"
-            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Go to about page"
-          >
-            ABOUT
-          </motion.a>
-          <motion.a
-            href="/skills"
-            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Go to skills page"
-          >
-            SKILLS
-          </motion.a>
-          <motion.a
-            href="/contact"
-            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Go to contact page"
-          >
-            WORK
-          </motion.a>
-        </motion.div>
+        {/* Scroll Effects Component (only renders after hydration) */}
+        <ScrollEffects 
+          containerRef={containerRef}
+          mounted={mounted}
+          prefersReducedMotion={prefersReducedMotion}
+        />
 
         {/* Hero Section */}
         <motion.section
@@ -396,31 +430,7 @@ export default function DevPage() {
           transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <div className="max-w-none mx-auto">
-            {/* Main Hero Text */}
-            <motion.div
-              className="mb-8"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
-              style={{
-                y: !mounted || prefersReducedMotion ? 0 : heroY,
-                opacity: !mounted || prefersReducedMotion ? 1 : heroOpacity,
-              }}
-            >
-              <h1
-                className="text-7xl md:text-8xl lg:text-9xl font-black text-white leading-tight tracking-tight mb-8"
-                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-              >
-                BRIDGING UX AND DEVELOPMENT
-                <span
-                  className="inline-block w-1 h-20 bg-white ml-2"
-                  style={{
-                    opacity: showCursor ? 1 : 0,
-                    transition: "opacity 0.1s ease-in-out",
-                  }}
-                ></span>
-              </h1>
-            </motion.div>
+            {/* Main Hero Text - Now handled by ScrollEffects component */}
 
             {/* Tab Filter Buttons */}
             <motion.div

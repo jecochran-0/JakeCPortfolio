@@ -130,8 +130,8 @@ export default function DevPage() {
       technologies: ["React.js", "Tailwind", "Redux"],
       image: "/PizzaStore.png",
       emoji: "🍕",
-      githubUrl: "https://github.com/jakecochran/pizza-ecommerce-store",
-      liveUrl: "https://pizza-ecommerce-store.vercel.app",
+      githubUrl: "https://github.com/jecochran-0/React-Pizza-Store",
+      liveUrl: "https://react-pizza-store-omega.vercel.app/",
     },
     {
       title: "BentoBox",
@@ -140,8 +140,8 @@ export default function DevPage() {
       technologies: ["JavaScript", "API", "CSS"],
       image: "/BentoBoxPreview.png",
       emoji: "📦",
-      githubUrl: "https://github.com/jakecochran/bentobox",
-      liveUrl: "https://bentobox-ai.vercel.app",
+      githubUrl: "https://github.com/jecochran-0/BentoBox/tree/main",
+      liveUrl: "https://jecochran-0.github.io/BentoBox/",
     },
     {
       title: "Pixel Character Creator",
@@ -150,8 +150,8 @@ export default function DevPage() {
       technologies: ["HTML", "CSS", "JavaScript", "OpenAI"],
       image: "/PixelCharacterGenerator.png",
       emoji: "🎮",
-      githubUrl: "https://github.com/jakecochran/pixel-character-creator",
-      liveUrl: "https://pixel-character-creator.vercel.app",
+      githubUrl: "https://github.com/jecochran-0/pixelCharacterGenerator",
+      liveUrl: "https://pixel-character-generator.vercel.app/",
     },
     {
       title: "Algorithm Visualizer",
@@ -160,8 +160,8 @@ export default function DevPage() {
       technologies: ["React.js", "Node.js", "MongoDB"],
       image: "/AlgorithmVisualizer_Preview.png",
       emoji: "📊",
-      githubUrl: "https://github.com/jakecochran/algorithm-visualizer",
-      liveUrl: "https://algorithm-visualizer.vercel.app",
+      githubUrl: "https://github.com/jecochran-0/algorithm_visualizer",
+      liveUrl: "https://jecochran-0.github.io/algorithm_visualizer/",
     },
   ];
 
@@ -172,8 +172,8 @@ export default function DevPage() {
     technologies: ["React.js", "Tailwind", "JavaScript"],
     image: "/WizardChessPreview.png",
     emoji: "♟️",
-    githubUrl: "https://github.com/jakecochran/wizards-chess",
-    liveUrl: "https://wizards-chess.vercel.app",
+    githubUrl: "https://github.com/jecochran-0/React-Wizard-Chess",
+    liveUrl: "https://react-wizard-chess.vercel.app/",
   };
 
   const uxProjects = [

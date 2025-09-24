@@ -1,176 +1,17 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-
-// Scroll Effects Component (only renders after hydration)
-const ScrollEffects = ({ containerRef, mounted, prefersReducedMotion }: {
-  containerRef: React.RefObject<HTMLDivElement>;
-  mounted: boolean;
-  prefersReducedMotion: boolean;
-}) => {
-  // Always create hooks to avoid conditional hook calls
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-  
-  const smoothScrollProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  const navY = useTransform(smoothScrollProgress, [0, 1], [0, -50]);
-  const heroY = useTransform(smoothScrollProgress, [0, 0.3], [0, -100]);
-  const heroOpacity = useTransform(smoothScrollProgress, [0, 0.3], [1, 0.7]);
-  const bgElement1X = useTransform(smoothScrollProgress, [0, 1], [0, 100]);
-  const bgElement1Y = useTransform(smoothScrollProgress, [0, 1], [0, -50]);
-  const bgElement2X = useTransform(smoothScrollProgress, [0, 1], [0, -80]);
-  const bgElement2Y = useTransform(smoothScrollProgress, [0, 1], [0, 30]);
-
-  // Don't render anything until mounted
-  if (!mounted) return null;
-
-  return (
-    <>
-      {/* Floating Background Elements */}
-      {!prefersReducedMotion && (
-        <motion.div
-          className="absolute inset-0 pointer-events-none overflow-hidden"
-          style={{
-            opacity: 0.03,
-          }}
-        >
-          <motion.div
-            className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full"
-            style={{
-              background: "radial-gradient(circle, #CD535A 0%, transparent 70%)",
-              x: bgElement1X,
-              y: bgElement1Y,
-            }}
-          />
-          <motion.div
-            className="absolute top-3/4 right-1/3 w-64 h-64 rounded-full"
-            style={{
-              background: "radial-gradient(circle, #B4323B 0%, transparent 70%)",
-              x: bgElement2X,
-              y: bgElement2Y,
-            }}
-          />
-        </motion.div>
-      )}
-
-      {/* Top Left Branding with Parallax */}
-      <motion.div
-        className="absolute top-8 left-8 z-20"
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
-        style={{
-          y: navY,
-        }}
-      >
-        <Link href="/">
-          <motion.div
-            className="px-4 py-2 rounded-lg cursor-pointer"
-            style={{ backgroundColor: "#B4323B" }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <span
-              className="text-white font-black text-lg tracking-wider uppercase"
-              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-            >
-              Jake Cochran
-            </span>
-          </motion.div>
-        </Link>
-      </motion.div>
-
-      {/* Top Navigation with Parallax */}
-      <motion.div
-        className="absolute top-8 right-8 z-20 flex items-center space-x-6"
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
-        style={{
-          y: navY,
-        }}
-      >
-        <motion.a
-          href="/"
-          className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          aria-label="Go to homepage"
-        >
-          HOME
-        </motion.a>
-        <motion.a
-          href="/about"
-          className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          aria-label="Go to about page"
-        >
-          ABOUT
-        </motion.a>
-        <motion.a
-          href="/skills"
-          className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          aria-label="Go to skills page"
-        >
-          SKILLS
-        </motion.a>
-        <motion.a
-          href="/contact"
-          className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          aria-label="Go to contact page"
-        >
-          WORK
-        </motion.a>
-      </motion.div>
-
-      {/* Hero Text with Parallax */}
-      <motion.div
-        className="absolute top-60 left-16 right-16 z-10"
-        style={{
-          y: heroY,
-          opacity: heroOpacity,
-        }}
-      >
-        <h1
-          className="text-7xl md:text-8xl lg:text-9xl font-black text-white leading-tight tracking-tight mb-8"
-          style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-        >
-          BRIDGING UX AND DEVELOPMENT
-          <span
-            className="inline-block w-1 h-20 bg-white ml-2"
-            style={{
-              opacity: 1, // We'll handle cursor animation separately
-              transition: "opacity 0.1s ease-in-out",
-            }}
-          ></span>
-        </h1>
-      </motion.div>
-    </>
-  );
-};
 
 // Custom Cursor Component
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const [isOverProject, setIsOverProject] = useState(false);
-  const [projectType, setProjectType] = useState<'ux' | 'dev' | null>(null);
+  const [projectType, setProjectType] = useState<"ux" | "dev" | null>(null);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
@@ -191,7 +32,9 @@ const CustomCursor = () => {
       if (projectContainer) {
         const projectElement = projectContainer.closest("[data-project-type]");
         if (projectElement) {
-          const type = projectElement.getAttribute("data-project-type") as 'ux' | 'dev';
+          const type = projectElement.getAttribute("data-project-type") as
+            | "ux"
+            | "dev";
           setIsOverProject(true);
           setProjectType(type);
         } else {
@@ -247,7 +90,7 @@ const CustomCursor = () => {
             className="text-white font-bold text-sm"
             style={{ fontFamily: "Montserrat, sans-serif" }}
           >
-            {projectType === 'ux' ? 'VIEW' : 'GO LIVE'}
+            {projectType === "ux" ? "VIEW" : "GO LIVE"}
           </span>
         )}
       </div>
@@ -255,30 +98,37 @@ const CustomCursor = () => {
   );
 };
 
+// Smooth Scrolling Component
+const SmoothScroll = () => {
+  const { scrollYProgress } = useScroll();
+  
+  // Apply smooth spring animation to scroll progress for enhanced smoothness
+  useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  useEffect(() => {
+    // Apply smooth scrolling to the document
+    document.documentElement.style.scrollBehavior = "smooth";
+    
+    return () => {
+      document.documentElement.style.scrollBehavior = "auto";
+    };
+  }, []);
+
+  return null;
+};
+
 export default function DevPage() {
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
+  const [showCursor, setShowCursor] = useState(true);
   const searchParams = useSearchParams();
-  
-  // Smooth scrolling physics
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-
 
   useEffect(() => {
     setMounted(true);
-    
-    // Check for reduced motion preference
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
-    
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches);
-    };
-    
-    mediaQuery.addEventListener('change', handleChange);
-    
     // Check URL params to set initial state
     const initialTab = searchParams.get("tab");
     if (initialTab === "ux" || initialTab === "design") {
@@ -288,18 +138,15 @@ export default function DevPage() {
     } else {
       setActiveTab("all");
     }
-
-    // Add smooth scrolling to the document
-    document.documentElement.style.scrollBehavior = "smooth";
-
-    // Cleanup function
-    return () => {
-      document.documentElement.style.scrollBehavior = "auto";
-      mediaQuery.removeEventListener('change', handleChange);
-    };
   }, [searchParams]);
 
-
+  // Typing cursor animation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 530);
+    return () => clearInterval(interval);
+  }, []);
 
   const developmentProjects = [
     {
@@ -383,7 +230,7 @@ export default function DevPage() {
       : uxProjects;
 
   if (!mounted) {
-  return (
+    return (
       <div
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundColor: "#171717" }}
@@ -404,23 +251,84 @@ export default function DevPage() {
   return (
     <>
       <CustomCursor />
+      <SmoothScroll />
       <main
-        ref={containerRef}
-        className="relative font-sans scroll-smooth"
+        className="relative font-sans"
         style={{
           backgroundColor: "#171717",
-          scrollBehavior: "smooth",
           cursor: "none",
         }}
         role="main"
         aria-label="Development - Jake Cochran Portfolio"
       >
-        {/* Scroll Effects Component (only renders after hydration) */}
-        <ScrollEffects 
-          containerRef={containerRef}
-          mounted={mounted}
-          prefersReducedMotion={prefersReducedMotion}
-        />
+        {/* Top Left Branding */}
+        <motion.div
+          className="absolute top-8 left-8 z-20"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          <Link href="/">
+            <motion.div
+              className="px-4 py-2 rounded-lg cursor-pointer"
+              style={{ backgroundColor: "#B4323B" }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span
+                className="text-white font-black text-lg tracking-wider uppercase"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              >
+                Jake Cochran
+              </span>
+            </motion.div>
+          </Link>
+        </motion.div>
+
+        {/* Top Navigation */}
+        <motion.div
+          className="absolute top-8 right-8 z-20 flex items-center space-x-6"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          <motion.a
+            href="/"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Go to homepage"
+          >
+            HOME
+          </motion.a>
+          <motion.a
+            href="/about"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Go to about page"
+          >
+            ABOUT
+          </motion.a>
+          <motion.a
+            href="/skills"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Go to skills page"
+          >
+            SKILLS
+          </motion.a>
+          <motion.a
+            href="/contact"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Go to contact page"
+          >
+            WORK
+          </motion.a>
+        </motion.div>
 
         {/* Hero Section */}
         <motion.section
@@ -430,7 +338,27 @@ export default function DevPage() {
           transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <div className="max-w-none mx-auto">
-            {/* Main Hero Text - Now handled by ScrollEffects component */}
+            {/* Main Hero Text */}
+            <motion.div
+              className="mb-8"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <h1
+                className="text-7xl md:text-8xl lg:text-9xl font-black text-white leading-tight tracking-tight mb-8"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              >
+                BRIDGING UX AND DEVELOPMENT
+                <span
+                  className="inline-block w-1 h-20 bg-white ml-2"
+                  style={{
+                    opacity: showCursor ? 1 : 0,
+                    transition: "opacity 0.1s ease-in-out",
+                  }}
+                ></span>
+              </h1>
+            </motion.div>
 
             {/* Tab Filter Buttons */}
             <motion.div
@@ -552,7 +480,7 @@ export default function DevPage() {
                       <p className="text-gray-400 leading-relaxed text-lg font-light">
                         {featuredProject.description}
                       </p>
-                      
+
                       {/* Live and GitHub buttons for featured project */}
                       <div className="flex flex-col gap-3">
                         <motion.a
@@ -651,7 +579,11 @@ export default function DevPage() {
                       <div className="grid grid-cols-12 gap-8 items-start">
                         <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
-                            href={'liveUrl' in project ? project.liveUrl as string : "#"}
+                            href={
+                              "liveUrl" in project
+                                ? (project.liveUrl as string)
+                                : "#"
+                            }
                             target="_blank"
                             rel="noopener noreferrer"
                             className="block"
@@ -673,7 +605,11 @@ export default function DevPage() {
                         </div>
                         <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
-                            href={'liveUrl' in project ? project.liveUrl as string : "#"}
+                            href={
+                              "liveUrl" in project
+                                ? (project.liveUrl as string)
+                                : "#"
+                            }
                             target="_blank"
                             rel="noopener noreferrer"
                             className="block"
@@ -699,7 +635,11 @@ export default function DevPage() {
                       <div className="grid grid-cols-12 gap-8 items-start">
                         <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
-                            href={'liveUrl' in project ? project.liveUrl as string : "#"}
+                            href={
+                              "liveUrl" in project
+                                ? (project.liveUrl as string)
+                                : "#"
+                            }
                             target="_blank"
                             rel="noopener noreferrer"
                             className="block"
@@ -721,7 +661,11 @@ export default function DevPage() {
                         </div>
                         <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
-                            href={'liveUrl' in project ? project.liveUrl as string : "#"}
+                            href={
+                              "liveUrl" in project
+                                ? (project.liveUrl as string)
+                                : "#"
+                            }
                             target="_blank"
                             rel="noopener noreferrer"
                             className="block"
@@ -749,14 +693,24 @@ export default function DevPage() {
                           href={
                             project.title === "Spotify Redesign • Design Focus"
                               ? "/ux-ui/spotify"
-                              : project.title === "Grammarly Go • Research Process"
+                              : project.title ===
+                                "Grammarly Go • Research Process"
                               ? "/ux-ui/grammarlygo"
-                              : activeTab === "development" && 'liveUrl' in project
-                              ? project.liveUrl as string
+                              : activeTab === "development" &&
+                                "liveUrl" in project
+                              ? (project.liveUrl as string)
                               : "#"
                           }
-                          target={activeTab === "development" && 'liveUrl' in project ? "_blank" : undefined}
-                          rel={activeTab === "development" && 'liveUrl' in project ? "noopener noreferrer" : undefined}
+                          target={
+                            activeTab === "development" && "liveUrl" in project
+                              ? "_blank"
+                              : undefined
+                          }
+                          rel={
+                            activeTab === "development" && "liveUrl" in project
+                              ? "noopener noreferrer"
+                              : undefined
+                          }
                           className="block"
                           whileHover={{ scale: 1.02 }}
                           transition={{
@@ -787,7 +741,8 @@ export default function DevPage() {
                               }}
                               onError={(e) => {
                                 console.log("Video error:", e);
-                                (e.target as HTMLVideoElement).style.display = "none";
+                                (e.target as HTMLVideoElement).style.display =
+                                  "none";
                               }}
                             />
                           ) : (
@@ -817,34 +772,36 @@ export default function DevPage() {
                         {project.description}
                       </p>
                     </div>
-                    
+
                     {/* Live and GitHub buttons for development projects */}
-                    {activeTab === "development" && 'githubUrl' in project && 'liveUrl' in project && (
-                      <div className="flex gap-4">
-                        <motion.a
-                          href={project.liveUrl as string}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-6 py-3 bg-white text-black font-medium text-sm hover:bg-gray-200 transition-colors duration-300 rounded-sm"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          style={{ fontFamily: "Montserrat, sans-serif" }}
-                        >
-                          LIVE
-                        </motion.a>
-                        <motion.a
-                          href={project.githubUrl as string}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-medium text-sm hover:bg-white hover:text-black transition-colors duration-300 rounded-sm"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          style={{ fontFamily: "Montserrat, sans-serif" }}
-                        >
-                          GITHUB
-                        </motion.a>
-                      </div>
-                    )}
+                    {activeTab === "development" &&
+                      "githubUrl" in project &&
+                      "liveUrl" in project && (
+                        <div className="flex gap-4">
+                          <motion.a
+                            href={project.liveUrl as string}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 px-6 py-3 bg-white text-black font-medium text-sm hover:bg-gray-200 transition-colors duration-300 rounded-sm"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            style={{ fontFamily: "Montserrat, sans-serif" }}
+                          >
+                            LIVE
+                          </motion.a>
+                          <motion.a
+                            href={project.githubUrl as string}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-medium text-sm hover:bg-white hover:text-black transition-colors duration-300 rounded-sm"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            style={{ fontFamily: "Montserrat, sans-serif" }}
+                          >
+                            GITHUB
+                          </motion.a>
+                        </div>
+                      )}
                   </div>
                 </motion.div>
               ))}
@@ -870,8 +827,8 @@ export default function DevPage() {
               >
                 Start a Project
               </motion.a>
-          </motion.div>
-        </div>
+            </motion.div>
+          </div>
         </motion.section>
       </main>
     </>

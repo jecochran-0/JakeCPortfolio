@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import Lenis from "lenis";
 
 // Custom Cursor Component
 const CustomCursor = () => {
@@ -98,23 +99,27 @@ const CustomCursor = () => {
   );
 };
 
-// Smooth Scrolling Component
+// Lenis Smooth Scrolling with Momentum
 const SmoothScroll = () => {
-  const { scrollYProgress } = useScroll();
-  
-  // Apply smooth spring animation to scroll progress for enhanced smoothness
-  useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
   useEffect(() => {
-    // Apply smooth scrolling to the document
-    document.documentElement.style.scrollBehavior = "smooth";
-    
+    // Initialize Lenis for smooth scrolling with momentum
+    const lenis = new Lenis({
+      duration: 1.2, // Duration of smooth scroll
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Custom easing
+      touchMultiplier: 2, // Touch sensitivity
+    });
+
+    // Animation loop for Lenis
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    // Cleanup
     return () => {
-      document.documentElement.style.scrollBehavior = "auto";
+      lenis.destroy();
     };
   }, []);
 
@@ -230,7 +235,7 @@ export default function DevPage() {
       : uxProjects;
 
   if (!mounted) {
-    return (
+  return (
       <div
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundColor: "#171717" }}
@@ -286,7 +291,7 @@ export default function DevPage() {
         </motion.div>
 
         {/* Top Navigation */}
-        <motion.div
+          <motion.div
           className="absolute top-8 right-8 z-20 flex items-center space-x-6"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -458,7 +463,7 @@ export default function DevPage() {
                           className="w-full object-cover h-96 md:h-[500px]"
                         />
                       </motion.a>
-                    </div>
+                </div>
                     <div className="col-span-4 space-y-6">
                       <div className="flex items-center gap-3 mb-4">
                         <span
@@ -470,13 +475,13 @@ export default function DevPage() {
                         >
                           Featured Project
                         </span>
-                      </div>
+                </div>
                       <h3
                         className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {featuredProject.title}
-                      </h3>
+                </h3>
                       <p className="text-gray-400 leading-relaxed text-lg font-light">
                         {featuredProject.description}
                       </p>
@@ -505,9 +510,9 @@ export default function DevPage() {
                         >
                           GITHUB
                         </motion.a>
-                      </div>
-                    </div>
-                  </div>
+            </div>
+        </div>
+        </div>
 
                   {/* Second Row: Small image + Spells interface */}
                   <div className="grid grid-cols-12 gap-8 items-start">
@@ -540,7 +545,7 @@ export default function DevPage() {
                         rel="noopener noreferrer"
                         className="block"
                         whileHover={{ scale: 1.02 }}
-                        transition={{
+              transition={{
                           type: "spring",
                           stiffness: 300,
                           damping: 30,
@@ -554,7 +559,7 @@ export default function DevPage() {
                           className="w-full object-cover h-64 md:h-[400px]"
                         />
                       </motion.a>
-                    </div>
+          </div>
                   </div>
                 </div>
               </motion.div>
@@ -684,8 +689,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-                        </div>
-                      </div>
+          </div>
+        </div>
                     ) : (
                       // Other projects - Single image
                       <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
@@ -757,7 +762,7 @@ export default function DevPage() {
                         </motion.a>
                       </div>
                     )}
-                  </div>
+      </div>
 
                   {/* Project Content */}
                   <div className="text-left space-y-6">
@@ -827,8 +832,8 @@ export default function DevPage() {
               >
                 Start a Project
               </motion.a>
-            </motion.div>
-          </div>
+          </motion.div>
+        </div>
         </motion.section>
       </main>
     </>

@@ -318,12 +318,12 @@ export default function DevPage() {
 
         {/* Hero Section */}
         <motion.section
-          className="relative flex items-start justify-start px-8 pt-52 pb-16"
+          className="relative flex items-start justify-start px-16 pt-60 pb-20"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-none mx-auto">
             {/* Main Hero Text */}
             <motion.div
               className="mb-8"
@@ -332,7 +332,7 @@ export default function DevPage() {
               transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
               <h1
-                className="text-6xl md:text-7xl lg:text-8xl font-black text-white leading-tight tracking-tight mb-6"
+                className="text-7xl md:text-8xl lg:text-9xl font-black text-white leading-tight tracking-tight mb-8"
                 style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
               >
                 BRIDGING UX AND DEVELOPMENT
@@ -348,7 +348,7 @@ export default function DevPage() {
 
             {/* Tab Filter Buttons */}
             <motion.div
-              className="flex justify-start gap-6"
+              className="flex justify-start gap-8 max-w-7xl mx-auto"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
@@ -404,10 +404,10 @@ export default function DevPage() {
 
         {/* Projects Section */}
         <motion.section
-          className="py-32 px-8 relative z-20"
+          className="py-40 px-16 relative z-20"
           style={{ backgroundColor: "#171717" }}
         >
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-none mx-auto">
             {/* Featured Project (Development tab only) */}
             {activeTab === "development" && (
               <motion.div
@@ -420,7 +420,7 @@ export default function DevPage() {
                 data-project-type="development"
               >
                 {/* Featured Project Image */}
-                <div className="relative overflow-hidden mb-12 rounded-lg project-image-container cursor-pointer">
+                <div className="relative overflow-hidden mb-16 rounded-lg project-image-container cursor-pointer max-w-7xl mx-auto">
                   <motion.a
                     href={featuredProject.liveUrl}
                     target="_blank"
@@ -444,7 +444,7 @@ export default function DevPage() {
                 </div>
 
                 {/* Featured Project Content */}
-                <div className="text-left space-y-4">
+                <div className="text-left space-y-6 max-w-7xl mx-auto">
                   <div className="flex items-center gap-3 mb-4">
                     <span
                       className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
@@ -457,22 +457,22 @@ export default function DevPage() {
                     </span>
                   </div>
                   <h3
-                    className="text-3xl md:text-4xl font-bold text-white"
+                    className="text-4xl md:text-5xl font-bold text-white"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
                     {featuredProject.title}
                   </h3>
-                  <p className="text-gray-300 leading-relaxed text-xl max-w-3xl">
+                  <p className="text-gray-300 leading-relaxed text-2xl max-w-4xl">
                     {featuredProject.description}
                   </p>
                   
                   {/* Live and GitHub buttons for featured project */}
-                  <div className="flex gap-4 mt-6">
+                  <div className="flex gap-6 mt-8">
                     <motion.a
                       href={featuredProject.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-6 py-3 bg-white text-black font-bold text-base hover:bg-gray-300 transition-colors duration-300"
+                      className="flex items-center gap-2 px-8 py-4 bg-white text-black font-bold text-lg hover:bg-gray-300 transition-colors duration-300"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -483,7 +483,7 @@ export default function DevPage() {
                       href={featuredProject.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-6 py-3 border-2 border-white text-white font-bold text-base hover:bg-white hover:text-black transition-colors duration-300"
+                      className="flex items-center gap-2 px-8 py-4 border-2 border-white text-white font-bold text-lg hover:bg-white hover:text-black transition-colors duration-300"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -499,8 +499,8 @@ export default function DevPage() {
             <div
               className={
                 activeTab === "ux"
-                  ? "space-y-24"
-                  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"
+                  ? "space-y-32 max-w-7xl mx-auto"
+                  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 max-w-7xl mx-auto"
               }
             >
               {currentProjects.map((project, index) => (
@@ -515,7 +515,7 @@ export default function DevPage() {
                   data-project-type={activeTab}
                 >
                   {/* Project Image */}
-                  <div className="relative overflow-hidden mb-12 rounded-lg project-image-container cursor-pointer">
+                  <div className="relative overflow-hidden mb-16 rounded-lg project-image-container cursor-pointer">
                     <motion.a
                       href={
                         project.title === "Spotify Redesign • Design Focus"

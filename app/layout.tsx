@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk, Archivo_Black, Bungee } from "next/font/google";
 import "./globals.css";
 import PerformanceMonitor from "./components/PerformanceMonitor";
+import Footer from "./components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 const spaceGrotesk = Space_Grotesk({
@@ -124,6 +125,7 @@ export default function RootLayout({
       <body className="antialiased">
         <PerformanceMonitor />
         {children}
+        <Footer />
       </body>
     </html>
   );

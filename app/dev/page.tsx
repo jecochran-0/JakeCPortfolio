@@ -420,7 +420,7 @@ export default function DevPage() {
                 data-project-type="development"
               >
                 {/* Featured Project Image */}
-                <div className="relative overflow-hidden mb-16 rounded-lg project-image-container cursor-pointer">
+                <div className="relative overflow-hidden mb-8 rounded-lg project-image-container cursor-pointer">
                   <motion.a
                     href={featuredProject.liveUrl}
                     target="_blank"
@@ -472,7 +472,7 @@ export default function DevPage() {
                       href={featuredProject.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-8 py-4 bg-white text-black font-bold text-lg hover:bg-gray-300 transition-colors duration-300"
+                      className="flex items-center gap-2 px-8 py-4 bg-white text-black font-bold text-lg hover:bg-gray-300 transition-colors duration-300 rounded-full"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -483,7 +483,7 @@ export default function DevPage() {
                       href={featuredProject.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-8 py-4 border-2 border-white text-white font-bold text-lg hover:bg-white hover:text-black transition-colors duration-300"
+                      className="flex items-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-bold text-lg hover:bg-white hover:text-black transition-colors duration-300 rounded-full"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -500,13 +500,13 @@ export default function DevPage() {
               className={
                 activeTab === "ux"
                   ? "space-y-32"
-                  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16"
+                  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 auto-rows-max"
               }
             >
               {currentProjects.map((project, index) => (
                 <motion.div
                   key={project.title}
-                  className=""
+                  className={`${index === 1 ? "md:mt-16" : index === 2 ? "md:mt-32" : ""}`}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1, duration: 0.6 }}
@@ -515,7 +515,7 @@ export default function DevPage() {
                   data-project-type={activeTab}
                 >
                   {/* Project Image */}
-                  <div className="relative overflow-hidden mb-16 rounded-lg project-image-container cursor-pointer">
+                  <div className="relative overflow-hidden mb-6 rounded-lg project-image-container cursor-pointer">
                     <motion.a
                       href={
                         project.title === "Spotify Redesign • Design Focus"
@@ -583,7 +583,7 @@ export default function DevPage() {
                   </div>
 
                   {/* Project Content */}
-                  <div className="text-left space-y-4">
+                  <div className="text-left space-y-3">
                     <h3
                       className="text-2xl font-bold text-white"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -596,12 +596,12 @@ export default function DevPage() {
                     
                     {/* Live and GitHub buttons for development projects */}
                     {activeTab === "development" && 'githubUrl' in project && 'liveUrl' in project && (
-                      <div className="flex gap-4 mt-6">
+                      <div className="flex gap-4 mt-4">
                         <motion.a
                           href={project.liveUrl as string}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 bg-white text-black font-bold text-sm hover:bg-gray-300 transition-colors duration-300"
+                          className="flex items-center gap-2 px-6 py-3 bg-white text-black font-bold text-sm hover:bg-gray-300 transition-colors duration-300 rounded-full"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -612,7 +612,7 @@ export default function DevPage() {
                           href={project.githubUrl as string}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 border-2 border-white text-white font-bold text-sm hover:bg-white hover:text-black transition-colors duration-300"
+                          className="flex items-center gap-2 px-6 py-3 border-2 border-white/30 text-white font-bold text-sm hover:bg-white hover:text-black transition-colors duration-300 rounded-full"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           style={{ fontFamily: "Montserrat, sans-serif" }}

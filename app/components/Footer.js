@@ -3,178 +3,220 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
-  FaPalette,
-  FaCode,
-  FaUser,
-  FaArrowRight,
   FaGithub,
   FaLinkedin,
   FaEnvelope,
+  FaMapMarkerAlt,
+  FaArrowRight,
 } from "react-icons/fa";
 
 export default function Footer() {
-  const navigationSections = [
-    {
-      title: "UX/UI Design",
-      description: "User-centered design solutions",
-      icon: FaPalette,
-      path: "/ux-ui",
-      color: "from-purple-500 to-pink-500",
-      delay: 0.1,
-    },
-    {
-      title: "Development",
-      description: "Cutting-edge web applications",
-      icon: FaCode,
-      path: "/dev",
-      color: "from-green-500 to-blue-500",
-      delay: 0.2,
-    },
-    {
-      title: "About",
-      description: "Learn more about my journey",
-      icon: FaUser,
-      path: "/about",
-      color: "from-orange-400 to-red-500",
-      delay: 0.3,
-    },
+  const navigationLinks = [
+    { name: "About", href: "/about" },
+    { name: "Skills", href: "/skills" },
+    { name: "Development", href: "/dev" },
+    { name: "UX/UI", href: "/ux-ui" },
   ];
 
   const socialLinks = [
     {
       name: "GitHub",
       icon: FaGithub,
-      href: "https://github.com/jake148",
-      delay: 0.4,
+      href: "https://github.com/jecochran-0",
     },
     {
       name: "LinkedIn",
       icon: FaLinkedin,
       href: "https://linkedin.com/in/jakecochran",
-      delay: 0.5,
     },
     {
       name: "Email",
       icon: FaEnvelope,
       href: "mailto:jake.e.cochran@gmail.com",
-      delay: 0.6,
+    },
+  ];
+
+  const contactInfo = [
+    {
+      icon: FaEnvelope,
+      label: "Email",
+      value: "jake.e.cochran@gmail.com",
+      href: "mailto:jake.e.cochran@gmail.com",
+    },
+    {
+      icon: FaMapMarkerAlt,
+      label: "Location",
+      value: "Available for remote work",
     },
   ];
 
   return (
-    <footer className="relative bg-black/90 backdrop-blur-sm border-t-4 border-orange-400 overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-0 w-32 h-32 border border-white/30 rounded-full" />
-        <div className="absolute bottom-0 right-0 w-24 h-24 border border-white/30 rounded-full" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 border border-white/20 rounded-full" />
-      </div>
-
-      <div className="relative z-10 container mx-auto px-4 lg:px-6 py-12 lg:py-16">
+    <footer
+      className="py-20 px-6"
+      style={{ backgroundColor: "#171717" }}
+    >
+      <div className="max-w-6xl mx-auto">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12">
-          {/* Left Column - Navigation Sections */}
-          <div className="space-y-6">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-2xl lg:text-3xl font-bold text-white mb-8"
-            >
-              Explore My Work
-            </motion.h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {navigationSections.map((section) => {
-                const Icon = section.icon;
-                return (
-                  <motion.div
-                    key={section.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: section.delay }}
-                    whileHover={{ y: -4 }}
-                    className="group"
-                  >
-                    <Link href={section.path}>
-                      <div className="card-brutal p-4 lg:p-6 h-full relative overflow-hidden cursor-pointer transition-all duration-300">
-                        {/* Gradient Overlay */}
-                        <div
-                          className={`absolute inset-0 bg-gradient-to-br ${section.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
-                        />
-
-                        {/* Content */}
-                        <div className="relative z-10">
-                          <div className="flex items-center justify-between mb-3">
-                            <Icon className="text-2xl text-orange-400 group-hover:text-white transition-colors duration-300" />
-                            <motion.div
-                              className="text-orange-400 group-hover:text-white transition-colors duration-300"
-                              initial={{ x: 0 }}
-                              whileHover={{ x: 4 }}
-                              transition={{ duration: 0.2 }}
-                            >
-                              <FaArrowRight size={16} />
-                            </motion.div>
-                          </div>
-
-                          <h3 className="text-lg font-bold text-black mb-2 group-hover:text-gray-800 transition-colors duration-300">
-                            {section.title}
-                          </h3>
-
-                          <p className="text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
-                            {section.description}
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Right Column - Contact & Social */}
-          <div className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-16">
+          {/* Left Column - Brand & Contact */}
+          <div className="lg:col-span-4 space-y-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2
+                className="text-4xl md:text-5xl font-bold text-white mb-4"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                JAKE COCHRAN
+              </h2>
+              <p
+                className="text-xl text-gray-300 leading-relaxed"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Full-Stack Developer & UX/UI Designer crafting digital experiences that bridge innovation and intention.
+              </p>
+            </motion.div>
+
+            {/* Contact Information */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="space-y-4"
+            >
+              {contactInfo.map((contact) => {
+                const Icon = contact.icon;
+                return (
+                  <div key={contact.label} className="flex items-center gap-4">
+                    <div
+                      className="w-10 h-10 rounded-lg flex items-center justify-center"
+                      style={{ backgroundColor: "#CD535A" }}
+                    >
+                      <Icon className="text-white text-lg" />
+                    </div>
+                    <div>
+                      <p
+                        className="text-sm text-gray-400 uppercase tracking-wider"
+                        style={{ fontFamily: "Montserrat, sans-serif" }}
+                      >
+                        {contact.label}
+                      </p>
+                      {contact.href ? (
+                        <a
+                          href={contact.href}
+                          className="text-white hover:text-gray-300 transition-colors duration-300"
+                          style={{ fontFamily: "Montserrat, sans-serif" }}
+                        >
+                          {contact.value}
+                        </a>
+                      ) : (
+                        <p
+                          className="text-white"
+                          style={{ fontFamily: "Montserrat, sans-serif" }}
+                        >
+                          {contact.value}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </motion.div>
+          </div>
+
+          {/* Middle Column - Navigation */}
+          <div className="lg:col-span-4 space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h3
+                className="text-2xl font-bold text-white mb-8"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Navigation
+              </h3>
+              <div className="space-y-4">
+                {navigationLinks.map((link, index) => (
+                  <motion.div
+                    key={link.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
+                  >
+                    <Link
+                      href={link.href}
+                      className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors duration-300 group"
+                    >
+                      <FaArrowRight size={12} className="group-hover:translate-x-1 transition-transform duration-300" />
+                      <span
+                        className="text-lg"
+                        style={{ fontFamily: "Montserrat, sans-serif" }}
+                      >
+                        {link.name}
+                      </span>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Column - Social & CTA */}
+          <div className="lg:col-span-4 space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <h2 className="text-2xl lg:text-3xl font-bold text-white mb-6">
+              <h3
+                className="text-2xl font-bold text-white mb-8"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
                 Let&apos;s Connect
-              </h2>
-
-              <div className="glass-card p-6 lg:p-8">
-                <p className="text-white/90 text-lg mb-6 leading-relaxed">
-                  Ready to bring your ideas to life? I&apos;m always excited to
-                  collaborate on innovative projects that push the boundaries of
-                  design and technology.
-                </p>
-
-                <motion.button
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="btn-brutal btn-brutal-interactive text-white bg-orange-400 hover:bg-orange-500 transition-colors duration-300"
-                  onClick={() =>
-                    window.open("mailto:jake.e.cochran@gmail.com", "_blank")
-                  }
-                >
-                  Start a Conversation
-                </motion.button>
-              </div>
+              </h3>
+              <p
+                className="text-gray-300 leading-relaxed mb-8"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Ready to transform your vision into an exceptional digital experience? Let&apos;s discuss how we can bring your ideas to life.
+              </p>
+              
+              <motion.a
+                href="mailto:jake.e.cochran@gmail.com"
+                className="inline-flex items-center gap-3 bg-white text-black px-8 py-4 font-bold text-sm tracking-widest uppercase hover:bg-gray-300 transition-colors duration-300"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Get in touch
+                <FaArrowRight size={14} />
+              </motion.a>
             </motion.div>
 
             {/* Social Links */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <h3 className="text-xl font-bold text-white mb-4">
+              <h4
+                className="text-lg font-bold text-white mb-6"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
                 Follow My Journey
-              </h3>
-              <div className="flex space-x-4">
-                {socialLinks.map((social) => {
+              </h4>
+              <div className="flex gap-4">
+                {socialLinks.map((social, index) => {
                   const Icon = social.icon;
                   return (
                     <motion.a
@@ -184,12 +226,13 @@ export default function Footer() {
                       rel="noopener noreferrer"
                       initial={{ opacity: 0, scale: 0 }}
                       whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.4, delay: social.delay }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
                       whileHover={{ scale: 1.1, y: -2 }}
                       whileTap={{ scale: 0.9 }}
-                      className="w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg flex items-center justify-center text-white hover:bg-white/20 hover:border-white/40 transition-all duration-300 group"
+                      className="w-12 h-12 border border-white/20 rounded-lg flex items-center justify-center text-white hover:border-white hover:bg-white/10 transition-all duration-300"
                     >
-                      <Icon className="text-xl group-hover:text-orange-400 transition-colors duration-300" />
+                      <Icon className="text-xl" />
                     </motion.a>
                   );
                 })}
@@ -198,43 +241,30 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Bottom Separator */}
+        <div className="border-b border-white/20 mb-8" />
+
         {/* Bottom Bar */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
-          className="border-t border-white/20 pt-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="flex flex-col md:flex-row justify-between items-center gap-4"
         >
-          <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-            <div className="flex items-center space-x-2">
-              <motion.div
-                className="w-8 h-8 bg-orange-400 rounded-lg flex items-center justify-center"
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              >
-                <span className="text-white font-bold text-sm">JC</span>
-              </motion.div>
-              <span className="text-white/80 font-medium">
-                © 2024 Jake Cochran. Crafted with precision.
-              </span>
-            </div>
-
-            <div className="flex items-center space-x-6 text-white/60 text-sm">
-              <motion.span
-                whileHover={{ color: "rgba(255, 255, 255, 0.9)" }}
-                transition={{ duration: 0.2 }}
-                className="cursor-pointer"
-              >
-                Privacy Policy
-              </motion.span>
-              <motion.span
-                whileHover={{ color: "rgba(255, 255, 255, 0.9)" }}
-                transition={{ duration: 0.2 }}
-                className="cursor-pointer"
-              >
-                Terms of Service
-              </motion.span>
-            </div>
+          <p
+            className="text-gray-400 text-sm"
+            style={{ fontFamily: "Montserrat, sans-serif" }}
+          >
+            © 2024 Jake Cochran. All rights reserved.
+          </p>
+          <div className="flex items-center gap-6">
+            <span
+              className="text-gray-400 text-sm"
+              style={{ fontFamily: "Montserrat, sans-serif" }}
+            >
+              Built with Next.js & Framer Motion
+            </span>
           </div>
         </motion.div>
       </div>

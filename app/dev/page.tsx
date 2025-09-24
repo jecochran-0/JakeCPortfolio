@@ -104,6 +104,9 @@ export default function DevPage() {
   
   // Smooth scrolling physics
   const containerRef = useRef<HTMLDivElement>(null);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  // Only create scroll hooks after component is mounted and hydrated
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
@@ -116,10 +119,7 @@ export default function DevPage() {
     restDelta: 0.001
   });
 
-  // Check for reduced motion preference
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  // Transform values (always called, regardless of reduced motion preference)
+  // Transform values (only create when mounted to avoid hydration issues)
   const navY = useTransform(smoothScrollProgress, [0, 1], [0, -50]);
   const heroY = useTransform(smoothScrollProgress, [0, 0.3], [0, -100]);
   const heroOpacity = useTransform(smoothScrollProgress, [0, 0.3], [1, 0.7]);
@@ -298,16 +298,16 @@ export default function DevPage() {
               className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full"
               style={{
                 background: "radial-gradient(circle, #CD535A 0%, transparent 70%)",
-                x: prefersReducedMotion ? 0 : bgElement1X,
-                y: prefersReducedMotion ? 0 : bgElement1Y,
+                x: !mounted || prefersReducedMotion ? 0 : bgElement1X,
+                y: !mounted || prefersReducedMotion ? 0 : bgElement1Y,
               }}
             />
             <motion.div
               className="absolute top-3/4 right-1/3 w-64 h-64 rounded-full"
               style={{
                 background: "radial-gradient(circle, #B4323B 0%, transparent 70%)",
-                x: prefersReducedMotion ? 0 : bgElement2X,
-                y: prefersReducedMotion ? 0 : bgElement2Y,
+                x: !mounted || prefersReducedMotion ? 0 : bgElement2X,
+                y: !mounted || prefersReducedMotion ? 0 : bgElement2Y,
               }}
             />
           </motion.div>
@@ -320,7 +320,7 @@ export default function DevPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
           style={{
-            y: prefersReducedMotion ? 0 : navY,
+            y: !mounted || prefersReducedMotion ? 0 : navY,
           }}
         >
           <Link href="/">
@@ -347,7 +347,7 @@ export default function DevPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
           style={{
-            y: prefersReducedMotion ? 0 : navY,
+            y: !mounted || prefersReducedMotion ? 0 : navY,
           }}
         >
           <motion.a
@@ -403,8 +403,8 @@ export default function DevPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
               style={{
-                y: prefersReducedMotion ? 0 : heroY,
-                opacity: prefersReducedMotion ? 1 : heroOpacity,
+                y: !mounted || prefersReducedMotion ? 0 : heroY,
+                opacity: !mounted || prefersReducedMotion ? 1 : heroOpacity,
               }}
             >
               <h1

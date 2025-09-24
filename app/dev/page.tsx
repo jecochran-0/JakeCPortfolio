@@ -11,6 +11,7 @@ const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const [isOverProject, setIsOverProject] = useState(false);
+  const [projectType, setProjectType] = useState<'ux' | 'dev' | null>(null);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
@@ -21,16 +22,26 @@ const CustomCursor = () => {
     const handleMouseLeave = () => {
       setIsVisible(false);
       setIsOverProject(false);
+      setProjectType(null);
     };
 
-    // Check if mouse is over project images (only for UX projects)
+    // Check if mouse is over project images (both UX and Dev projects)
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const projectContainer = target.closest(".project-image-container");
-      if (projectContainer && projectContainer.closest("[data-project-type='ux']")) {
-        setIsOverProject(true);
+      if (projectContainer) {
+        const projectElement = projectContainer.closest("[data-project-type]");
+        if (projectElement) {
+          const type = projectElement.getAttribute("data-project-type") as 'ux' | 'dev';
+          setIsOverProject(true);
+          setProjectType(type);
+        } else {
+          setIsOverProject(false);
+          setProjectType(null);
+        }
       } else {
         setIsOverProject(false);
+        setProjectType(null);
       }
     };
 
@@ -77,7 +88,7 @@ const CustomCursor = () => {
             className="text-white font-bold text-sm"
             style={{ fontFamily: "Montserrat, sans-serif" }}
           >
-            VIEW
+            {projectType === 'ux' ? 'VIEW' : 'GO LIVE'}
           </span>
         )}
       </div>
@@ -408,14 +419,27 @@ export default function DevPage() {
                 whileHover={{ y: -8 }}
               >
                 {/* Featured Project Image */}
-                <div className="relative overflow-hidden mb-12 rounded-lg project-image-container">
-                  <Image
-                    src={featuredProject.image}
-                    alt={featuredProject.title}
-                    width={1200}
-                    height={600}
-                    className="w-full object-cover h-80 md:h-96"
-                  />
+                <div className="relative overflow-hidden mb-12 rounded-lg project-image-container cursor-pointer">
+                  <motion.a
+                    href={featuredProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block"
+                    whileHover={{ scale: 1.02 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 30,
+                    }}
+                  >
+                    <Image
+                      src={featuredProject.image}
+                      alt={featuredProject.title}
+                      width={1200}
+                      height={600}
+                      className="w-full object-cover h-80 md:h-96"
+                    />
+                  </motion.a>
                 </div>
 
                 {/* Featured Project Content */}
@@ -490,15 +514,19 @@ export default function DevPage() {
                   data-project-type={activeTab}
                 >
                   {/* Project Image */}
-                  <div className={`relative overflow-hidden mb-12 rounded-lg project-image-container ${activeTab === "ux" ? "cursor-pointer" : ""}`}>
+                  <div className="relative overflow-hidden mb-12 rounded-lg project-image-container cursor-pointer">
                     <motion.a
                       href={
-                        project.title === "Spotify Redesign"
+                        project.title === "Spotify Redesign • Design Focus"
                           ? "/ux-ui/spotify"
-                          : project.title === "Grammarly Go"
+                          : project.title === "Grammarly Go • Research Process"
                           ? "/ux-ui/grammarlygo"
+                          : activeTab === "development" && 'liveUrl' in project
+                          ? project.liveUrl as string
                           : "#"
                       }
+                      target={activeTab === "development" && 'liveUrl' in project ? "_blank" : undefined}
+                      rel={activeTab === "development" && 'liveUrl' in project ? "noopener noreferrer" : undefined}
                       className="block"
                       whileHover={{ scale: 1.02 }}
                       transition={{

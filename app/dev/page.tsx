@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 // Custom Cursor Component
@@ -235,41 +236,69 @@ export default function DevPage() {
         role="main"
         aria-label="Development - Jake Cochran Portfolio"
       >
+        {/* Top Left Branding */}
+        <motion.div
+          className="absolute top-8 left-8 z-20"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          <Link href="/">
+            <motion.div
+              className="px-4 py-2 rounded-lg cursor-pointer"
+              style={{ backgroundColor: "#B4323B" }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span
+                className="text-white font-black text-lg tracking-wider uppercase"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              >
+                Jake Cochran
+              </span>
+            </motion.div>
+          </Link>
+        </motion.div>
+
         {/* Top Navigation */}
         <motion.div
-          className="absolute top-8 right-8 z-20 flex items-center space-x-8"
+          className="absolute top-8 right-8 z-20 flex items-center space-x-6"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
           <motion.a
             href="/"
-            className="text-white hover:text-gray-300 transition-colors duration-300 font-light text-sm tracking-wider"
-            whileHover={{ scale: 1.05 }}
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
             aria-label="Go to homepage"
           >
             HOME
           </motion.a>
           <motion.a
             href="/about"
-            className="text-white hover:text-gray-300 transition-colors duration-300 font-light text-sm tracking-wider"
-            whileHover={{ scale: 1.05 }}
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
             aria-label="Go to about page"
           >
             ABOUT
           </motion.a>
           <motion.a
-            href="/ux-ui"
-            className="text-white hover:text-gray-300 transition-colors duration-300 font-light text-sm tracking-wider"
-            whileHover={{ scale: 1.05 }}
-            aria-label="Go to UX/UI page"
+            href="/skills"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Go to skills page"
           >
             SKILLS
           </motion.a>
           <motion.a
             href="/contact"
-            className="text-white hover:text-gray-300 transition-colors duration-300 font-light text-sm tracking-wider"
-            whileHover={{ scale: 1.05 }}
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
             aria-label="Go to contact page"
           >
             WORK

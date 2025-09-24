@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowLeft, Users, Search, Music, Smartphone } from "lucide-react";
+import { Users, Search, Music, Smartphone } from "lucide-react";
 
 export default function SpotifyCaseStudy() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -66,23 +66,74 @@ export default function SpotifyCaseStudy() {
         />
       </motion.div>
 
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-40 p-6">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <Link href="/dev?tab=ux">
-            <motion.div
-              className="flex items-center gap-3 text-white hover:text-gray-300 transition-colors duration-200"
-              whileHover={{ x: -5 }}
-              transition={spring}
+      {/* Top Left Branding */}
+      <motion.div
+        className="fixed top-8 left-8 z-20"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      >
+        <Link href="/">
+          <motion.div
+            className="px-4 py-2 rounded-lg cursor-pointer"
+            style={{ backgroundColor: "#B4323B" }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <span
+              className="text-white font-black text-lg tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
             >
-              <ArrowLeft size={20} />
-              <span style={{ fontFamily: "Montserrat, sans-serif" }}>
-                Back to Projects
-              </span>
-            </motion.div>
-          </Link>
-        </div>
-      </nav>
+              Jake Cochran
+            </span>
+          </motion.div>
+        </Link>
+      </motion.div>
+
+      {/* Top Navigation */}
+      <motion.div
+        className="fixed top-8 right-8 z-20 flex items-center space-x-6"
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      >
+        <motion.a
+          href="/"
+          className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Go to homepage"
+        >
+          HOME
+        </motion.a>
+        <motion.a
+          href="/about"
+          className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Go to about page"
+        >
+          ABOUT
+        </motion.a>
+        <motion.a
+          href="/skills"
+          className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Go to skills page"
+        >
+          SKILLS
+        </motion.a>
+        <motion.a
+          href="/dev"
+          className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Go to development page"
+        >
+          WORK
+        </motion.a>
+      </motion.div>
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-6">

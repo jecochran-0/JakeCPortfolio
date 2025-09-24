@@ -51,10 +51,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer
-      className="py-20 px-6"
-      style={{ backgroundColor: "#171717" }}
-    >
+    <footer className="py-20 px-6" style={{ backgroundColor: "#171717" }}>
       <div className="max-w-6xl mx-auto">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-16">
@@ -76,7 +73,8 @@ export default function Footer() {
                 className="text-xl text-gray-300 leading-relaxed"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
-                Full-Stack Developer & UX/UI Designer crafting digital experiences that bridge innovation and intention.
+                Full-Stack Developer & UX/UI Designer crafting digital
+                experiences that bridge innovation and intention.
               </p>
             </motion.div>
 
@@ -155,7 +153,10 @@ export default function Footer() {
                       href={link.href}
                       className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors duration-300 group"
                     >
-                      <FaArrowRight size={12} className="group-hover:translate-x-1 transition-transform duration-300" />
+                      <FaArrowRight
+                        size={12}
+                        className="group-hover:translate-x-1 transition-transform duration-300"
+                      />
                       <span
                         className="text-lg"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -187,9 +188,11 @@ export default function Footer() {
                 className="text-gray-300 leading-relaxed mb-8"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
-                Ready to transform your vision into an exceptional digital experience? Let&apos;s discuss how we can bring your ideas to life.
+                Ready to transform your vision into an exceptional digital
+                experience? Let&apos;s discuss how we can bring your ideas to
+                life.
               </p>
-              
+
               <motion.a
                 href="mailto:jake.e.cochran@gmail.com"
                 className="inline-flex items-center gap-3 bg-white text-black px-8 py-4 font-bold text-sm tracking-widest uppercase hover:bg-gray-300 transition-colors duration-300"

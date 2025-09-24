@@ -82,20 +82,74 @@ export default function SkillsPage() {
       style={{ backgroundColor: "#171717" }}
     >
       <div className="max-w-6xl mx-auto space-y-16">
-        {/* Navigation */}
-        <nav className="flex items-center justify-between">
+        {/* Top Left Branding */}
+        <motion.div
+          className="fixed top-8 left-8 z-20"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
           <Link href="/">
             <motion.div
-              className="flex items-center gap-3 text-white hover:text-gray-300 transition-colors duration-200"
-              whileHover={{ x: -5 }}
+              className="px-4 py-2 rounded-lg cursor-pointer"
+              style={{ backgroundColor: "#B4323B" }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <FaArrowRight size={16} className="rotate-180" />
-              <span style={{ fontFamily: "Montserrat, sans-serif" }}>
-                Back to Home
+              <span
+                className="text-white font-black text-lg tracking-wider uppercase"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              >
+                Jake Cochran
               </span>
             </motion.div>
           </Link>
-        </nav>
+        </motion.div>
+
+        {/* Top Navigation */}
+        <motion.div
+          className="fixed top-8 right-8 z-20 flex items-center space-x-6"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          <motion.a
+            href="/"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Go to homepage"
+          >
+            HOME
+          </motion.a>
+          <motion.a
+            href="/about"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Go to about page"
+          >
+            ABOUT
+          </motion.a>
+          <motion.a
+            href="/dev"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Go to development page"
+          >
+            WORK
+          </motion.a>
+          <motion.a
+            href="/contact"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Go to contact page"
+          >
+            CONTACT
+          </motion.a>
+        </motion.div>
 
         {/* Header */}
         <motion.div
@@ -188,184 +242,6 @@ export default function SkillsPage() {
           ))}
         </div>
 
-        {/* Experience Levels Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="pt-24 border-t border-white/20"
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            {/* Header */}
-            <div className="lg:col-span-3">
-              <h2
-                className="text-3xl md:text-4xl font-bold text-white leading-tight"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                EXPERIENCE LEVELS
-              </h2>
-            </div>
-
-            {/* Experience Grid */}
-            <div className="lg:col-span-9">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <div
-                      className="w-12 h-1"
-                      style={{ backgroundColor: "#CD535A" }}
-                    />
-                    <h3
-                      className="text-2xl font-bold text-white"
-                      style={{ fontFamily: "Montserrat, sans-serif" }}
-                    >
-                      EXPERT
-                    </h3>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        React.js
-                      </span>
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        JavaScript
-                      </span>
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        TypeScript
-                      </span>
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        Figma
-                      </span>
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        UI/UX Design
-                      </span>
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        Tailwind CSS
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <div
-                      className="w-12 h-1"
-                      style={{ backgroundColor: "#CD535A" }}
-                    />
-                    <h3
-                      className="text-2xl font-bold text-white"
-                      style={{ fontFamily: "Montserrat, sans-serif" }}
-                    >
-                      PROFICIENT
-                    </h3>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        Node.js
-                      </span>
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        Next.js
-                      </span>
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        Git
-                      </span>
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        User Research
-                      </span>
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        Prototyping
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <div
-                      className="w-12 h-1"
-                      style={{ backgroundColor: "#CD535A" }}
-                    />
-                    <h3
-                      className="text-2xl font-bold text-white"
-                      style={{ fontFamily: "Montserrat, sans-serif" }}
-                    >
-                      EXPERIENCED
-                    </h3>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        Express
-                      </span>
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        MongoDB
-                      </span>
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        RESTful APIs
-                      </span>
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        Performance Optimization
-                      </span>
-                      <span
-                        className="text-lg text-gray-300 block"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        SEO
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </div>
   );

@@ -557,7 +557,7 @@ export default function DevPage() {
                   <div className="space-y-12">
                     {project.title === "Pizza E-Commerce Store" ? (
                       // Pizza Store - Asymmetric layout
-                      <div className="grid grid-cols-12 gap-8">
+                      <div className="grid grid-cols-12 gap-8 items-start">
                         <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={'liveUrl' in project ? project.liveUrl as string : "#"}
@@ -598,14 +598,14 @@ export default function DevPage() {
                               alt="Pizza Store Cart Interface"
                               width={1200}
                               height={600}
-                              className="w-full object-cover h-96 md:h-[600px]"
+                              className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
                         </div>
                       </div>
                     ) : project.title === "Pixel Character Creator" ? (
                       // Pixel Character Creator - Asymmetric layout
-                      <div className="grid grid-cols-12 gap-8">
+                      <div className="grid grid-cols-12 gap-8 items-start">
                         <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={'liveUrl' in project ? project.liveUrl as string : "#"}
@@ -646,7 +646,7 @@ export default function DevPage() {
                               alt="Pixel Character Generator Output"
                               width={1200}
                               height={600}
-                              className="w-full object-cover h-96 md:h-[600px]"
+                              className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
                         </div>

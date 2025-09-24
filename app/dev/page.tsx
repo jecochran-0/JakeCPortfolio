@@ -216,7 +216,7 @@ export default function DevPage() {
       : uxProjects;
 
   if (!mounted) {
-    return (
+  return (
       <div
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundColor: "#171717" }}
@@ -272,7 +272,7 @@ export default function DevPage() {
         </motion.div>
 
         {/* Top Navigation */}
-        <motion.div
+          <motion.div
           className="absolute top-8 right-8 z-20 flex items-center space-x-6"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -404,14 +404,14 @@ export default function DevPage() {
 
         {/* Projects Section */}
         <motion.section
-          className="py-40 px-16 relative z-20"
+          className="py-60 px-20 relative z-20"
           style={{ backgroundColor: "#171717" }}
         >
           <div className="max-w-none mx-auto">
             {/* Featured Project (Development tab only) */}
             {activeTab === "development" && (
               <motion.div
-                className="mb-20"
+                className="mb-32"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
@@ -438,7 +438,7 @@ export default function DevPage() {
                       alt={featuredProject.title}
                       width={1200}
                       height={600}
-                      className="w-full object-cover h-80 md:h-96"
+                      className="w-full object-cover h-96 md:h-[500px]"
                     />
                   </motion.a>
                 </div>
@@ -455,13 +455,13 @@ export default function DevPage() {
                     >
                       Featured Project
                     </span>
-                  </div>
+                </div>
                   <h3
                     className="text-4xl md:text-5xl font-bold text-white"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
                     {featuredProject.title}
-                  </h3>
+                </h3>
                   <p className="text-gray-300 leading-relaxed text-2xl max-w-4xl">
                     {featuredProject.description}
                   </p>
@@ -499,8 +499,8 @@ export default function DevPage() {
             <div
               className={
                 activeTab === "ux"
-                  ? "space-y-32"
-                  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 auto-rows-max"
+                  ? "space-y-48"
+                  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24 auto-rows-max"
               }
             >
               {currentProjects.map((project, index) => (
@@ -574,23 +574,23 @@ export default function DevPage() {
                           height={activeTab === "ux" ? 800 : 600}
                           className={`w-full object-cover ${
                             activeTab === "ux"
-                              ? "h-[500px] md:h-[600px]"
-                              : "h-80 md:h-96"
+                              ? "h-[600px] md:h-[700px]"
+                              : "h-96 md:h-[500px]"
                           }`}
                         />
                       )}
                     </motion.a>
-                  </div>
+      </div>
 
                   {/* Project Content */}
                   <div className="text-left space-y-3">
                     <h3
-                      className="text-2xl font-bold text-white"
+                      className="text-3xl font-bold text-white"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                     >
                       {project.title}
                     </h3>
-                    <p className="text-gray-300 leading-relaxed text-lg max-w-2xl">
+                    <p className="text-gray-300 leading-relaxed text-xl max-w-2xl">
                       {project.description}
                     </p>
                     
@@ -601,7 +601,7 @@ export default function DevPage() {
                           href={project.liveUrl as string}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-6 py-3 bg-white text-black font-bold text-sm hover:bg-gray-300 transition-colors duration-300 rounded-full"
+                          className="flex items-center gap-2 px-8 py-4 bg-white text-black font-bold text-base hover:bg-gray-300 transition-colors duration-300 rounded-full"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -612,7 +612,7 @@ export default function DevPage() {
                           href={project.githubUrl as string}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-6 py-3 border-2 border-white/30 text-white font-bold text-sm hover:bg-white hover:text-black transition-colors duration-300 rounded-full"
+                          className="flex items-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-bold text-base hover:bg-white hover:text-black transition-colors duration-300 rounded-full"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -646,8 +646,8 @@ export default function DevPage() {
               >
                 Start a Project
               </motion.a>
-            </motion.div>
-          </div>
+          </motion.div>
+        </div>
         </motion.section>
       </main>
     </>

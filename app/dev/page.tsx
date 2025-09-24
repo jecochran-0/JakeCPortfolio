@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -101,11 +101,48 @@ export default function DevPage() {
   const [activeTab, setActiveTab] = useState("all");
   const [showCursor, setShowCursor] = useState(true);
   const searchParams = useSearchParams();
+  
+  // Smooth scrolling physics
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+  
+  // Smooth scroll physics with spring damping
+  const smoothScrollProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  // Check for reduced motion preference
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  // Transform values (always called, regardless of reduced motion preference)
+  const navY = useTransform(smoothScrollProgress, [0, 1], [0, -50]);
+  const heroY = useTransform(smoothScrollProgress, [0, 0.3], [0, -100]);
+  const heroOpacity = useTransform(smoothScrollProgress, [0, 0.3], [1, 0.7]);
+  const bgElement1X = useTransform(smoothScrollProgress, [0, 1], [0, 100]);
+  const bgElement1Y = useTransform(smoothScrollProgress, [0, 1], [0, -50]);
+  const bgElement2X = useTransform(smoothScrollProgress, [0, 1], [0, -80]);
+  const bgElement2Y = useTransform(smoothScrollProgress, [0, 1], [0, 30]);
 
 
 
   useEffect(() => {
     setMounted(true);
+    
+    // Check for reduced motion preference
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    
     // Check URL params to set initial state
     const initialTab = searchParams.get("tab");
     if (initialTab === "ux" || initialTab === "design") {
@@ -119,9 +156,10 @@ export default function DevPage() {
     // Add smooth scrolling to the document
     document.documentElement.style.scrollBehavior = "smooth";
 
-    // Cleanup function to remove smooth scrolling
+    // Cleanup function
     return () => {
       document.documentElement.style.scrollBehavior = "auto";
+      mediaQuery.removeEventListener('change', handleChange);
     };
   }, [searchParams]);
 
@@ -238,6 +276,7 @@ export default function DevPage() {
     <>
       <CustomCursor />
       <main
+        ref={containerRef}
         className="relative font-sans scroll-smooth"
         style={{
           backgroundColor: "#171717",
@@ -247,12 +286,42 @@ export default function DevPage() {
         role="main"
         aria-label="Development - Jake Cochran Portfolio"
       >
+        {/* Floating Background Elements */}
+        {!prefersReducedMotion && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none overflow-hidden"
+            style={{
+              opacity: 0.03,
+            }}
+          >
+            <motion.div
+              className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full"
+              style={{
+                background: "radial-gradient(circle, #CD535A 0%, transparent 70%)",
+                x: prefersReducedMotion ? 0 : bgElement1X,
+                y: prefersReducedMotion ? 0 : bgElement1Y,
+              }}
+            />
+            <motion.div
+              className="absolute top-3/4 right-1/3 w-64 h-64 rounded-full"
+              style={{
+                background: "radial-gradient(circle, #B4323B 0%, transparent 70%)",
+                x: prefersReducedMotion ? 0 : bgElement2X,
+                y: prefersReducedMotion ? 0 : bgElement2Y,
+              }}
+            />
+          </motion.div>
+        )}
+
         {/* Top Left Branding */}
         <motion.div
           className="absolute top-8 left-8 z-20"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
+          style={{
+            y: prefersReducedMotion ? 0 : navY,
+          }}
         >
           <Link href="/">
             <motion.div
@@ -277,6 +346,9 @@ export default function DevPage() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
+          style={{
+            y: prefersReducedMotion ? 0 : navY,
+          }}
         >
           <motion.a
             href="/"
@@ -330,6 +402,10 @@ export default function DevPage() {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
+              style={{
+                y: prefersReducedMotion ? 0 : heroY,
+                opacity: prefersReducedMotion ? 1 : heroOpacity,
+              }}
             >
               <h1
                 className="text-7xl md:text-8xl lg:text-9xl font-black text-white leading-tight tracking-tight mb-8"

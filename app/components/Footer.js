@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
+// Link removed - using <a> tags for page transition system
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 export default function Footer() {
@@ -80,14 +80,14 @@ export default function Footer() {
             </h3>
             <div className="space-y-4">
               {navigationLinks.map((link) => (
-                <Link
+                <a
                   key={link.name}
                   href={link.href}
                   className="block text-xl text-gray-300 hover:text-white transition-colors duration-300"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   {link.name}
-                </Link>
+                </a>
               ))}
             </div>
           </motion.div>

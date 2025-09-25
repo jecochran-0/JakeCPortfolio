@@ -359,9 +359,10 @@ const AzukiHomepage = () => {
             }}
           >
             {panels.map((panel, index) => (
-              <motion.div
+              <motion.a
                 key={panel.id}
-                className={`h-full relative cursor-pointer group overflow-hidden ${
+                href={panel.href}
+                className={`h-full relative cursor-pointer group overflow-hidden block ${
                   index !== panels.length - 1 ? "border-r-8" : ""
                 }`}
                 style={{
@@ -372,7 +373,6 @@ const AzukiHomepage = () => {
                 transition={{ duration: 0.3 }}
                 onMouseEnter={() => setHoveredPanel(panel.id)}
                 onMouseLeave={() => setHoveredPanel(null)}
-                onClick={() => (window.location.href = panel.href)}
               >
                 {/* Background Image */}
                 <div className="absolute inset-0">
@@ -431,7 +431,7 @@ const AzukiHomepage = () => {
                     </div>
                   </div>
                 </motion.div>
-              </motion.div>
+              </motion.a>
             ))}
 
             {/* 5th Column - Contact */}

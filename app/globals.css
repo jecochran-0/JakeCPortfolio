@@ -2,6 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Page transition spinner animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Page transition optimizations */
+.page-transition-overlay {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Disable Next.js default loading indicator */
+#__next-loading-indicator {
+  display: none !important;
+}
+
+/* Disable any other loading indicators */
+[data-nextjs-loading-indicator] {
+  display: none !important;
+}
+
+/* Hide any loading spinners or indicators */
+.nextjs-loading-spinner,
+.nextjs-loading-indicator,
+[class*="loading-indicator"],
+[class*="loading-spinner"] {
+  display: none !important;
+}
+
+/* Hide any blue loading indicators */
+div[style*="background-color: rgb(59, 130, 246)"],
+div[style*="background-color: #3b82f6"] {
+  display: none !important;
+}
+
 /* Hide scrollbars globally */
 html {
   scrollbar-width: none; /* Firefox */

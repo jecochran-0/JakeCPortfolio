@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
-import Link from "next/link";
+// Link removed - using <a> tags for page transition system
 
 export default function GrammarlyGOCaseStudy() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -55,7 +55,8 @@ export default function GrammarlyGOCaseStudy() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.5, duration: 0.5 }}
       >
-        <Link href="/">
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a href="/">
           <motion.div
             className="px-4 py-2 rounded-lg cursor-pointer"
             style={{ backgroundColor: "#B4323B" }}
@@ -69,7 +70,7 @@ export default function GrammarlyGOCaseStudy() {
               Jake Cochran
             </span>
           </motion.div>
-        </Link>
+        </a>
       </motion.div>
 
       {/* Top Navigation */}
@@ -1608,7 +1609,7 @@ export default function GrammarlyGOCaseStudy() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Link href="/dev?tab=ux">
+              <a href="/dev?tab=ux">
                 <motion.div
                   className="px-8 py-4 border border-white/20 hover:bg-white/10 transition-colors duration-200 font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1617,9 +1618,9 @@ export default function GrammarlyGOCaseStudy() {
                 >
                   View UX Projects
                 </motion.div>
-              </Link>
+              </a>
 
-              <Link href="/dev?tab=development">
+              <a href="/dev?tab=development">
                 <motion.div
                   className="px-8 py-4 border border-white/20 hover:bg-white/10 transition-colors duration-200 font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1628,7 +1629,7 @@ export default function GrammarlyGOCaseStudy() {
                 >
                   View Development Projects
                 </motion.div>
-              </Link>
+              </a>
             </div>
           </motion.div>
         </div>

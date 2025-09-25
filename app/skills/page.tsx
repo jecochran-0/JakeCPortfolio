@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaReact, FaNodeJs, FaFigma, FaMobile, FaGitAlt } from "react-icons/fa";
 import { SiTailwindcss } from "react-icons/si";
-import Link from "next/link";
+// Link removed - using <a> tags for page transition system
 import { FaArrowRight } from "react-icons/fa";
 import Lenis from "lenis";
 
@@ -120,7 +120,8 @@ export default function SkillsPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
           >
-            <Link href="/">
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+            <a href="/">
               <motion.div
                 className="px-4 py-2 rounded-lg cursor-pointer"
                 style={{ backgroundColor: "#B4323B" }}
@@ -134,7 +135,7 @@ export default function SkillsPage() {
                   Jake Cochran
                 </span>
               </motion.div>
-            </Link>
+            </a>
           </motion.div>
 
           {/* Top Navigation */}

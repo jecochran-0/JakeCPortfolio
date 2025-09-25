@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+// Link removed - using <a> tags for page transition system
 import { useSearchParams } from "next/navigation";
 import Lenis from "lenis";
 
@@ -235,7 +235,7 @@ export default function DevPage() {
       : uxProjects;
 
   if (!mounted) {
-  return (
+    return (
       <div
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundColor: "#171717" }}
@@ -273,7 +273,8 @@ export default function DevPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <Link href="/">
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+          <a href="/">
             <motion.div
               className="px-4 py-2 rounded-lg cursor-pointer"
               style={{ backgroundColor: "#B4323B" }}
@@ -287,11 +288,11 @@ export default function DevPage() {
                 Jake Cochran
               </span>
             </motion.div>
-          </Link>
+          </a>
         </motion.div>
 
         {/* Top Navigation */}
-          <motion.div
+        <motion.div
           className="absolute top-8 right-8 z-20 flex items-center space-x-6"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -463,7 +464,7 @@ export default function DevPage() {
                           className="w-full object-cover h-96 md:h-[500px]"
                         />
                       </motion.a>
-                </div>
+                    </div>
                     <div className="col-span-4 space-y-6">
                       <div className="flex items-center gap-3 mb-4">
                         <span
@@ -475,13 +476,13 @@ export default function DevPage() {
                         >
                           Featured Project
                         </span>
-                </div>
+                      </div>
                       <h3
                         className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {featuredProject.title}
-                </h3>
+                      </h3>
                       <p className="text-gray-400 leading-relaxed text-lg font-light">
                         {featuredProject.description}
                       </p>
@@ -510,9 +511,9 @@ export default function DevPage() {
                         >
                           GITHUB
                         </motion.a>
-            </div>
-        </div>
-        </div>
+                      </div>
+                    </div>
+                  </div>
 
                   {/* Second Row: Small image + Spells interface */}
                   <div className="grid grid-cols-12 gap-8 items-start">
@@ -545,7 +546,7 @@ export default function DevPage() {
                         rel="noopener noreferrer"
                         className="block"
                         whileHover={{ scale: 1.02 }}
-              transition={{
+                        transition={{
                           type: "spring",
                           stiffness: 300,
                           damping: 30,
@@ -559,7 +560,7 @@ export default function DevPage() {
                           className="w-full object-cover h-64 md:h-[400px]"
                         />
                       </motion.a>
-          </div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -689,8 +690,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-          </div>
-        </div>
+                        </div>
+                      </div>
                     ) : (
                       // Other projects - Single image
                       <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
@@ -762,7 +763,7 @@ export default function DevPage() {
                         </motion.a>
                       </div>
                     )}
-      </div>
+                  </div>
 
                   {/* Project Content */}
                   <div className="text-left space-y-6">
@@ -832,8 +833,8 @@ export default function DevPage() {
               >
                 Start a Project
               </motion.a>
-          </motion.div>
-        </div>
+            </motion.div>
+          </div>
         </motion.section>
       </main>
     </>

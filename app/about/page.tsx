@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import Image from "next/image";
-import Link from "next/link";
+// Link removed - using <a> tags for page transition system
 import Lenis from "lenis";
 
 // Lenis Smooth Scrolling with Momentum
@@ -91,7 +91,8 @@ export default function AboutPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <Link href="/">
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+          <a href="/">
             <motion.div
               className="px-4 py-2 rounded-lg cursor-pointer"
               style={{ backgroundColor: "#B4323B" }}
@@ -105,7 +106,7 @@ export default function AboutPage() {
                 Jake Cochran
               </span>
             </motion.div>
-          </Link>
+          </a>
         </motion.div>
 
         {/* Top Navigation */}
@@ -210,7 +211,7 @@ export default function AboutPage() {
                 </div>
 
                 <div className="flex items-center gap-8">
-                  <Link href="/contact">
+                  <a href="/contact">
                     <motion.div
                       className="px-8 py-4 border border-white/20 hover:bg-white/10 transition-colors duration-200 font-bold text-white"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -219,7 +220,7 @@ export default function AboutPage() {
                     >
                       Get in touch
                     </motion.div>
-                  </Link>
+                  </a>
 
                   <div className="flex space-x-6">
                     {socialLinks.map((link, index) => (
@@ -594,7 +595,7 @@ export default function AboutPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                <Link href="/contact">
+                <a href="/contact">
                   <motion.div
                     className="px-8 py-4 border border-white/20 hover:bg-white/10 transition-colors duration-200 font-bold text-white"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -603,7 +604,7 @@ export default function AboutPage() {
                   >
                     Get in touch
                   </motion.div>
-                </Link>
+                </a>
 
                 <div className="flex space-x-6">
                   {socialLinks.map((link, index) => (

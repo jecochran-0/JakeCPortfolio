@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
+// Link removed - using <a> tags for page transition system
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Users, Search, Music, Smartphone } from "lucide-react";
@@ -73,7 +73,8 @@ export default function SpotifyCaseStudy() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.5, duration: 0.5 }}
       >
-        <Link href="/">
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a href="/">
           <motion.div
             className="px-4 py-2 rounded-lg cursor-pointer"
             style={{ backgroundColor: "#B4323B" }}
@@ -87,7 +88,7 @@ export default function SpotifyCaseStudy() {
               Jake Cochran
             </span>
           </motion.div>
-        </Link>
+        </a>
       </motion.div>
 
       {/* Top Navigation */}
@@ -885,7 +886,7 @@ export default function SpotifyCaseStudy() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Link href="/dev?tab=ux">
+              <a href="/dev?tab=ux">
                 <motion.div
                   className="px-8 py-4 rounded-full font-bold text-white border border-white/20 hover:bg-white/10 transition-colors duration-200"
                   style={{
@@ -898,9 +899,9 @@ export default function SpotifyCaseStudy() {
                 >
                   VIEW MORE UX PROJECTS
                 </motion.div>
-              </Link>
+              </a>
 
-              <Link href="/dev?tab=development">
+              <a href="/dev?tab=development">
                 <motion.div
                   className="px-8 py-4 rounded-full font-bold text-white border border-white/20 hover:bg-white/10 transition-colors duration-200"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -910,7 +911,7 @@ export default function SpotifyCaseStudy() {
                 >
                   VIEW DEVELOPMENT WORK
                 </motion.div>
-              </Link>
+              </a>
             </div>
           </motion.div>
         </div>

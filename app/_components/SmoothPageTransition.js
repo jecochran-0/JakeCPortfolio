@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function SmoothPageTransition({ children, pathname }) {
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [transitionTarget, setTransitionTarget] = useState("");
   const router = useRouter();
   const timeoutRef = useRef(null);
 
@@ -18,13 +19,35 @@ export default function SmoothPageTransition({ children, pathname }) {
       clearTimeout(timeoutRef.current);
     }
 
+    // Set the target page name for display
+    const pageName = getPageName(href);
+    setTransitionTarget(pageName);
+
     // Start transition immediately
     setIsTransitioning(true);
 
     // Navigate only after curtain fully covers the screen
     timeoutRef.current = setTimeout(() => {
       router.push(href);
-    }, 800); // Wait for full screen coverage before navigating
+    }, 600); // Wait for full screen coverage before navigating
+  };
+
+  // Function to get page name from href
+  const getPageName = (href) => {
+    if (href === "/") return "HOME";
+    if (href === "/about") return "ABOUT";
+    if (href === "/skills") return "SKILLS";
+    if (href === "/dev") return "PROJECTS";
+    if (href === "/dev?tab=development") return "DEVELOPMENT";
+    if (href === "/dev?tab=ux") return "UX DESIGN";
+    if (href === "/contact") return "CONTACT";
+    if (href === "/ux-ui") return "UX/UI";
+    if (href === "/ux-ui/spotify") return "SPOTIFY";
+    if (href === "/ux-ui/grammarlygo") return "GRAMMARLY GO";
+    return href
+      .toUpperCase()
+      .replace(/[\/\-_?=&]/g, " ")
+      .trim();
   };
 
   // Reset transition state when pathname changes
@@ -32,7 +55,8 @@ export default function SmoothPageTransition({ children, pathname }) {
     if (isTransitioning) {
       const timer = setTimeout(() => {
         setIsTransitioning(false);
-      }, 1200); // Total transition duration (800ms coverage + 400ms reveal)
+        setTransitionTarget(""); // Clear the target page name
+      }, 1200); // Total transition duration (600ms coverage + 500ms reveal)
 
       return () => clearTimeout(timer);
     }
@@ -60,23 +84,47 @@ export default function SmoothPageTransition({ children, pathname }) {
             animate={{
               y: "0%",
               transition: {
-                duration: 0.8,
-                ease: [0.4, 0.0, 0.2, 1], // Cubic easing for dramatic effect
+                duration: 0.7,
+                ease: [0.4, 0, 0.2, 1], // Slower beginning
               },
             }}
             exit={{
               y: "100%",
               transition: {
-                duration: 0.4,
-                ease: [0.4, 0.0, 0.2, 1], // Cubic easing for smooth exit
+                duration: 0.5,
+                ease: [0.25, 0.46, 0.45, 0.94], // Smoother, more eased ending
               },
             }}
-            className="fixed inset-0 z-[9999] pointer-events-none page-transition-overlay"
+            className="fixed z-[9999] pointer-events-none page-transition-overlay"
             style={{
               backgroundColor: "#CD535A",
-              borderRadius: "24px",
+              top: "-15%",
+              left: "0",
+              right: "0",
+              height: "130%",
+              borderRadius: "0",
+              clipPath: "ellipse(100% 110% at 50% 50%)",
             }}
-          ></motion.div>
+          >
+            {/* Page Name Display */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <motion.h1
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: [0, 0, 1, 1],
+                  transition: {
+                    duration: 1.2,
+                    times: [0, 0.5, 0.65, 1],
+                    ease: [0.4, 0, 0.2, 1], // Slower beginning to match curtain
+                  },
+                }}
+                className="text-white text-6xl md:text-8xl font-bold tracking-wider"
+                style={{ fontFamily: "Bungee, cursive" }}
+              >
+                {transitionTarget}
+              </motion.h1>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
 

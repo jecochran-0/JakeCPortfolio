@@ -68,6 +68,7 @@ export default function DevPage() {
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
   const [showCursor, setShowCursor] = useState(true);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -82,6 +83,16 @@ export default function DevPage() {
       setActiveTab("all");
     }
   }, [searchParams]);
+
+  // Mouse tracking for magnetic effect
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    return () => document.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   // Typing cursor animation
   useEffect(() => {
@@ -171,6 +182,79 @@ export default function DevPage() {
       : activeTab === "development"
       ? developmentProjects
       : uxProjects;
+
+  // Magnetic button component
+  const MagneticButton = ({ 
+    children, 
+    onClick, 
+    isActive, 
+    className = "" 
+  }: { 
+    children: React.ReactNode; 
+    onClick: () => void; 
+    isActive: boolean; 
+    className?: string;
+  }) => {
+    const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>(null);
+    const [magneticOffset, setMagneticOffset] = useState({ x: 0, y: 0 });
+
+    useEffect(() => {
+      if (!buttonRef) return;
+
+      const handleMouseMove = (e: MouseEvent) => {
+        const rect = buttonRef.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const distance = Math.sqrt(
+          Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2)
+        );
+        
+        // Magnetic range (100px)
+        if (distance < 100) {
+          const strength = (100 - distance) / 100; // 0 to 1
+          const maxOffset = 20; // Maximum magnetic pull
+          
+          const offsetX = (e.clientX - centerX) * strength * 0.3;
+          const offsetY = (e.clientY - centerY) * strength * 0.3;
+          
+          setMagneticOffset({
+            x: Math.max(-maxOffset, Math.min(maxOffset, offsetX)),
+            y: Math.max(-maxOffset, Math.min(maxOffset, offsetY))
+          });
+        } else {
+          setMagneticOffset({ x: 0, y: 0 });
+        }
+      };
+
+      document.addEventListener('mousemove', handleMouseMove);
+      return () => document.removeEventListener('mousemove', handleMouseMove);
+    }, [buttonRef]);
+
+    return (
+      <motion.button
+        ref={setButtonRef}
+        onClick={onClick}
+        className={className}
+        animate={{
+          x: magneticOffset.x,
+          y: magneticOffset.y,
+          scale: isActive ? 1.05 : 1
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 300,
+          damping: 30
+        }}
+        style={{
+          backgroundColor: isActive ? "#CD535A" : "transparent",
+          borderRadius: "50px",
+        }}
+      >
+        {children}
+      </motion.button>
+    );
+  };
 
   if (!mounted) {
   return (
@@ -311,51 +395,27 @@ export default function DevPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              <button
+              <MagneticButton
                 onClick={() => setActiveTab("all")}
-                className={`px-16 py-8 text-2xl font-medium transition-all duration-300 border-2 ${
-                  activeTab === "all"
-                    ? "border-transparent text-white"
-                    : "border-white text-white hover:bg-white hover:text-black"
-                }`}
-                style={{
-                  backgroundColor:
-                    activeTab === "all" ? "#CD535A" : "transparent",
-                  borderRadius: "50px",
-                }}
+                isActive={activeTab === "all"}
+                className="px-16 py-8 text-2xl font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black"
               >
                 All
-              </button>
-              <button
+              </MagneticButton>
+              <MagneticButton
                 onClick={() => setActiveTab("development")}
-                className={`px-16 py-8 text-2xl font-medium transition-all duration-300 border-2 ${
-                  activeTab === "development"
-                    ? "border-transparent text-white"
-                    : "border-white text-white hover:bg-white hover:text-black"
-                }`}
-                style={{
-                  backgroundColor:
-                    activeTab === "development" ? "#CD535A" : "transparent",
-                  borderRadius: "50px",
-                }}
+                isActive={activeTab === "development"}
+                className="px-16 py-8 text-2xl font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black"
               >
                 Dev
-              </button>
-              <button
+              </MagneticButton>
+              <MagneticButton
                 onClick={() => setActiveTab("ux")}
-                className={`px-16 py-8 text-2xl font-medium transition-all duration-300 border-2 ${
-                  activeTab === "ux"
-                    ? "border-transparent text-white"
-                    : "border-white text-white hover:bg-white hover:text-black"
-                }`}
-                style={{
-                  backgroundColor:
-                    activeTab === "ux" ? "#CD535A" : "transparent",
-                  borderRadius: "50px",
-                }}
+                isActive={activeTab === "ux"}
+                className="px-16 py-8 text-2xl font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black"
               >
                 UX/UI
-              </button>
+              </MagneticButton>
             </motion.div>
           </div>
         </motion.section>

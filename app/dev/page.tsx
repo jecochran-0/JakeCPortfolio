@@ -134,7 +134,7 @@ const MagneticButton = ({
       />
       
       {/* Text content */}
-      <span className="relative z-10">
+      <span className="relative z-10 text-white">
         {children}
       </span>
     </motion.button>

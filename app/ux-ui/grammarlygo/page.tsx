@@ -6,47 +6,14 @@ import { FaArrowRight } from "react-icons/fa";
 // Link removed - using <a> tags for page transition system
 
 export default function GrammarlyGOCaseStudy() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
 
   const spring = { type: "spring", stiffness: 220, damping: 24 } as const;
 
   return (
     <div
-      className="min-h-screen text-white cursor-none"
+      className="min-h-screen text-white"
       style={{ backgroundColor: "#171717" }}
     >
-      {/* Custom Cursor */}
-      <motion.div
-        className="fixed pointer-events-none z-50"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          transform: "translate(-50%, -50%)",
-        }}
-        animate={{
-          scale: 1,
-          opacity: 1,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 150,
-          damping: 20,
-          mass: 0.8,
-        }}
-      >
-        <div
-          className="w-8 h-8 rounded-full"
-          style={{ backgroundColor: "#F5F5DC" }}
-        />
-      </motion.div>
 
       {/* Top Left Branding */}
       <motion.div
@@ -182,7 +149,7 @@ export default function GrammarlyGOCaseStudy() {
                 { metric: "+25%", label: "usage" },
               ].map((item, index) => (
                 <motion.div
-                  key={index}
+                    key={index}
                   className="text-center"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -196,7 +163,7 @@ export default function GrammarlyGOCaseStudy() {
                     }}
                   >
                     {item.metric}
-                  </div>
+            </div>
                   <div
                     className="text-sm text-gray-300 uppercase tracking-wider"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -210,10 +177,10 @@ export default function GrammarlyGOCaseStudy() {
         </div>
       </section>
 
-      {/* Background Context */}
+            {/* Background Context */}
       <section className="py-20 px-6 border-t border-white/20">
         <div className="max-w-6xl mx-auto">
-          <motion.div
+            <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -254,8 +221,8 @@ export default function GrammarlyGOCaseStudy() {
                     style={{ backgroundColor: "#CD535A" }}
                   ></span>
                   <span style={{ fontFamily: "Montserrat, sans-serif" }}>
-                    60% of users try GrammarlyGO once but do not return in the
-                    next 7 days
+                  60% of users try GrammarlyGO once but do not return in the
+                  next 7 days
                   </span>
                 </li>
                 <li className="flex items-start">
@@ -264,8 +231,8 @@ export default function GrammarlyGOCaseStudy() {
                     style={{ backgroundColor: "#CD535A" }}
                   ></span>
                   <span style={{ fontFamily: "Montserrat, sans-serif" }}>
-                    Premium users show only slightly higher engagement than free
-                    users
+                  Premium users show only slightly higher engagement than free
+                  users
                   </span>
                 </li>
                 <li className="flex items-start">
@@ -274,8 +241,8 @@ export default function GrammarlyGOCaseStudy() {
                     style={{ backgroundColor: "#CD535A" }}
                   ></span>
                   <span style={{ fontFamily: "Montserrat, sans-serif" }}>
-                    Feedback suggests confusion about what the AI assistant does
-                    differently from standard Grammarly corrections
+                  Feedback suggests confusion about what the AI assistant does
+                  differently from standard Grammarly corrections
                   </span>
                 </li>
               </ul>
@@ -290,27 +257,27 @@ export default function GrammarlyGOCaseStudy() {
               </h3>
               <div className="space-y-6 text-lg text-gray-300 max-w-4xl">
                 <p style={{ fontFamily: "Montserrat, sans-serif" }}>
-                  GrammarlyGO is solving a time problem, as well as a quality
-                  problem. For people that type a lot (emails, docs, etc),
+                GrammarlyGO is solving a time problem, as well as a quality
+                problem. For people that type a lot (emails, docs, etc),
                   GrammarlyGO is an embedded assistant that takes care of
                   nuanced tasks, or revises completed ones.
-                </p>
+              </p>
                 <p style={{ fontFamily: "Montserrat, sans-serif" }}>
-                  60% of users disengaging after the first use means that the
-                  features had too much friction to be worth using, or the
+                60% of users disengaging after the first use means that the
+                features had too much friction to be worth using, or the
                   features were simply never too useful in the first place. A
                   60% disengagement rate means lost money through CAC and LTV.
-                </p>
+              </p>
               </div>
             </div>
-          </motion.div>
+            </motion.div>
         </div>
       </section>
 
-      {/* Business Impact Analysis */}
+            {/* Business Impact Analysis */}
       <section className="py-20 px-6 border-t border-white/20">
         <div className="max-w-6xl mx-auto">
-          <motion.div
+            <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -330,7 +297,7 @@ export default function GrammarlyGOCaseStudy() {
                   className="text-2xl md:text-3xl font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  Customer Acquisition Cost (CAC)
+                    Customer Acquisition Cost (CAC)
                 </h3>
                 <div className="space-y-4 text-lg text-gray-300">
                   <p style={{ fontFamily: "Montserrat, sans-serif" }}>
@@ -351,23 +318,23 @@ export default function GrammarlyGOCaseStudy() {
                   <div className="pt-4 border-t border-white/10">
                     <p style={{ fontFamily: "Montserrat, sans-serif" }}>
                       <strong>Total acquisition cost:</strong> $3,000,000
-                    </p>
+                  </p>
                     <p style={{ fontFamily: "Montserrat, sans-serif" }}>
                       <strong>New Premium users acquired:</strong> 250,000
-                    </p>
+                  </p>
                     <p style={{ fontFamily: "Montserrat, sans-serif" }}>
                       <strong>CAC =</strong> $3,000,000 / 250,000 = $12 per user
-                    </p>
+                  </p>
                   </div>
                 </div>
-              </div>
+                </div>
 
               <div className="space-y-8">
                 <h3
                   className="text-2xl md:text-3xl font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  Lifetime Value (LTV)
+                    Lifetime Value (LTV)
                 </h3>
                 <div className="space-y-4 text-lg text-gray-300">
                   <ul className="space-y-2 ml-4">
@@ -387,11 +354,11 @@ export default function GrammarlyGOCaseStudy() {
                   <div className="pt-4 border-t border-white/10">
                     <p style={{ fontFamily: "Montserrat, sans-serif" }}>
                       <strong>LTV =</strong> $216 × 0.8 = $172.80 per user
-                    </p>
+                  </p>
                   </div>
                 </div>
+                </div>
               </div>
-            </div>
 
             <div className="pt-8 border-t border-white/10">
               <h3
@@ -402,8 +369,8 @@ export default function GrammarlyGOCaseStudy() {
               </h3>
               <div className="space-y-6 text-lg text-gray-300 max-w-4xl">
                 <p style={{ fontFamily: "Montserrat, sans-serif" }}>
-                  If a user tries GrammarlyGO once but doesn't engage:
-                </p>
+                If a user tries GrammarlyGO once but doesn't engage:
+              </p>
                 <ul className="space-y-2 ml-4">
                   <li style={{ fontFamily: "Montserrat, sans-serif" }}>
                     • They're less likely to renew
@@ -414,7 +381,7 @@ export default function GrammarlyGOCaseStudy() {
                   <li style={{ fontFamily: "Montserrat, sans-serif" }}>
                     • New revenue = $144 × 0.8 = $115.20 LTV
                   </li>
-                </ul>
+              </ul>
                 <div className="pt-6 border-t border-white/10">
                   <p style={{ fontFamily: "Montserrat, sans-serif" }}>
                     <strong>Result:</strong> A disengaged user generates 36%
@@ -422,9 +389,9 @@ export default function GrammarlyGOCaseStudy() {
                     first use, Grammarly loses over $5.7 million in potential
                     long-term value.
                   </p>
+                    </div>
                 </div>
               </div>
-            </div>
 
             {/* Key Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-8 border-t border-white/10">
@@ -498,7 +465,7 @@ export default function GrammarlyGOCaseStudy() {
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Research Objective
-              </h3>
+                </h3>
               <p
                 className="text-xl text-gray-300 leading-relaxed max-w-4xl"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -515,7 +482,7 @@ export default function GrammarlyGOCaseStudy() {
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Research Methods Overview
-              </h3>
+                </h3>
               <div className="space-y-6">
                 {[
                   {
@@ -537,10 +504,10 @@ export default function GrammarlyGOCaseStudy() {
                     method: "In-Product Intercept Surveys",
                     type: "Quantitative",
                     goal: "Capture user intent and satisfaction at the point of usage",
-                  },
-                ].map((item, index) => (
+                    },
+                  ].map((item, index) => (
                   <motion.div
-                    key={index}
+                      key={index}
                     className="py-6 border-b border-white/10 last:border-b-0"
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -570,8 +537,8 @@ export default function GrammarlyGOCaseStudy() {
                       </div>
                     </div>
                   </motion.div>
-                ))}
-              </div>
+                  ))}
+                </div>
             </div>
 
             <div className="pt-8 border-t border-white/10">
@@ -614,7 +581,7 @@ export default function GrammarlyGOCaseStudy() {
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {segment.segment}
-                      </h4>
+                    </h4>
                       <span
                         className="text-2xl font-bold"
                         style={{
@@ -623,18 +590,18 @@ export default function GrammarlyGOCaseStudy() {
                         }}
                       >
                         {segment.percent}
-                      </span>
-                    </div>
+                        </span>
+                      </div>
                     <p
                       className="text-lg text-gray-300"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                     >
                       {segment.description}
                     </p>
-                  </motion.div>
+            </motion.div>
                 ))}
-              </div>
-            </div>
+                    </div>
+                  </div>
           </motion.div>
         </div>
       </section>
@@ -662,66 +629,66 @@ export default function GrammarlyGOCaseStudy() {
                   className="text-2xl md:text-3xl font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  1. Product Analytics Review (Amplitude)
-                </h3>
+                1. Product Analytics Review (Amplitude)
+              </h3>
                 <div className="space-y-6">
                   <h4
                     className="text-xl md:text-2xl font-bold text-white"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
-                    Funnel: GrammarlyGO Usage – First 14 Days
-                  </h4>
+                  Funnel: GrammarlyGO Usage – First 14 Days
+                </h4>
                   <div className="space-y-4">
-                    {[
-                      {
-                        step: 'Clicked "GrammarlyGO" button',
-                        rate: "100%",
+                  {[
+                    {
+                      step: 'Clicked "GrammarlyGO" button',
+                      rate: "100%",
                         dropoff: null,
-                      },
-                      {
-                        step: "Select a writing mode (rewrite, shorten, etc.)",
-                        rate: "58%",
+                    },
+                    {
+                      step: "Select a writing mode (rewrite, shorten, etc.)",
+                      rate: "58%",
                         dropoff: "42%",
-                      },
-                      {
-                        step: "Generated output",
-                        rate: "41%",
+                    },
+                    {
+                      step: "Generated output",
+                      rate: "41%",
                         dropoff: "17%",
-                      },
-                      {
-                        step: "Applied output to document",
-                        rate: "24%",
+                    },
+                    {
+                      step: "Applied output to document",
+                      rate: "24%",
                         dropoff: "17%",
-                      },
-                      {
-                        step: "Returned to use GrammarlyGO again (7-day window)",
-                        rate: "12%",
+                    },
+                    {
+                      step: "Returned to use GrammarlyGO again (7-day window)",
+                      rate: "12%",
                         dropoff: "76%",
-                      },
-                    ].map((item, index) => (
-                      <motion.div
-                        key={index}
+                    },
+                  ].map((item, index) => (
+                    <motion.div
+                      key={index}
                         className="flex justify-between items-center py-4 border-b border-white/10 last:border-b-0"
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: index * 0.1 }}
                       >
-                        <div className="flex-1">
+                          <div className="flex-1">
                           <p
                             className="text-lg text-gray-300"
                             style={{ fontFamily: "Montserrat, sans-serif" }}
                           >
-                            {item.step}
+                              {item.step}
                           </p>
-                        </div>
+                          </div>
                         <div className="flex items-center gap-4">
                           <span
                             className="text-2xl font-bold text-white"
                             style={{ fontFamily: "Montserrat, sans-serif" }}
                           >
-                            {item.rate}
-                          </span>
+                              {item.rate}
+                            </span>
                           {item.dropoff && (
                             <span
                               className="text-lg font-bold"
@@ -736,7 +703,7 @@ export default function GrammarlyGOCaseStudy() {
                         </div>
                       </motion.div>
                     ))}
-                  </div>
+                        </div>
                   <div className="pt-6 border-t border-white/10">
                     <p
                       className="text-lg text-gray-300"
@@ -747,10 +714,10 @@ export default function GrammarlyGOCaseStudy() {
                       massive opportunity cost - users are interested enough to
                       try it, but the experience fails to deliver enough value
                       to drive retention.
-                    </p>
-                  </div>
-                </div>
-              </div>
+                                </p>
+                              </div>
+                          </div>
+                        </div>
 
               <div className="pt-8 border-t border-white/10 space-y-6">
                 <h3
@@ -758,7 +725,7 @@ export default function GrammarlyGOCaseStudy() {
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   2. User Interviews (10 participants)
-                </h3>
+              </h3>
                 <div className="space-y-6">
                   <h4
                     className="text-xl md:text-2xl font-bold text-white"
@@ -774,7 +741,7 @@ export default function GrammarlyGOCaseStudy() {
                       ></span>
                       <span style={{ fontFamily: "Montserrat, sans-serif" }}>
                         Expectation mismatch: 7/10 thought GrammarlyGO was a
-                        chatbot experience
+                      chatbot experience
                       </span>
                     </li>
                     <li className="flex items-start">
@@ -784,7 +751,7 @@ export default function GrammarlyGOCaseStudy() {
                       ></span>
                       <span style={{ fontFamily: "Montserrat, sans-serif" }}>
                         Usefulness gap: 5/10 didn't feel the output added much
-                        value beyond their own edits
+                      value beyond their own edits
                       </span>
                     </li>
                     <li className="flex items-start">
@@ -794,7 +761,7 @@ export default function GrammarlyGOCaseStudy() {
                       ></span>
                       <span style={{ fontFamily: "Montserrat, sans-serif" }}>
                         Frustration with UI: 6/10 found the controls
-                        non-intuitive
+                      non-intuitive
                       </span>
                     </li>
                   </ul>
@@ -807,7 +774,7 @@ export default function GrammarlyGOCaseStudy() {
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   3. Usability Testing (15 participants)
-                </h3>
+              </h3>
                 <div className="space-y-6">
                   <h4
                     className="text-xl md:text-2xl font-bold text-white"
@@ -824,7 +791,7 @@ export default function GrammarlyGOCaseStudy() {
                       <span style={{ fontFamily: "Montserrat, sans-serif" }}>
                         9/15 didn't notice the GrammarlyGO icon was different
                         from classic Grammarly
-                      </span>
+                        </span>
                     </li>
                     <li className="flex items-start">
                       <span
@@ -834,7 +801,7 @@ export default function GrammarlyGOCaseStudy() {
                       <span style={{ fontFamily: "Montserrat, sans-serif" }}>
                         7/15 clicked the standard Grammarly "correct" button
                         instead of the AI rewrite tool
-                      </span>
+                        </span>
                     </li>
                     <li className="flex items-start">
                       <span
@@ -846,9 +813,9 @@ export default function GrammarlyGOCaseStudy() {
                       </span>
                     </li>
                   </ul>
+                      </div>
                 </div>
               </div>
-            </div>
           </motion.div>
         </div>
       </section>
@@ -924,7 +891,7 @@ export default function GrammarlyGOCaseStudy() {
                           className="text-lg font-bold text-white mb-2"
                           style={{ fontFamily: "Montserrat, sans-serif" }}
                         >
-                          Theme
+                        Theme
                         </h4>
                         <p
                           className="text-gray-300"
@@ -938,7 +905,7 @@ export default function GrammarlyGOCaseStudy() {
                           className="text-lg font-bold text-white mb-2"
                           style={{ fontFamily: "Montserrat, sans-serif" }}
                         >
-                          Supporting Evidence
+                        Supporting Evidence
                         </h4>
                         <p
                           className="text-gray-300"
@@ -952,7 +919,7 @@ export default function GrammarlyGOCaseStudy() {
                           className="text-lg font-bold text-white mb-2"
                           style={{ fontFamily: "Montserrat, sans-serif" }}
                         >
-                          What It Means
+                        What It Means
                         </h4>
                         <p
                           className="text-gray-300"
@@ -961,8 +928,8 @@ export default function GrammarlyGOCaseStudy() {
                           {insight.meaning}
                         </p>
                       </div>
-                    </div>
-                  </motion.div>
+              </div>
+            </motion.div>
                 ))}
               </div>
             </div>
@@ -981,14 +948,14 @@ export default function GrammarlyGOCaseStudy() {
                 >
                   Our research uncovered a core issue: users expect GrammarlyGO
                   to act like a conversation-based assistant (like ChatGPT), but
-                  instead find a rigid tool hidden behind complex UI.
-                </p>
+                instead find a rigid tool hidden behind complex UI.
+              </p>
                 <div className="space-y-4">
                   <p
                     className="text-lg font-bold text-white"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
-                    This leads to:
+                  This leads to:
                   </p>
                   <ul className="space-y-3 text-lg text-gray-300 ml-4">
                     <li className="flex items-start">
@@ -999,7 +966,7 @@ export default function GrammarlyGOCaseStudy() {
                       <span style={{ fontFamily: "Montserrat, sans-serif" }}>
                         Low trust in the tool's usefulness
                       </span>
-                    </li>
+                  </li>
                     <li className="flex items-start">
                       <span
                         className="w-2 h-2 mt-3 mr-3 flex-shrink-0"
@@ -1008,7 +975,7 @@ export default function GrammarlyGOCaseStudy() {
                       <span style={{ fontFamily: "Montserrat, sans-serif" }}>
                         Low visibility and discoverability
                       </span>
-                    </li>
+                  </li>
                     <li className="flex items-start">
                       <span
                         className="w-2 h-2 mt-3 mr-3 flex-shrink-0"
@@ -1017,8 +984,8 @@ export default function GrammarlyGOCaseStudy() {
                       <span style={{ fontFamily: "Montserrat, sans-serif" }}>
                         Output that feels over-edited and impersonal
                       </span>
-                    </li>
-                  </ul>
+                  </li>
+                </ul>
                 </div>
                 <p
                   className="text-lg text-gray-300 leading-relaxed"
@@ -1028,12 +995,12 @@ export default function GrammarlyGOCaseStudy() {
                   the product isn't supporting them efficiently either.
                 </p>
               </div>
-            </div>
-          </motion.div>
+              </div>
+            </motion.div>
         </div>
       </section>
 
-      {/* Prioritized Problem Areas */}
+            {/* Prioritized Problem Areas */}
       <section className="py-20 px-6 border-t border-white/20">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -1047,60 +1014,60 @@ export default function GrammarlyGOCaseStudy() {
               className="text-4xl md:text-5xl font-bold text-white"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              PRIORITIZED PROBLEM AREAS
+                PRIORITIZED PROBLEM AREAS
             </h2>
 
             <div className="space-y-12">
-              {[
-                {
-                  title:
-                    "Clarify Value Prop of GrammarlyGO vs. Classic Grammarly",
-                  priority: "High",
-                  rationale: "Prevents expectation mismatch and early churn",
-                  impact: [
-                    "Reduces churn after first use → protects LTV",
-                    "Increases adoption of GrammarlyGO among paying users → drives usage-based retention",
-                    "Improves feature ROI → ensures investment in AI is seen as valuable",
-                    "Boosts conversion from free to Premium, if GrammarlyGO is perceived as a clear differentiator",
-                  ],
-                },
-                {
-                  title: "Improve Discoverability in Product UI",
-                  priority: "High",
-                  rationale:
-                    "Makes usage frictionless and increases re-engagement",
-                  impact: [
-                    "Increases repeat usage → key LTV driver (returning users stay longer)",
-                    "Reduces support costs → fewer users get lost or confused",
-                    "Drives feature stickiness → improves engagement scores used in renewal models",
-                    "Amplifies freemium funnel performance → more value in early days = more upgrades",
-                  ],
-                },
-                {
-                  title:
-                    "Add Lightweight Editing Tools (Undo, Rephrase, Tone Presets)",
-                  priority: "Medium",
-                  rationale:
-                    "Empowers users with control without added complexity",
-                  impact: [
-                    "Builds trust in AI output → increases usage frequency",
-                    "Reduces task abandonment → improves session quality",
-                    "Differentiates GrammarlyGO from competitors → improves retention in a crowded AI market",
-                  ],
-                },
-                {
-                  title: "Personalize Onboarding Based on User Goal",
-                  priority: "Medium",
-                  rationale: "Aligns tool suggestions to user intent",
-                  impact: [
-                    "Increases activation rate → users reach their 'aha' moment faster",
-                    "Improves first-week retention → strongest predictor of long-term LTV",
-                    "Reduces cognitive friction → boosts satisfaction (CSAT), especially among new users",
-                  ],
-                },
-              ].map((problem, index) => (
-                <motion.div
-                  key={index}
+                {[
+                  {
+                    title:
+                      "Clarify Value Prop of GrammarlyGO vs. Classic Grammarly",
+                    priority: "High",
+                    rationale: "Prevents expectation mismatch and early churn",
+                    impact: [
+                      "Reduces churn after first use → protects LTV",
+                      "Increases adoption of GrammarlyGO among paying users → drives usage-based retention",
+                      "Improves feature ROI → ensures investment in AI is seen as valuable",
+                      "Boosts conversion from free to Premium, if GrammarlyGO is perceived as a clear differentiator",
+                    ],
+                  },
+                  {
+                    title: "Improve Discoverability in Product UI",
+                    priority: "High",
+                    rationale:
+                      "Makes usage frictionless and increases re-engagement",
+                    impact: [
+                      "Increases repeat usage → key LTV driver (returning users stay longer)",
+                      "Reduces support costs → fewer users get lost or confused",
+                      "Drives feature stickiness → improves engagement scores used in renewal models",
+                      "Amplifies freemium funnel performance → more value in early days = more upgrades",
+                    ],
+                  },
+                  {
+                    title:
+                      "Add Lightweight Editing Tools (Undo, Rephrase, Tone Presets)",
+                    priority: "Medium",
+                    rationale:
+                      "Empowers users with control without added complexity",
+                    impact: [
+                      "Builds trust in AI output → increases usage frequency",
+                      "Reduces task abandonment → improves session quality",
+                      "Differentiates GrammarlyGO from competitors → improves retention in a crowded AI market",
+                    ],
+                  },
+                  {
+                    title: "Personalize Onboarding Based on User Goal",
+                    priority: "Medium",
+                    rationale: "Aligns tool suggestions to user intent",
+                    impact: [
+                      "Increases activation rate → users reach their 'aha' moment faster",
+                      "Improves first-week retention → strongest predictor of long-term LTV",
+                      "Reduces cognitive friction → boosts satisfaction (CSAT), especially among new users",
+                    ],
+                  },
+                ].map((problem, index) => (
+                  <motion.div
+                    key={index}
                   className="space-y-6 py-8 border-b border-white/10 last:border-b-0"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1108,56 +1075,56 @@ export default function GrammarlyGOCaseStudy() {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                 >
                   <div className="flex flex-col md:flex-row md:items-start gap-6">
-                    <span
+                      <span
                       className={`px-4 py-2 text-sm font-bold uppercase ${
-                        problem.priority === "High"
+                          problem.priority === "High"
                           ? "border border-red-500 text-red-500"
                           : "border border-yellow-500 text-yellow-500"
-                      }`}
+                        }`}
                       style={{ fontFamily: "Montserrat, sans-serif" }}
-                    >
-                      {problem.priority} Priority
-                    </span>
+                      >
+                        {problem.priority} Priority
+                      </span>
                     <div className="flex-1 space-y-4">
                       <h3
                         className="text-xl md:text-2xl font-bold text-white"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
-                        {problem.title}
+                          {problem.title}
                       </h3>
                       <p
                         className="text-lg text-gray-300"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
-                        <strong>Rationale:</strong> {problem.rationale}
-                      </p>
-                      <div>
+                          <strong>Rationale:</strong> {problem.rationale}
+                        </p>
+                        <div>
                         <h4
                           className="text-lg font-bold text-white mb-3"
                           style={{ fontFamily: "Montserrat, sans-serif" }}
                         >
-                          Bottom Line Impact:
+                            Bottom Line Impact:
                         </h4>
                         <ul className="space-y-2">
-                          {problem.impact.map((item, itemIndex) => (
-                            <li
-                              key={itemIndex}
+                            {problem.impact.map((item, itemIndex) => (
+                              <li
+                                key={itemIndex}
                               className="flex items-start text-gray-300"
                               style={{ fontFamily: "Montserrat, sans-serif" }}
-                            >
+                              >
                               <span
                                 className="w-2 h-2 mt-3 mr-3 flex-shrink-0"
                                 style={{ backgroundColor: "#CD535A" }}
                               ></span>
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
             </div>
           </motion.div>
         </div>
@@ -1277,77 +1244,77 @@ export default function GrammarlyGOCaseStudy() {
                           className="text-2xl md:text-3xl font-bold text-white"
                           style={{ fontFamily: "Montserrat, sans-serif" }}
                         >
-                          {solution.title}
-                        </h3>
-                        <span
+                        {solution.title}
+                      </h3>
+                      <span
                           className="px-4 py-2 border border-white/20 text-sm font-bold uppercase"
                           style={{ fontFamily: "Montserrat, sans-serif" }}
-                        >
-                          {solution.priority}
-                        </span>
-                      </div>
+                      >
+                        {solution.priority}
+                      </span>
+                  </div>
 
                       <p
                         className="text-lg text-gray-300 leading-relaxed"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
-                        {solution.description}
-                      </p>
+                    {solution.description}
+                  </p>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div>
+                    <div>
                           <h4
                             className="text-lg font-bold text-white mb-4"
                             style={{ fontFamily: "Montserrat, sans-serif" }}
                           >
-                            Implementation:
-                          </h4>
+                        Implementation:
+                      </h4>
                           <ul className="space-y-2 text-gray-300">
-                            {solution.implementation.map((item, itemIndex) => (
-                              <li
-                                key={itemIndex}
+                        {solution.implementation.map((item, itemIndex) => (
+                          <li
+                            key={itemIndex}
                                 className="flex items-start"
                                 style={{ fontFamily: "Montserrat, sans-serif" }}
-                              >
-                                <span
+                          >
+                            <span
                                   className="w-2 h-2 mt-2 mr-3 flex-shrink-0"
                                   style={{ backgroundColor: "#CD535A" }}
-                                ></span>
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
+                            ></span>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
                           <h4
                             className="text-lg font-bold text-white mb-4"
                             style={{ fontFamily: "Montserrat, sans-serif" }}
                           >
-                            Why it's better:
-                          </h4>
+                        Why it's better:
+                      </h4>
                           <ul className="space-y-2 text-gray-300">
-                            {solution.benefits.map((item, itemIndex) => (
-                              <li
-                                key={itemIndex}
+                        {solution.benefits.map((item, itemIndex) => (
+                          <li
+                            key={itemIndex}
                                 className="flex items-start"
                                 style={{ fontFamily: "Montserrat, sans-serif" }}
-                              >
-                                <span
+                          >
+                            <span
                                   className="w-2 h-2 mt-2 mr-3 flex-shrink-0"
                                   style={{ backgroundColor: "#CD535A" }}
-                                ></span>
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                            ></span>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                         <div>
                           <h4
                             className="text-lg font-bold text-white mb-4"
                             style={{ fontFamily: "Montserrat, sans-serif" }}
                           >
                             Metrics to Track:
-                          </h4>
+                    </h4>
                           {solution.metric ? (
                             <p
                               className="text-gray-300"
@@ -1474,7 +1441,7 @@ export default function GrammarlyGOCaseStudy() {
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {item.impact}
-                      </span>
+                        </span>
                     </div>
                     <div>
                       <h4
@@ -1489,8 +1456,8 @@ export default function GrammarlyGOCaseStudy() {
                       >
                         {item.justification}
                       </p>
-                    </div>
-                  </motion.div>
+              </div>
+            </motion.div>
                 ))}
               </div>
             </div>
@@ -1614,8 +1581,8 @@ export default function GrammarlyGOCaseStudy() {
                   className="px-8 py-4 border border-white/20 hover:bg-white/10 transition-colors duration-200 font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                   whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                    whileTap={{ scale: 0.95 }}
+                  >
                   View UX Projects
                 </motion.div>
               </a>
@@ -1625,12 +1592,12 @@ export default function GrammarlyGOCaseStudy() {
                   className="px-8 py-4 border border-white/20 hover:bg-white/10 transition-colors duration-200 font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                   whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                    whileTap={{ scale: 0.95 }}
+                  >
                   View Development Projects
                 </motion.div>
               </a>
-            </div>
+              </div>
           </motion.div>
         </div>
       </footer>

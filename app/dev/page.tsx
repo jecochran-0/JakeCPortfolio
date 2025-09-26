@@ -7,110 +7,6 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Lenis from "lenis";
 
-// Custom Cursor Component
-const CustomCursor = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isOverProject, setIsOverProject] = useState(false);
-
-  useEffect(() => {
-    const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      
-      // Check multiple ways to detect project hover
-      const projectContainer = target.closest(".project-image-container");
-      const isOverImage = target.closest("img, video");
-      const isOverLink = target.closest("a");
-      
-      // Check if we're over any project-related content
-      if (projectContainer || (isOverImage && target.closest("section")) || isOverLink) {
-        setIsOverProject(true);
-      } else {
-        setIsOverProject(false);
-      }
-    };
-
-    document.addEventListener("mousemove", updateMousePosition);
-    document.addEventListener("mouseover", handleMouseOver);
-
-    return () => {
-      document.removeEventListener("mousemove", updateMousePosition);
-      document.removeEventListener("mouseover", handleMouseOver);
-    };
-  }, []);
-
-  return (
-    <motion.div
-      className="fixed pointer-events-none custom-cursor"
-      style={{
-        left: mousePosition.x,
-        top: mousePosition.y,
-        transform: "translate(-50%, -50%)",
-        pointerEvents: "none",
-        zIndex: 99999,
-        opacity: 1, // Force opacity to ensure visibility
-      }}
-      animate={{
-        scale: isOverProject ? 1.5 : 1,
-        opacity: 1, // Ensure opacity stays at 1
-      }}
-      initial={{ scale: 1, opacity: 1 }}
-      transition={{
-        type: "spring",
-        stiffness: 300,
-        damping: 30,
-        mass: 0.8,
-      }}
-    >
-      <div
-        className="rounded-full flex items-center justify-center transition-all duration-300"
-        style={{
-          width: isOverProject ? "96px" : "48px",
-          height: isOverProject ? "96px" : "48px",
-          backgroundColor: isOverProject ? "#3B82F6" : "#CD535A",
-          border: "3px solid white",
-          opacity: 1, // Force opacity
-          display: "flex", // Force display
-          visibility: "visible", // Force visibility
-        }}
-      >
-        {isOverProject && (
-          <span
-            className="text-white font-bold text-sm"
-            style={{ fontFamily: "Montserrat, sans-serif" }}
-          >
-            VIEW
-          </span>
-        )}
-      </div>
-      
-      {/* Temporary debug to see if cursor is rendering */}
-      <div 
-        className="fixed top-4 left-4 bg-red-500 text-white p-2 text-xs z-[100000]"
-        style={{ fontFamily: "monospace" }}
-      >
-        <div>Cursor Visible: {isOverProject ? "HOVER" : "NORMAL"}</div>
-        <div>Position: {mousePosition.x}, {mousePosition.y}</div>
-      </div>
-      
-      {/* Test cursor - always visible red circle */}
-      <div
-        className="fixed rounded-full bg-red-500"
-        style={{
-          left: mousePosition.x + 20,
-          top: mousePosition.y + 20,
-          width: "20px",
-          height: "20px",
-          zIndex: 100000,
-          pointerEvents: "none",
-        }}
-      />
-    </motion.div>
-  );
-};
 
 // Lenis Smooth Scrolling with Momentum
 const SmoothScroll = () => {
@@ -248,7 +144,7 @@ export default function DevPage() {
       : uxProjects;
 
   if (!mounted) {
-    return (
+  return (
       <div
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundColor: "#171717" }}
@@ -268,22 +164,15 @@ export default function DevPage() {
 
   return (
     <>
-      <CustomCursor />
       <SmoothScroll />
       <main
         className="relative font-sans"
         style={{
           backgroundColor: "#171717",
-          cursor: "none",
         }}
         role="main"
         aria-label="Development - Jake Cochran Portfolio"
       >
-        <style jsx global>{`
-          * {
-            cursor: none !important;
-          }
-        `}</style>
         {/* Top Left Branding */}
         <motion.div
           className="absolute top-8 left-8 z-20"
@@ -310,7 +199,7 @@ export default function DevPage() {
         </motion.div>
 
         {/* Top Navigation */}
-        <motion.div
+          <motion.div
           className="absolute top-8 right-8 z-20 flex items-center space-x-6"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -494,13 +383,13 @@ export default function DevPage() {
                         >
                           Featured Project
                         </span>
-                      </div>
+                </div>
                       <h3
                         className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {featuredProject.title}
-                      </h3>
+                </h3>
                       <p className="text-gray-400 leading-relaxed text-lg font-light">
                         {featuredProject.description}
                       </p>
@@ -587,7 +476,7 @@ export default function DevPage() {
             {/* Individual Project Sections */}
             <div className="space-y-80">
               {currentProjects.map((project, index) => (
-                <motion.div
+              <motion.div
                   key={project.title}
                   className="space-y-16"
                   initial={{ opacity: 0, y: 30 }}
@@ -644,18 +533,18 @@ export default function DevPage() {
                               >
                                 Featured Project
                               </span>
-                            </div>
+                </div>
                             <h3
                               className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
                               style={{ fontFamily: "Montserrat, sans-serif" }}
                             >
                               {project.title}
-                            </h3>
+                </h3>
                             <p className="text-gray-400 leading-relaxed text-lg font-light">
                               {project.description}
-                            </p>
-                          </div>
-                        </div>
+                </p>
+        </div>
+        </div>
 
                         {/* Second Row: Small image + Spells interface */}
                         <div className="grid grid-cols-12 gap-8 items-start">
@@ -727,7 +616,7 @@ export default function DevPage() {
                             rel="noopener noreferrer"
                             className="block"
                             whileHover={{ scale: 1.02 }}
-                            transition={{
+              transition={{
                               type: "spring",
                               stiffness: 300,
                               damping: 30,
@@ -741,7 +630,7 @@ export default function DevPage() {
                               className="w-full object-cover h-96 md:h-[600px]"
                             />
                           </motion.a>
-                        </div>
+          </div>
                         <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={
@@ -767,8 +656,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-                        </div>
-                      </div>
+                  </div>
+                </div>
                     ) : project.title === "Pixel Character Creator" ? (
                       // Pixel Character Creator - Asymmetric layout
                       <div className="grid grid-cols-12 gap-8 items-start">
@@ -823,8 +712,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-                        </div>
-                      </div>
+          </div>
+        </div>
                     ) : (
                       // Other projects - Single image
                       <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
@@ -896,7 +785,7 @@ export default function DevPage() {
                         </motion.a>
                       </div>
                     )}
-                  </div>
+      </div>
 
                   {/* Project Content */}
                   {project.title !== "Wizards Chess" && (
@@ -978,8 +867,8 @@ export default function DevPage() {
               >
                 Start a Project
               </motion.a>
-            </motion.div>
-          </div>
+          </motion.div>
+        </div>
         </motion.section>
       </main>
     </>

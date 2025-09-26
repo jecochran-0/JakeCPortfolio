@@ -180,21 +180,6 @@ body::-webkit-scrollbar {
   padding: 0;
 }
 
-/* Only hide cursor on devices with a fine pointer (desktop/mouse) */
-@media (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
-  html,
-  body {
-    cursor: none !important;
-  }
-  
-  /* Allow custom cursor to be visible */
-  .custom-cursor {
-    cursor: auto !important;
-  }
-}
 
 /* Remove all focus outlines, selection effects, and hover dots */
 *:focus,
@@ -2100,7 +2085,6 @@ a:hover {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  cursor: none !important;
   backface-visibility: hidden; /* Prevent flickering */
   -webkit-backface-visibility: hidden;
 }

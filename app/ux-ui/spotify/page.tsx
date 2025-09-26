@@ -7,15 +7,6 @@ import { motion } from "framer-motion";
 import { Users, Search, Music, Smartphone } from "lucide-react";
 
 export default function SpotifyCaseStudy() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
 
   const spring = { type: "spring", stiffness: 220, damping: 24 } as const;
 
@@ -38,36 +29,12 @@ export default function SpotifyCaseStudy() {
 
   return (
     <div
-      className="min-h-screen text-white cursor-none"
+      className="min-h-screen text-white"
       style={{ backgroundColor: "#171717" }}
     >
-      {/* Custom Cursor */}
-      <motion.div
-        className="fixed pointer-events-none z-50"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          transform: "translate(-50%, -50%)",
-        }}
-        animate={{
-          scale: 1,
-          opacity: 1,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 150,
-          damping: 20,
-          mass: 0.8,
-        }}
-      >
-        <div
-          className="w-8 h-8 rounded-full"
-          style={{ backgroundColor: "#F5F5DC" }}
-        />
-      </motion.div>
 
       {/* Top Left Branding */}
-      <motion.div
+              <motion.div
         className="fixed top-8 left-8 z-20"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -89,10 +56,10 @@ export default function SpotifyCaseStudy() {
             </span>
           </motion.div>
         </a>
-      </motion.div>
+              </motion.div>
 
       {/* Top Navigation */}
-      <motion.div
+              <motion.div
         className="fixed top-8 right-8 z-20 flex items-center space-x-6"
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -134,12 +101,12 @@ export default function SpotifyCaseStudy() {
         >
           WORK
         </motion.a>
-      </motion.div>
+            </motion.div>
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <motion.div
+              <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -150,7 +117,7 @@ export default function SpotifyCaseStudy() {
                 style={{ backgroundColor: "#22C55E" }}
               >
                 <Music size={24} className="text-white" />
-              </div>
+            </div>
               <h1
                 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-tight"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -211,7 +178,7 @@ export default function SpotifyCaseStudy() {
                       }}
                     >
                       {item.metric}
-                    </div>
+                  </div>
                   </div>
                   <div
                     className="text-sm text-gray-400"
@@ -223,8 +190,8 @@ export default function SpotifyCaseStudy() {
               ))}
             </div>
           </motion.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
       {/* Problem & Solution */}
       <section className="py-20 px-6">
@@ -242,7 +209,7 @@ export default function SpotifyCaseStudy() {
                   style={{ backgroundColor: "#EF4444" }}
                 >
                   <span className="text-white font-bold text-sm">!</span>
-                </div>
+              </div>
                 <h2
                   className="text-3xl font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -262,7 +229,7 @@ export default function SpotifyCaseStudy() {
               </p>
             </motion.div>
 
-            <motion.div
+              <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -274,14 +241,14 @@ export default function SpotifyCaseStudy() {
                   style={{ backgroundColor: "#22C55E" }}
                 >
                   <span className="text-white font-bold text-sm">✓</span>
-                </div>
+                  </div>
                 <h2
                   className="text-3xl font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   SOLUTION
-                </h2>
-              </div>
+            </h2>
+                </div>
               <p
                 className="text-lg text-gray-300 leading-relaxed"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -291,19 +258,19 @@ export default function SpotifyCaseStudy() {
                 design reduces clicks for common tasks and creates a more
                 intuitive user experience across all platforms.
               </p>
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* Research & Planning */}
       <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+          <div className="max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
             <h2
@@ -322,7 +289,7 @@ export default function SpotifyCaseStudy() {
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <motion.div
+                  <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -337,7 +304,7 @@ export default function SpotifyCaseStudy() {
                   height={600}
                   className="w-full h-auto"
                 />
-              </div>
+                </div>
               <h3
                 className="text-2xl font-bold text-white mb-4"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -354,7 +321,7 @@ export default function SpotifyCaseStudy() {
               </p>
             </motion.div>
 
-            <motion.div
+              <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -369,7 +336,7 @@ export default function SpotifyCaseStudy() {
                   height={600}
                   className="w-full h-auto"
                 />
-              </div>
+                </div>
               <h3
                 className="text-2xl font-bold text-white mb-4"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -383,7 +350,7 @@ export default function SpotifyCaseStudy() {
                 Physical mockup testing to validate mobile design decisions and
                 ensure optimal user experience across different device sizes.
               </p>
-            </motion.div>
+              </motion.div>
           </div>
         </div>
       </section>
@@ -391,8 +358,8 @@ export default function SpotifyCaseStudy() {
       {/* Desktop Transformation */}
       <section className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
@@ -410,13 +377,13 @@ export default function SpotifyCaseStudy() {
             >
               Complete redesign of the desktop interface with improved
               navigation and content discovery.
-            </p>
-          </motion.div>
+                        </p>
+                      </motion.div>
 
           {/* Before/After Comparison */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
@@ -428,14 +395,14 @@ export default function SpotifyCaseStudy() {
                   style={{ backgroundColor: "#EF4444" }}
                 >
                   <span className="text-white font-bold text-xs">×</span>
-                </div>
+                            </div>
                 <h3
                   className="text-xl font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   BEFORE
                 </h3>
-              </div>
+                        </div>
               <div className="relative overflow-hidden rounded-xl">
                 <Image
                   src={showcaseImages.desktop.before}
@@ -452,9 +419,9 @@ export default function SpotifyCaseStudy() {
                 Original interface with navigation and content organization
                 issues.
               </p>
-            </motion.div>
+                      </motion.div>
 
-            <motion.div
+                      <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -467,14 +434,14 @@ export default function SpotifyCaseStudy() {
                   style={{ backgroundColor: "#22C55E" }}
                 >
                   <span className="text-white font-bold text-xs">✓</span>
-                </div>
+                              </div>
                 <h3
                   className="text-xl font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   AFTER
-                </h3>
-              </div>
+                          </h3>
+                        </div>
               <div className="relative overflow-hidden rounded-xl">
                 <Image
                   src={showcaseImages.desktop.after}
@@ -490,13 +457,13 @@ export default function SpotifyCaseStudy() {
               >
                 Redesigned interface with improved navigation and content
                 discovery.
-              </p>
-            </motion.div>
-          </div>
+                              </p>
+                            </motion.div>
+                        </div>
 
           {/* Detailed Breakdown */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <motion.div
+                      <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -509,14 +476,14 @@ export default function SpotifyCaseStudy() {
                   style={{ backgroundColor: "#EF4444" }}
                 >
                   <span className="text-white font-bold text-xs">!</span>
-                </div>
+                        </div>
                 <h3
                   className="text-xl font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   ISSUES IDENTIFIED
                 </h3>
-              </div>
+                              </div>
               <div className="relative overflow-hidden rounded-xl">
                 <Image
                   src={showcaseImages.desktop.breakdownBefore}
@@ -525,29 +492,29 @@ export default function SpotifyCaseStudy() {
                   height={600}
                   className="w-full h-auto"
                 />
-              </div>
+                              </div>
               <p
                 className="text-gray-400 text-sm mt-4"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Detailed analysis of original desktop interface pain points.
               </p>
-            </motion.div>
+                            </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="bg-white/5 border border-white/10 rounded-2xl p-6"
             >
-              <div className="flex items-center gap-3 mb-4">
+                            <div className="flex items-center gap-3 mb-4">
                 <div
                   className="w-6 h-6 rounded-full flex items-center justify-center"
                   style={{ backgroundColor: "#22C55E" }}
                 >
                   <span className="text-white font-bold text-xs">✓</span>
-                </div>
+                            </div>
                 <h3
                   className="text-xl font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -556,7 +523,7 @@ export default function SpotifyCaseStudy() {
                 </h3>
               </div>
               <div className="relative overflow-hidden rounded-xl">
-                <Image
+                              <Image
                   src={showcaseImages.desktop.breakdownAfter}
                   alt="Redesigned desktop breakdown analysis"
                   width={800}
@@ -572,14 +539,14 @@ export default function SpotifyCaseStudy() {
                 improvements.
               </p>
             </motion.div>
-          </div>
-        </div>
+                          </div>
+                            </div>
       </section>
 
       {/* Mobile Transformation */}
       <section className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
-          <motion.div
+                            <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -599,24 +566,24 @@ export default function SpotifyCaseStudy() {
               Mobile-first redesign with enhanced user experience and intuitive
               navigation.
             </p>
-          </motion.div>
+                      </motion.div>
 
           {/* Before/After Comparison */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            <motion.div
+                      <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="bg-white/5 border border-white/10 rounded-2xl p-6"
             >
-              <div className="flex items-center gap-3 mb-4">
+                            <div className="flex items-center gap-3 mb-4">
                 <div
                   className="w-6 h-6 rounded-full flex items-center justify-center"
                   style={{ backgroundColor: "#EF4444" }}
                 >
                   <span className="text-white font-bold text-xs">×</span>
-                </div>
+                            </div>
                 <h3
                   className="text-xl font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -625,14 +592,14 @@ export default function SpotifyCaseStudy() {
                 </h3>
               </div>
               <div className="relative overflow-hidden rounded-xl">
-                <Image
+                              <Image
                   src={showcaseImages.mobile.before}
                   alt="Original mobile interface"
                   width={800}
                   height={600}
                   className="w-full h-auto"
                 />
-              </div>
+                          </div>
               <p
                 className="text-gray-400 text-sm mt-4"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -649,13 +616,13 @@ export default function SpotifyCaseStudy() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="bg-white/5 border border-white/10 rounded-2xl p-6"
             >
-              <div className="flex items-center gap-3 mb-4">
+                            <div className="flex items-center gap-3 mb-4">
                 <div
                   className="w-6 h-6 rounded-full flex items-center justify-center"
                   style={{ backgroundColor: "#22C55E" }}
                 >
                   <span className="text-white font-bold text-xs">✓</span>
-                </div>
+                            </div>
                 <h3
                   className="text-xl font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -664,27 +631,27 @@ export default function SpotifyCaseStudy() {
                 </h3>
               </div>
               <div className="relative overflow-hidden rounded-xl">
-                <Image
+                              <Image
                   src={showcaseImages.mobile.after}
                   alt="Redesigned mobile interface"
                   width={800}
                   height={600}
                   className="w-full h-auto"
                 />
-              </div>
+                          </div>
               <p
                 className="text-gray-400 text-sm mt-4"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Redesigned mobile interface with enhanced user experience.
               </p>
-            </motion.div>
-          </div>
+                      </motion.div>
+                    </div>
 
           {/* Detailed Breakdown */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
@@ -702,8 +669,8 @@ export default function SpotifyCaseStudy() {
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   MOBILE ISSUES
-                </h3>
-              </div>
+                        </h3>
+                      </div>
               <div className="relative overflow-hidden rounded-xl">
                 <Image
                   src={showcaseImages.mobile.breakdownBefore}
@@ -721,8 +688,8 @@ export default function SpotifyCaseStudy() {
               </p>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -734,14 +701,14 @@ export default function SpotifyCaseStudy() {
                   style={{ backgroundColor: "#22C55E" }}
                 >
                   <span className="text-white font-bold text-xs">✓</span>
-                </div>
+            </div>
                 <h3
                   className="text-xl font-bold text-white"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   MOBILE IMPROVEMENTS
                 </h3>
-              </div>
+            </div>
               <div className="relative overflow-hidden rounded-xl">
                 <Image
                   src={showcaseImages.mobile.breakdownAfter}
@@ -750,7 +717,7 @@ export default function SpotifyCaseStudy() {
                   height={600}
                   className="w-full h-auto"
                 />
-              </div>
+          </div>
               <p
                 className="text-gray-400 text-sm mt-4"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -760,17 +727,17 @@ export default function SpotifyCaseStudy() {
               </p>
             </motion.div>
           </div>
-        </div>
-      </section>
+          </div>
+        </section>
 
       {/* Key Improvements */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <motion.div
+            <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
             <h2
@@ -786,7 +753,7 @@ export default function SpotifyCaseStudy() {
               Strategic design changes that significantly improved user
               experience and efficiency.
             </p>
-          </motion.div>
+                </motion.div>
 
           <div className="space-y-8">
             {[
@@ -815,11 +782,11 @@ export default function SpotifyCaseStudy() {
                 impact: "85% user satisfaction rating",
               },
             ].map((improvement, index) => (
-              <motion.div
+                <motion.div
                 key={improvement.title}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="bg-white/5 border border-white/10 rounded-2xl p-8"
               >
@@ -830,15 +797,15 @@ export default function SpotifyCaseStudy() {
                   >
                     <span className="text-white font-bold text-lg">
                       {index + 1}
-                    </span>
-                  </div>
+                            </span>
+                          </div>
                   <div className="flex-1">
                     <h3
                       className="text-2xl font-bold text-white mb-3"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                     >
                       {improvement.title}
-                    </h3>
+                          </h3>
                     <p
                       className="text-gray-300 leading-relaxed mb-4"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -855,20 +822,20 @@ export default function SpotifyCaseStudy() {
                       Impact: {improvement.impact}
                     </div>
                   </div>
-                </div>
-              </motion.div>
+                      </div>
+                    </motion.div>
             ))}
-          </div>
+              </div>
         </div>
       </section>
 
       {/* Footer Navigation */}
       <footer className="py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <motion.div
+              <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
             <h2
@@ -895,14 +862,14 @@ export default function SpotifyCaseStudy() {
                   }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  transition={spring}
-                >
+                    transition={spring}
+                  >
                   VIEW MORE UX PROJECTS
-                </motion.div>
+              </motion.div>
               </a>
 
               <a href="/dev?tab=development">
-                <motion.div
+              <motion.div
                   className="px-8 py-4 rounded-full font-bold text-white border border-white/20 hover:bg-white/10 transition-colors duration-200"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                   whileHover={{ scale: 1.05 }}
@@ -910,12 +877,12 @@ export default function SpotifyCaseStudy() {
                   transition={spring}
                 >
                   VIEW DEVELOPMENT WORK
-                </motion.div>
+              </motion.div>
               </a>
             </div>
           </motion.div>
-        </div>
-      </footer>
+          </div>
+        </footer>
     </div>
   );
 }

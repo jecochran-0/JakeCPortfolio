@@ -7,6 +7,66 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Lenis from "lenis";
 
+// Custom Cursor Component
+const CustomCursor = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isOverProject, setIsOverProject] = useState(false);
+
+  useEffect(() => {
+    const updateMousePosition = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const projectContainer = target.closest(".project-image-container");
+      setIsOverProject(!!projectContainer);
+    };
+
+    document.addEventListener("mousemove", updateMousePosition);
+    document.addEventListener("mouseover", handleMouseOver);
+
+    return () => {
+      document.removeEventListener("mousemove", updateMousePosition);
+      document.removeEventListener("mouseover", handleMouseOver);
+    };
+  }, []);
+
+  return (
+    <motion.div
+      className="fixed pointer-events-none z-50"
+      style={{
+        left: mousePosition.x,
+        top: mousePosition.y,
+        transform: "translate(-50%, -50%)",
+      }}
+      animate={{
+        scale: isOverProject ? 1 : 0,
+        opacity: isOverProject ? 1 : 0,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+      }}
+    >
+      <div
+        className="w-20 h-20 rounded-full flex items-center justify-center"
+        style={{
+          backgroundColor: "#3B82F6",
+          border: "2px solid white",
+        }}
+      >
+        <span
+          className="text-white font-bold text-sm"
+          style={{ fontFamily: "Montserrat, sans-serif" }}
+        >
+          VIEW
+        </span>
+      </div>
+    </motion.div>
+  );
+};
 
 // Lenis Smooth Scrolling with Momentum
 const SmoothScroll = () => {
@@ -144,7 +204,7 @@ export default function DevPage() {
       : uxProjects;
 
   if (!mounted) {
-  return (
+    return (
       <div
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundColor: "#171717" }}
@@ -165,10 +225,12 @@ export default function DevPage() {
   return (
     <>
       <SmoothScroll />
+      <CustomCursor />
       <main
         className="relative font-sans"
         style={{
           backgroundColor: "#171717",
+          cursor: "none",
         }}
         role="main"
         aria-label="Development - Jake Cochran Portfolio"
@@ -199,7 +261,7 @@ export default function DevPage() {
         </motion.div>
 
         {/* Top Navigation */}
-          <motion.div
+        <motion.div
           className="absolute top-8 right-8 z-20 flex items-center space-x-6"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -350,7 +412,7 @@ export default function DevPage() {
                 <div className="space-y-12">
                   {/* First Row: Large image + Text content */}
                   <div className="grid grid-cols-12 gap-8 items-start">
-                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
+                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                       <motion.a
                         href={featuredProject.liveUrl}
                         target="_blank"
@@ -370,12 +432,6 @@ export default function DevPage() {
                           height={600}
                           className="w-full object-cover h-96 md:h-[500px]"
                         />
-                        {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                            VIEW
-                          </span>
-                        </div>
                       </motion.a>
                     </div>
                     <div className="col-span-4 space-y-6">
@@ -389,13 +445,13 @@ export default function DevPage() {
                         >
                           Featured Project
                         </span>
-                </div>
+                      </div>
                       <h3
                         className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {featuredProject.title}
-                </h3>
+                      </h3>
                       <p className="text-gray-400 leading-relaxed text-lg font-light">
                         {featuredProject.description}
                       </p>
@@ -430,7 +486,7 @@ export default function DevPage() {
 
                   {/* Second Row: Small image + Spells interface */}
                   <div className="grid grid-cols-12 gap-8 items-start">
-                    <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
+                    <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                       <motion.a
                         href={featuredProject.liveUrl}
                         target="_blank"
@@ -450,15 +506,9 @@ export default function DevPage() {
                           height={600}
                           className="w-full object-cover h-64 md:h-[400px]"
                         />
-                        {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                            VIEW
-                          </span>
-                        </div>
                       </motion.a>
                     </div>
-                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
+                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                       <motion.a
                         href={featuredProject.liveUrl}
                         target="_blank"
@@ -478,12 +528,6 @@ export default function DevPage() {
                           height={400}
                           className="w-full object-cover h-64 md:h-[400px]"
                         />
-                        {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                            VIEW
-                          </span>
-                        </div>
                       </motion.a>
                     </div>
                   </div>
@@ -494,7 +538,7 @@ export default function DevPage() {
             {/* Individual Project Sections */}
             <div className="space-y-80">
               {currentProjects.map((project, index) => (
-              <motion.div
+                <motion.div
                   key={project.title}
                   className="space-y-16"
                   initial={{ opacity: 0, y: 30 }}
@@ -551,18 +595,18 @@ export default function DevPage() {
                               >
                                 Featured Project
                               </span>
-                </div>
+                            </div>
                             <h3
                               className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
                               style={{ fontFamily: "Montserrat, sans-serif" }}
                             >
                               {project.title}
-                </h3>
+                            </h3>
                             <p className="text-gray-400 leading-relaxed text-lg font-light">
                               {project.description}
-                </p>
-        </div>
-        </div>
+                            </p>
+                          </div>
+                        </div>
 
                         {/* Second Row: Small image + Spells interface */}
                         <div className="grid grid-cols-12 gap-8 items-start">
@@ -623,7 +667,7 @@ export default function DevPage() {
                     ) : project.title === "Pizza E-Commerce Store" ? (
                       // Pizza Store - Asymmetric layout
                       <div className="grid grid-cols-12 gap-8 items-start">
-                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
+                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -647,15 +691,9 @@ export default function DevPage() {
                               height={600}
                               className="w-full object-cover h-96 md:h-[600px]"
                             />
-                            {/* Hover Overlay */}
-                            <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                              <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                                VIEW
-                              </span>
-                            </div>
                           </motion.a>
                         </div>
-                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
+                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -666,7 +704,7 @@ export default function DevPage() {
                             rel="noopener noreferrer"
                             className="block"
                             whileHover={{ scale: 1.02 }}
-              transition={{
+                            transition={{
                               type: "spring",
                               stiffness: 300,
                               damping: 30,
@@ -679,19 +717,13 @@ export default function DevPage() {
                               height={600}
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
-                            {/* Hover Overlay */}
-                            <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                              <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                                VIEW
-                              </span>
-          </div>
                           </motion.a>
-                  </div>
-                </div>
+                        </div>
+                      </div>
                     ) : project.title === "Pixel Character Creator" ? (
                       // Pixel Character Creator - Asymmetric layout
                       <div className="grid grid-cols-12 gap-8 items-start">
-                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
+                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -715,15 +747,9 @@ export default function DevPage() {
                               height={600}
                               className="w-full object-cover h-96 md:h-[600px]"
                             />
-                            {/* Hover Overlay */}
-                            <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                              <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                                VIEW
-                              </span>
-                            </div>
                           </motion.a>
                         </div>
-                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
+                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -747,18 +773,12 @@ export default function DevPage() {
                               height={600}
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
-                            {/* Hover Overlay */}
-                            <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                              <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                                VIEW
-                              </span>
-                            </div>
                           </motion.a>
-          </div>
-        </div>
+                        </div>
+                      </div>
                     ) : (
                       // Other projects - Single image
-                      <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
+                      <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                         <motion.a
                           href={
                             project.title === "Spotify Redesign • Design Focus"
@@ -824,16 +844,10 @@ export default function DevPage() {
                               className="w-full object-cover h-[600px] md:h-[700px]"
                             />
                           )}
-                          {/* Hover Overlay */}
-                          <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                              VIEW
-                            </span>
-                          </div>
                         </motion.a>
                       </div>
                     )}
-      </div>
+                  </div>
 
                   {/* Project Content */}
                   {project.title !== "Wizards Chess" && (
@@ -915,8 +929,8 @@ export default function DevPage() {
               >
                 Start a Project
               </motion.a>
-          </motion.div>
-        </div>
+            </motion.div>
+          </div>
         </motion.section>
       </main>
     </>

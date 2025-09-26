@@ -10,15 +10,14 @@ import Lenis from "lenis";
 // Custom Cursor Component
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isVisible, setIsVisible] = useState(true);
   const [isOverProject, setIsOverProject] = useState(false);
-  const [projectType, setProjectType] = useState<"ux" | "development" | null>(null);
-  const [debugInfo, setDebugInfo] = useState("");
+  const [projectType, setProjectType] = useState<"ux" | "development" | null>(
+    null
+  );
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
-      setIsVisible(true);
     };
 
     const handleMouseLeave = () => {
@@ -29,45 +28,62 @@ const CustomCursor = () => {
     // More robust mouse over detection
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
+
+      // Check multiple ways to detect project hover
+      const projectContainer = target.closest(".project-image-container");
+      const projectElement = target.closest("[data-project-type]");
+      const isOverProjectImage = target.closest("img, video, a");
+      const isOverMotionA = target.closest("motion.a");
       
-      // Check multiple possible selectors
-      const projectContainer = target.closest(".project-image-container") || 
-                              target.closest("[data-project-type]") ||
-                              target.closest(".project-container");
+      // Check if we're in a project section by looking for project-related content
+      const isInProjectSection = target.closest("section") && 
+                                 (target.closest("img") || target.closest("video") || target.closest("a"));
       
-      if (projectContainer) {
-        const projectElement = projectContainer.closest("[data-project-type]") || projectContainer;
-        const type = projectElement.getAttribute("data-project-type");
+      if (projectContainer || projectElement || (isOverProjectImage && isInProjectSection) || isOverMotionA) {
+        // Find the closest project element with data-project-type
+        let closestProject = target.closest("[data-project-type]");
         
-        if (type === "ux" || type === "development") {
-          setIsOverProject(true);
-          setProjectType(type as "ux" | "development");
-          setDebugInfo(`Hovering: ${type}`);
+        // If no direct project element, try to find it in parent containers
+        if (!closestProject) {
+          const parentSection = target.closest("section");
+          if (parentSection) {
+            closestProject = parentSection.querySelector("[data-project-type]");
+          }
+        }
+        
+        if (closestProject) {
+          const type = closestProject.getAttribute("data-project-type");
+          
+          if (type === "ux" || type === "development") {
+            setIsOverProject(true);
+            setProjectType(type as "ux" | "development");
+          } else {
+            setIsOverProject(false);
+            setProjectType(null);
+          }
         } else {
-          setIsOverProject(false);
-          setProjectType(null);
-          setDebugInfo("Not over project");
+          // Fallback: if we're over project content but no data-project-type, assume development
+          if (isOverProjectImage || isOverMotionA) {
+            setIsOverProject(true);
+            setProjectType("development");
+          } else {
+            setIsOverProject(false);
+            setProjectType(null);
+          }
         }
       } else {
         setIsOverProject(false);
         setProjectType(null);
-        setDebugInfo("No project found");
       }
     };
 
-    // Add mouse enter to document to ensure cursor is always visible
-    const handleDocumentMouseEnter = () => {
-      setIsVisible(true);
-    };
 
     document.addEventListener("mousemove", updateMousePosition);
-    document.addEventListener("mouseenter", handleDocumentMouseEnter);
     document.addEventListener("mouseleave", handleMouseLeave);
     document.addEventListener("mouseover", handleMouseOver);
 
     return () => {
       document.removeEventListener("mousemove", updateMousePosition);
-      document.removeEventListener("mouseenter", handleDocumentMouseEnter);
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseover", handleMouseOver);
     };
@@ -101,7 +117,9 @@ const CustomCursor = () => {
         style={{
           backgroundColor: isOverProject ? "#3B82F6" : "#CD535A",
           border: isOverProject ? "3px solid white" : "2px solid white",
-          boxShadow: isOverProject ? "0 0 20px rgba(59, 130, 246, 0.5)" : "0 0 10px rgba(205, 83, 90, 0.3)",
+          boxShadow: isOverProject
+            ? "0 0 20px rgba(59, 130, 246, 0.5)"
+            : "0 0 10px rgba(205, 83, 90, 0.3)",
         }}
       >
         {isOverProject && (
@@ -113,17 +131,7 @@ const CustomCursor = () => {
           </span>
         )}
       </div>
-      
-      {/* Debug info */}
-      <div 
-        className="fixed top-4 left-4 bg-black text-white p-2 text-xs z-[10000]"
-        style={{ fontFamily: "monospace" }}
-      >
-        <div>Visible: {isVisible ? "YES" : "NO"}</div>
-        <div>Over Project: {isOverProject ? "YES" : "NO"}</div>
-        <div>Type: {projectType || "null"}</div>
-        <div>Debug: {debugInfo}</div>
-      </div>
+
     </motion.div>
   );
 };
@@ -620,7 +628,11 @@ export default function DevPage() {
                         <div className="grid grid-cols-12 gap-8 items-start">
                           <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                             <motion.a
-                              href={"liveUrl" in project ? project.liveUrl as string : "#"}
+                              href={
+                                "liveUrl" in project
+                                  ? (project.liveUrl as string)
+                                  : "#"
+                              }
                               target="_blank"
                               rel="noopener noreferrer"
                               className="block"
@@ -668,7 +680,11 @@ export default function DevPage() {
                         <div className="grid grid-cols-12 gap-8 items-start">
                           <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                             <motion.a
-                              href={"liveUrl" in project ? project.liveUrl as string : "#"}
+                              href={
+                                "liveUrl" in project
+                                  ? (project.liveUrl as string)
+                                  : "#"
+                              }
                               target="_blank"
                               rel="noopener noreferrer"
                               className="block"
@@ -690,7 +706,11 @@ export default function DevPage() {
                           </div>
                           <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                             <motion.a
-                              href={"liveUrl" in project ? project.liveUrl as string : "#"}
+                              href={
+                                "liveUrl" in project
+                                  ? (project.liveUrl as string)
+                                  : "#"
+                              }
                               target="_blank"
                               rel="noopener noreferrer"
                               className="block"
@@ -920,7 +940,11 @@ export default function DevPage() {
                           project.title === "Wizards Chess")) && (
                         <div className="flex gap-4">
                           <motion.a
-                            href={"liveUrl" in project ? project.liveUrl as string : "#"}
+                            href={
+                              "liveUrl" in project
+                                ? (project.liveUrl as string)
+                                : "#"
+                            }
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-2 px-6 py-3 bg-white text-black font-medium text-sm hover:bg-gray-200 transition-colors duration-300 rounded-sm"
@@ -931,7 +955,11 @@ export default function DevPage() {
                             LIVE
                           </motion.a>
                           <motion.a
-                            href={"githubUrl" in project ? project.githubUrl as string : "#"}
+                            href={
+                              "githubUrl" in project
+                                ? (project.githubUrl as string)
+                                : "#"
+                            }
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-medium text-sm hover:bg-white hover:text-black transition-colors duration-300 rounded-sm"

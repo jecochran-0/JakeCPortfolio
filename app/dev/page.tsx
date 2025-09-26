@@ -115,7 +115,7 @@ const MagneticButton = ({
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={className}
+      className={`${className} relative overflow-hidden`}
       style={{
         backgroundColor: isActive ? "#CD535A" : "transparent",
         borderRadius: "50px",
@@ -124,7 +124,19 @@ const MagneticButton = ({
         scale: springScale,
       }}
     >
-      {children}
+      {/* Curtain effect */}
+      <motion.div
+        className="absolute inset-0 bg-[#CD535A]"
+        initial={{ y: "100%" }}
+        animate={{ y: isHovered ? "0%" : "100%" }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        style={{ borderRadius: "50px" }}
+      />
+      
+      {/* Text content */}
+      <span className="relative z-10">
+        {children}
+      </span>
     </motion.button>
   );
 };

@@ -38,13 +38,13 @@ const CustomCursor = () => {
 };
 
 // Magnetic Link Component for Navigation
-const MagneticLink = ({ 
-  children, 
-  href, 
+const MagneticLink = ({
+  children,
+  href,
   className = "",
-  ariaLabel
-}: { 
-  children: React.ReactNode; 
+  ariaLabel,
+}: {
+  children: React.ReactNode;
   href: string;
   className?: string;
   ariaLabel?: string;
@@ -52,11 +52,11 @@ const MagneticLink = ({
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [linkPosition, setLinkPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
-  
+
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const scale = useMotionValue(1);
-  
+
   const springX = useSpring(x, { stiffness: 150, damping: 15 });
   const springY = useSpring(y, { stiffness: 150, damping: 15 });
   const springScale = useSpring(scale, { stiffness: 200, damping: 20 });
@@ -66,24 +66,26 @@ const MagneticLink = ({
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    return () => document.removeEventListener('mousemove', handleMouseMove);
+    document.addEventListener("mousemove", handleMouseMove);
+    return () => document.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   useEffect(() => {
     if (!isHovered) return;
 
     const distance = Math.sqrt(
-      Math.pow(mousePosition.x - linkPosition.x, 2) + 
-      Math.pow(mousePosition.y - linkPosition.y, 2)
+      Math.pow(mousePosition.x - linkPosition.x, 2) +
+        Math.pow(mousePosition.y - linkPosition.y, 2)
     );
 
     // Magnetic attraction range (150px) - increased range
     if (distance < 150) {
       const attractionStrength = (150 - distance) / 150;
-      const deltaX = (mousePosition.x - linkPosition.x) * attractionStrength * 0.6; // doubled strength
-      const deltaY = (mousePosition.y - linkPosition.y) * attractionStrength * 0.6; // doubled strength
-      
+      const deltaX =
+        (mousePosition.x - linkPosition.x) * attractionStrength * 0.6; // doubled strength
+      const deltaY =
+        (mousePosition.y - linkPosition.y) * attractionStrength * 0.6; // doubled strength
+
       x.set(deltaX);
       y.set(deltaY);
       scale.set(1 + attractionStrength * 0.2); // doubled scale effect
@@ -98,7 +100,7 @@ const MagneticLink = ({
     const rect = e.currentTarget.getBoundingClientRect();
     setLinkPosition({
       x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2
+      y: rect.top + rect.height / 2,
     });
     setIsHovered(true);
   };
@@ -131,35 +133,33 @@ const MagneticLink = ({
         transition={{ duration: 0.3, ease: "easeInOut" }}
         style={{ borderRadius: "8px" }}
       />
-      
+
       {/* Text content */}
-      <span className="relative z-10 text-white">
-        {children}
-      </span>
+      <span className="relative z-10 text-white">{children}</span>
     </motion.a>
   );
 };
 
 // Magnetic Button Component
-const MagneticButton = ({ 
-  children, 
-  onClick, 
-  isActive, 
-  className = "" 
-}: { 
-  children: React.ReactNode; 
-  onClick: () => void; 
-  isActive: boolean; 
+const MagneticButton = ({
+  children,
+  onClick,
+  isActive,
+  className = "",
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+  isActive: boolean;
   className?: string;
 }) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
-  
+
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const scale = useMotionValue(1);
-  
+
   const springX = useSpring(x, { stiffness: 150, damping: 15 });
   const springY = useSpring(y, { stiffness: 150, damping: 15 });
   const springScale = useSpring(scale, { stiffness: 200, damping: 20 });
@@ -169,24 +169,26 @@ const MagneticButton = ({
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    return () => document.removeEventListener('mousemove', handleMouseMove);
+    document.addEventListener("mousemove", handleMouseMove);
+    return () => document.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   useEffect(() => {
     if (!isHovered) return;
 
     const distance = Math.sqrt(
-      Math.pow(mousePosition.x - buttonPosition.x, 2) + 
-      Math.pow(mousePosition.y - buttonPosition.y, 2)
+      Math.pow(mousePosition.x - buttonPosition.x, 2) +
+        Math.pow(mousePosition.y - buttonPosition.y, 2)
     );
 
     // Magnetic attraction range (150px) - increased range
     if (distance < 150) {
       const attractionStrength = (150 - distance) / 150;
-      const deltaX = (mousePosition.x - buttonPosition.x) * attractionStrength * 0.6; // doubled strength
-      const deltaY = (mousePosition.y - buttonPosition.y) * attractionStrength * 0.6; // doubled strength
-      
+      const deltaX =
+        (mousePosition.x - buttonPosition.x) * attractionStrength * 0.6; // doubled strength
+      const deltaY =
+        (mousePosition.y - buttonPosition.y) * attractionStrength * 0.6; // doubled strength
+
       x.set(deltaX);
       y.set(deltaY);
       scale.set(1 + attractionStrength * 0.2); // doubled scale effect
@@ -201,7 +203,7 @@ const MagneticButton = ({
     const rect = e.currentTarget.getBoundingClientRect();
     setButtonPosition({
       x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2
+      y: rect.top + rect.height / 2,
     });
     setIsHovered(true);
   };
@@ -235,11 +237,9 @@ const MagneticButton = ({
         transition={{ duration: 0.3, ease: "easeInOut" }}
         style={{ borderRadius: "50px" }}
       />
-      
+
       {/* Text content */}
-      <span className="relative z-10 text-white">
-        {children}
-      </span>
+      <span className="relative z-10 text-white">{children}</span>
     </motion.button>
   );
 };
@@ -380,7 +380,7 @@ export default function DevPage() {
       : uxProjects;
 
   if (!mounted) {
-  return (
+    return (
       <div
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundColor: "#171717" }}
@@ -437,7 +437,7 @@ export default function DevPage() {
         </motion.div>
 
         {/* Top Navigation */}
-          <motion.div
+        <motion.div
           className="absolute top-8 right-8 z-20 flex items-center space-x-6"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -475,7 +475,7 @@ export default function DevPage() {
 
         {/* Hero Section */}
         <motion.section
-          className="relative flex items-start justify-start px-16 pt-60 pb-20"
+          className="relative flex items-start justify-start px-16 pt-60 pb-32"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -535,9 +535,9 @@ export default function DevPage() {
           </div>
         </motion.section>
 
-        {/* Projects Section - Barely visible preview */}
+        {/* Projects Section */}
         <motion.section
-          className="py-20 px-20 relative z-20 opacity-20"
+          className="py-32 px-20 relative z-20"
           style={{ backgroundColor: "#171717" }}
         >
           <div className="max-w-none mx-auto">
@@ -598,13 +598,13 @@ export default function DevPage() {
                         >
                           Featured Project
                         </span>
-                </div>
+                      </div>
                       <h3
                         className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {featuredProject.title}
-                </h3>
+                      </h3>
                       <p className="text-gray-400 leading-relaxed text-xl font-light">
                         {featuredProject.description}
                       </p>
@@ -707,11 +707,11 @@ export default function DevPage() {
             )}
 
             {/* Individual Project Sections */}
-            <div className="space-y-32">
+            <div className="space-y-96">
               {currentProjects.map((project, index) => (
-              <motion.div
+                <motion.div
                   key={project.title}
-                  className="space-y-12"
+                  className="space-y-24"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.2, duration: 0.8 }}
@@ -766,18 +766,18 @@ export default function DevPage() {
                               >
                                 Featured Project
                               </span>
-                </div>
+                            </div>
                             <h3
                               className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
                               style={{ fontFamily: "Montserrat, sans-serif" }}
                             >
                               {project.title}
-                </h3>
+                            </h3>
                             <p className="text-gray-400 leading-relaxed text-xl font-light">
                               {project.description}
-                </p>
-        </div>
-        </div>
+                            </p>
+                          </div>
+                        </div>
 
                         {/* Second Row: Small image + Spells interface */}
                         <div className="grid grid-cols-12 gap-12 items-start">
@@ -849,7 +849,7 @@ export default function DevPage() {
                             rel="noopener noreferrer"
                             className="block relative"
                             whileHover={{ scale: 1.02 }}
-              transition={{
+                            transition={{
                               type: "spring",
                               stiffness: 300,
                               damping: 30,
@@ -872,7 +872,7 @@ export default function DevPage() {
                               }}
                             />
                           </motion.a>
-          </div>
+                        </div>
                         <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                           <motion.a
                             href={
@@ -898,8 +898,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-                  </div>
-                </div>
+                        </div>
+                      </div>
                     ) : project.title === "Pixel Character Creator" ? (
                       // Pixel Character Creator - Asymmetric layout
                       <div className="grid grid-cols-12 gap-12 items-start">
@@ -954,8 +954,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-          </div>
-        </div>
+                        </div>
+                      </div>
                     ) : (
                       // Other projects - Single image
                       <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
@@ -1027,19 +1027,19 @@ export default function DevPage() {
                         </motion.a>
                       </div>
                     )}
-      </div>
+                  </div>
 
                   {/* Project Content */}
                   {project.title !== "Wizards Chess" && (
                     <div className="text-left space-y-12">
                       <div className="border-b border-white/10 pb-12">
                         <h3
-                          className="text-2xl md:text-3xl font-light text-white mb-4 tracking-wide"
+                          className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
                           style={{ fontFamily: "Montserrat, sans-serif" }}
                         >
                           {project.title}
                         </h3>
-                        <p className="text-gray-400 leading-relaxed text-lg max-w-3xl font-light">
+                        <p className="text-gray-400 leading-relaxed text-xl max-w-3xl font-light">
                           {project.description}
                         </p>
                       </div>
@@ -1109,8 +1109,8 @@ export default function DevPage() {
               >
                 Start a Project
               </motion.a>
-          </motion.div>
-        </div>
+            </motion.div>
+          </div>
         </motion.section>
       </main>
     </>

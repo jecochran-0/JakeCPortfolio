@@ -381,7 +381,7 @@ export default function DevPage() {
                 <div className="space-y-12">
                   {/* First Row: Large image + Text content */}
                   <div className="grid grid-cols-12 gap-8 items-start">
-                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                       <motion.a
                         href={featuredProject.liveUrl}
                         target="_blank"
@@ -405,7 +405,7 @@ export default function DevPage() {
                         <div 
                           className="absolute inset-0 pointer-events-none"
                           style={{
-                            background: "linear-gradient(135deg, rgba(23, 23, 23, 0.15) 0%, rgba(205, 83, 90, 0.1) 100%)",
+                            background: "linear-gradient(135deg, rgba(23, 23, 23, 0.4) 0%, rgba(205, 83, 90, 0.2) 50%, rgba(23, 23, 23, 0.3) 100%)",
                             mixBlendMode: "multiply"
                           }}
                         />
@@ -463,7 +463,7 @@ export default function DevPage() {
 
                   {/* Second Row: Small image + Spells interface */}
                   <div className="grid grid-cols-12 gap-12 items-start">
-                    <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                    <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                       <motion.a
                         href={featuredProject.liveUrl}
                         target="_blank"
@@ -487,13 +487,13 @@ export default function DevPage() {
                         <div 
                           className="absolute inset-0 pointer-events-none"
                           style={{
-                            background: "linear-gradient(135deg, rgba(23, 23, 23, 0.15) 0%, rgba(205, 83, 90, 0.1) 100%)",
+                            background: "linear-gradient(135deg, rgba(23, 23, 23, 0.4) 0%, rgba(205, 83, 90, 0.2) 50%, rgba(23, 23, 23, 0.3) 100%)",
                             mixBlendMode: "multiply"
                           }}
                         />
                       </motion.a>
                     </div>
-                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                       <motion.a
                         href={featuredProject.liveUrl}
                         target="_blank"
@@ -517,7 +517,7 @@ export default function DevPage() {
                         <div 
                           className="absolute inset-0 pointer-events-none"
                           style={{
-                            background: "linear-gradient(135deg, rgba(23, 23, 23, 0.15) 0%, rgba(205, 83, 90, 0.1) 100%)",
+                            background: "linear-gradient(135deg, rgba(23, 23, 23, 0.4) 0%, rgba(205, 83, 90, 0.2) 50%, rgba(23, 23, 23, 0.3) 100%)",
                             mixBlendMode: "multiply"
                           }}
                         />
@@ -551,7 +551,7 @@ export default function DevPage() {
                       <div className="space-y-12">
                         {/* First Row: Large image + Text content */}
                         <div className="grid grid-cols-12 gap-12 items-start">
-                          <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                          <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                             <motion.a
                               href={
                                 "liveUrl" in project
@@ -603,7 +603,7 @@ export default function DevPage() {
 
                         {/* Second Row: Small image + Spells interface */}
                         <div className="grid grid-cols-12 gap-12 items-start">
-                          <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                          <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                             <motion.a
                               href={
                                 "liveUrl" in project
@@ -629,7 +629,7 @@ export default function DevPage() {
                               />
                             </motion.a>
                           </div>
-                          <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                          <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                             <motion.a
                               href={
                                 "liveUrl" in project
@@ -660,7 +660,7 @@ export default function DevPage() {
                     ) : project.title === "Pizza E-Commerce Store" ? (
                       // Pizza Store - Asymmetric layout
                       <div className="grid grid-cols-12 gap-12 items-start">
-                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -688,13 +688,13 @@ export default function DevPage() {
                             <div 
                               className="absolute inset-0 pointer-events-none"
                               style={{
-                                background: "linear-gradient(135deg, rgba(23, 23, 23, 0.15) 0%, rgba(205, 83, 90, 0.1) 100%)",
+                                background: "linear-gradient(135deg, rgba(23, 23, 23, 0.4) 0%, rgba(205, 83, 90, 0.2) 50%, rgba(23, 23, 23, 0.3) 100%)",
                                 mixBlendMode: "multiply"
                               }}
                             />
                           </motion.a>
           </div>
-                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -724,7 +724,7 @@ export default function DevPage() {
                     ) : project.title === "Pixel Character Creator" ? (
                       // Pixel Character Creator - Asymmetric layout
                       <div className="grid grid-cols-12 gap-12 items-start">
-                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -750,7 +750,7 @@ export default function DevPage() {
                             />
                           </motion.a>
                         </div>
-                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -779,7 +779,7 @@ export default function DevPage() {
         </div>
                     ) : (
                       // Other projects - Single image
-                      <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                      <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                         <motion.a
                           href={
                             project.title === "Spotify Redesign • Design Focus"

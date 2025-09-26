@@ -34,15 +34,23 @@ const CustomCursor = () => {
       const projectElement = target.closest("[data-project-type]");
       const isOverProjectImage = target.closest("img, video, a");
       const isOverMotionA = target.closest("motion.a");
-      
+
       // Check if we're in a project section by looking for project-related content
-      const isInProjectSection = target.closest("section") && 
-                                 (target.closest("img") || target.closest("video") || target.closest("a"));
-      
-      if (projectContainer || projectElement || (isOverProjectImage && isInProjectSection) || isOverMotionA) {
+      const isInProjectSection =
+        target.closest("section") &&
+        (target.closest("img") ||
+          target.closest("video") ||
+          target.closest("a"));
+
+      if (
+        projectContainer ||
+        projectElement ||
+        (isOverProjectImage && isInProjectSection) ||
+        isOverMotionA
+      ) {
         // Find the closest project element with data-project-type
         let closestProject = target.closest("[data-project-type]");
-        
+
         // If no direct project element, try to find it in parent containers
         if (!closestProject) {
           const parentSection = target.closest("section");
@@ -50,10 +58,10 @@ const CustomCursor = () => {
             closestProject = parentSection.querySelector("[data-project-type]");
           }
         }
-        
+
         if (closestProject) {
           const type = closestProject.getAttribute("data-project-type");
-          
+
           if (type === "ux" || type === "development") {
             setIsOverProject(true);
             setProjectType(type as "ux" | "development");
@@ -76,7 +84,6 @@ const CustomCursor = () => {
         setProjectType(null);
       }
     };
-
 
     document.addEventListener("mousemove", updateMousePosition);
     document.addEventListener("mouseleave", handleMouseLeave);
@@ -103,6 +110,7 @@ const CustomCursor = () => {
         scale: isOverProject ? 1.5 : 1,
         opacity: 1,
       }}
+      initial={{ opacity: 1 }}
       transition={{
         type: "spring",
         stiffness: 150,
@@ -112,14 +120,14 @@ const CustomCursor = () => {
     >
       <div
         className={`rounded-full flex items-center justify-center transition-all duration-300 ${
-          isOverProject ? "w-24 h-24" : "w-6 h-6"
+          isOverProject ? "w-24 h-24" : "w-12 h-12"
         }`}
         style={{
           backgroundColor: isOverProject ? "#3B82F6" : "#CD535A",
-          border: isOverProject ? "3px solid white" : "2px solid white",
+          border: isOverProject ? "3px solid white" : "3px solid white",
           boxShadow: isOverProject
             ? "0 0 20px rgba(59, 130, 246, 0.5)"
-            : "0 0 10px rgba(205, 83, 90, 0.3)",
+            : "0 0 20px rgba(205, 83, 90, 0.8)",
         }}
       >
         {isOverProject && (
@@ -131,7 +139,6 @@ const CustomCursor = () => {
           </span>
         )}
       </div>
-
     </motion.div>
   );
 };
@@ -272,7 +279,7 @@ export default function DevPage() {
       : uxProjects;
 
   if (!mounted) {
-  return (
+    return (
       <div
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundColor: "#171717" }}
@@ -303,6 +310,11 @@ export default function DevPage() {
         role="main"
         aria-label="Development - Jake Cochran Portfolio"
       >
+        <style jsx global>{`
+          * {
+            cursor: none !important;
+          }
+        `}</style>
         {/* Top Left Branding */}
         <motion.div
           className="absolute top-8 left-8 z-20"
@@ -329,7 +341,7 @@ export default function DevPage() {
         </motion.div>
 
         {/* Top Navigation */}
-          <motion.div
+        <motion.div
           className="absolute top-8 right-8 z-20 flex items-center space-x-6"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -513,13 +525,13 @@ export default function DevPage() {
                         >
                           Featured Project
                         </span>
-                </div>
+                      </div>
                       <h3
                         className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {featuredProject.title}
-                </h3>
+                      </h3>
                       <p className="text-gray-400 leading-relaxed text-lg font-light">
                         {featuredProject.description}
                       </p>
@@ -606,7 +618,7 @@ export default function DevPage() {
             {/* Individual Project Sections */}
             <div className="space-y-80">
               {currentProjects.map((project, index) => (
-              <motion.div
+                <motion.div
                   key={project.title}
                   className="space-y-16"
                   initial={{ opacity: 0, y: 30 }}
@@ -663,18 +675,18 @@ export default function DevPage() {
                               >
                                 Featured Project
                               </span>
-                </div>
+                            </div>
                             <h3
                               className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
                               style={{ fontFamily: "Montserrat, sans-serif" }}
                             >
                               {project.title}
-                </h3>
+                            </h3>
                             <p className="text-gray-400 leading-relaxed text-lg font-light">
                               {project.description}
-                </p>
-        </div>
-        </div>
+                            </p>
+                          </div>
+                        </div>
 
                         {/* Second Row: Small image + Spells interface */}
                         <div className="grid grid-cols-12 gap-8 items-start">
@@ -746,7 +758,7 @@ export default function DevPage() {
                             rel="noopener noreferrer"
                             className="block"
                             whileHover={{ scale: 1.02 }}
-              transition={{
+                            transition={{
                               type: "spring",
                               stiffness: 300,
                               damping: 30,
@@ -760,7 +772,7 @@ export default function DevPage() {
                               className="w-full object-cover h-96 md:h-[600px]"
                             />
                           </motion.a>
-          </div>
+                        </div>
                         <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={
@@ -786,8 +798,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-                  </div>
-                </div>
+                        </div>
+                      </div>
                     ) : project.title === "Pixel Character Creator" ? (
                       // Pixel Character Creator - Asymmetric layout
                       <div className="grid grid-cols-12 gap-8 items-start">
@@ -842,8 +854,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-          </div>
-        </div>
+                        </div>
+                      </div>
                     ) : (
                       // Other projects - Single image
                       <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
@@ -915,7 +927,7 @@ export default function DevPage() {
                         </motion.a>
                       </div>
                     )}
-      </div>
+                  </div>
 
                   {/* Project Content */}
                   {project.title !== "Wizards Chess" && (
@@ -997,8 +1009,8 @@ export default function DevPage() {
               >
                 Start a Project
               </motion.a>
-          </motion.div>
-        </div>
+            </motion.div>
+          </div>
         </motion.section>
       </main>
     </>

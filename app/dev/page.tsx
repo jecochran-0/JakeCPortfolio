@@ -37,6 +37,109 @@ const CustomCursor = () => {
   );
 };
 
+// Magnetic Link Component for Navigation
+const MagneticLink = ({ 
+  children, 
+  href, 
+  className = "",
+  ariaLabel
+}: { 
+  children: React.ReactNode; 
+  href: string;
+  className?: string;
+  ariaLabel?: string;
+}) => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [linkPosition, setLinkPosition] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+  
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const scale = useMotionValue(1);
+  
+  const springX = useSpring(x, { stiffness: 150, damping: 15 });
+  const springY = useSpring(y, { stiffness: 150, damping: 15 });
+  const springScale = useSpring(scale, { stiffness: 200, damping: 20 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    return () => document.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  useEffect(() => {
+    if (!isHovered) return;
+
+    const distance = Math.sqrt(
+      Math.pow(mousePosition.x - linkPosition.x, 2) + 
+      Math.pow(mousePosition.y - linkPosition.y, 2)
+    );
+
+    // Magnetic attraction range (150px) - increased range
+    if (distance < 150) {
+      const attractionStrength = (150 - distance) / 150;
+      const deltaX = (mousePosition.x - linkPosition.x) * attractionStrength * 0.6; // doubled strength
+      const deltaY = (mousePosition.y - linkPosition.y) * attractionStrength * 0.6; // doubled strength
+      
+      x.set(deltaX);
+      y.set(deltaY);
+      scale.set(1 + attractionStrength * 0.2); // doubled scale effect
+    } else {
+      x.set(0);
+      y.set(0);
+      scale.set(1);
+    }
+  }, [mousePosition, linkPosition, isHovered, x, y, scale]);
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setLinkPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
+    });
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    x.set(0);
+    y.set(0);
+    scale.set(1);
+  };
+
+  return (
+    <motion.a
+      href={href}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={`${className} relative overflow-hidden`}
+      style={{
+        x: springX,
+        y: springY,
+        scale: springScale,
+      }}
+      aria-label={ariaLabel}
+    >
+      {/* Curtain effect */}
+      <motion.div
+        className="absolute inset-0 bg-[#CD535A]"
+        initial={{ y: "100%" }}
+        animate={{ y: isHovered ? "0%" : "100%" }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        style={{ borderRadius: "8px" }}
+      />
+      
+      {/* Text content */}
+      <span className="relative z-10 text-white">
+        {children}
+      </span>
+    </motion.a>
+  );
+};
+
 // Magnetic Button Component
 const MagneticButton = ({ 
   children, 
@@ -340,42 +443,34 @@ export default function DevPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <motion.a
+          <MagneticLink
             href="/"
             className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Go to homepage"
+            ariaLabel="Go to homepage"
           >
             HOME
-          </motion.a>
-          <motion.a
+          </MagneticLink>
+          <MagneticLink
             href="/about"
             className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Go to about page"
+            ariaLabel="Go to about page"
           >
             ABOUT
-          </motion.a>
-          <motion.a
+          </MagneticLink>
+          <MagneticLink
             href="/skills"
             className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Go to skills page"
+            ariaLabel="Go to skills page"
           >
             SKILLS
-          </motion.a>
-          <motion.a
+          </MagneticLink>
+          <MagneticLink
             href="/contact"
             className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Go to contact page"
+            ariaLabel="Go to contact page"
           >
             WORK
-          </motion.a>
+          </MagneticLink>
         </motion.div>
 
         {/* Hero Section */}

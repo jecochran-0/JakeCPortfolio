@@ -7,85 +7,76 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Lenis from "lenis";
 
-// Simple Custom Cursor
+// Bulletproof Custom Cursor - Direct DOM manipulation to avoid React/Next.js conflicts
 const CustomCursor = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isOverProject, setIsOverProject] = useState(false);
-
   useEffect(() => {
+    // Create cursor element directly in DOM
+    const cursor = document.createElement('div');
+    cursor.id = 'custom-cursor';
+    cursor.style.cssText = `
+      position: fixed;
+      width: 80px;
+      height: 80px;
+      background-color: #3B82F6;
+      border: 2px solid white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 99999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      transform: translate(-50%, -50%);
+    `;
+    
+    // Add VIEW text
+    const viewText = document.createElement('span');
+    viewText.textContent = 'VIEW';
+    viewText.style.cssText = `
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      font-family: Montserrat, sans-serif;
+    `;
+    cursor.appendChild(viewText);
+    document.body.appendChild(cursor);
+
+    // Mouse move handler
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
     };
 
+    // Mouse over project handler
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      const projectContainer = target.closest(".project-image-container");
-      setIsOverProject(!!projectContainer);
+      const projectContainer = target.closest('.project-image-container');
+      if (projectContainer) {
+        cursor.style.opacity = '1';
+      } else {
+        cursor.style.opacity = '0';
+      }
     };
 
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseover", handleMouseOver);
+    // Add event listeners
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseover', handleMouseOver);
+    document.addEventListener('mouseout', handleMouseOver);
 
+    // Cleanup
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseover', handleMouseOver);
+      document.removeEventListener('mouseout', handleMouseOver);
+      const existingCursor = document.getElementById('custom-cursor');
+      if (existingCursor) {
+        existingCursor.remove();
+      }
     };
   }, []);
 
-  return (
-    <>
-      {/* Always visible test cursor */}
-      <div
-        className="fixed w-4 h-4 bg-red-500 rounded-full pointer-events-none z-[10000]"
-        style={{
-          left: mousePosition.x - 8,
-          top: mousePosition.y - 8,
-        }}
-      />
-      
-      {/* Debug info */}
-      <div
-        className="fixed top-4 left-4 bg-black text-white p-2 text-xs z-[10000]"
-        style={{ fontFamily: "monospace" }}
-      >
-        <div>Mouse: {mousePosition.x}, {mousePosition.y}</div>
-        <div>Over Project: {isOverProject ? "YES" : "NO"}</div>
-      </div>
-
-      <motion.div
-        className="fixed pointer-events-none z-[9999]"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          transform: "translate(-50%, -50%)",
-        }}
-        animate={{
-          scale: isOverProject ? 1 : 0,
-          opacity: isOverProject ? 1 : 0,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 300,
-          damping: 30,
-        }}
-      >
-        <div
-          className="w-20 h-20 rounded-full flex items-center justify-center"
-          style={{
-            backgroundColor: "#3B82F6",
-            border: "2px solid white",
-          }}
-        >
-          <span
-            className="text-white font-bold text-sm"
-            style={{ fontFamily: "Montserrat, sans-serif" }}
-          >
-            VIEW
-          </span>
-        </div>
-      </motion.div>
-    </>
-  );
+  return null; // No JSX needed - we're manipulating DOM directly
 };
 
 // Lenis Smooth Scrolling with Momentum

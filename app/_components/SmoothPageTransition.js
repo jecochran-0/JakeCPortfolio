@@ -56,7 +56,7 @@ export default function SmoothPageTransition({ children, pathname }) {
     if (isInitialLoad) {
       const timer = setTimeout(() => {
         setIsInitialLoad(false);
-      }, 1500); // Show "Hello" for 1.5 seconds then reveal
+      }, 1000); // Show "Hello" for 1 second then reveal
 
       return () => clearTimeout(timer);
     }
@@ -123,10 +123,10 @@ export default function SmoothPageTransition({ children, pathname }) {
               <motion.h1
                 initial={{ opacity: 0 }}
                 animate={{
-                  opacity: isInitialLoad ? [0, 1, 1, 0] : [0, 0, 1, 1],
+                  opacity: isInitialLoad ? [0, 1, 1] : [0, 0, 1, 1],
                   transition: {
-                    duration: isInitialLoad ? 1.5 : 1.2,
-                    times: isInitialLoad ? [0, 0.2, 0.8, 1] : [0, 0.5, 0.65, 1],
+                    duration: isInitialLoad ? 1.0 : 1.2,
+                    times: isInitialLoad ? [0, 0.3, 1] : [0, 0.5, 0.65, 1],
                     ease: [0.4, 0, 0.2, 1], // Slower beginning to match curtain
                   },
                 }}

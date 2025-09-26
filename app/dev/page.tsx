@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Image from "next/image";
 // Link removed - using <a> tags for page transition system
 import { useSearchParams } from "next/navigation";
@@ -16,8 +16,8 @@ const CustomCursor = () => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    return () => document.removeEventListener('mousemove', handleMouseMove);
+    document.addEventListener("mousemove", handleMouseMove);
+    return () => document.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   return (
@@ -26,14 +26,106 @@ const CustomCursor = () => {
       style={{
         left: mousePosition.x,
         top: mousePosition.y,
-        transform: 'translate(-50%, -50%)',
-        width: '20px',
-        height: '20px',
-        backgroundColor: '#CD535A',
-        border: '2px solid white',
-        borderRadius: '50%',
+        transform: "translate(-50%, -50%)",
+        width: "20px",
+        height: "20px",
+        backgroundColor: "#CD535A",
+        border: "2px solid white",
+        borderRadius: "50%",
       }}
     />
+  );
+};
+
+// Magnetic Button Component
+const MagneticButton = ({ 
+  children, 
+  onClick, 
+  isActive, 
+  className = "" 
+}: { 
+  children: React.ReactNode; 
+  onClick: () => void; 
+  isActive: boolean; 
+  className?: string;
+}) => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+  
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const scale = useMotionValue(1);
+  
+  const springX = useSpring(x, { stiffness: 150, damping: 15 });
+  const springY = useSpring(y, { stiffness: 150, damping: 15 });
+  const springScale = useSpring(scale, { stiffness: 200, damping: 20 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    return () => document.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  useEffect(() => {
+    if (!isHovered) return;
+
+    const distance = Math.sqrt(
+      Math.pow(mousePosition.x - buttonPosition.x, 2) + 
+      Math.pow(mousePosition.y - buttonPosition.y, 2)
+    );
+
+    // Magnetic attraction range (100px)
+    if (distance < 100) {
+      const attractionStrength = (100 - distance) / 100;
+      const deltaX = (mousePosition.x - buttonPosition.x) * attractionStrength * 0.3;
+      const deltaY = (mousePosition.y - buttonPosition.y) * attractionStrength * 0.3;
+      
+      x.set(deltaX);
+      y.set(deltaY);
+      scale.set(1 + attractionStrength * 0.1);
+    } else {
+      x.set(0);
+      y.set(0);
+      scale.set(1);
+    }
+  }, [mousePosition, buttonPosition, isHovered, x, y, scale]);
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setButtonPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
+    });
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    x.set(0);
+    y.set(0);
+    scale.set(1);
+  };
+
+  return (
+    <motion.button
+      onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={className}
+      style={{
+        backgroundColor: isActive ? "#CD535A" : "transparent",
+        borderRadius: "50px",
+        x: springX,
+        y: springY,
+        scale: springScale,
+      }}
+    >
+      {children}
+    </motion.button>
   );
 };
 
@@ -68,7 +160,6 @@ export default function DevPage() {
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
   const [showCursor, setShowCursor] = useState(true);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -83,16 +174,6 @@ export default function DevPage() {
       setActiveTab("all");
     }
   }, [searchParams]);
-
-  // Mouse tracking for magnetic effect
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-    return () => document.removeEventListener('mousemove', handleMouseMove);
-  }, []);
 
   // Typing cursor animation
   useEffect(() => {
@@ -183,81 +264,8 @@ export default function DevPage() {
       ? developmentProjects
       : uxProjects;
 
-  // Magnetic button component
-  const MagneticButton = ({ 
-    children, 
-    onClick, 
-    isActive, 
-    className = "" 
-  }: { 
-    children: React.ReactNode; 
-    onClick: () => void; 
-    isActive: boolean; 
-    className?: string;
-  }) => {
-    const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>(null);
-    const [magneticOffset, setMagneticOffset] = useState({ x: 0, y: 0 });
-
-    useEffect(() => {
-      if (!buttonRef) return;
-
-      const handleMouseMove = (e: MouseEvent) => {
-        const rect = buttonRef.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        
-        const distance = Math.sqrt(
-          Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2)
-        );
-        
-        // Magnetic range (100px)
-        if (distance < 100) {
-          const strength = (100 - distance) / 100; // 0 to 1
-          const maxOffset = 20; // Maximum magnetic pull
-          
-          const offsetX = (e.clientX - centerX) * strength * 0.3;
-          const offsetY = (e.clientY - centerY) * strength * 0.3;
-          
-          setMagneticOffset({
-            x: Math.max(-maxOffset, Math.min(maxOffset, offsetX)),
-            y: Math.max(-maxOffset, Math.min(maxOffset, offsetY))
-          });
-        } else {
-          setMagneticOffset({ x: 0, y: 0 });
-        }
-      };
-
-      document.addEventListener('mousemove', handleMouseMove);
-      return () => document.removeEventListener('mousemove', handleMouseMove);
-    }, [buttonRef]);
-
-    return (
-      <motion.button
-        ref={setButtonRef}
-        onClick={onClick}
-        className={className}
-        animate={{
-          x: magneticOffset.x,
-          y: magneticOffset.y,
-          scale: isActive ? 1.05 : 1
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 300,
-          damping: 30
-        }}
-        style={{
-          backgroundColor: isActive ? "#CD535A" : "transparent",
-          borderRadius: "50px",
-        }}
-      >
-        {children}
-      </motion.button>
-    );
-  };
-
   if (!mounted) {
-  return (
+    return (
       <div
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundColor: "#171717" }}
@@ -314,7 +322,7 @@ export default function DevPage() {
         </motion.div>
 
         {/* Top Navigation */}
-          <motion.div
+        <motion.div
           className="absolute top-8 right-8 z-20 flex items-center space-x-6"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -462,11 +470,12 @@ export default function DevPage() {
                           className="w-full object-cover h-96 md:h-[500px]"
                         />
                         {/* Matte overlay */}
-                        <div 
+                        <div
                           className="absolute inset-0 pointer-events-none"
                           style={{
-                            background: "linear-gradient(135deg, rgba(23, 23, 23, 0.4) 0%, rgba(205, 83, 90, 0.2) 50%, rgba(23, 23, 23, 0.3) 100%)",
-                            mixBlendMode: "multiply"
+                            background:
+                              "linear-gradient(135deg, rgba(23, 23, 23, 0.4) 0%, rgba(205, 83, 90, 0.2) 50%, rgba(23, 23, 23, 0.3) 100%)",
+                            mixBlendMode: "multiply",
                           }}
                         />
                       </motion.a>
@@ -482,13 +491,13 @@ export default function DevPage() {
                         >
                           Featured Project
                         </span>
-                </div>
+                      </div>
                       <h3
                         className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {featuredProject.title}
-                </h3>
+                      </h3>
                       <p className="text-gray-400 leading-relaxed text-xl font-light">
                         {featuredProject.description}
                       </p>
@@ -544,11 +553,12 @@ export default function DevPage() {
                           className="w-full object-cover h-64 md:h-[400px]"
                         />
                         {/* Matte overlay */}
-                        <div 
+                        <div
                           className="absolute inset-0 pointer-events-none"
                           style={{
-                            background: "linear-gradient(135deg, rgba(23, 23, 23, 0.4) 0%, rgba(205, 83, 90, 0.2) 50%, rgba(23, 23, 23, 0.3) 100%)",
-                            mixBlendMode: "multiply"
+                            background:
+                              "linear-gradient(135deg, rgba(23, 23, 23, 0.4) 0%, rgba(205, 83, 90, 0.2) 50%, rgba(23, 23, 23, 0.3) 100%)",
+                            mixBlendMode: "multiply",
                           }}
                         />
                       </motion.a>
@@ -574,11 +584,12 @@ export default function DevPage() {
                           className="w-full object-cover h-64 md:h-[400px]"
                         />
                         {/* Matte overlay */}
-                        <div 
+                        <div
                           className="absolute inset-0 pointer-events-none"
                           style={{
-                            background: "linear-gradient(135deg, rgba(23, 23, 23, 0.4) 0%, rgba(205, 83, 90, 0.2) 50%, rgba(23, 23, 23, 0.3) 100%)",
-                            mixBlendMode: "multiply"
+                            background:
+                              "linear-gradient(135deg, rgba(23, 23, 23, 0.4) 0%, rgba(205, 83, 90, 0.2) 50%, rgba(23, 23, 23, 0.3) 100%)",
+                            mixBlendMode: "multiply",
                           }}
                         />
                       </motion.a>
@@ -591,7 +602,7 @@ export default function DevPage() {
             {/* Individual Project Sections */}
             <div className="space-y-96">
               {currentProjects.map((project, index) => (
-              <motion.div
+                <motion.div
                   key={project.title}
                   className="space-y-24"
                   initial={{ opacity: 0, y: 30 }}
@@ -658,8 +669,8 @@ export default function DevPage() {
                             <p className="text-gray-400 leading-relaxed text-xl font-light">
                               {project.description}
                             </p>
-        </div>
-        </div>
+                          </div>
+                        </div>
 
                         {/* Second Row: Small image + Spells interface */}
                         <div className="grid grid-cols-12 gap-12 items-start">
@@ -745,15 +756,16 @@ export default function DevPage() {
                               className="w-full object-cover h-96 md:h-[600px]"
                             />
                             {/* Matte overlay */}
-                            <div 
+                            <div
                               className="absolute inset-0 pointer-events-none"
                               style={{
-                                background: "linear-gradient(135deg, rgba(23, 23, 23, 0.4) 0%, rgba(205, 83, 90, 0.2) 50%, rgba(23, 23, 23, 0.3) 100%)",
-                                mixBlendMode: "multiply"
+                                background:
+                                  "linear-gradient(135deg, rgba(23, 23, 23, 0.4) 0%, rgba(205, 83, 90, 0.2) 50%, rgba(23, 23, 23, 0.3) 100%)",
+                                mixBlendMode: "multiply",
                               }}
                             />
                           </motion.a>
-          </div>
+                        </div>
                         <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                           <motion.a
                             href={
@@ -779,8 +791,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-                  </div>
-                </div>
+                        </div>
+                      </div>
                     ) : project.title === "Pixel Character Creator" ? (
                       // Pixel Character Creator - Asymmetric layout
                       <div className="grid grid-cols-12 gap-12 items-start">
@@ -835,8 +847,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-          </div>
-        </div>
+                        </div>
+                      </div>
                     ) : (
                       // Other projects - Single image
                       <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
@@ -908,7 +920,7 @@ export default function DevPage() {
                         </motion.a>
                       </div>
                     )}
-      </div>
+                  </div>
 
                   {/* Project Content */}
                   {project.title !== "Wizards Chess" && (
@@ -990,8 +1002,8 @@ export default function DevPage() {
               >
                 Start a Project
               </motion.a>
-          </motion.div>
-        </div>
+            </motion.div>
+          </div>
         </motion.section>
       </main>
     </>

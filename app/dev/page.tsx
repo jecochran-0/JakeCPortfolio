@@ -411,8 +411,8 @@ export default function DevPage() {
                         />
                       </motion.a>
                     </div>
-                    <div className="col-span-4 space-y-6">
-                      <div className="flex items-center gap-3 mb-4">
+                    <div className="col-span-4 space-y-12">
+                      <div className="flex items-center gap-3 mb-8">
                         <span
                           className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
                           style={{
@@ -424,12 +424,12 @@ export default function DevPage() {
                         </span>
                 </div>
                       <h3
-                        className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
+                        className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {featuredProject.title}
                 </h3>
-                      <p className="text-gray-400 leading-relaxed text-lg font-light">
+                      <p className="text-gray-400 leading-relaxed text-xl font-light">
                         {featuredProject.description}
                       </p>
 
@@ -529,11 +529,11 @@ export default function DevPage() {
             )}
 
             {/* Individual Project Sections */}
-            <div className="space-y-80">
+            <div className="space-y-96">
               {currentProjects.map((project, index) => (
               <motion.div
                   key={project.title}
-                  className="space-y-16"
+                  className="space-y-24"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.2, duration: 0.8 }}
@@ -577,8 +577,8 @@ export default function DevPage() {
                               />
                             </motion.a>
                           </div>
-                          <div className="col-span-4 space-y-6">
-                            <div className="flex items-center gap-3 mb-4">
+                          <div className="col-span-4 space-y-12">
+                            <div className="flex items-center gap-3 mb-8">
                               <span
                                 className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
                                 style={{
@@ -588,16 +588,16 @@ export default function DevPage() {
                               >
                                 Featured Project
                               </span>
-                </div>
+                            </div>
                             <h3
-                              className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
+                              className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
                               style={{ fontFamily: "Montserrat, sans-serif" }}
                             >
                               {project.title}
-                </h3>
-                            <p className="text-gray-400 leading-relaxed text-lg font-light">
+                            </h3>
+                            <p className="text-gray-400 leading-relaxed text-xl font-light">
                               {project.description}
-                </p>
+                            </p>
         </div>
         </div>
 
@@ -852,15 +852,15 @@ export default function DevPage() {
 
                   {/* Project Content */}
                   {project.title !== "Wizards Chess" && (
-                    <div className="text-left space-y-6">
-                      <div className="border-b border-white/10 pb-6">
+                    <div className="text-left space-y-12">
+                      <div className="border-b border-white/10 pb-12">
                         <h3
-                          className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
+                          className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
                           style={{ fontFamily: "Montserrat, sans-serif" }}
                         >
                           {project.title}
                         </h3>
-                        <p className="text-gray-400 leading-relaxed text-lg max-w-3xl font-light">
+                        <p className="text-gray-400 leading-relaxed text-xl max-w-3xl font-light">
                           {project.description}
                         </p>
                       </div>

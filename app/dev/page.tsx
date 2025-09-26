@@ -214,13 +214,13 @@ export default function DevPage() {
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a href="/">
             <motion.div
-              className="px-4 py-2 rounded-lg cursor-pointer"
+              className="px-6 py-3 rounded-lg cursor-pointer"
               style={{ backgroundColor: "#B4323B" }}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               <span
-                className="text-white font-black text-lg tracking-wider uppercase"
+                className="text-white font-black text-xl tracking-wider uppercase"
                 style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
               >
                 Jake Cochran

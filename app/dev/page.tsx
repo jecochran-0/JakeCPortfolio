@@ -71,8 +71,6 @@ const MagneticLink = ({
   }, []);
 
   useEffect(() => {
-    if (!isHovered) return;
-
     const distance = Math.sqrt(
       Math.pow(mousePosition.x - linkPosition.x, 2) +
         Math.pow(mousePosition.y - linkPosition.y, 2)
@@ -94,7 +92,7 @@ const MagneticLink = ({
       y.set(0);
       scale.set(1);
     }
-  }, [mousePosition, linkPosition, isHovered, x, y, scale]);
+  }, [mousePosition, linkPosition, x, y, scale]);
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -174,8 +172,6 @@ const MagneticButton = ({
   }, []);
 
   useEffect(() => {
-    if (!isHovered) return;
-
     const distance = Math.sqrt(
       Math.pow(mousePosition.x - buttonPosition.x, 2) +
         Math.pow(mousePosition.y - buttonPosition.y, 2)
@@ -197,7 +193,7 @@ const MagneticButton = ({
       y.set(0);
       scale.set(1);
     }
-  }, [mousePosition, buttonPosition, isHovered, x, y, scale]);
+  }, [mousePosition, buttonPosition, x, y, scale]);
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();

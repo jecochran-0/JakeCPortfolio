@@ -33,38 +33,58 @@ const CustomCursor = () => {
   }, []);
 
   return (
-    <motion.div
-      className="fixed pointer-events-none z-50"
-      style={{
-        left: mousePosition.x,
-        top: mousePosition.y,
-        transform: "translate(-50%, -50%)",
-      }}
-      animate={{
-        scale: isOverProject ? 1 : 0,
-        opacity: isOverProject ? 1 : 0,
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 300,
-        damping: 30,
-      }}
-    >
+    <>
+      {/* Debug display */}
+      <div 
+        className="fixed top-4 left-4 bg-red-500 text-white p-2 text-xs z-[100]"
+        style={{ fontFamily: "monospace" }}
+      >
+        <div>Mouse: {mousePosition.x}, {mousePosition.y}</div>
+        <div>Over Project: {isOverProject ? "YES" : "NO"}</div>
+      </div>
+      
+      {/* Always visible test cursor */}
       <div
-        className="w-20 h-20 rounded-full flex items-center justify-center"
+        className="fixed w-4 h-4 bg-red-500 rounded-full pointer-events-none z-[100]"
         style={{
-          backgroundColor: "#3B82F6",
-          border: "2px solid white",
+          left: mousePosition.x - 8,
+          top: mousePosition.y - 8,
+        }}
+      />
+      
+      <motion.div
+        className="fixed pointer-events-none z-50"
+        style={{
+          left: mousePosition.x,
+          top: mousePosition.y,
+          transform: "translate(-50%, -50%)",
+        }}
+        animate={{
+          scale: isOverProject ? 1 : 0,
+          opacity: isOverProject ? 1 : 0,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 300,
+          damping: 30,
         }}
       >
-        <span
-          className="text-white font-bold text-sm"
-          style={{ fontFamily: "Montserrat, sans-serif" }}
+        <div
+          className="w-20 h-20 rounded-full flex items-center justify-center"
+          style={{
+            backgroundColor: "#3B82F6",
+            border: "2px solid white",
+          }}
         >
-          VIEW
-        </span>
-      </div>
-    </motion.div>
+          <span
+            className="text-white font-bold text-sm"
+            style={{ fontFamily: "Montserrat, sans-serif" }}
+          >
+            VIEW
+          </span>
+        </div>
+      </motion.div>
+    </>
   );
 };
 

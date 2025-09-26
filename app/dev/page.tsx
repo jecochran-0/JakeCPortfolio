@@ -7,76 +7,34 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Lenis from "lenis";
 
-// Bulletproof Custom Cursor - Direct DOM manipulation to avoid React/Next.js conflicts
+// Simple Custom Cursor - Always visible red circle
 const CustomCursor = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
   useEffect(() => {
-    // Create cursor element directly in DOM
-    const cursor = document.createElement('div');
-    cursor.id = 'custom-cursor';
-    cursor.style.cssText = `
-      position: fixed;
-      width: 80px;
-      height: 80px;
-      background-color: #3B82F6;
-      border: 2px solid white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-      z-index: 99999;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      transform: translate(-50%, -50%);
-    `;
-    
-    // Add VIEW text
-    const viewText = document.createElement('span');
-    viewText.textContent = 'VIEW';
-    viewText.style.cssText = `
-      color: white;
-      font-weight: bold;
-      font-size: 14px;
-      font-family: Montserrat, sans-serif;
-    `;
-    cursor.appendChild(viewText);
-    document.body.appendChild(cursor);
-
-    // Mouse move handler
     const handleMouseMove = (e: MouseEvent) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
+      setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
-    // Mouse over project handler
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const projectContainer = target.closest('.project-image-container');
-      if (projectContainer) {
-        cursor.style.opacity = '1';
-      } else {
-        cursor.style.opacity = '0';
-      }
-    };
-
-    // Add event listeners
     document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseover', handleMouseOver);
-    document.addEventListener('mouseout', handleMouseOver);
-
-    // Cleanup
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseover', handleMouseOver);
-      document.removeEventListener('mouseout', handleMouseOver);
-      const existingCursor = document.getElementById('custom-cursor');
-      if (existingCursor) {
-        existingCursor.remove();
-      }
-    };
+    return () => document.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  return null; // No JSX needed - we're manipulating DOM directly
+  return (
+    <div
+      className="fixed pointer-events-none z-[9999]"
+      style={{
+        left: mousePosition.x,
+        top: mousePosition.y,
+        transform: 'translate(-50%, -50%)',
+        width: '20px',
+        height: '20px',
+        backgroundColor: '#CD535A',
+        border: '2px solid white',
+        borderRadius: '50%',
+      }}
+    />
+  );
 };
 
 // Lenis Smooth Scrolling with Momentum

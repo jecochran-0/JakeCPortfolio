@@ -12,7 +12,7 @@ const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const [isOverProject, setIsOverProject] = useState(false);
-  const [projectType, setProjectType] = useState<"ux" | "dev" | null>(null);
+  const [projectType, setProjectType] = useState<"ux" | "development" | null>(null);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
@@ -21,9 +21,9 @@ const CustomCursor = () => {
     };
 
     const handleMouseLeave = () => {
-      setIsVisible(false);
       setIsOverProject(false);
       setProjectType(null);
+      // Don't hide cursor completely on mouse leave, just reset project state
     };
 
     // Check if mouse is over project images (both UX and Dev projects)
@@ -33,11 +33,14 @@ const CustomCursor = () => {
       if (projectContainer) {
         const projectElement = projectContainer.closest("[data-project-type]");
         if (projectElement) {
-          const type = projectElement.getAttribute("data-project-type") as
-            | "ux"
-            | "dev";
-          setIsOverProject(true);
-          setProjectType(type);
+          const type = projectElement.getAttribute("data-project-type");
+          if (type === "ux" || type === "development") {
+            setIsOverProject(true);
+            setProjectType(type as "ux" | "development");
+          } else {
+            setIsOverProject(false);
+            setProjectType(null);
+          }
         } else {
           setIsOverProject(false);
           setProjectType(null);
@@ -48,12 +51,18 @@ const CustomCursor = () => {
       }
     };
 
+    const handleMouseEnter = () => {
+      setIsVisible(true);
+    };
+
     window.addEventListener("mousemove", updateMousePosition);
+    window.addEventListener("mouseenter", handleMouseEnter);
     window.addEventListener("mouseleave", handleMouseLeave);
     window.addEventListener("mouseover", handleMouseOver);
 
     return () => {
       window.removeEventListener("mousemove", updateMousePosition);
+      window.removeEventListener("mouseenter", handleMouseEnter);
       window.removeEventListener("mouseleave", handleMouseLeave);
       window.removeEventListener("mouseover", handleMouseOver);
     };
@@ -61,7 +70,7 @@ const CustomCursor = () => {
 
   return (
     <motion.div
-      className="fixed pointer-events-none z-50"
+      className="fixed pointer-events-none z-[9999]"
       style={{
         left: mousePosition.x,
         top: mousePosition.y,
@@ -226,7 +235,7 @@ export default function DevPage() {
     },
   ];
 
-  const allProjects = [...developmentProjects, ...uxProjects];
+  const allProjects = [featuredProject, ...developmentProjects, ...uxProjects];
   const currentProjects =
     activeTab === "all"
       ? allProjects
@@ -235,7 +244,7 @@ export default function DevPage() {
       : uxProjects;
 
   if (!mounted) {
-    return (
+  return (
       <div
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundColor: "#171717" }}
@@ -292,7 +301,7 @@ export default function DevPage() {
         </motion.div>
 
         {/* Top Navigation */}
-        <motion.div
+          <motion.div
           className="absolute top-8 right-8 z-20 flex items-center space-x-6"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -476,13 +485,13 @@ export default function DevPage() {
                         >
                           Featured Project
                         </span>
-                      </div>
+                </div>
                       <h3
                         className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {featuredProject.title}
-                      </h3>
+                </h3>
                       <p className="text-gray-400 leading-relaxed text-lg font-light">
                         {featuredProject.description}
                       </p>
@@ -569,18 +578,121 @@ export default function DevPage() {
             {/* Individual Project Sections */}
             <div className="space-y-80">
               {currentProjects.map((project, index) => (
-                <motion.div
+              <motion.div
                   key={project.title}
                   className="space-y-16"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.2, duration: 0.8 }}
                   viewport={{ once: true }}
-                  data-project-type={activeTab}
+                  data-project-type={
+                    project.title === "Wizards Chess"
+                      ? "development"
+                      : activeTab
+                  }
                 >
                   {/* Project Images Section */}
                   <div className="space-y-12">
-                    {project.title === "Pizza E-Commerce Store" ? (
+                    {project.title === "Wizards Chess" ? (
+                      // Wizards Chess - Featured layout
+                      <div className="space-y-12">
+                        {/* First Row: Large image + Text content */}
+                        <div className="grid grid-cols-12 gap-8 items-start">
+                          <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                            <motion.a
+                              href={"liveUrl" in project ? project.liveUrl as string : "#"}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block"
+                              whileHover={{ scale: 1.02 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 30,
+                              }}
+                            >
+                              <Image
+                                src="/WizardChessPreview.jpg"
+                                alt="Wizards Chess Main View"
+                                width={1200}
+                                height={600}
+                                className="w-full object-cover h-96 md:h-[500px]"
+                              />
+                            </motion.a>
+                          </div>
+                          <div className="col-span-4 space-y-6">
+                            <div className="flex items-center gap-3 mb-4">
+                              <span
+                                className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
+                                style={{
+                                  backgroundColor: "#CD535A",
+                                  fontFamily: "Montserrat, sans-serif",
+                                }}
+                              >
+                                Featured Project
+                              </span>
+                </div>
+                            <h3
+                              className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
+                              style={{ fontFamily: "Montserrat, sans-serif" }}
+                            >
+                              {project.title}
+                </h3>
+                            <p className="text-gray-400 leading-relaxed text-lg font-light">
+                              {project.description}
+                </p>
+        </div>
+        </div>
+
+                        {/* Second Row: Small image + Spells interface */}
+                        <div className="grid grid-cols-12 gap-8 items-start">
+                          <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                            <motion.a
+                              href={"liveUrl" in project ? project.liveUrl as string : "#"}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block"
+                              whileHover={{ scale: 1.02 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 30,
+                              }}
+                            >
+                              <Image
+                                src="/Wizards-Chess.jpg"
+                                alt="Wizards Chess Gameplay"
+                                width={1200}
+                                height={600}
+                                className="w-full object-cover h-64 md:h-[400px]"
+                              />
+                            </motion.a>
+                          </div>
+                          <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                            <motion.a
+                              href={"liveUrl" in project ? project.liveUrl as string : "#"}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block"
+                              whileHover={{ scale: 1.02 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 30,
+                              }}
+                            >
+                              <Image
+                                src="/WizardsChessSpells.jpg"
+                                alt="Wizards Chess Spells Interface"
+                                width={1200}
+                                height={400}
+                                className="w-full object-cover h-64 md:h-[400px]"
+                              />
+                            </motion.a>
+                          </div>
+                        </div>
+                      </div>
+                    ) : project.title === "Pizza E-Commerce Store" ? (
                       // Pizza Store - Asymmetric layout
                       <div className="grid grid-cols-12 gap-8 items-start">
                         <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
@@ -594,7 +706,7 @@ export default function DevPage() {
                             rel="noopener noreferrer"
                             className="block"
                             whileHover={{ scale: 1.02 }}
-                            transition={{
+              transition={{
                               type: "spring",
                               stiffness: 300,
                               damping: 30,
@@ -608,7 +720,7 @@ export default function DevPage() {
                               className="w-full object-cover h-96 md:h-[600px]"
                             />
                           </motion.a>
-                        </div>
+          </div>
                         <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={
@@ -634,8 +746,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-                        </div>
-                      </div>
+                  </div>
+                </div>
                     ) : project.title === "Pixel Character Creator" ? (
                       // Pixel Character Creator - Asymmetric layout
                       <div className="grid grid-cols-12 gap-8 items-start">
@@ -690,8 +802,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-                        </div>
-                      </div>
+          </div>
+        </div>
                     ) : (
                       // Other projects - Single image
                       <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
@@ -763,29 +875,32 @@ export default function DevPage() {
                         </motion.a>
                       </div>
                     )}
-                  </div>
+      </div>
 
                   {/* Project Content */}
-                  <div className="text-left space-y-6">
-                    <div className="border-b border-white/10 pb-6">
-                      <h3
-                        className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
-                        style={{ fontFamily: "Montserrat, sans-serif" }}
-                      >
-                        {project.title}
-                      </h3>
-                      <p className="text-gray-400 leading-relaxed text-lg max-w-3xl font-light">
-                        {project.description}
-                      </p>
-                    </div>
+                  {project.title !== "Wizards Chess" && (
+                    <div className="text-left space-y-6">
+                      <div className="border-b border-white/10 pb-6">
+                        <h3
+                          className="text-3xl md:text-4xl font-light text-white mb-4 tracking-wide"
+                          style={{ fontFamily: "Montserrat, sans-serif" }}
+                        >
+                          {project.title}
+                        </h3>
+                        <p className="text-gray-400 leading-relaxed text-lg max-w-3xl font-light">
+                          {project.description}
+                        </p>
+                      </div>
 
-                    {/* Live and GitHub buttons for development projects */}
-                    {activeTab === "development" &&
-                      "githubUrl" in project &&
-                      "liveUrl" in project && (
+                      {/* Live and GitHub buttons for development projects */}
+                      {((activeTab === "development" &&
+                        "githubUrl" in project &&
+                        "liveUrl" in project) ||
+                        (activeTab === "all" &&
+                          project.title === "Wizards Chess")) && (
                         <div className="flex gap-4">
                           <motion.a
-                            href={project.liveUrl as string}
+                            href={"liveUrl" in project ? project.liveUrl as string : "#"}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-2 px-6 py-3 bg-white text-black font-medium text-sm hover:bg-gray-200 transition-colors duration-300 rounded-sm"
@@ -796,7 +911,7 @@ export default function DevPage() {
                             LIVE
                           </motion.a>
                           <motion.a
-                            href={project.githubUrl as string}
+                            href={"githubUrl" in project ? project.githubUrl as string : "#"}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-medium text-sm hover:bg-white hover:text-black transition-colors duration-300 rounded-sm"
@@ -808,7 +923,8 @@ export default function DevPage() {
                           </motion.a>
                         </div>
                       )}
-                  </div>
+                    </div>
+                  )}
                 </motion.div>
               ))}
             </div>
@@ -833,8 +949,8 @@ export default function DevPage() {
               >
                 Start a Project
               </motion.a>
-            </motion.div>
-          </div>
+          </motion.div>
+        </div>
         </motion.section>
       </main>
     </>

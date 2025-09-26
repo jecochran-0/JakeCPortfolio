@@ -223,7 +223,7 @@ const AzukiHomepage = () => {
                   className="absolute bottom-0 left-0 right-0 flex items-center"
                   style={{
                     backgroundColor: "#171717",
-                    height: "120px",
+                    height: "140px",
                   }}
                   initial={{
                     transform: "translateY(100%)",
@@ -245,12 +245,16 @@ const AzukiHomepage = () => {
                     margin: "0px 0px -20% 0px",
                   }}
                 >
-                  <div className="flex items-center h-full pl-6">
+                  <div className="flex items-center justify-between h-full pl-6 pr-6">
                     <div
-                      className="text-white font-black text-2xl tracking-tight"
+                      className="text-white font-black text-3xl sm:text-4xl tracking-tight"
                       style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
                     >
                       {panel.title}
+                    </div>
+                    {/* Mobile tap indicator */}
+                    <div className="text-white/60 text-sm font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                      TAP
                     </div>
                   </div>
                 </motion.div>

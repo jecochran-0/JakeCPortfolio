@@ -10,89 +10,16 @@ import Lenis from "lenis";
 // Custom Cursor Component
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isOverProject, setIsOverProject] = useState(false);
-  const [projectType, setProjectType] = useState<"ux" | "development" | null>(
-    null
-  );
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
-    const handleMouseLeave = () => {
-      setIsOverProject(false);
-      setProjectType(null);
-    };
-
-    // More robust mouse over detection
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-
-      // Check multiple ways to detect project hover
-      const projectContainer = target.closest(".project-image-container");
-      const projectElement = target.closest("[data-project-type]");
-      const isOverProjectImage = target.closest("img, video, a");
-      const isOverMotionA = target.closest("motion.a");
-
-      // Check if we're in a project section by looking for project-related content
-      const isInProjectSection =
-        target.closest("section") &&
-        (target.closest("img") ||
-          target.closest("video") ||
-          target.closest("a"));
-
-      if (
-        projectContainer ||
-        projectElement ||
-        (isOverProjectImage && isInProjectSection) ||
-        isOverMotionA
-      ) {
-        // Find the closest project element with data-project-type
-        let closestProject = target.closest("[data-project-type]");
-
-        // If no direct project element, try to find it in parent containers
-        if (!closestProject) {
-          const parentSection = target.closest("section");
-          if (parentSection) {
-            closestProject = parentSection.querySelector("[data-project-type]");
-          }
-        }
-
-        if (closestProject) {
-          const type = closestProject.getAttribute("data-project-type");
-
-          if (type === "ux" || type === "development") {
-            setIsOverProject(true);
-            setProjectType(type as "ux" | "development");
-          } else {
-            setIsOverProject(false);
-            setProjectType(null);
-          }
-        } else {
-          // Fallback: if we're over project content but no data-project-type, assume development
-          if (isOverProjectImage || isOverMotionA) {
-            setIsOverProject(true);
-            setProjectType("development");
-          } else {
-            setIsOverProject(false);
-            setProjectType(null);
-          }
-        }
-      } else {
-        setIsOverProject(false);
-        setProjectType(null);
-      }
-    };
-
     document.addEventListener("mousemove", updateMousePosition);
-    document.addEventListener("mouseleave", handleMouseLeave);
-    document.addEventListener("mouseover", handleMouseOver);
 
     return () => {
       document.removeEventListener("mousemove", updateMousePosition);
-      document.removeEventListener("mouseleave", handleMouseLeave);
-      document.removeEventListener("mouseover", handleMouseOver);
     };
   }, []);
 
@@ -107,37 +34,17 @@ const CustomCursor = () => {
         zIndex: 9999,
       }}
       animate={{
-        scale: isOverProject ? 1.5 : 1,
         opacity: 1,
       }}
       initial={{ opacity: 1 }}
-      transition={{
-        type: "spring",
-        stiffness: 150,
-        damping: 20,
-        mass: 0.8,
-      }}
     >
       <div
-        className={`rounded-full flex items-center justify-center transition-all duration-300 ${
-          isOverProject ? "w-24 h-24" : "w-12 h-12"
-        }`}
+        className="rounded-full flex items-center justify-center w-12 h-12"
         style={{
-          backgroundColor: isOverProject ? "#3B82F6" : "#CD535A",
-          border: isOverProject ? "3px solid white" : "3px solid white",
-          boxShadow: isOverProject
-            ? "0 0 20px rgba(59, 130, 246, 0.5)"
-            : "0 0 20px rgba(205, 83, 90, 0.8)",
+          backgroundColor: "#CD535A",
+          border: "3px solid white",
         }}
       >
-        {isOverProject && (
-          <span
-            className="text-white font-bold text-sm"
-            style={{ fontFamily: "Montserrat, sans-serif" }}
-          >
-            {projectType === "ux" ? "VIEW" : "GO LIVE"}
-          </span>
-        )}
       </div>
     </motion.div>
   );

@@ -546,9 +546,8 @@ export default function DevPage() {
               <motion.div
                 className="mb-32"
                 initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
                 whileHover={{ y: -8 }}
                 data-project-type="development"
               >
@@ -713,9 +712,8 @@ export default function DevPage() {
                   key={project.title}
                   className="space-y-24"
                   initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.2, duration: 0.8 }}
-                  viewport={{ once: true }}
                   data-project-type={
                     project.title === "Wizards Chess"
                       ? "development"
@@ -1093,9 +1091,8 @@ export default function DevPage() {
             <motion.div
               className="text-center mt-20"
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              viewport={{ once: true }}
             >
               <motion.a
                 href="/contact"

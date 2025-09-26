@@ -78,15 +78,15 @@ const MagneticButton = ({
       Math.pow(mousePosition.y - buttonPosition.y, 2)
     );
 
-    // Magnetic attraction range (100px)
-    if (distance < 100) {
-      const attractionStrength = (100 - distance) / 100;
-      const deltaX = (mousePosition.x - buttonPosition.x) * attractionStrength * 0.3;
-      const deltaY = (mousePosition.y - buttonPosition.y) * attractionStrength * 0.3;
+    // Magnetic attraction range (150px) - increased range
+    if (distance < 150) {
+      const attractionStrength = (150 - distance) / 150;
+      const deltaX = (mousePosition.x - buttonPosition.x) * attractionStrength * 0.6; // doubled strength
+      const deltaY = (mousePosition.y - buttonPosition.y) * attractionStrength * 0.6; // doubled strength
       
       x.set(deltaX);
       y.set(deltaY);
-      scale.set(1 + attractionStrength * 0.1);
+      scale.set(1 + attractionStrength * 0.2); // doubled scale effect
     } else {
       x.set(0);
       y.set(0);
@@ -265,7 +265,7 @@ export default function DevPage() {
       : uxProjects;
 
   if (!mounted) {
-    return (
+  return (
       <div
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundColor: "#171717" }}
@@ -322,7 +322,7 @@ export default function DevPage() {
         </motion.div>
 
         {/* Top Navigation */}
-        <motion.div
+          <motion.div
           className="absolute top-8 right-8 z-20 flex items-center space-x-6"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -491,13 +491,13 @@ export default function DevPage() {
                         >
                           Featured Project
                         </span>
-                      </div>
+                </div>
                       <h3
                         className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {featuredProject.title}
-                      </h3>
+                </h3>
                       <p className="text-gray-400 leading-relaxed text-xl font-light">
                         {featuredProject.description}
                       </p>
@@ -602,7 +602,7 @@ export default function DevPage() {
             {/* Individual Project Sections */}
             <div className="space-y-96">
               {currentProjects.map((project, index) => (
-                <motion.div
+              <motion.div
                   key={project.title}
                   className="space-y-24"
                   initial={{ opacity: 0, y: 30 }}
@@ -659,18 +659,18 @@ export default function DevPage() {
                               >
                                 Featured Project
                               </span>
-                            </div>
+                </div>
                             <h3
                               className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
                               style={{ fontFamily: "Montserrat, sans-serif" }}
                             >
                               {project.title}
-                            </h3>
+                </h3>
                             <p className="text-gray-400 leading-relaxed text-xl font-light">
                               {project.description}
-                            </p>
-                          </div>
-                        </div>
+                </p>
+        </div>
+        </div>
 
                         {/* Second Row: Small image + Spells interface */}
                         <div className="grid grid-cols-12 gap-12 items-start">
@@ -742,7 +742,7 @@ export default function DevPage() {
                             rel="noopener noreferrer"
                             className="block relative"
                             whileHover={{ scale: 1.02 }}
-                            transition={{
+              transition={{
                               type: "spring",
                               stiffness: 300,
                               damping: 30,
@@ -765,7 +765,7 @@ export default function DevPage() {
                               }}
                             />
                           </motion.a>
-                        </div>
+          </div>
                         <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                           <motion.a
                             href={
@@ -791,8 +791,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-                        </div>
-                      </div>
+                  </div>
+                </div>
                     ) : project.title === "Pixel Character Creator" ? (
                       // Pixel Character Creator - Asymmetric layout
                       <div className="grid grid-cols-12 gap-12 items-start">
@@ -847,8 +847,8 @@ export default function DevPage() {
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
                           </motion.a>
-                        </div>
-                      </div>
+          </div>
+        </div>
                     ) : (
                       // Other projects - Single image
                       <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
@@ -920,7 +920,7 @@ export default function DevPage() {
                         </motion.a>
                       </div>
                     )}
-                  </div>
+      </div>
 
                   {/* Project Content */}
                   {project.title !== "Wizards Chess" && (
@@ -1002,8 +1002,8 @@ export default function DevPage() {
               >
                 Start a Project
               </motion.a>
-            </motion.div>
-          </div>
+          </motion.div>
+        </div>
         </motion.section>
       </main>
     </>

@@ -20,10 +20,13 @@ const CustomCursor = () => {
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       
-      // Check if we're over a project image container
+      // Check multiple ways to detect project hover
       const projectContainer = target.closest(".project-image-container");
+      const isOverImage = target.closest("img, video");
+      const isOverLink = target.closest("a");
       
-      if (projectContainer) {
+      // Check if we're over any project-related content
+      if (projectContainer || (isOverImage && target.closest("section")) || isOverLink) {
         setIsOverProject(true);
       } else {
         setIsOverProject(false);
@@ -51,9 +54,8 @@ const CustomCursor = () => {
       }}
       animate={{
         scale: isOverProject ? 1.5 : 1,
-        opacity: 1,
       }}
-      initial={{ opacity: 1 }}
+      initial={{ scale: 1 }}
       transition={{
         type: "spring",
         stiffness: 300,
@@ -78,6 +80,15 @@ const CustomCursor = () => {
             VIEW
           </span>
         )}
+      </div>
+      
+      {/* Debug display */}
+      <div 
+        className="fixed top-4 left-4 bg-black text-white p-2 text-xs z-[10000]"
+        style={{ fontFamily: "monospace" }}
+      >
+        <div>Over Project: {isOverProject ? "YES" : "NO"}</div>
+        <div>Mouse: {mousePosition.x}, {mousePosition.y}</div>
       </div>
     </motion.div>
   );

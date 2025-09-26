@@ -52,6 +52,7 @@ const MagneticLink = ({
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [linkPosition, setLinkPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const linkRef = useRef<HTMLAnchorElement>(null);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -70,6 +71,17 @@ const MagneticLink = ({
     return () => document.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  // Capture link position on mount and when it changes
+  useEffect(() => {
+    if (linkRef.current) {
+      const rect = linkRef.current.getBoundingClientRect();
+      setLinkPosition({
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      });
+    }
+  }, []);
+
   useEffect(() => {
     const distance = Math.sqrt(
       Math.pow(mousePosition.x - linkPosition.x, 2) +
@@ -86,7 +98,7 @@ const MagneticLink = ({
 
       x.set(deltaX);
       y.set(deltaY);
-      scale.set(1 + attractionStrength * 0.2); // balanced scale effect
+      scale.set(1 + attractionStrength * 0.3); // stronger scale effect
     } else {
       x.set(0);
       y.set(0);
@@ -112,6 +124,7 @@ const MagneticLink = ({
 
   return (
     <motion.a
+      ref={linkRef}
       href={href}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -153,6 +166,7 @@ const MagneticButton = ({
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -171,6 +185,17 @@ const MagneticButton = ({
     return () => document.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  // Capture button position on mount and when it changes
+  useEffect(() => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setButtonPosition({
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      });
+    }
+  }, []);
+
   useEffect(() => {
     const distance = Math.sqrt(
       Math.pow(mousePosition.x - buttonPosition.x, 2) +
@@ -187,7 +212,7 @@ const MagneticButton = ({
 
       x.set(deltaX);
       y.set(deltaY);
-      scale.set(1 + attractionStrength * 0.2); // balanced scale effect
+      scale.set(1 + attractionStrength * 0.3); // stronger scale effect
     } else {
       x.set(0);
       y.set(0);
@@ -213,6 +238,7 @@ const MagneticButton = ({
 
   return (
     <motion.button
+      ref={buttonRef}
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

@@ -350,7 +350,7 @@ export default function DevPage() {
                 <div className="space-y-12">
                   {/* First Row: Large image + Text content */}
                   <div className="grid grid-cols-12 gap-8 items-start">
-                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
                       <motion.a
                         href={featuredProject.liveUrl}
                         target="_blank"
@@ -370,6 +370,12 @@ export default function DevPage() {
                           height={600}
                           className="w-full object-cover h-96 md:h-[500px]"
                         />
+                        {/* Hover Overlay */}
+                        <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                            VIEW
+                          </span>
+                        </div>
                       </motion.a>
                     </div>
                     <div className="col-span-4 space-y-6">
@@ -424,7 +430,7 @@ export default function DevPage() {
 
                   {/* Second Row: Small image + Spells interface */}
                   <div className="grid grid-cols-12 gap-8 items-start">
-                    <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                    <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
                       <motion.a
                         href={featuredProject.liveUrl}
                         target="_blank"
@@ -444,9 +450,15 @@ export default function DevPage() {
                           height={600}
                           className="w-full object-cover h-64 md:h-[400px]"
                         />
+                        {/* Hover Overlay */}
+                        <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                            VIEW
+                          </span>
+                        </div>
                       </motion.a>
                     </div>
-                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
                       <motion.a
                         href={featuredProject.liveUrl}
                         target="_blank"
@@ -466,6 +478,12 @@ export default function DevPage() {
                           height={400}
                           className="w-full object-cover h-64 md:h-[400px]"
                         />
+                        {/* Hover Overlay */}
+                        <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                            VIEW
+                          </span>
+                        </div>
                       </motion.a>
                     </div>
                   </div>
@@ -605,33 +623,7 @@ export default function DevPage() {
                     ) : project.title === "Pizza E-Commerce Store" ? (
                       // Pizza Store - Asymmetric layout
                       <div className="grid grid-cols-12 gap-8 items-start">
-                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
-                          <motion.a
-                            href={
-                              "liveUrl" in project
-                                ? (project.liveUrl as string)
-                                : "#"
-                            }
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block"
-                            whileHover={{ scale: 1.02 }}
-              transition={{
-                              type: "spring",
-                              stiffness: 300,
-                              damping: 30,
-                            }}
-                          >
-                            <Image
-                              src="/PizzaStore2.png"
-                              alt="Pizza Store Main Interface"
-                              width={1200}
-                              height={600}
-                              className="w-full object-cover h-96 md:h-[600px]"
-                            />
-                          </motion.a>
-          </div>
-                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -649,19 +641,57 @@ export default function DevPage() {
                             }}
                           >
                             <Image
+                              src="/PizzaStore2.png"
+                              alt="Pizza Store Main Interface"
+                              width={1200}
+                              height={600}
+                              className="w-full object-cover h-96 md:h-[600px]"
+                            />
+                            {/* Hover Overlay */}
+                            <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                                VIEW
+                              </span>
+                            </div>
+                          </motion.a>
+                        </div>
+                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
+                          <motion.a
+                            href={
+                              "liveUrl" in project
+                                ? (project.liveUrl as string)
+                                : "#"
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                            whileHover={{ scale: 1.02 }}
+              transition={{
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 30,
+                            }}
+                          >
+                            <Image
                               src="/PizzaStore.png"
                               alt="Pizza Store Cart Interface"
                               width={1200}
                               height={600}
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
+                            {/* Hover Overlay */}
+                            <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                                VIEW
+                              </span>
+          </div>
                           </motion.a>
                   </div>
                 </div>
                     ) : project.title === "Pixel Character Creator" ? (
                       // Pixel Character Creator - Asymmetric layout
                       <div className="grid grid-cols-12 gap-8 items-start">
-                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -685,9 +715,15 @@ export default function DevPage() {
                               height={600}
                               className="w-full object-cover h-96 md:h-[600px]"
                             />
+                            {/* Hover Overlay */}
+                            <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                                VIEW
+                              </span>
+                            </div>
                           </motion.a>
                         </div>
-                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -711,12 +747,18 @@ export default function DevPage() {
                               height={600}
                               className="w-full object-cover h-64 md:h-[400px]"
                             />
+                            {/* Hover Overlay */}
+                            <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                                VIEW
+                              </span>
+                            </div>
                           </motion.a>
           </div>
         </div>
                     ) : (
                       // Other projects - Single image
-                      <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer">
+                      <div className="relative overflow-hidden rounded-lg project-image-container cursor-pointer group">
                         <motion.a
                           href={
                             project.title === "Spotify Redesign • Design Focus"
@@ -782,6 +824,12 @@ export default function DevPage() {
                               className="w-full object-cover h-[600px] md:h-[700px]"
                             />
                           )}
+                          {/* Hover Overlay */}
+                          <div className="absolute inset-0 bg-blue-500/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span className="text-white font-bold text-2xl tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                              VIEW
+                            </span>
+                          </div>
                         </motion.a>
                       </div>
                     )}

@@ -386,7 +386,7 @@ export default function DevPage() {
                         href={featuredProject.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block"
+                        className="block relative"
                         whileHover={{ scale: 1.02 }}
                         transition={{
                           type: "spring",
@@ -400,6 +400,14 @@ export default function DevPage() {
                           width={1200}
                           height={600}
                           className="w-full object-cover h-96 md:h-[500px]"
+                        />
+                        {/* Matte overlay */}
+                        <div 
+                          className="absolute inset-0 pointer-events-none"
+                          style={{
+                            background: "linear-gradient(135deg, rgba(23, 23, 23, 0.15) 0%, rgba(205, 83, 90, 0.1) 100%)",
+                            mixBlendMode: "multiply"
+                          }}
                         />
                       </motion.a>
                     </div>
@@ -454,13 +462,13 @@ export default function DevPage() {
                   </div>
 
                   {/* Second Row: Small image + Spells interface */}
-                  <div className="grid grid-cols-12 gap-8 items-start">
+                  <div className="grid grid-cols-12 gap-12 items-start">
                     <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                       <motion.a
                         href={featuredProject.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block"
+                        className="block relative"
                         whileHover={{ scale: 1.02 }}
                         transition={{
                           type: "spring",
@@ -475,6 +483,14 @@ export default function DevPage() {
                           height={600}
                           className="w-full object-cover h-64 md:h-[400px]"
                         />
+                        {/* Matte overlay */}
+                        <div 
+                          className="absolute inset-0 pointer-events-none"
+                          style={{
+                            background: "linear-gradient(135deg, rgba(23, 23, 23, 0.15) 0%, rgba(205, 83, 90, 0.1) 100%)",
+                            mixBlendMode: "multiply"
+                          }}
+                        />
                       </motion.a>
                     </div>
                     <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
@@ -482,7 +498,7 @@ export default function DevPage() {
                         href={featuredProject.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block"
+                        className="block relative"
                         whileHover={{ scale: 1.02 }}
                         transition={{
                           type: "spring",
@@ -496,6 +512,14 @@ export default function DevPage() {
                           width={1200}
                           height={400}
                           className="w-full object-cover h-64 md:h-[400px]"
+                        />
+                        {/* Matte overlay */}
+                        <div 
+                          className="absolute inset-0 pointer-events-none"
+                          style={{
+                            background: "linear-gradient(135deg, rgba(23, 23, 23, 0.15) 0%, rgba(205, 83, 90, 0.1) 100%)",
+                            mixBlendMode: "multiply"
+                          }}
                         />
                       </motion.a>
                     </div>
@@ -526,7 +550,7 @@ export default function DevPage() {
                       // Wizards Chess - Featured layout
                       <div className="space-y-12">
                         {/* First Row: Large image + Text content */}
-                        <div className="grid grid-cols-12 gap-8 items-start">
+                        <div className="grid grid-cols-12 gap-12 items-start">
                           <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                             <motion.a
                               href={
@@ -578,7 +602,7 @@ export default function DevPage() {
         </div>
 
                         {/* Second Row: Small image + Spells interface */}
-                        <div className="grid grid-cols-12 gap-8 items-start">
+                        <div className="grid grid-cols-12 gap-12 items-start">
                           <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                             <motion.a
                               href={
@@ -635,7 +659,7 @@ export default function DevPage() {
                       </div>
                     ) : project.title === "Pizza E-Commerce Store" ? (
                       // Pizza Store - Asymmetric layout
-                      <div className="grid grid-cols-12 gap-8 items-start">
+                      <div className="grid grid-cols-12 gap-12 items-start">
                         <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={
@@ -645,9 +669,9 @@ export default function DevPage() {
                             }
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block"
+                            className="block relative"
                             whileHover={{ scale: 1.02 }}
-              transition={{
+                            transition={{
                               type: "spring",
                               stiffness: 300,
                               damping: 30,
@@ -659,6 +683,14 @@ export default function DevPage() {
                               width={1200}
                               height={600}
                               className="w-full object-cover h-96 md:h-[600px]"
+                            />
+                            {/* Matte overlay */}
+                            <div 
+                              className="absolute inset-0 pointer-events-none"
+                              style={{
+                                background: "linear-gradient(135deg, rgba(23, 23, 23, 0.15) 0%, rgba(205, 83, 90, 0.1) 100%)",
+                                mixBlendMode: "multiply"
+                              }}
                             />
                           </motion.a>
           </div>
@@ -691,7 +723,7 @@ export default function DevPage() {
                 </div>
                     ) : project.title === "Pixel Character Creator" ? (
                       // Pixel Character Creator - Asymmetric layout
-                      <div className="grid grid-cols-12 gap-8 items-start">
+                      <div className="grid grid-cols-12 gap-12 items-start">
                         <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer">
                           <motion.a
                             href={

@@ -199,7 +199,7 @@ export default function GrammarlyGOCaseStudy() {
                 className="text-lg text-gray-300 leading-relaxed max-w-4xl"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
-                GrammarlyGO is Grammarly's embedded AI assistant designed to
+                GrammarlyGO is Grammarly&apos;s embedded AI assistant designed to
                 speed up content creation and help users write more confidently
                 across platforms. It can draft email replies, rewrite sentences
                 for tone or clarity, or brainstorm content ideas using preset
@@ -301,7 +301,7 @@ export default function GrammarlyGOCaseStudy() {
                 </h3>
                 <div className="space-y-4 text-lg text-gray-300">
                   <p style={{ fontFamily: "Montserrat, sans-serif" }}>
-                    Let's assume Grammarly spends:
+                    Let&apos;s assume Grammarly spends:
                   </p>
                   <ul className="space-y-2 ml-4">
                     <li style={{ fontFamily: "Montserrat, sans-serif" }}>
@@ -369,11 +369,11 @@ export default function GrammarlyGOCaseStudy() {
               </h3>
               <div className="space-y-6 text-lg text-gray-300 max-w-4xl">
                 <p style={{ fontFamily: "Montserrat, sans-serif" }}>
-                If a user tries GrammarlyGO once but doesn't engage:
+                If a user tries GrammarlyGO once but doesn&apos;t engage:
               </p>
                 <ul className="space-y-2 ml-4">
                   <li style={{ fontFamily: "Montserrat, sans-serif" }}>
-                    • They're less likely to renew
+                    • They&apos;re less likely to renew
                   </li>
                   <li style={{ fontFamily: "Montserrat, sans-serif" }}>
                     • Their average lifetime drops to 1 year
@@ -553,7 +553,7 @@ export default function GrammarlyGOCaseStudy() {
                   {
                     segment: "Disengaged Users",
                     percent: "60%",
-                    description: "Tried GrammarlyGO once, haven't used since",
+                    description: "Tried GrammarlyGO once, haven&apos;t used since",
                   },
                   {
                     segment: "Power Users",
@@ -641,7 +641,7 @@ export default function GrammarlyGOCaseStudy() {
                   <div className="space-y-4">
                   {[
                     {
-                      step: 'Clicked "GrammarlyGO" button',
+                      step: &apos;Clicked &quot;GrammarlyGO&quot; button&apos;,
                       rate: "100%",
                         dropoff: null,
                     },
@@ -750,7 +750,7 @@ export default function GrammarlyGOCaseStudy() {
                         style={{ backgroundColor: "#CD535A" }}
                       ></span>
                       <span style={{ fontFamily: "Montserrat, sans-serif" }}>
-                        Usefulness gap: 5/10 didn't feel the output added much
+                        Usefulness gap: 5/10 didn&apos;t feel the output added much
                       value beyond their own edits
                       </span>
                     </li>
@@ -789,7 +789,7 @@ export default function GrammarlyGOCaseStudy() {
                         style={{ backgroundColor: "#CD535A" }}
                       ></span>
                       <span style={{ fontFamily: "Montserrat, sans-serif" }}>
-                        9/15 didn't notice the GrammarlyGO icon was different
+                        9/15 didn&apos;t notice the GrammarlyGO icon was different
                         from classic Grammarly
                         </span>
                     </li>
@@ -856,7 +856,7 @@ export default function GrammarlyGOCaseStudy() {
                     theme: "Discoverability issues",
                     evidence: "Analytics, Usability Testing",
                     meaning:
-                      "Users can't easily find GrammarlyGO or don't know they're using it",
+                      &quot;Users can&apos;t easily find GrammarlyGO or don&apos;t know they&apos;re using it&quot;,
                   },
                   {
                     theme: "Frustration with tone control & UI",
@@ -868,7 +868,7 @@ export default function GrammarlyGOCaseStudy() {
                     theme: "Output felt excessive or impersonal",
                     evidence: "Interviews, Survey",
                     meaning:
-                      "Users want tweaks, not full rewrites; don't trust 'robotic' style",
+                      &quot;Users want tweaks, not full rewrites; don&apos;t trust &apos;robotic&apos; style&quot;,
                   },
                   {
                     theme: "Power users find workarounds",
@@ -964,7 +964,7 @@ export default function GrammarlyGOCaseStudy() {
                         style={{ backgroundColor: "#CD535A" }}
                       ></span>
                       <span style={{ fontFamily: "Montserrat, sans-serif" }}>
-                        Low trust in the tool's usefulness
+                        Low trust in the tool&apos;s usefulness
                       </span>
                   </li>
                     <li className="flex items-start">
@@ -992,7 +992,7 @@ export default function GrammarlyGOCaseStudy() {
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   Even engaged users work around the friction manually — meaning
-                  the product isn't supporting them efficiently either.
+                  the product isn&apos;t supporting them efficiently either.
                 </p>
               </div>
               </div>
@@ -1060,7 +1060,7 @@ export default function GrammarlyGOCaseStudy() {
                     priority: "Medium",
                     rationale: "Aligns tool suggestions to user intent",
                     impact: [
-                      "Increases activation rate → users reach their 'aha' moment faster",
+                      &quot;Increases activation rate → users reach their &apos;aha&apos; moment faster&quot;,
                       "Improves first-week retention → strongest predictor of long-term LTV",
                       "Reduces cognitive friction → boosts satisfaction (CSAT), especially among new users",
                     ],
@@ -1158,20 +1158,20 @@ export default function GrammarlyGOCaseStudy() {
                     "Offer GrammarlyGO with contextual suggestions based on what the user is writing",
                   ],
                   benefits: [
-                    "Activated when it's needed, not before. Respects user flow",
+                    &quot;Activated when it&apos;s needed, not before. Respects user flow&quot;,
                     "Ties AI to solving an immediate pain point, which builds trust",
                   ],
                   priority: "High Priority | High Impact",
                   metric:
-                    "GrammarlyGO activation rate during 'writer's block' moments",
+                    &quot;GrammarlyGO activation rate during &apos;writer&apos;s block&apos; moments&quot;,
                 },
                 {
                   title: "Live Preview Panel with Transparent Output Logic",
                   description:
-                    "Show GrammarlyGO's draft evolving in real time with a 'why we chose this' explanation.",
+                    &quot;Show GrammarlyGO&apos;s draft evolving in real time with a &apos;why we chose this&apos; explanation.&quot;,
                   implementation: [
                     "Let users preview multiple tones or structures without rerunning prompts",
-                    "Display output as a 'guided draft,' not a black-box result",
+                    &quot;Display output as a &apos;guided draft,&apos; not a black-box result&quot;,
                   ],
                   benefits: [
                     "Increases transparency and control",
@@ -1180,7 +1180,7 @@ export default function GrammarlyGOCaseStudy() {
                   priority: "High Priority | High Impact",
                   metrics: [
                     "Reduction in AI output abandonment",
-                    "Increase in 'output edited and used' rate",
+                    &quot;Increase in &apos;output edited and used&apos; rate&quot;,
                   ],
                 },
                 {
@@ -1207,7 +1207,7 @@ export default function GrammarlyGOCaseStudy() {
                     "Offer AI-first document templates for common use cases.",
                   implementation: [
                     "Email, outreach, follow-up, project summary templates",
-                    "Prompted with a short form like: Who is this for? What's your message?",
+                    &quot;Prompted with a short form like: Who is this for? What&apos;s your message?&quot;,
                   ],
                   benefits: [
                     "Helps users generate from a blank page, the hardest moment",
@@ -1290,7 +1290,7 @@ export default function GrammarlyGOCaseStudy() {
                             className="text-lg font-bold text-white mb-4"
                             style={{ fontFamily: "Montserrat, sans-serif" }}
                           >
-                        Why it's better:
+                        Why it&apos;s better:
                       </h4>
                           <ul className="space-y-2 text-gray-300">
                         {solution.benefits.map((item, itemIndex) => (

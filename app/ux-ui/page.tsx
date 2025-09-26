@@ -9,6 +9,7 @@ import {
   useVelocity,
 } from "framer-motion";
 import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope } from "react-icons/fa";
+import Image from "next/image";
 
 export default function UXUIPage() {
   const { scrollY, scrollYProgress } = useScroll();
@@ -148,6 +149,7 @@ export default function UXUIPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
           >
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <motion.a
               href="/"
               className="text-black hover:text-gray-600 transition-colors duration-300 font-light text-sm tracking-wider nav-item-hover"
@@ -457,10 +459,11 @@ export default function UXUIPage() {
                             </motion.button>
                           </div>
                         ) : (
-                          <img
+                          <Image
                             src={project.image}
                             alt={project.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                         )}
                       </motion.div>

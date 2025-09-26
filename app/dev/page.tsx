@@ -475,7 +475,7 @@ export default function DevPage() {
 
         {/* Hero Section */}
         <motion.section
-          className="relative flex items-start justify-start px-16 pt-32 pb-20"
+          className="relative flex items-start justify-start px-16 pt-60 pb-20"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -537,7 +537,7 @@ export default function DevPage() {
 
         {/* Projects Section */}
         <motion.section
-          className="py-32 px-20 relative z-20"
+          className="pt-20 pb-60 px-20 relative z-20"
           style={{ backgroundColor: "#171717" }}
         >
           <div className="max-w-none mx-auto">
@@ -707,7 +707,7 @@ export default function DevPage() {
             )}
 
             {/* Individual Project Sections */}
-            <div className="space-y-64">
+            <div className="space-y-96">
               {currentProjects.map((project, index) => (
                 <motion.div
                   key={project.title}

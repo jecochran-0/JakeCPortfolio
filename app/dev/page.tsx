@@ -10,14 +10,16 @@ import Lenis from "lenis";
 // Custom Cursor Component
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [isOverProject, setIsOverProject] = useState(false);
   const [projectType, setProjectType] = useState<"ux" | "development" | null>(null);
+  const [debugInfo, setDebugInfo] = useState("");
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
       setIsVisible(true);
+      console.log("Mouse move - cursor should be visible");
     };
 
     const handleMouseLeave = () => {
@@ -30,22 +32,38 @@ const CustomCursor = () => {
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const projectContainer = target.closest(".project-image-container");
+      
+      console.log("Mouse over event:", {
+        target: target.tagName,
+        hasProjectContainer: !!projectContainer,
+        targetClasses: target.className
+      });
+      
       if (projectContainer) {
         const projectElement = projectContainer.closest("[data-project-type]");
+        console.log("Project element found:", !!projectElement);
+        
         if (projectElement) {
           const type = projectElement.getAttribute("data-project-type");
+          console.log("Project type:", type);
+          setDebugInfo(`Type: ${type}, Container: ${!!projectContainer}`);
+          
           if (type === "ux" || type === "development") {
             setIsOverProject(true);
             setProjectType(type as "ux" | "development");
+            console.log("Setting cursor to project mode:", type);
           } else {
             setIsOverProject(false);
             setProjectType(null);
+            console.log("Invalid project type, hiding cursor");
           }
         } else {
+          console.log("No project element with data-project-type found");
           setIsOverProject(false);
           setProjectType(null);
         }
       } else {
+        console.log("No project container found");
         setIsOverProject(false);
         setProjectType(null);
       }
@@ -75,6 +93,8 @@ const CustomCursor = () => {
         left: mousePosition.x,
         top: mousePosition.y,
         transform: "translate(-50%, -50%)",
+        pointerEvents: "none",
+        zIndex: 9999,
       }}
       animate={{
         scale: isVisible ? (isOverProject ? 1.5 : 1) : 0,
@@ -93,6 +113,7 @@ const CustomCursor = () => {
         }`}
         style={{
           backgroundColor: isOverProject ? "#3B82F6" : "#F5F5DC",
+          border: isOverProject ? "2px solid white" : "1px solid rgba(255,255,255,0.3)",
         }}
       >
         {isOverProject && (
@@ -103,6 +124,17 @@ const CustomCursor = () => {
             {projectType === "ux" ? "VIEW" : "GO LIVE"}
           </span>
         )}
+      </div>
+      
+      {/* Debug info */}
+      <div 
+        className="fixed top-4 left-4 bg-black text-white p-2 text-xs z-[10000]"
+        style={{ fontFamily: "monospace" }}
+      >
+        <div>Visible: {isVisible ? "YES" : "NO"}</div>
+        <div>Over Project: {isOverProject ? "YES" : "NO"}</div>
+        <div>Type: {projectType || "null"}</div>
+        <div>Debug: {debugInfo}</div>
       </div>
     </motion.div>
   );

@@ -73,6 +73,8 @@ const CustomCursor = () => {
           backgroundColor: isOverProject ? "#3B82F6" : "#CD535A",
           border: "3px solid white",
           opacity: 1, // Force opacity
+          display: "flex", // Force display
+          visibility: "visible", // Force visibility
         }}
       >
         {isOverProject && (
@@ -93,6 +95,19 @@ const CustomCursor = () => {
         <div>Cursor Visible: {isOverProject ? "HOVER" : "NORMAL"}</div>
         <div>Position: {mousePosition.x}, {mousePosition.y}</div>
       </div>
+      
+      {/* Test cursor - always visible red circle */}
+      <div
+        className="fixed rounded-full bg-red-500"
+        style={{
+          left: mousePosition.x + 20,
+          top: mousePosition.y + 20,
+          width: "20px",
+          height: "20px",
+          zIndex: 100000,
+          pointerEvents: "none",
+        }}
+      />
     </motion.div>
   );
 };

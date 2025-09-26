@@ -535,9 +535,9 @@ export default function DevPage() {
           </div>
         </motion.section>
 
-        {/* Projects Section */}
+        {/* Projects Section - Barely visible preview */}
         <motion.section
-          className="py-60 px-20 relative z-20"
+          className="py-20 px-20 relative z-20 opacity-20"
           style={{ backgroundColor: "#171717" }}
         >
           <div className="max-w-none mx-auto">
@@ -707,11 +707,11 @@ export default function DevPage() {
             )}
 
             {/* Individual Project Sections */}
-            <div className="space-y-96">
+            <div className="space-y-32">
               {currentProjects.map((project, index) => (
               <motion.div
                   key={project.title}
-                  className="space-y-24"
+                  className="space-y-12"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.2, duration: 0.8 }}
@@ -1034,12 +1034,12 @@ export default function DevPage() {
                     <div className="text-left space-y-12">
                       <div className="border-b border-white/10 pb-12">
                         <h3
-                          className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
+                          className="text-2xl md:text-3xl font-light text-white mb-4 tracking-wide"
                           style={{ fontFamily: "Montserrat, sans-serif" }}
                         >
                           {project.title}
                         </h3>
-                        <p className="text-gray-400 leading-relaxed text-xl max-w-3xl font-light">
+                        <p className="text-gray-400 leading-relaxed text-lg max-w-3xl font-light">
                           {project.description}
                         </p>
                       </div>

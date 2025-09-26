@@ -82,13 +82,13 @@ const MagneticLink = ({
     if (distance < 150) {
       const attractionStrength = (150 - distance) / 150;
       const deltaX =
-        (mousePosition.x - linkPosition.x) * attractionStrength * 0.6; // doubled strength
+        (mousePosition.x - linkPosition.x) * attractionStrength * 1.0; // stronger magnetic effect
       const deltaY =
-        (mousePosition.y - linkPosition.y) * attractionStrength * 0.6; // doubled strength
+        (mousePosition.y - linkPosition.y) * attractionStrength * 1.0; // stronger magnetic effect
 
       x.set(deltaX);
       y.set(deltaY);
-      scale.set(1 + attractionStrength * 0.2); // doubled scale effect
+      scale.set(1 + attractionStrength * 0.3); // stronger scale effect
     } else {
       x.set(0);
       y.set(0);
@@ -185,13 +185,13 @@ const MagneticButton = ({
     if (distance < 150) {
       const attractionStrength = (150 - distance) / 150;
       const deltaX =
-        (mousePosition.x - buttonPosition.x) * attractionStrength * 0.6; // doubled strength
+        (mousePosition.x - buttonPosition.x) * attractionStrength * 1.0; // stronger magnetic effect
       const deltaY =
-        (mousePosition.y - buttonPosition.y) * attractionStrength * 0.6; // doubled strength
+        (mousePosition.y - buttonPosition.y) * attractionStrength * 1.0; // stronger magnetic effect
 
       x.set(deltaX);
       y.set(deltaY);
-      scale.set(1 + attractionStrength * 0.2); // doubled scale effect
+      scale.set(1 + attractionStrength * 0.3); // stronger scale effect
     } else {
       x.set(0);
       y.set(0);

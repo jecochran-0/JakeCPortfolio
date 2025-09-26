@@ -19,70 +19,57 @@ const CustomCursor = () => {
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
       setIsVisible(true);
-      console.log("Mouse move - cursor should be visible");
     };
 
     const handleMouseLeave = () => {
       setIsOverProject(false);
       setProjectType(null);
-      // Don't hide cursor completely on mouse leave, just reset project state
     };
 
-    // Check if mouse is over project images (both UX and Dev projects)
+    // More robust mouse over detection
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      const projectContainer = target.closest(".project-image-container");
       
-      console.log("Mouse over event:", {
-        target: target.tagName,
-        hasProjectContainer: !!projectContainer,
-        targetClasses: target.className
-      });
+      // Check multiple possible selectors
+      const projectContainer = target.closest(".project-image-container") || 
+                              target.closest("[data-project-type]") ||
+                              target.closest(".project-container");
       
       if (projectContainer) {
-        const projectElement = projectContainer.closest("[data-project-type]");
-        console.log("Project element found:", !!projectElement);
+        const projectElement = projectContainer.closest("[data-project-type]") || projectContainer;
+        const type = projectElement.getAttribute("data-project-type");
         
-        if (projectElement) {
-          const type = projectElement.getAttribute("data-project-type");
-          console.log("Project type:", type);
-          setDebugInfo(`Type: ${type}, Container: ${!!projectContainer}`);
-          
-          if (type === "ux" || type === "development") {
-            setIsOverProject(true);
-            setProjectType(type as "ux" | "development");
-            console.log("Setting cursor to project mode:", type);
-          } else {
-            setIsOverProject(false);
-            setProjectType(null);
-            console.log("Invalid project type, hiding cursor");
-          }
+        if (type === "ux" || type === "development") {
+          setIsOverProject(true);
+          setProjectType(type as "ux" | "development");
+          setDebugInfo(`Hovering: ${type}`);
         } else {
-          console.log("No project element with data-project-type found");
           setIsOverProject(false);
           setProjectType(null);
+          setDebugInfo("Not over project");
         }
       } else {
-        console.log("No project container found");
         setIsOverProject(false);
         setProjectType(null);
+        setDebugInfo("No project found");
       }
     };
 
-    const handleMouseEnter = () => {
+    // Add mouse enter to document to ensure cursor is always visible
+    const handleDocumentMouseEnter = () => {
       setIsVisible(true);
     };
 
-    window.addEventListener("mousemove", updateMousePosition);
-    window.addEventListener("mouseenter", handleMouseEnter);
-    window.addEventListener("mouseleave", handleMouseLeave);
-    window.addEventListener("mouseover", handleMouseOver);
+    document.addEventListener("mousemove", updateMousePosition);
+    document.addEventListener("mouseenter", handleDocumentMouseEnter);
+    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mouseover", handleMouseOver);
 
     return () => {
-      window.removeEventListener("mousemove", updateMousePosition);
-      window.removeEventListener("mouseenter", handleMouseEnter);
-      window.removeEventListener("mouseleave", handleMouseLeave);
-      window.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener("mousemove", updateMousePosition);
+      document.removeEventListener("mouseenter", handleDocumentMouseEnter);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseover", handleMouseOver);
     };
   }, []);
 
@@ -97,8 +84,8 @@ const CustomCursor = () => {
         zIndex: 9999,
       }}
       animate={{
-        scale: isVisible ? (isOverProject ? 1.5 : 1) : 0,
-        opacity: isVisible ? 1 : 0,
+        scale: isOverProject ? 1.5 : 1,
+        opacity: 1,
       }}
       transition={{
         type: "spring",
@@ -108,12 +95,13 @@ const CustomCursor = () => {
       }}
     >
       <div
-        className={`rounded-full flex items-center justify-center ${
-          isOverProject ? "w-24 h-24" : "w-8 h-8"
+        className={`rounded-full flex items-center justify-center transition-all duration-300 ${
+          isOverProject ? "w-24 h-24" : "w-6 h-6"
         }`}
         style={{
-          backgroundColor: isOverProject ? "#3B82F6" : "#F5F5DC",
-          border: isOverProject ? "2px solid white" : "1px solid rgba(255,255,255,0.3)",
+          backgroundColor: isOverProject ? "#3B82F6" : "#CD535A",
+          border: isOverProject ? "3px solid white" : "2px solid white",
+          boxShadow: isOverProject ? "0 0 20px rgba(59, 130, 246, 0.5)" : "0 0 10px rgba(205, 83, 90, 0.3)",
         }}
       >
         {isOverProject && (

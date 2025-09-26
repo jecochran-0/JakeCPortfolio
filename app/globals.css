@@ -189,6 +189,11 @@ body::-webkit-scrollbar {
   body {
     cursor: none !important;
   }
+  
+  /* Allow custom cursor to be visible */
+  .custom-cursor {
+    cursor: auto !important;
+  }
 }
 
 /* Remove all focus outlines, selection effects, and hover dots */
@@ -2098,6 +2103,11 @@ a:hover {
   cursor: none !important;
   backface-visibility: hidden; /* Prevent flickering */
   -webkit-backface-visibility: hidden;
+}
+
+/* Allow custom cursor to be visible */
+.custom-cursor {
+  cursor: auto !important;
 }
 
 /* Optimize common interactive elements for GPU acceleration */

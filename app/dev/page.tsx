@@ -44,7 +44,7 @@ const CustomCursor = () => {
 
   return (
     <motion.div
-      className="fixed pointer-events-none"
+      className="fixed pointer-events-none custom-cursor"
       style={{
         left: mousePosition.x,
         top: mousePosition.y,
@@ -80,17 +80,6 @@ const CustomCursor = () => {
             VIEW
           </span>
         )}
-      </div>
-      
-      {/* Debug display */}
-      <div 
-        className="fixed top-4 left-4 bg-black text-white p-2 text-xs z-[10000]"
-        style={{ fontFamily: "monospace" }}
-      >
-        <div>Over Project: {isOverProject ? "YES" : "NO"}</div>
-        <div>Mouse: {mousePosition.x}, {mousePosition.y}</div>
-        <div>Cursor Size: {isOverProject ? "96px" : "48px"}</div>
-        <div>Cursor Color: {isOverProject ? "Blue" : "Red"}</div>
       </div>
     </motion.div>
   );

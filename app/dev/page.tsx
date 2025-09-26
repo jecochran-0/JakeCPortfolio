@@ -10,16 +10,32 @@ import Lenis from "lenis";
 // Custom Cursor Component
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isOverProject, setIsOverProject] = useState(false);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      
+      // Check if we're over a project image container
+      const projectContainer = target.closest(".project-image-container");
+      
+      if (projectContainer) {
+        setIsOverProject(true);
+      } else {
+        setIsOverProject(false);
+      }
+    };
+
     document.addEventListener("mousemove", updateMousePosition);
+    document.addEventListener("mouseover", handleMouseOver);
 
     return () => {
       document.removeEventListener("mousemove", updateMousePosition);
+      document.removeEventListener("mouseover", handleMouseOver);
     };
   }, []);
 
@@ -34,17 +50,34 @@ const CustomCursor = () => {
         zIndex: 9999,
       }}
       animate={{
+        scale: isOverProject ? 1.5 : 1,
         opacity: 1,
       }}
       initial={{ opacity: 1 }}
+      transition={{
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+        mass: 0.8,
+      }}
     >
       <div
-        className="rounded-full flex items-center justify-center w-12 h-12"
+        className={`rounded-full flex items-center justify-center transition-all duration-300 ${
+          isOverProject ? "w-24 h-24" : "w-12 h-12"
+        }`}
         style={{
-          backgroundColor: "#CD535A",
+          backgroundColor: isOverProject ? "#3B82F6" : "#CD535A",
           border: "3px solid white",
         }}
       >
+        {isOverProject && (
+          <span
+            className="text-white font-bold text-sm"
+            style={{ fontFamily: "Montserrat, sans-serif" }}
+          >
+            VIEW
+          </span>
+        )}
       </div>
     </motion.div>
   );

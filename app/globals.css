@@ -2105,10 +2105,6 @@ a:hover {
   -webkit-backface-visibility: hidden;
 }
 
-/* Allow custom cursor to be visible */
-.custom-cursor {
-  cursor: auto !important;
-}
 
 /* Optimize common interactive elements for GPU acceleration */
 .btn-brutal,

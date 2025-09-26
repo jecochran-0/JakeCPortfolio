@@ -51,11 +51,13 @@ const CustomCursor = () => {
         transform: "translate(-50%, -50%)",
         pointerEvents: "none",
         zIndex: 99999,
+        opacity: 1, // Force opacity to ensure visibility
       }}
       animate={{
         scale: isOverProject ? 1.5 : 1,
+        opacity: 1, // Ensure opacity stays at 1
       }}
-      initial={{ scale: 1 }}
+      initial={{ scale: 1, opacity: 1 }}
       transition={{
         type: "spring",
         stiffness: 300,
@@ -70,6 +72,7 @@ const CustomCursor = () => {
           height: isOverProject ? "96px" : "48px",
           backgroundColor: isOverProject ? "#3B82F6" : "#CD535A",
           border: "3px solid white",
+          opacity: 1, // Force opacity
         }}
       >
         {isOverProject && (
@@ -80,6 +83,15 @@ const CustomCursor = () => {
             VIEW
           </span>
         )}
+      </div>
+      
+      {/* Temporary debug to see if cursor is rendering */}
+      <div 
+        className="fixed top-4 left-4 bg-red-500 text-white p-2 text-xs z-[100000]"
+        style={{ fontFamily: "monospace" }}
+      >
+        <div>Cursor Visible: {isOverProject ? "HOVER" : "NORMAL"}</div>
+        <div>Position: {mousePosition.x}, {mousePosition.y}</div>
       </div>
     </motion.div>
   );

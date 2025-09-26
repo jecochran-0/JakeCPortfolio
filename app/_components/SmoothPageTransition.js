@@ -85,6 +85,20 @@ export default function SmoothPageTransition({ children, pathname }) {
 
   return (
     <>
+      {/* Page Content Wrapper - Translates down with curtain */}
+      <motion.div
+        animate={{
+          y: isTransitioning ? "100vh" : "0vh",
+          transition: {
+            duration: isTransitioning ? 0.7 : 0,
+            ease: [0.4, 0, 0.2, 1],
+          },
+        }}
+        className="relative"
+      >
+        {children}
+      </motion.div>
+
       {/* Page Transition Overlay */}
       <AnimatePresence mode="wait">
         {(isTransitioning || isInitialLoad) && (
@@ -155,7 +169,6 @@ export default function SmoothPageTransition({ children, pathname }) {
         }}
         className="contents"
       >
-        {children}
       </div>
     </>
   );

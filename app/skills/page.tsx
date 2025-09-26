@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { FaReact, FaNodeJs, FaFigma, FaMobile, FaGitAlt } from "react-icons/fa";
 import { SiTailwindcss } from "react-icons/si";
 // Link removed - using <a> tags for page transition system
-import { FaArrowRight } from "react-icons/fa";
 import Lenis from "lenis";
 
 // Lenis Smooth Scrolling with Momentum

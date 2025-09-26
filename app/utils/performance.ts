@@ -1,12 +1,12 @@
 // Performance optimization utilities
 
 // Throttle function for scroll events
-export const throttle = <T extends (...args: any[]) => any>(
+export const throttle = <T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): T => {
   let inThrottle: boolean;
-  return ((...args: any[]) => {
+  return ((...args: unknown[]) => {
     if (!inThrottle) {
       func.apply(this, args);
       inThrottle = true;
@@ -16,25 +16,24 @@ export const throttle = <T extends (...args: any[]) => any>(
 };
 
 // Debounce function for resize events
-export const debounce = <T extends (...args: any[]) => any>(
+export const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): T => {
   let timeout: NodeJS.Timeout;
-  return ((...args: any[]) => {
+  return ((...args: unknown[]) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func.apply(this, args), wait);
   }) as T;
 };
 
 // RAF throttling for smooth animations
-export const rafThrottle = <T extends (...args: any[]) => any>(func: T): T => {
+export const rafThrottle = <T extends (...args: unknown[]) => unknown>(func: T): T => {
   let ticking = false;
-  let rafId: number | null = null;
 
-  return ((...args: any[]) => {
+  return ((...args: unknown[]) => {
     if (!ticking) {
-      rafId = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
         func.apply(this, args);
         ticking = false;
       });

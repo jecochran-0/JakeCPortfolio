@@ -19,10 +19,6 @@ const AzukiHomepage = () => {
   const contactInfoRef = useRef(null);
 
   // InView hooks for animations - trigger every time column comes into view
-  const contactColumnInView = useInView(contactColumnRef, {
-    once: false,
-    margin: "-10% 0px -10% 0px",
-  });
   const contactTitleInView = useInView(contactTitleRef, { once: false });
   const contactPhotoInView = useInView(contactPhotoRef, { once: false });
   const contactInfoInView = useInView(contactInfoRef, { once: false });
@@ -108,7 +104,7 @@ const AzukiHomepage = () => {
     },
   ];
 
-  return (
+    return (
     <div className="h-screen w-screen relative">
       {/* Fixed Name box in top left */}
       <div className="fixed top-4 left-4 z-30">
@@ -140,8 +136,8 @@ const AzukiHomepage = () => {
         <div
           className="h-screen w-screen overflow-y-auto bg-black"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          <div
+            >
+              <div
             className="min-h-screen bg-black"
             style={{ border: "8px solid #171717" }}
           >
@@ -160,14 +156,14 @@ const AzukiHomepage = () => {
                 {/* Background Image */}
                 <div className="absolute inset-0">
                   <motion.img
-                    src={panel.image}
-                    alt={panel.title}
-                    className="w-full h-full object-cover"
-                    style={{
-                      objectPosition:
-                        panel.id === "development"
+                  src={panel.image}
+                  alt={panel.title}
+                  className="w-full h-full object-cover"
+                  style={{
+                    objectPosition:
+                      panel.id === "development"
                           ? "center 20%"
-                          : "center center",
+                        : "center center",
                     }}
                     loading="eager"
                     // Mobile hover effect: animate when in viewport
@@ -183,7 +179,7 @@ const AzukiHomepage = () => {
                     }}
                     whileInView={{
                       filter: "grayscale(0%)",
-                      transform:
+                    transform:
                         panel.id === "development"
                           ? "scale(1.2)"
                           : "translateY(0px)",
@@ -332,15 +328,15 @@ const AzukiHomepage = () => {
                   >
                     <FaGithub size={32} />
                   </a>
-                </div>
+              </div>
               </motion.div>
             </div>
           </div>
         </div>
       ) : (
         // Desktop layout: horizontal scroll
-        <div
-          ref={scrollRef}
+    <div
+      ref={scrollRef}
           className="h-screen w-screen overflow-hidden"
           onWheel={handleScroll}
           style={{
@@ -370,29 +366,29 @@ const AzukiHomepage = () => {
                   borderRightColor:
                     index !== panels.length - 1 ? "#171717" : "transparent",
                 }}
-                transition={{ duration: 0.3 }}
-                onMouseEnter={() => setHoveredPanel(panel.id)}
-                onMouseLeave={() => setHoveredPanel(null)}
-              >
-                {/* Background Image */}
+              transition={{ duration: 0.3 }}
+              onMouseEnter={() => setHoveredPanel(panel.id)}
+              onMouseLeave={() => setHoveredPanel(null)}
+            >
+              {/* Background Image */}
                 <div className="absolute inset-0">
-                  <img
-                    src={panel.image}
-                    alt={panel.title}
+                <img
+                  src={panel.image}
+                  alt={panel.title}
                     className="w-full h-full object-cover"
-                    style={{
+                  style={{
                       transition: "all 500ms cubic-bezier(0.25, 0.1, 0.25, 1)",
-                      objectPosition:
-                        panel.id === "development"
+                    objectPosition:
+                      panel.id === "development"
                           ? "center 20%"
-                          : "center center",
+                        : "center center",
                       filter:
                         hoveredPanel === panel.id
                           ? "grayscale(0%)"
                           : panel.id === "about"
                           ? "grayscale(55%)"
                           : "grayscale(100%)",
-                      transform:
+                    transform:
                         hoveredPanel === panel.id
                           ? panel.id === "development"
                             ? "scale(1.2) translateY(-40px)"
@@ -400,9 +396,9 @@ const AzukiHomepage = () => {
                           : panel.id === "development"
                           ? "scale(1.2)"
                           : "translateY(0px)",
-                    }}
-                  />
-                </div>
+                  }}
+                />
+              </div>
 
                 {/* Dark overlay that reduces on hover */}
                 <motion.div
@@ -412,7 +408,7 @@ const AzukiHomepage = () => {
                 />
 
                 {/* Black bar rising from bottom on hover */}
-                <motion.div
+              <motion.div
                   className="absolute bottom-0 left-0 right-0 z-10"
                   style={{ backgroundColor: "#171717" }}
                   initial={{ height: 0, opacity: 0 }}
@@ -509,10 +505,10 @@ const AzukiHomepage = () => {
                     <FaGithub size={40} />
                   </a>
                 </div>
-              </motion.div>
+            </motion.div>
             </div>
           </div>
-        </div>
+      </div>
       )}
     </div>
   );

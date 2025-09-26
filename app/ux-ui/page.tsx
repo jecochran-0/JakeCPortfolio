@@ -9,7 +9,6 @@ import {
   useVelocity,
 } from "framer-motion";
 import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope } from "react-icons/fa";
-import Image from "next/image";
 
 export default function UXUIPage() {
   const { scrollY, scrollYProgress } = useScroll();
@@ -149,7 +148,6 @@ export default function UXUIPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
           >
-            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <motion.a
               href="/"
               className="text-black hover:text-gray-600 transition-colors duration-300 font-light text-sm tracking-wider nav-item-hover"
@@ -330,7 +328,7 @@ export default function UXUIPage() {
                           filter: "brightness(0.8) contrast(1.1)",
                         }}
                         onTimeUpdate={(e) => {
-                          const video = e.target;
+                          const video = e.target as HTMLVideoElement;
                           const duration = video.duration;
                           const currentTime = video.currentTime;
 
@@ -459,12 +457,9 @@ export default function UXUIPage() {
                             </motion.button>
                           </div>
                         ) : (
-                          <Image
-                            src={project.image}
-                            alt={project.title}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
+                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                            <div className="text-gray-500 text-lg">No image available</div>
+                          </div>
                         )}
                       </motion.div>
                     </>
@@ -496,6 +491,7 @@ export default function UXUIPage() {
 
               {/* Navigation */}
               <div className="flex flex-wrap justify-center gap-8">
+                {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
                 <a
                   href="/"
                   className="text-gray-400 hover:text-white transition-colors duration-300 text-sm tracking-wider uppercase"

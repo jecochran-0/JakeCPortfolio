@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import Image from "next/image";
 // Link removed - using <a> tags for page transition system
 import { useSearchParams } from "next/navigation";
@@ -437,7 +437,7 @@ export default function DevPage() {
         </motion.div>
 
         {/* Top Navigation */}
-        <motion.div
+          <motion.div
           className="absolute top-8 right-8 z-20 flex items-center space-x-6"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -597,13 +597,13 @@ export default function DevPage() {
                         >
                           Featured Project
                         </span>
-                      </div>
+                </div>
                       <h3
                         className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {featuredProject.title}
-                      </h3>
+                </h3>
                       <p className="text-gray-400 leading-relaxed text-xl font-light">
                         {featuredProject.description}
                       </p>
@@ -708,7 +708,7 @@ export default function DevPage() {
             {/* Individual Project Sections */}
             <div className="space-y-96">
               {currentProjects.map((project, index) => (
-                <motion.div
+              <motion.div
                   key={project.title}
                   className="space-y-24"
                   initial={{ opacity: 0, y: 30 }}
@@ -764,18 +764,18 @@ export default function DevPage() {
                               >
                                 Featured Project
                               </span>
-                            </div>
+                </div>
                             <h3
                               className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
                               style={{ fontFamily: "Montserrat, sans-serif" }}
                             >
                               {project.title}
-                            </h3>
+                </h3>
                             <p className="text-gray-400 leading-relaxed text-xl font-light">
                               {project.description}
-                            </p>
-                          </div>
-                        </div>
+                </p>
+        </div>
+        </div>
 
                         {/* Second Row: Small image + Spells interface */}
                         <div className="grid grid-cols-12 gap-12 items-start">
@@ -981,7 +981,7 @@ export default function DevPage() {
                           }
                           className="block"
                           whileHover={{ scale: 1.02 }}
-                          transition={{
+              transition={{
                             type: "spring",
                             stiffness: 300,
                             damping: 30,
@@ -1023,7 +1023,7 @@ export default function DevPage() {
                             />
                           )}
                         </motion.a>
-                      </div>
+          </div>
                     )}
                   </div>
 
@@ -1040,7 +1040,7 @@ export default function DevPage() {
                         <p className="text-gray-400 leading-relaxed text-xl max-w-3xl font-light">
                           {project.description}
                         </p>
-                      </div>
+                </div>
 
                       {/* Live and GitHub buttons for development projects */}
                       {((activeTab === "development" &&
@@ -1079,19 +1079,19 @@ export default function DevPage() {
                           >
                             GITHUB
                           </motion.a>
-                        </div>
+          </div>
                       )}
-                    </div>
+        </div>
                   )}
                 </motion.div>
               ))}
-            </div>
+      </div>
 
             {/* CTA Section */}
-            <motion.div
+          <motion.div
               className="text-center mt-20"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
             >
               <motion.a
@@ -1106,8 +1106,8 @@ export default function DevPage() {
               >
                 Start a Project
               </motion.a>
-            </motion.div>
-          </div>
+          </motion.div>
+        </div>
         </motion.section>
       </main>
     </>

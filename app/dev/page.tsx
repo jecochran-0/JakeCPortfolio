@@ -44,13 +44,13 @@ const CustomCursor = () => {
 
   return (
     <motion.div
-      className="fixed pointer-events-none z-[9999]"
+      className="fixed pointer-events-none"
       style={{
         left: mousePosition.x,
         top: mousePosition.y,
         transform: "translate(-50%, -50%)",
         pointerEvents: "none",
-        zIndex: 9999,
+        zIndex: 99999,
       }}
       animate={{
         scale: isOverProject ? 1.5 : 1,
@@ -64,10 +64,10 @@ const CustomCursor = () => {
       }}
     >
       <div
-        className={`rounded-full flex items-center justify-center transition-all duration-300 ${
-          isOverProject ? "w-24 h-24" : "w-12 h-12"
-        }`}
+        className="rounded-full flex items-center justify-center transition-all duration-300"
         style={{
+          width: isOverProject ? "96px" : "48px",
+          height: isOverProject ? "96px" : "48px",
           backgroundColor: isOverProject ? "#3B82F6" : "#CD535A",
           border: "3px solid white",
         }}
@@ -89,6 +89,8 @@ const CustomCursor = () => {
       >
         <div>Over Project: {isOverProject ? "YES" : "NO"}</div>
         <div>Mouse: {mousePosition.x}, {mousePosition.y}</div>
+        <div>Cursor Size: {isOverProject ? "96px" : "48px"}</div>
+        <div>Cursor Color: {isOverProject ? "Blue" : "Red"}</div>
       </div>
     </motion.div>
   );

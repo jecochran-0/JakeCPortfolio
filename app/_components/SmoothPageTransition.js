@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function SmoothPageTransition({ children, pathname }) {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [transitionTarget, setTransitionTarget] = useState("");
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const router = useRouter();
   const timeoutRef = useRef(null);
 
@@ -50,6 +51,17 @@ export default function SmoothPageTransition({ children, pathname }) {
       .trim();
   };
 
+  // Handle initial load animation
+  useEffect(() => {
+    if (isInitialLoad) {
+      const timer = setTimeout(() => {
+        setIsInitialLoad(false);
+      }, 1500); // Show "Hello" for 1.5 seconds then reveal
+
+      return () => clearTimeout(timer);
+    }
+  }, [isInitialLoad]);
+
   // Reset transition state when pathname changes
   useEffect(() => {
     if (isTransitioning) {
@@ -75,16 +87,16 @@ export default function SmoothPageTransition({ children, pathname }) {
     <>
       {/* Page Transition Overlay */}
       <AnimatePresence mode="wait">
-        {isTransitioning && (
+        {(isTransitioning || isInitialLoad) && (
           <motion.div
-            key="page-transition"
+            key={isInitialLoad ? "initial-load" : "page-transition"}
             initial={{
-              y: "-100%",
+              y: isInitialLoad ? "0%" : "-100%",
             }}
             animate={{
               y: "0%",
               transition: {
-                duration: 0.7,
+                duration: isInitialLoad ? 0 : 0.7,
                 ease: [0.4, 0, 0.2, 1], // Slower beginning
               },
             }}
@@ -111,17 +123,17 @@ export default function SmoothPageTransition({ children, pathname }) {
               <motion.h1
                 initial={{ opacity: 0 }}
                 animate={{
-                  opacity: [0, 0, 1, 1],
+                  opacity: isInitialLoad ? [0, 1, 1, 0] : [0, 0, 1, 1],
                   transition: {
-                    duration: 1.2,
-                    times: [0, 0.5, 0.65, 1],
+                    duration: isInitialLoad ? 1.5 : 1.2,
+                    times: isInitialLoad ? [0, 0.2, 0.8, 1] : [0, 0.5, 0.65, 1],
                     ease: [0.4, 0, 0.2, 1], // Slower beginning to match curtain
                   },
                 }}
                 className="text-white text-6xl md:text-8xl font-bold tracking-wider"
                 style={{ fontFamily: "Bungee, cursive" }}
               >
-                {transitionTarget}
+                {isInitialLoad ? "HELLO" : transitionTarget}
               </motion.h1>
             </div>
           </motion.div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
 // Link removed - using <a> tags for page transition system

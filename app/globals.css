@@ -180,7 +180,6 @@ body::-webkit-scrollbar {
   padding: 0;
 }
 
-
 /* Remove all focus outlines, selection effects, and hover dots */
 *:focus,
 *:hover,
@@ -2088,7 +2087,6 @@ a:hover {
   backface-visibility: hidden; /* Prevent flickering */
   -webkit-backface-visibility: hidden;
 }
-
 
 /* Optimize common interactive elements for GPU acceleration */
 .btn-brutal,

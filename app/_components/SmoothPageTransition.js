@@ -8,6 +8,7 @@ export default function SmoothPageTransition({ children, pathname }) {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [transitionTarget, setTransitionTarget] = useState("");
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
   const timeoutRef = useRef(null);
 
@@ -28,9 +29,12 @@ export default function SmoothPageTransition({ children, pathname }) {
     setIsTransitioning(true);
 
     // Navigate only after curtain fully covers the screen
-    timeoutRef.current = setTimeout(() => {
-      router.push(href);
-    }, 600); // Wait for full screen coverage before navigating
+    timeoutRef.current = setTimeout(
+      () => {
+        router.push(href);
+      },
+      isMobile ? 500 : 600
+    ); // Faster on mobile
   };
 
   // Function to get page name from href
@@ -51,24 +55,40 @@ export default function SmoothPageTransition({ children, pathname }) {
       .trim();
   };
 
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   // Handle initial load animation
   useEffect(() => {
     if (isInitialLoad) {
-      const timer = setTimeout(() => {
-        setIsInitialLoad(false);
-      }, 1000); // Show "Hello" for 1 second then reveal
+      const timer = setTimeout(
+        () => {
+          setIsInitialLoad(false);
+        },
+        isMobile ? 800 : 1000
+      ); // Faster on mobile
 
       return () => clearTimeout(timer);
     }
-  }, [isInitialLoad]);
+  }, [isInitialLoad, isMobile]);
 
   // Reset transition state when pathname changes
   useEffect(() => {
     if (isTransitioning) {
-      const timer = setTimeout(() => {
-        setIsTransitioning(false);
-        setTransitionTarget(""); // Clear the target page name
-      }, 1200); // Total transition duration (600ms coverage + 500ms reveal)
+      const timer = setTimeout(
+        () => {
+          setIsTransitioning(false);
+          setTransitionTarget(""); // Clear the target page name
+        },
+        isMobile ? 1000 : 1200
+      ); // Faster on mobile
 
       return () => clearTimeout(timer);
     }
@@ -96,24 +116,24 @@ export default function SmoothPageTransition({ children, pathname }) {
             animate={{
               y: "0%",
               transition: {
-                duration: isInitialLoad ? 0 : 0.7,
+                duration: isInitialLoad ? 0 : isMobile ? 0.6 : 0.7,
                 ease: [0.4, 0, 0.2, 1], // Slower beginning
               },
             }}
             exit={{
               y: "100%",
               transition: {
-                duration: 0.5,
+                duration: isMobile ? 0.4 : 0.5,
                 ease: [0.25, 0.46, 0.45, 0.94], // Smoother, more eased ending
               },
             }}
             className="fixed z-[9999] pointer-events-none page-transition-overlay"
             style={{
               backgroundColor: "#CD535A",
-              top: "-15%",
+              top: "-10%",
               left: "0",
               right: "0",
-              height: "130%",
+              height: "120%",
               borderRadius: "0",
               clipPath: "ellipse(100% 110% at 50% 50%)",
             }}
@@ -125,12 +145,18 @@ export default function SmoothPageTransition({ children, pathname }) {
                 animate={{
                   opacity: isInitialLoad ? [0, 1, 1] : [0, 0, 1, 1],
                   transition: {
-                    duration: isInitialLoad ? 1.0 : 1.2,
+                    duration: isInitialLoad
+                      ? isMobile
+                        ? 0.8
+                        : 1.0
+                      : isMobile
+                      ? 1.0
+                      : 1.2,
                     times: isInitialLoad ? [0, 0.3, 1] : [0, 0.5, 0.65, 1],
                     ease: [0.4, 0, 0.2, 1], // Slower beginning to match curtain
                   },
                 }}
-                className="text-white text-6xl md:text-8xl font-bold tracking-wider"
+                className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-wider px-4"
                 style={{ fontFamily: "Bungee, cursive" }}
               >
                 {isInitialLoad ? "HELLO" : transitionTarget}
@@ -153,11 +179,20 @@ export default function SmoothPageTransition({ children, pathname }) {
             }
           }
         }}
-        className="contents"
-        style={{
-          transform: isTransitioning ? "translateY(100vh)" : "translateY(0)",
-          transition: "transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)",
+        onTouchStart={(e) => {
+          // Optimize touch handling for mobile
+          if (isMobile) {
+            const link = e.target.closest("a[href]");
+            if (link) {
+              const href = link.getAttribute("href");
+              if (href && href.startsWith("/") && !href.startsWith("#")) {
+                e.preventDefault();
+                handleNavigation(href);
+              }
+            }
+          }
         }}
+        className="contents"
       >
         {children}
       </div>

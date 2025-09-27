@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import Image from "next/image";
 // Link removed - using <a> tags for page transition system
@@ -297,6 +297,7 @@ export default function DevPage() {
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
   const [showCursor, setShowCursor] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -311,6 +312,11 @@ export default function DevPage() {
       setActiveTab("all");
     }
   }, [searchParams]);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, []);
 
   // Typing cursor animation
   useEffect(() => {
@@ -435,7 +441,7 @@ export default function DevPage() {
       >
         {/* Top Left Branding */}
         <motion.div
-          className="absolute top-8 left-8 z-20"
+          className="absolute top-4 left-4 sm:top-8 sm:left-8 z-20"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
@@ -443,13 +449,13 @@ export default function DevPage() {
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a href="/">
             <motion.div
-              className="px-6 py-3 rounded-lg cursor-pointer"
+              className="px-3 py-2 sm:px-6 sm:py-3 rounded-lg cursor-pointer"
               style={{ backgroundColor: "#B4323B" }}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               <span
-                className="text-white font-black text-xl tracking-wider uppercase"
+                className="text-white font-black text-sm sm:text-xl tracking-wider uppercase"
                 style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
               >
                 Jake Cochran
@@ -458,46 +464,165 @@ export default function DevPage() {
           </a>
         </motion.div>
 
-        {/* Top Navigation */}
-          <motion.div
-          className="absolute top-8 right-8 z-20 flex items-center space-x-6"
+        {/* Mobile Menu Button */}
+        <motion.div
+          className="absolute top-4 right-4 sm:top-8 sm:right-8 z-30"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <MagneticLink
-            href="/"
-            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            ariaLabel="Go to homepage"
+          {/* Mobile Menu Button */}
+          <motion.button
+            className="md:hidden w-12 h-12 rounded-full border border-white/30 flex items-center justify-center"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Toggle mobile menu"
           >
-            HOME
-          </MagneticLink>
-          <MagneticLink
-            href="/about"
-            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            ariaLabel="Go to about page"
-          >
-            ABOUT
-          </MagneticLink>
-          <MagneticLink
-            href="/skills"
-            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            ariaLabel="Go to skills page"
-          >
-            SKILLS
-          </MagneticLink>
-          <MagneticLink
-            href="/contact"
-            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            ariaLabel="Go to contact page"
-          >
-            WORK
-          </MagneticLink>
+            <motion.div
+              className="w-6 h-6 flex flex-col justify-center items-center"
+              animate={{ rotate: isMobileMenuOpen ? 45 : 0 }}
+            >
+              <motion.div
+                className="w-4 h-0.5 bg-white mb-1"
+                animate={{
+                  rotate: isMobileMenuOpen ? 45 : 0,
+                  y: isMobileMenuOpen ? 6 : 0,
+                }}
+              />
+              <motion.div
+                className="w-4 h-0.5 bg-white"
+                animate={{
+                  opacity: isMobileMenuOpen ? 0 : 1,
+                }}
+              />
+              <motion.div
+                className="w-4 h-0.5 bg-white mt-1"
+                animate={{
+                  rotate: isMobileMenuOpen ? -45 : 0,
+                  y: isMobileMenuOpen ? -6 : 0,
+                }}
+              />
+            </motion.div>
+          </motion.button>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-6">
+            <MagneticLink
+              href="/"
+              className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+              ariaLabel="Go to homepage"
+            >
+              HOME
+            </MagneticLink>
+            <MagneticLink
+              href="/about"
+              className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+              ariaLabel="Go to about page"
+            >
+              ABOUT
+            </MagneticLink>
+            <MagneticLink
+              href="/skills"
+              className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+              ariaLabel="Go to skills page"
+            >
+              SKILLS
+            </MagneticLink>
+            <MagneticLink
+              href="/contact"
+              className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+              ariaLabel="Go to contact page"
+            >
+              WORK
+            </MagneticLink>
+          </div>
+        </motion.div>
+
+        {/* Mobile Menu Overlay */}
+        <motion.div
+          className="fixed inset-0 z-20 md:hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isMobileMenuOpen ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+
+        {/* Mobile Menu Slide-out */}
+        <motion.div
+          className="fixed top-0 right-0 h-full w-80 max-w-[85vw] z-30 md:hidden"
+          style={{ backgroundColor: "#171717" }}
+          initial={{ x: "100%" }}
+          animate={{ x: isMobileMenuOpen ? "0%" : "100%" }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        >
+          <div className="flex flex-col h-full p-8">
+            {/* Close button */}
+            <div className="flex justify-end mb-12">
+              <motion.button
+                className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center"
+                onClick={() => setIsMobileMenuOpen(false)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="Close mobile menu"
+              >
+                <div className="w-4 h-4 flex flex-col justify-center items-center">
+                  <div className="w-4 h-0.5 bg-white rotate-45" />
+                  <div className="w-4 h-0.5 bg-white -rotate-45 -mt-0.5" />
+                </div>
+              </motion.button>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="flex flex-col space-y-8">
+              <motion.a
+                href="/"
+                className="text-white text-4xl font-black tracking-wider uppercase"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                onClick={() => setIsMobileMenuOpen(false)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                HOME
+              </motion.a>
+              <motion.a
+                href="/about"
+                className="text-white text-4xl font-black tracking-wider uppercase"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                onClick={() => setIsMobileMenuOpen(false)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                ABOUT
+              </motion.a>
+              <motion.a
+                href="/skills"
+                className="text-white text-4xl font-black tracking-wider uppercase"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                onClick={() => setIsMobileMenuOpen(false)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                SKILLS
+              </motion.a>
+              <motion.a
+                href="/contact"
+                className="text-white text-4xl font-black tracking-wider uppercase"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                onClick={() => setIsMobileMenuOpen(false)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                WORK
+              </motion.a>
+            </div>
+          </div>
         </motion.div>
 
         {/* Hero Section */}
         <motion.section
-          className="relative flex items-start justify-start px-16 pt-60 pb-20"
+          className="relative flex items-start justify-start px-4 sm:px-8 md:px-16 pt-32 sm:pt-48 md:pt-60 pb-12 sm:pb-20"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -505,18 +630,18 @@ export default function DevPage() {
           <div className="max-w-none mx-auto">
             {/* Main Hero Text */}
             <motion.div
-              className="mb-8"
+              className="mb-6 sm:mb-8"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
               <h1
-                className="text-7xl md:text-8xl lg:text-9xl font-black text-white leading-tight tracking-tight mb-8"
+                className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-tight tracking-tight mb-6 sm:mb-8"
                 style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
               >
                 BRIDGING UX AND DEVELOPMENT
                 <span
-                  className="inline-block w-1 h-20 bg-white ml-2"
+                  className="inline-block w-1 h-12 sm:h-16 md:h-20 bg-white ml-1 sm:ml-2"
                   style={{
                     opacity: showCursor ? 1 : 0,
                     transition: "opacity 0.1s ease-in-out",
@@ -525,9 +650,48 @@ export default function DevPage() {
               </h1>
             </motion.div>
 
-            {/* Tab Filter Buttons */}
+            {/* Mobile Tab Filter Buttons */}
             <motion.div
-              className="flex justify-start gap-8"
+              className="flex flex-col sm:hidden justify-start gap-4"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+            >
+              <button
+                onClick={() => setActiveTab("all")}
+                className="px-8 py-4 text-lg font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black rounded-full cursor-pointer"
+                style={{
+                  backgroundColor:
+                    activeTab === "all" ? "#CD535A" : "transparent",
+                }}
+              >
+                All
+              </button>
+              <button
+                onClick={() => setActiveTab("development")}
+                className="px-8 py-4 text-lg font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black rounded-full cursor-pointer"
+                style={{
+                  backgroundColor:
+                    activeTab === "development" ? "#CD535A" : "transparent",
+                }}
+              >
+                Dev
+              </button>
+              <button
+                onClick={() => setActiveTab("ux")}
+                className="px-8 py-4 text-lg font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black rounded-full cursor-pointer"
+                style={{
+                  backgroundColor:
+                    activeTab === "ux" ? "#CD535A" : "transparent",
+                }}
+              >
+                UX/UI
+              </button>
+            </motion.div>
+
+            {/* Desktop Tab Filter Buttons */}
+            <motion.div
+              className="hidden sm:flex justify-start gap-8"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
@@ -559,14 +723,14 @@ export default function DevPage() {
 
         {/* Projects Section */}
         <motion.section
-          className="pt-20 pb-60 px-20 relative z-20"
+          className="pt-12 sm:pt-20 pb-32 sm:pb-60 px-4 sm:px-8 md:px-20 relative z-20"
           style={{ backgroundColor: "#171717" }}
         >
           <div className="max-w-none mx-auto">
             {/* Featured Project (Development tab only) */}
             {activeTab === "development" && (
               <motion.div
-                className="mb-32"
+                className="mb-16 sm:mb-32"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
@@ -574,10 +738,10 @@ export default function DevPage() {
                 data-project-type="development"
               >
                 {/* Featured Project Layout */}
-                <div className="space-y-12">
+                <div className="space-y-8 sm:space-y-12">
                   {/* First Row: Large image + Text content */}
-                  <div className="grid grid-cols-12 gap-8 items-start">
-                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 items-start">
+                    <div className="lg:col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                       <motion.a
                         href={featuredProject.liveUrl}
                         target="_blank"
@@ -595,7 +759,7 @@ export default function DevPage() {
                           alt="Wizards Chess Main View"
                           width={1200}
                           height={600}
-                          className="w-full object-cover h-96 md:h-[500px]"
+                          className="w-full object-cover h-64 sm:h-80 md:h-96 lg:h-[500px]"
                         />
                         {/* Matte overlay */}
                         <div
@@ -608,10 +772,10 @@ export default function DevPage() {
                         />
                       </motion.a>
                     </div>
-                    <div className="col-span-4 space-y-12">
-                      <div className="flex items-center gap-3 mb-8">
+                    <div className="lg:col-span-4 space-y-6 sm:space-y-12">
+                      <div className="flex items-center gap-3 mb-4 sm:mb-8">
                         <span
-                          className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
+                          className="px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold uppercase tracking-wider"
                           style={{
                             backgroundColor: "#CD535A",
                             fontFamily: "Montserrat, sans-serif",
@@ -619,24 +783,24 @@ export default function DevPage() {
                         >
                           Featured Project
                         </span>
-                </div>
+                      </div>
                       <h3
-                        className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
+                        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white mb-4 sm:mb-8 tracking-wide"
                         style={{ fontFamily: "Montserrat, sans-serif" }}
                       >
                         {featuredProject.title}
-                </h3>
-                      <p className="text-gray-400 leading-relaxed text-xl font-light">
+                      </h3>
+                      <p className="text-gray-400 leading-relaxed text-base sm:text-lg md:text-xl font-light">
                         {featuredProject.description}
                       </p>
 
                       {/* Live and GitHub buttons for featured project */}
-                      <div className="flex flex-col gap-3">
+                      <div className="flex flex-col sm:flex-row gap-3">
                         <motion.a
                           href={featuredProject.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-6 py-3 bg-white text-black font-medium text-sm hover:bg-gray-200 transition-colors duration-300 rounded-sm"
+                          className="flex items-center justify-center gap-2 px-4 py-2 sm:px-6 sm:py-3 bg-white text-black font-medium text-xs sm:text-sm hover:bg-gray-200 transition-colors duration-300 rounded-sm"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -647,7 +811,7 @@ export default function DevPage() {
                           href={featuredProject.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-medium text-sm hover:bg-white hover:text-black transition-colors duration-300 rounded-sm"
+                          className="flex items-center justify-center gap-2 px-4 py-2 sm:px-6 sm:py-3 border border-white/20 text-white font-medium text-xs sm:text-sm hover:bg-white hover:text-black transition-colors duration-300 rounded-sm"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -659,8 +823,8 @@ export default function DevPage() {
                   </div>
 
                   {/* Second Row: Small image + Spells interface */}
-                  <div className="grid grid-cols-12 gap-12 items-start">
-                    <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 lg:gap-12 items-start">
+                    <div className="lg:col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                       <motion.a
                         href={featuredProject.liveUrl}
                         target="_blank"
@@ -678,7 +842,7 @@ export default function DevPage() {
                           alt="Wizards Chess Gameplay"
                           width={1200}
                           height={600}
-                          className="w-full object-cover h-64 md:h-[400px]"
+                          className="w-full object-cover h-48 sm:h-56 md:h-64 lg:h-[400px]"
                         />
                         {/* Matte overlay */}
                         <div
@@ -691,7 +855,7 @@ export default function DevPage() {
                         />
                       </motion.a>
                     </div>
-                    <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
+                    <div className="lg:col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                       <motion.a
                         href={featuredProject.liveUrl}
                         target="_blank"
@@ -709,7 +873,7 @@ export default function DevPage() {
                           alt="Wizards Chess Spells Interface"
                           width={1200}
                           height={400}
-                          className="w-full object-cover h-64 md:h-[400px]"
+                          className="w-full object-cover h-48 sm:h-56 md:h-64 lg:h-[400px]"
                         />
                         {/* Matte overlay */}
                         <div
@@ -728,11 +892,11 @@ export default function DevPage() {
             )}
 
             {/* Individual Project Sections */}
-            <div className="space-y-96">
+            <div className="space-y-48 sm:space-y-72 lg:space-y-96">
               {currentProjects.map((project, index) => (
-              <motion.div
+                <motion.div
                   key={project.title}
-                  className="space-y-24"
+                  className="space-y-12 sm:space-y-16 lg:space-y-24"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.2, duration: 0.8 }}
@@ -748,8 +912,8 @@ export default function DevPage() {
                       // Wizards Chess - Featured layout
                       <div className="space-y-12">
                         {/* First Row: Large image + Text content */}
-                        <div className="grid grid-cols-12 gap-12 items-start">
-                          <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 lg:gap-12 items-start">
+                          <div className="lg:col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                             <motion.a
                               href={
                                 "liveUrl" in project
@@ -771,11 +935,11 @@ export default function DevPage() {
                                 alt="Wizards Chess Main View"
                                 width={1200}
                                 height={600}
-                                className="w-full object-cover h-96 md:h-[500px]"
+                                className="w-full object-cover h-64 sm:h-80 md:h-96 lg:h-[500px]"
                               />
                             </motion.a>
                           </div>
-                          <div className="col-span-4 space-y-12">
+                          <div className="lg:col-span-4 space-y-6 sm:space-y-12">
                             <div className="flex items-center gap-3 mb-8">
                               <span
                                 className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
@@ -786,22 +950,22 @@ export default function DevPage() {
                               >
                                 Featured Project
                               </span>
-                </div>
+                            </div>
                             <h3
                               className="text-4xl md:text-5xl font-light text-white mb-8 tracking-wide"
                               style={{ fontFamily: "Montserrat, sans-serif" }}
                             >
                               {project.title}
-                </h3>
+                            </h3>
                             <p className="text-gray-400 leading-relaxed text-xl font-light">
                               {project.description}
-                </p>
-        </div>
-        </div>
+                            </p>
+                          </div>
+                        </div>
 
                         {/* Second Row: Small image + Spells interface */}
-                        <div className="grid grid-cols-12 gap-12 items-start">
-                          <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 lg:gap-12 items-start">
+                          <div className="lg:col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                             <motion.a
                               href={
                                 "liveUrl" in project
@@ -823,11 +987,11 @@ export default function DevPage() {
                                 alt="Wizards Chess Gameplay"
                                 width={1200}
                                 height={600}
-                                className="w-full object-cover h-64 md:h-[400px]"
+                                className="w-full object-cover h-48 sm:h-56 md:h-64 lg:h-[400px]"
                               />
                             </motion.a>
                           </div>
-                          <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
+                          <div className="lg:col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                             <motion.a
                               href={
                                 "liveUrl" in project
@@ -849,7 +1013,7 @@ export default function DevPage() {
                                 alt="Wizards Chess Spells Interface"
                                 width={1200}
                                 height={400}
-                                className="w-full object-cover h-64 md:h-[400px]"
+                                className="w-full object-cover h-48 sm:h-56 md:h-64 lg:h-[400px]"
                               />
                             </motion.a>
                           </div>
@@ -857,8 +1021,8 @@ export default function DevPage() {
                       </div>
                     ) : project.title === "Pizza E-Commerce Store" ? (
                       // Pizza Store - Asymmetric layout
-                      <div className="grid grid-cols-12 gap-12 items-start">
-                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 lg:gap-12 items-start">
+                        <div className="lg:col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -880,7 +1044,7 @@ export default function DevPage() {
                               alt="Pizza Store Main Interface"
                               width={1200}
                               height={600}
-                              className="w-full object-cover h-96 md:h-[600px]"
+                              className="w-full object-cover h-64 sm:h-80 md:h-96 lg:h-[600px]"
                             />
                             {/* Matte overlay */}
                             <div
@@ -893,7 +1057,7 @@ export default function DevPage() {
                             />
                           </motion.a>
                         </div>
-                        <div className="col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
+                        <div className="lg:col-span-4 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -915,15 +1079,15 @@ export default function DevPage() {
                               alt="Pizza Store Cart Interface"
                               width={1200}
                               height={600}
-                              className="w-full object-cover h-64 md:h-[400px]"
+                              className="w-full object-cover h-48 sm:h-56 md:h-64 lg:h-[400px]"
                             />
                           </motion.a>
                         </div>
                       </div>
                     ) : project.title === "Pixel Character Creator" ? (
                       // Pixel Character Creator - Asymmetric layout
-                      <div className="grid grid-cols-12 gap-12 items-start">
-                        <div className="col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 lg:gap-12 items-start">
+                        <div className="lg:col-span-8 relative overflow-hidden rounded-lg project-image-container cursor-pointer border border-white/5">
                           <motion.a
                             href={
                               "liveUrl" in project
@@ -1003,7 +1167,7 @@ export default function DevPage() {
                           }
                           className="block"
                           whileHover={{ scale: 1.02 }}
-              transition={{
+                          transition={{
                             type: "spring",
                             stiffness: 300,
                             damping: 30,
@@ -1045,7 +1209,7 @@ export default function DevPage() {
                             />
                           )}
                         </motion.a>
-          </div>
+                      </div>
                     )}
                   </div>
 
@@ -1062,7 +1226,7 @@ export default function DevPage() {
                         <p className="text-gray-400 leading-relaxed text-xl max-w-3xl font-light">
                           {project.description}
                         </p>
-                </div>
+                      </div>
 
                       {/* Live and GitHub buttons for development projects */}
                       {((activeTab === "development" &&
@@ -1101,19 +1265,19 @@ export default function DevPage() {
                           >
                             GITHUB
                           </motion.a>
-          </div>
+                        </div>
                       )}
-        </div>
+                    </div>
                   )}
                 </motion.div>
               ))}
-      </div>
+            </div>
 
             {/* CTA Section */}
-          <motion.div
+            <motion.div
               className="text-center mt-20"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
             >
               <motion.a
@@ -1128,8 +1292,8 @@ export default function DevPage() {
               >
                 Start a Project
               </motion.a>
-          </motion.div>
-        </div>
+            </motion.div>
+          </div>
         </motion.section>
       </main>
     </>

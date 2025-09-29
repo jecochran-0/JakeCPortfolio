@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaReact, FaNodeJs, FaFigma, FaMobile, FaGitAlt } from "react-icons/fa";
 import { SiTailwindcss } from "react-icons/si";
@@ -35,6 +35,13 @@ const SmoothScroll = () => {
 };
 
 export default function SkillsPage() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, []);
+
   const skillCategories = [
     {
       category: "Frontend Development",
@@ -107,81 +114,202 @@ export default function SkillsPage() {
   return (
     <>
       <SmoothScroll />
-      <div
-        className="min-h-screen py-20 px-6"
-        style={{ backgroundColor: "#171717" }}
-      >
-        <div className="max-w-6xl mx-auto space-y-16">
-          {/* Top Left Branding */}
-          <motion.div
-            className="fixed top-8 left-8 z-20"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-          >
-            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-            <a href="/">
-              <motion.div
-                className="px-4 py-2 rounded-lg cursor-pointer"
-                style={{ backgroundColor: "#B4323B" }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <span
-                  className="text-white font-black text-lg tracking-wider uppercase"
-                  style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-                >
-                  Jake Cochran
-                </span>
-              </motion.div>
-            </a>
-          </motion.div>
 
-          {/* Top Navigation */}
+      {/* Top Left Branding */}
+      <motion.div
+        className="fixed top-4 left-4 sm:top-8 sm:left-8 z-20"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      >
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a href="/">
           <motion.div
-            className="fixed top-8 right-8 z-20 flex items-center space-x-6"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
+            className="px-3 py-2 sm:px-4 sm:py-2 rounded-lg cursor-pointer"
+            style={{ backgroundColor: "#B4323B" }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
+            <span
+              className="text-white font-black text-sm sm:text-lg tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+            >
+              Jake Cochran
+            </span>
+          </motion.div>
+        </a>
+      </motion.div>
+
+      {/* Mobile Menu Button */}
+      <motion.div
+        className="fixed top-4 right-4 sm:top-8 sm:right-8 z-30"
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      >
+        {/* Mobile Menu Button */}
+        <motion.button
+          className="md:hidden w-12 h-12 rounded-full border border-white/30 flex items-center justify-center"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Toggle mobile menu"
+        >
+          <motion.div
+            className="w-6 h-6 flex flex-col justify-center items-center"
+            animate={{ rotate: isMobileMenuOpen ? 45 : 0 }}
+          >
+            <motion.div
+              className="w-4 h-0.5 bg-white mb-1"
+              animate={{
+                rotate: isMobileMenuOpen ? 45 : 0,
+                y: isMobileMenuOpen ? 6 : 0,
+              }}
+            />
+            <motion.div
+              className="w-4 h-0.5 bg-white"
+              animate={{
+                opacity: isMobileMenuOpen ? 0 : 1,
+              }}
+            />
+            <motion.div
+              className="w-4 h-0.5 bg-white mt-1"
+              animate={{
+                rotate: isMobileMenuOpen ? -45 : 0,
+                y: isMobileMenuOpen ? -6 : 0,
+              }}
+            />
+          </motion.div>
+        </motion.button>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center space-x-6">
+          <motion.a
+            href="/"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Go to homepage"
+          >
+            HOME
+          </motion.a>
+          <motion.a
+            href="/about"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Go to about page"
+          >
+            ABOUT
+          </motion.a>
+          <motion.a
+            href="/dev"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Go to development page"
+          >
+            WORK
+          </motion.a>
+          <motion.a
+            href="/contact"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Go to contact page"
+          >
+            CONTACT
+          </motion.a>
+        </div>
+      </motion.div>
+
+      {/* Mobile Menu Overlay */}
+      <motion.div
+        className="fixed inset-0 z-20 md:hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isMobileMenuOpen ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+        style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+
+      {/* Mobile Menu Slide-out */}
+      <motion.div
+        className="fixed top-0 right-0 h-full w-80 max-w-[85vw] z-30 md:hidden"
+        style={{ backgroundColor: "#171717" }}
+        initial={{ x: "100%" }}
+        animate={{ x: isMobileMenuOpen ? "0%" : "100%" }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
+        <div className="flex flex-col h-full p-8">
+          {/* Close button */}
+          <div className="flex justify-end mb-12">
+            <motion.button
+              className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center"
+              onClick={() => setIsMobileMenuOpen(false)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Close mobile menu"
+            >
+              <div className="w-4 h-4 flex flex-col justify-center items-center">
+                <div className="w-4 h-0.5 bg-white rotate-45" />
+                <div className="w-4 h-0.5 bg-white -rotate-45 -mt-0.5" />
+              </div>
+            </motion.button>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="flex flex-col space-y-8">
             <motion.a
               href="/"
-              className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-              whileHover={{ scale: 1.05, y: -2 }}
+              className="text-white text-4xl font-black tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              aria-label="Go to homepage"
             >
               HOME
             </motion.a>
             <motion.a
               href="/about"
-              className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-              whileHover={{ scale: 1.05, y: -2 }}
+              className="text-white text-4xl font-black tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              aria-label="Go to about page"
             >
               ABOUT
             </motion.a>
             <motion.a
               href="/dev"
-              className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-              whileHover={{ scale: 1.05, y: -2 }}
+              className="text-white text-4xl font-black tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              aria-label="Go to development page"
             >
               WORK
             </motion.a>
             <motion.a
               href="/contact"
-              className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-              whileHover={{ scale: 1.05, y: -2 }}
+              className="text-white text-4xl font-black tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              aria-label="Go to contact page"
             >
               CONTACT
             </motion.a>
-          </motion.div>
+          </div>
+        </div>
+      </motion.div>
 
+      {/* Main Content */}
+      <div
+        className="min-h-screen py-20 px-6"
+        style={{ backgroundColor: "#171717" }}
+      >
+        <div className="max-w-6xl mx-auto space-y-16">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

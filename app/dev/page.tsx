@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 // Link removed - using <a> tags for page transition system
 import { useSearchParams } from "next/navigation";
@@ -49,91 +49,24 @@ const MagneticLink = ({
   className?: string;
   ariaLabel?: string;
 }) => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [linkPosition, setLinkPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
-  const linkRef = useRef<HTMLAnchorElement>(null);
 
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const scale = useMotionValue(1);
-
-  const springX = useSpring(x, { stiffness: 150, damping: 15 });
-  const springY = useSpring(y, { stiffness: 150, damping: 15 });
-  const springScale = useSpring(scale, { stiffness: 200, damping: 20 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => document.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  // Capture link position on mount and when it changes
-  useEffect(() => {
-    if (linkRef.current) {
-      const rect = linkRef.current.getBoundingClientRect();
-      setLinkPosition({
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2,
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    const distance = Math.sqrt(
-      Math.pow(mousePosition.x - linkPosition.x, 2) +
-        Math.pow(mousePosition.y - linkPosition.y, 2)
-    );
-
-    // Magnetic attraction range (150px) - increased range
-    if (distance < 150) {
-      const attractionStrength = (150 - distance) / 150;
-      const deltaX =
-        (mousePosition.x - linkPosition.x) * attractionStrength * 0.7; // balanced magnetic effect
-      const deltaY =
-        (mousePosition.y - linkPosition.y) * attractionStrength * 0.7; // balanced magnetic effect
-
-      x.set(deltaX);
-      y.set(deltaY);
-      scale.set(1 + attractionStrength * 0.3); // stronger scale effect
-    } else {
-      x.set(0);
-      y.set(0);
-      scale.set(1);
-    }
-  }, [mousePosition, linkPosition, x, y, scale]);
-
-  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setLinkPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-    });
+  const handleMouseEnter = () => {
     setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    x.set(0);
-    y.set(0);
-    scale.set(1);
   };
 
   return (
     <motion.a
-      ref={linkRef}
       href={href}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={`${className} relative overflow-hidden`}
-      style={{
-        x: springX,
-        y: springY,
-        scale: springScale,
-      }}
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
       aria-label={ariaLabel}
     >
       {/* Curtain effect */}
@@ -142,7 +75,7 @@ const MagneticLink = ({
         initial={{ y: "100%" }}
         animate={{ y: isHovered ? "0%" : "100%" }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        style={{ borderRadius: "8px" }}
+        style={{ borderRadius: "8px", pointerEvents: "none" }}
       />
 
       {/* Text content */}
@@ -163,82 +96,18 @@ const MagneticButton = ({
   isActive: boolean;
   className?: string;
 }) => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const scale = useMotionValue(1);
-
-  const springX = useSpring(x, { stiffness: 150, damping: 15 });
-  const springY = useSpring(y, { stiffness: 150, damping: 15 });
-  const springScale = useSpring(scale, { stiffness: 200, damping: 20 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => document.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  // Capture button position on mount and when it changes
-  useEffect(() => {
-    if (buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setButtonPosition({
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2,
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    const distance = Math.sqrt(
-      Math.pow(mousePosition.x - buttonPosition.x, 2) +
-        Math.pow(mousePosition.y - buttonPosition.y, 2)
-    );
-
-    // Magnetic attraction range (150px) - increased range
-    if (distance < 150) {
-      const attractionStrength = (150 - distance) / 150;
-      const deltaX =
-        (mousePosition.x - buttonPosition.x) * attractionStrength * 0.7; // balanced magnetic effect
-      const deltaY =
-        (mousePosition.y - buttonPosition.y) * attractionStrength * 0.7; // balanced magnetic effect
-
-      x.set(deltaX);
-      y.set(deltaY);
-      scale.set(1 + attractionStrength * 0.3); // stronger scale effect
-    } else {
-      x.set(0);
-      y.set(0);
-      scale.set(1);
-    }
-  }, [mousePosition, buttonPosition, x, y, scale]);
-
-  const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setButtonPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-    });
+  const handleMouseEnter = () => {
     setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    x.set(0);
-    y.set(0);
-    scale.set(1);
   };
 
   return (
     <motion.button
-      ref={buttonRef}
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -246,10 +115,9 @@ const MagneticButton = ({
       style={{
         backgroundColor: isActive ? "#CD535A" : "transparent",
         borderRadius: "50px",
-        x: springX,
-        y: springY,
-        scale: springScale,
       }}
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
     >
       {/* Curtain effect */}
       <motion.div
@@ -257,7 +125,7 @@ const MagneticButton = ({
         initial={{ y: "100%" }}
         animate={{ y: isHovered ? "0%" : "100%" }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        style={{ borderRadius: "50px" }}
+        style={{ borderRadius: "50px", pointerEvents: "none" }}
       />
 
       {/* Text content */}
@@ -429,7 +297,10 @@ export default function DevPage() {
   return (
     <>
       <SmoothScroll />
-      <CustomCursor />
+      {/* Disable custom cursor on touch devices to avoid pointer/touch conflicts */}
+      <div className="hidden md:block">
+        <CustomCursor />
+      </div>
       <main
         className="relative font-sans"
         style={{
@@ -545,7 +416,10 @@ export default function DevPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: isMobileMenuOpen ? 1 : 0 }}
           transition={{ duration: 0.3 }}
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            pointerEvents: isMobileMenuOpen ? "auto" : "none",
+          }}
           onClick={() => setIsMobileMenuOpen(false)}
         />
 
@@ -650,48 +524,9 @@ export default function DevPage() {
               </h1>
             </motion.div>
 
-            {/* Mobile Tab Filter Buttons */}
+            {/* Tab Filter Buttons */}
             <motion.div
-              className="flex flex-col sm:hidden justify-start gap-4"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-            >
-              <button
-                onClick={() => setActiveTab("all")}
-                className="px-8 py-4 text-lg font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black rounded-full cursor-pointer"
-                style={{
-                  backgroundColor:
-                    activeTab === "all" ? "#CD535A" : "transparent",
-                }}
-              >
-                All
-              </button>
-              <button
-                onClick={() => setActiveTab("development")}
-                className="px-8 py-4 text-lg font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black rounded-full cursor-pointer"
-                style={{
-                  backgroundColor:
-                    activeTab === "development" ? "#CD535A" : "transparent",
-                }}
-              >
-                Dev
-              </button>
-              <button
-                onClick={() => setActiveTab("ux")}
-                className="px-8 py-4 text-lg font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black rounded-full cursor-pointer"
-                style={{
-                  backgroundColor:
-                    activeTab === "ux" ? "#CD535A" : "transparent",
-                }}
-              >
-                UX/UI
-              </button>
-            </motion.div>
-
-            {/* Desktop Tab Filter Buttons */}
-            <motion.div
-              className="hidden sm:flex justify-start gap-8"
+              className="flex justify-start gap-4 sm:gap-8"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
@@ -699,21 +534,21 @@ export default function DevPage() {
               <MagneticButton
                 onClick={() => setActiveTab("all")}
                 isActive={activeTab === "all"}
-                className="px-16 py-8 text-2xl font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black"
+                className="px-8 py-4 sm:px-16 sm:py-8 text-lg sm:text-2xl font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black"
               >
                 All
               </MagneticButton>
               <MagneticButton
                 onClick={() => setActiveTab("development")}
                 isActive={activeTab === "development"}
-                className="px-16 py-8 text-2xl font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black"
+                className="px-8 py-4 sm:px-16 sm:py-8 text-lg sm:text-2xl font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black"
               >
                 Dev
               </MagneticButton>
               <MagneticButton
                 onClick={() => setActiveTab("ux")}
                 isActive={activeTab === "ux"}
-                className="px-16 py-8 text-2xl font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black"
+                className="px-8 py-4 sm:px-16 sm:py-8 text-lg sm:text-2xl font-medium transition-all duration-300 border-2 border-white text-white hover:bg-white hover:text-black"
               >
                 UX/UI
               </MagneticButton>

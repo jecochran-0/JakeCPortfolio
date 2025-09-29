@@ -21,6 +21,13 @@ export default function SmoothPageTransition({ children, pathname }) {
       clearTimeout(timeoutRef.current);
     }
 
+    // On mobile, navigate immediately without transition
+    if (isMobile) {
+      router.push(href);
+      return;
+    }
+
+    // Desktop: Use page transition
     // Set the target page name for display
     const pageName = getPageName(href);
     setTransitionTarget(pageName);
@@ -28,13 +35,20 @@ export default function SmoothPageTransition({ children, pathname }) {
     // Start transition immediately
     setIsTransitioning(true);
 
+    // Determine navigation delay based on page complexity
+    const getNavigationDelay = (href) => {
+      // Homepage is simpler, so faster navigation
+      if (href === "/") {
+        return 500;
+      }
+      // Other pages need more time to load properly
+      return 700;
+    };
+
     // Navigate only after curtain fully covers the screen
-    timeoutRef.current = setTimeout(
-      () => {
-        router.push(href);
-      },
-      isMobile ? 500 : 600
-    ); // Faster on mobile
+    timeoutRef.current = setTimeout(() => {
+      router.push(href);
+    }, getNavigationDelay(href));
   };
 
   // Function to get page name from href
@@ -55,12 +69,16 @@ export default function SmoothPageTransition({ children, pathname }) {
       .trim();
   };
 
-  // Mobile detection
+  // Mobile detection - detect immediately on mount
   useEffect(() => {
+    // Set mobile state immediately based on window width
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
@@ -68,12 +86,16 @@ export default function SmoothPageTransition({ children, pathname }) {
   // Handle initial load animation
   useEffect(() => {
     if (isInitialLoad) {
-      const timer = setTimeout(
-        () => {
-          setIsInitialLoad(false);
-        },
-        isMobile ? 800 : 1000
-      ); // Faster on mobile
+      // On mobile, skip initial load animation
+      if (isMobile) {
+        setIsInitialLoad(false);
+        return;
+      }
+
+      // Desktop: Show initial load animation
+      const timer = setTimeout(() => {
+        setIsInitialLoad(false);
+      }, 1000);
 
       return () => clearTimeout(timer);
     }
@@ -82,13 +104,10 @@ export default function SmoothPageTransition({ children, pathname }) {
   // Reset transition state when pathname changes
   useEffect(() => {
     if (isTransitioning) {
-      const timer = setTimeout(
-        () => {
-          setIsTransitioning(false);
-          setTransitionTarget(""); // Clear the target page name
-        },
-        isMobile ? 1000 : 1200
-      ); // Faster on mobile
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setTransitionTarget(""); // Clear the target page name
+      }, 1400); // Desktop-only timing
 
       return () => clearTimeout(timer);
     }
@@ -107,7 +126,7 @@ export default function SmoothPageTransition({ children, pathname }) {
     <>
       {/* Page Transition Overlay */}
       <AnimatePresence mode="wait">
-        {(isTransitioning || isInitialLoad) && (
+        {(isTransitioning || isInitialLoad) && !isMobile && (
           <motion.div
             key={isInitialLoad ? "initial-load" : "page-transition"}
             initial={{
@@ -116,15 +135,15 @@ export default function SmoothPageTransition({ children, pathname }) {
             animate={{
               y: "0%",
               transition: {
-                duration: isInitialLoad ? 0 : isMobile ? 0.6 : 0.7,
-                ease: [0.4, 0, 0.2, 1], // Slower beginning
+                duration: isInitialLoad ? 0 : 0.8,
+                ease: [0.4, 0, 0.2, 1],
               },
             }}
             exit={{
               y: "100%",
               transition: {
-                duration: isMobile ? 0.4 : 0.5,
-                ease: [0.25, 0.46, 0.45, 0.94], // Smoother, more eased ending
+                duration: 0.5,
+                ease: [0.25, 0.46, 0.45, 0.94],
               },
             }}
             className="fixed z-[9999] pointer-events-none page-transition-overlay"
@@ -143,17 +162,11 @@ export default function SmoothPageTransition({ children, pathname }) {
               <motion.h1
                 initial={{ opacity: 0 }}
                 animate={{
-                  opacity: isInitialLoad ? [0, 1, 1] : [0, 0, 1, 1],
+                  opacity: 1,
                   transition: {
-                    duration: isInitialLoad
-                      ? isMobile
-                        ? 0.8
-                        : 1.0
-                      : isMobile
-                      ? 1.0
-                      : 1.2,
-                    times: isInitialLoad ? [0, 0.3, 1] : [0, 0.5, 0.65, 1],
-                    ease: [0.4, 0, 0.2, 1], // Slower beginning to match curtain
+                    duration: 0.6,
+                    delay: 0.5,
+                    ease: [0.4, 0, 0.2, 1],
                   },
                 }}
                 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-wider px-4"
@@ -176,19 +189,6 @@ export default function SmoothPageTransition({ children, pathname }) {
             if (href && href.startsWith("/") && !href.startsWith("#")) {
               e.preventDefault();
               handleNavigation(href);
-            }
-          }
-        }}
-        onTouchStart={(e) => {
-          // Optimize touch handling for mobile
-          if (isMobile) {
-            const link = e.target.closest("a[href]");
-            if (link) {
-              const href = link.getAttribute("href");
-              if (href && href.startsWith("/") && !href.startsWith("#")) {
-                e.preventDefault();
-                handleNavigation(href);
-              }
             }
           }
         }}

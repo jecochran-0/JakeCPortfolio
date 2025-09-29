@@ -480,16 +480,6 @@ export default function DevPage() {
               >
                 SKILLS
               </motion.a>
-              <motion.a
-                href="/contact"
-                className="text-white text-4xl font-black tracking-wider uppercase"
-                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-                onClick={() => setIsMobileMenuOpen(false)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                WORK
-              </motion.a>
             </div>
           </div>
         </motion.div>

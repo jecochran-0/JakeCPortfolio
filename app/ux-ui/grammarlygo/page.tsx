@@ -7,248 +7,378 @@ export default function GrammarlyGOCaseStudy() {
   return (
     <div className="min-h-screen text-white" style={{ backgroundColor: "#171717" }}>
       {/* Hero Section */}
-      <div className="relative h-screen flex items-center justify-center">
-        <div className="text-center z-10 max-w-4xl mx-auto px-6">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-5xl md:text-7xl font-black mb-6"
-            style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-          >
-            GrammarlyGO
-          </motion.h1>
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-2xl md:text-3xl font-bold mb-8 text-gray-300"
-            style={{ fontFamily: "Montserrat, sans-serif" }}
-          >
-            Improving AI Retention: Turning One-Time Users into Loyal Daily Writers
-          </motion.h2>
+      <motion.section
+        className="relative flex items-start justify-start px-4 sm:px-8 md:px-16 pt-32 sm:pt-48 md:pt-60 pb-12 sm:pb-20"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        <div className="max-w-none mx-auto">
+          {/* Main Hero Text */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            className="mb-12 sm:mb-16 lg:mb-24"
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-wrap justify-center gap-4 text-sm md:text-base mb-8"
-            style={{ fontFamily: "Montserrat, sans-serif" }}
+            transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <span className="bg-gray-800 px-4 py-2 rounded-full">UX Research</span>
-            <span className="bg-gray-800 px-4 py-2 rounded-full">Product Strategy</span>
-            <span className="bg-gray-800 px-4 py-2 rounded-full">B2C SaaS</span>
-            <span className="bg-gray-800 px-4 py-2 rounded-full">AI/ML</span>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="max-w-3xl mx-auto"
-          >
-            <p className="text-lg text-gray-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
+            <h1
+              className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+            >
+              GRAMMARLYGO
+            </h1>
+            <h2
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white mb-8 sm:mb-12 tracking-wide"
+              style={{ fontFamily: "Montserrat, sans-serif" }}
+            >
+              Improving AI Retention: Turning One-Time Users into Loyal Daily Writers
+            </h2>
+            <div className="flex flex-wrap gap-4 mb-8">
+              <span 
+                className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
+                style={{ backgroundColor: "#CD535A", fontFamily: "Bungee, Arial Black, sans-serif" }}
+              >
+                UX Research
+              </span>
+              <span 
+                className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
+                style={{ backgroundColor: "#CD535A", fontFamily: "Bungee, Arial Black, sans-serif" }}
+              >
+                Product Strategy
+              </span>
+              <span 
+                className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
+                style={{ backgroundColor: "#CD535A", fontFamily: "Bungee, Arial Black, sans-serif" }}
+              >
+                B2C SaaS
+              </span>
+              <span 
+                className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
+                style={{ backgroundColor: "#CD535A", fontFamily: "Bungee, Arial Black, sans-serif" }}
+              >
+                AI/ML
+              </span>
+            </div>
+            <p 
+              className="text-gray-400 leading-relaxed text-xl max-w-4xl font-light"
+              style={{ fontFamily: "Montserrat, sans-serif" }}
+            >
               This project simulates a real-world B2C SaaS research challenge and demonstrates the ability to lead a study that bridges AI, usability, and product adoption.
             </p>
           </motion.div>
         </div>
-      </div>
+      </motion.section>
 
       {/* Background Section */}
-      <section className="py-20 px-6 max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h2 
-            className="text-4xl md:text-5xl font-black mb-8"
-            style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+      <motion.section
+        className="px-4 sm:px-8 md:px-16 py-24 sm:py-32 lg:py-48"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
+        <div className="max-w-none mx-auto">
+          <motion.div
+            className="space-y-12 sm:space-y-16 lg:space-y-24"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
           >
-            Background
-          </h2>
-          <div className="bg-gray-900 rounded-2xl p-8 md:p-12">
-            <p className="text-lg md:text-xl mb-8 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              GrammarlyGO is Grammarly's embedded AI assistant designed to speed up content creation and help users write more confidently across platforms. It can draft email replies, rewrite sentences for tone or clarity, or brainstorm content ideas using preset prompts or custom instructions.
-            </p>
-            <p className="text-lg md:text-xl mb-8 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              Despite high brand trust and broad distribution, GrammarlyGO suffers from low re-engagement:
-            </p>
-            <ul className="space-y-4 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              <li className="flex items-start">
-                <span className="text-red-400 mr-3">•</span>
-                <span>60% of users try GrammarlyGO once but do not return in the next 7 days</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-red-400 mr-3">•</span>
-                <span>Premium users show only slightly higher engagement than free users</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-red-400 mr-3">•</span>
-                <span>Feedback suggests confusion about what the AI assistant does differently from standard Grammarly corrections</span>
-              </li>
-            </ul>
-          </div>
-        </motion.div>
-      </section>
+            <h2 
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+            >
+              BACKGROUND
+            </h2>
+            
+            <div className="space-y-8 sm:space-y-12">
+              <p 
+                className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                GrammarlyGO is Grammarly's embedded AI assistant designed to speed up content creation and help users write more confidently across platforms. It can draft email replies, rewrite sentences for tone or clarity, or brainstorm content ideas using preset prompts or custom instructions.
+              </p>
+              
+              <p 
+                className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Despite high brand trust and broad distribution, GrammarlyGO suffers from low re-engagement:
+              </p>
+              
+              <div className="grid md:grid-cols-3 gap-8 sm:gap-12">
+                <div className="space-y-4">
+                  <div className="text-4xl sm:text-5xl font-black text-red-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>60%</div>
+                  <p 
+                    className="text-gray-400 leading-relaxed text-lg font-light"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    of users try GrammarlyGO once but do not return in the next 7 days
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <div className="text-4xl sm:text-5xl font-black text-yellow-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>Minimal</div>
+                  <p 
+                    className="text-gray-400 leading-relaxed text-lg font-light"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    difference in engagement between premium and free users
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <div className="text-4xl sm:text-5xl font-black text-blue-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>High</div>
+                  <p 
+                    className="text-gray-400 leading-relaxed text-lg font-light"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    user confusion between GrammarlyGO and standard corrections
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
 
       {/* Problem Framing Section */}
-      <section className="py-20 px-6 max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h2 
-            className="text-4xl md:text-5xl font-black mb-8"
-            style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+      <motion.section
+        className="px-4 sm:px-8 md:px-16 py-24 sm:py-32 lg:py-48"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
+        <div className="max-w-none mx-auto">
+          <motion.div
+            className="space-y-12 sm:space-y-16 lg:space-y-24"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
           >
-            Problem Framing
-          </h2>
-          <div className="bg-gray-900 rounded-2xl p-8 md:p-12 mb-8">
-            <h3 className="text-2xl font-bold mb-6 text-blue-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              What is GrammarlyGO solving and for whom?
-            </h3>
-            <p className="text-lg text-gray-300 mb-6" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              GrammarlyGO is solving a time problem, as well as a quality problem. For people that type a lot (emails, docs, etc), GrammarlyGO is an embedded assistant that takes care of nuanced tasks, or revises completed ones.
-            </p>
-            <p className="text-lg text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              60% of users disengaging after the first use means that the features had too much friction to be worth using, or the features were simply never too useful in the first place.
-            </p>
-          </div>
+            <h2 
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+            >
+              PROBLEM FRAMING
+            </h2>
+            
+            <div className="space-y-16 sm:space-y-20">
+              <div className="space-y-8">
+                <h3 
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  What is GrammarlyGO solving and for whom?
+                </h3>
+                <p 
+                  className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  GrammarlyGO is solving a time problem, as well as a quality problem. For people that type a lot (emails, docs, etc), GrammarlyGO is an embedded assistant that takes care of nuanced tasks, or revises completed ones.
+                </p>
+                <p 
+                  className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  60% of users disengaging after the first use means that the features had too much friction to be worth using, or the features were simply never too useful in the first place.
+                </p>
+              </div>
 
-          {/* Hypotheses */}
-          <div className="bg-gray-900 rounded-2xl p-8 md:p-12">
-            <h3 className="text-2xl font-bold mb-6 text-green-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              Hypotheses
-            </h3>
-            <div className="space-y-6">
-              <div className="border-l-4 border-green-400 pl-6">
-                <p className="text-lg text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                  <span className="font-bold text-green-400">Hypothesis 1:</span> GrammarlyGO is too similar to Grammarly, users do not see a difference between the two and do not see a reason to engage with GrammarlyGO
-                </p>
-              </div>
-              <div className="border-l-4 border-yellow-400 pl-6">
-                <p className="text-lg text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                  <span className="font-bold text-yellow-400">Hypothesis 2:</span> GrammarlyGO has too much user friction, the process of using the features takes too long for the user to use it seamlessly
-                </p>
-              </div>
-              <div className="border-l-4 border-red-400 pl-6">
-                <p className="text-lg text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                  <span className="font-bold text-red-400">Hypothesis 3:</span> GrammarlyGO's features are not useful enough, the user would rather opt to keep their writing as is, or take the time to revise it themselves
-                </p>
+              {/* Hypotheses */}
+              <div className="space-y-8">
+                <h3 
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Hypotheses
+                </h3>
+                <div className="space-y-8">
+                  <div className="border-l-4 border-green-400 pl-8">
+                    <p 
+                      className="text-gray-400 leading-relaxed text-xl font-light"
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
+                      <span className="font-bold text-green-400">Hypothesis 1:</span> GrammarlyGO is too similar to Grammarly, users do not see a difference between the two and do not see a reason to engage with GrammarlyGO
+                    </p>
+                  </div>
+                  <div className="border-l-4 border-yellow-400 pl-8">
+                    <p 
+                      className="text-gray-400 leading-relaxed text-xl font-light"
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
+                      <span className="font-bold text-yellow-400">Hypothesis 2:</span> GrammarlyGO has too much user friction, the process of using the features takes too long for the user to use it seamlessly
+                    </p>
+                  </div>
+                  <div className="border-l-4 border-red-400 pl-8">
+                    <p 
+                      className="text-gray-400 leading-relaxed text-xl font-light"
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
+                      <span className="font-bold text-red-400">Hypothesis 3:</span> GrammarlyGO's features are not useful enough, the user would rather opt to keep their writing as is, or take the time to revise it themselves
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </motion.div>
-      </section>
+          </motion.div>
+        </div>
+      </motion.section>
 
       {/* Business Impact Section */}
-      <section className="py-20 px-6 max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h2 
-            className="text-4xl md:text-5xl font-black mb-8"
-            style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+      <motion.section
+        className="px-4 sm:px-8 md:px-16 py-24 sm:py-32 lg:py-48"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
+        <div className="max-w-none mx-auto">
+          <motion.div
+            className="space-y-12 sm:space-y-16 lg:space-y-24"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
           >
-            Business Impact Analysis
-          </h2>
-          
-          {/* CAC Calculation */}
-          <div className="bg-gray-900 rounded-2xl p-8 md:p-12 mb-8">
-            <h3 className="text-2xl font-bold mb-6 text-blue-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              Customer Acquisition Cost (CAC)
-            </h3>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h4 className="text-lg font-bold mb-4 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                  Grammarly Spending Breakdown:
-                </h4>
-                <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                  <li>• $2,000,000 on ads (YouTube, Google, Instagram)</li>
-                  <li>• $500,000 on referral programs, email campaigns, partnerships</li>
-                  <li>• $500,000 on internal growth team salaries and tools</li>
-                  <li className="font-bold text-white">Total acquisition cost: $3,000,000</li>
-                  <li>• New Premium users acquired: 250,000</li>
-                </ul>
+            <h2 
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+            >
+              BUSINESS IMPACT
+            </h2>
+            
+            <div className="space-y-16 sm:space-y-20">
+              {/* CAC Calculation */}
+              <div className="space-y-8">
+                <h3 
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Customer Acquisition Cost (CAC)
+                </h3>
+                <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
+                  <div className="space-y-4">
+                    <h4 
+                      className="text-xl font-light text-gray-300"
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
+                      Grammarly Spending Breakdown:
+                    </h4>
+                    <ul className="space-y-3 text-gray-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                      <li className="text-lg">• $2,000,000 on ads (YouTube, Google, Instagram)</li>
+                      <li className="text-lg">• $500,000 on referral programs, email campaigns, partnerships</li>
+                      <li className="text-lg">• $500,000 on internal growth team salaries and tools</li>
+                      <li className="font-bold text-white text-xl">Total acquisition cost: $3,000,000</li>
+                      <li className="text-lg">• New Premium users acquired: 250,000</li>
+                    </ul>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-6xl sm:text-7xl font-black text-blue-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>$12</div>
+                    <p 
+                      className="text-gray-400 text-lg"
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
+                      CAC = Total Spend / New Users<br/>
+                      CAC = $3,000,000 / 250,000
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="text-center">
-                <div className="text-4xl font-black text-blue-400 mb-2">$12</div>
-                <p className="text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                  CAC = Total Spend / New Users<br/>
-                  CAC = $3,000,000 / 250,000
-                </p>
-              </div>
-            </div>
-          </div>
 
-          {/* LTV Calculation */}
-          <div className="bg-gray-900 rounded-2xl p-8 md:p-12 mb-8">
-            <h3 className="text-2xl font-bold mb-6 text-green-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              Lifetime Value (LTV)
-            </h3>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                  <li>• Grammarly Premium subscription: $12/month = $144/year</li>
-                  <li>• Average Premium user stays subscribed for 1.5 years</li>
-                  <li>• Gross revenue per user: $216</li>
-                  <li>• Assuming 80% profit margin after operational costs</li>
-                  <li className="font-bold text-white">LTV = $216 × 0.8 = $172.80 per user</li>
-                </ul>
+              {/* LTV Calculation */}
+              <div className="space-y-8">
+                <h3 
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Lifetime Value (LTV)
+                </h3>
+                <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
+                  <div className="space-y-4">
+                    <ul className="space-y-3 text-gray-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                      <li className="text-lg">• Grammarly Premium subscription: $12/month = $144/year</li>
+                      <li className="text-lg">• Average Premium user stays subscribed for 1.5 years</li>
+                      <li className="text-lg">• Gross revenue per user: $216</li>
+                      <li className="text-lg">• Assuming 80% profit margin after operational costs</li>
+                      <li className="font-bold text-white text-xl">LTV = $216 × 0.8 = $172.80 per user</li>
+                    </ul>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-6xl sm:text-7xl font-black text-green-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>$172.80</div>
+                    <p 
+                      className="text-gray-400 text-lg"
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
+                      Engaged User LTV
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="text-center">
-                <div className="text-4xl font-black text-green-400 mb-2">$172.80</div>
-                <p className="text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                  Engaged User LTV
-                </p>
-              </div>
-            </div>
-          </div>
 
-          {/* Impact of Disengagement */}
-          <div className="bg-gray-900 rounded-2xl p-8 md:p-12">
-            <h3 className="text-2xl font-bold mb-6 text-red-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              Impact of Disengagement
-            </h3>
-            <p className="text-lg text-gray-300 mb-6" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              If a user tries GrammarlyGO once but doesn't engage, their average lifetime drops to 1 year:
-            </p>
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white mb-2">Engaged User</div>
-                <div className="text-lg text-gray-300">CAC: $12</div>
-                <div className="text-lg text-green-400">LTV: $172.80</div>
-                <div className="text-lg text-green-400 font-bold">Profit: $160.80</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white mb-2">Disengaged User</div>
-                <div className="text-lg text-gray-300">CAC: $12</div>
-                <div className="text-lg text-red-400">LTV: $115.20</div>
-                <div className="text-lg text-red-400 font-bold">Profit: $103.20</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white mb-2">Result</div>
-                <div className="text-4xl font-black text-red-400">36%</div>
-                <div className="text-lg text-gray-300">less profit per user</div>
+              {/* Impact of Disengagement */}
+              <div className="space-y-8">
+                <h3 
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Impact of Disengagement
+                </h3>
+                <p 
+                  className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  If a user tries GrammarlyGO once but doesn't engage, their average lifetime drops to 1 year:
+                </p>
+                <div className="grid md:grid-cols-3 gap-8 sm:gap-12">
+                  <div className="text-center space-y-4">
+                    <div 
+                      className="text-2xl font-light text-white"
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
+                      Engaged User
+                    </div>
+                    <div className="text-gray-400 text-lg">CAC: $12</div>
+                    <div className="text-green-400 text-xl">LTV: $172.80</div>
+                    <div className="text-green-400 text-xl font-bold">Profit: $160.80</div>
+                  </div>
+                  <div className="text-center space-y-4">
+                    <div 
+                      className="text-2xl font-light text-white"
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
+                      Disengaged User
+                    </div>
+                    <div className="text-gray-400 text-lg">CAC: $12</div>
+                    <div className="text-red-400 text-xl">LTV: $115.20</div>
+                    <div className="text-red-400 text-xl font-bold">Profit: $103.20</div>
+                  </div>
+                  <div className="text-center space-y-4">
+                    <div 
+                      className="text-2xl font-light text-white"
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
+                      Result
+                    </div>
+                    <div className="text-6xl font-black text-red-400" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>36%</div>
+                    <div className="text-gray-400 text-lg">less profit per user</div>
+                  </div>
+                </div>
+                <div className="text-center py-8 px-6 border border-red-400/30 rounded-lg">
+                  <div className="text-6xl font-black text-red-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>$5.7M</div>
+                  <p 
+                    className="text-gray-400 text-xl max-w-4xl mx-auto font-light"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    At scale, if 100,000 users disengage after first use, Grammarly loses over $5.7 million in potential long-term value.
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="bg-red-900/30 rounded-lg p-6 text-center">
-              <div className="text-3xl font-black text-red-400 mb-2">$5.7M</div>
-              <p className="text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                At scale, if 100,000 users disengage after first use, Grammarly loses over $5.7 million in potential long-term value.
-              </p>
-            </div>
-          </div>
-        </motion.div>
-      </section>
+          </motion.div>
+        </div>
+      </motion.section>
 
       {/* Research Methodology Section */}
       <section className="py-20 px-6 max-w-6xl mx-auto">

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { FaArrowRight } from "react-icons/fa";
 // Link removed - using <a> tags for page transition system
 
 export default function GrammarlyGOCaseStudy() {

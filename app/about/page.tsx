@@ -258,17 +258,39 @@ export default function AboutPage() {
         </motion.div>
 
         {/* Hero Section */}
-        <section className="pt-32 sm:pt-40 md:pt-48 pb-20 sm:pb-32 px-4 sm:px-8 md:px-16">
+        <section className="pt-32 sm:pt-40 md:pt-48 pb-32 sm:pb-40 md:pb-48 px-4 sm:px-8 md:px-16">
           <div className="max-w-7xl mx-auto">
-            <motion.div
-              className="space-y-12 sm:space-y-16"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
-            >
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+              {/* Left Side - Image */}
+              <motion.div
+                className="lg:col-span-5 order-2 lg:order-1"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <div className="relative h-[70vh] overflow-hidden rounded-xl">
+                  <Image
+                    src="/Headshot3.jpg"
+                    alt="Jake Cochran - Full Stack Developer and UX/UI Designer"
+                    fill
+                    className="object-cover object-center"
+                    priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                  />
+                </div>
+              </motion.div>
+
+              {/* Right Side - Content */}
+              <motion.div
+                className="lg:col-span-7 order-1 lg:order-2 space-y-16 sm:space-y-20"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
               {/* Profile Badge */}
               <motion.div
-                className="inline-block bg-red-600 text-white px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 font-black text-xs sm:text-sm tracking-widest uppercase border border-red-500 rounded-lg"
+                className="inline-block text-white px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 font-black text-xs sm:text-sm tracking-widest uppercase border rounded-lg"
+                style={{ backgroundColor: "#CD535A", borderColor: "#CD535A" }}
                 initial={{ opacity: 0, x: -50, scale: 0.8 }}
                 animate={{ opacity: 1, x: 0, scale: 1 }}
                 transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -301,7 +323,7 @@ export default function AboutPage() {
                     ))}
                   </span>
                   <br />
-                  <span className="block text-red-500 mt-2 sm:mt-4">
+                  <span className="block mt-2 sm:mt-4" style={{ color: "#CD535A" }}>
                     {"JAKE".split("").map((letter, index) => (
                       <motion.span
                         key={index}
@@ -355,12 +377,13 @@ export default function AboutPage() {
                   ))}
                 </div>
               </motion.div>
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
         </section>
 
         {/* What I Bring Section */}
-        <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-8 md:px-16 border-t border-white/20">
+        <section className="py-24 sm:py-32 lg:py-40 px-4 sm:px-8 md:px-16 border-t border-white/20">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -399,7 +422,7 @@ export default function AboutPage() {
                     transition={{ delay: index * 0.2, duration: 0.6 }}
                     whileHover={{ y: -5 }}
                   >
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-red-600 rounded-2xl flex items-center justify-center mb-6 sm:mb-8 text-2xl sm:text-3xl">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-6 sm:mb-8 text-2xl sm:text-3xl" style={{ backgroundColor: "#CD535A" }}>
                       {skill.icon}
                     </div>
                     <h3 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-white tracking-tight" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
@@ -416,7 +439,7 @@ export default function AboutPage() {
         </section>
 
         {/* My Story Section */}
-        <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-8 md:px-16 border-t border-white/20">
+        <section className="py-24 sm:py-32 lg:py-40 px-4 sm:px-8 md:px-16 border-t border-white/20">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -466,7 +489,7 @@ export default function AboutPage() {
         </section>
 
         {/* Experience Tabs Section */}
-        <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-8 md:px-16 border-t border-white/20">
+        <section className="py-24 sm:py-32 lg:py-40 px-4 sm:px-8 md:px-16 border-t border-white/20">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -485,9 +508,10 @@ export default function AboutPage() {
                     onClick={() => setActiveTab("professional")}
                     className={`px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-black transition-all duration-300 border-2 rounded-lg ${
                       activeTab === "professional"
-                        ? "bg-red-600 text-white border-red-500"
+                        ? "text-white border-gray-600"
                         : "bg-transparent text-gray-300 border-gray-600 hover:bg-gray-700/50"
                     }`}
+                    style={activeTab === "professional" ? { backgroundColor: "#CD535A", borderColor: "#CD535A" } : {}}
                   >
                     💼 PROFESSIONAL
                   </button>
@@ -495,9 +519,10 @@ export default function AboutPage() {
                     onClick={() => setActiveTab("education")}
                     className={`px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-black transition-all duration-300 border-2 rounded-lg ${
                       activeTab === "education"
-                        ? "bg-red-600 text-white border-red-500"
+                        ? "text-white border-gray-600"
                         : "bg-transparent text-gray-300 border-gray-600 hover:bg-gray-700/50"
                     }`}
+                    style={activeTab === "education" ? { backgroundColor: "#CD535A", borderColor: "#CD535A" } : {}}
                   >
                     🎓 EDUCATION
                   </button>
@@ -505,9 +530,10 @@ export default function AboutPage() {
                     onClick={() => setActiveTab("personal")}
                     className={`px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-black transition-all duration-300 border-2 rounded-lg ${
                       activeTab === "personal"
-                        ? "bg-red-600 text-white border-red-500"
+                        ? "text-white border-gray-600"
                         : "bg-transparent text-gray-300 border-gray-600 hover:bg-gray-700/50"
                     }`}
+                    style={activeTab === "personal" ? { backgroundColor: "#CD535A", borderColor: "#CD535A" } : {}}
                   >
                     👤 PERSONAL
                   </button>
@@ -554,7 +580,7 @@ export default function AboutPage() {
                     className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 sm:p-8 lg:p-12"
                   >
                     <div className="flex items-center justify-center mb-8 sm:mb-12">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-red-600 rounded-2xl flex items-center justify-center mr-6 sm:mr-8 text-2xl sm:text-3xl">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mr-6 sm:mr-8 text-2xl sm:text-3xl" style={{ backgroundColor: "#CD535A" }}>
                         🎓
                       </div>
                       <div>
@@ -564,14 +590,14 @@ export default function AboutPage() {
                         <p className="text-base sm:text-lg text-gray-300 font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
                           Bachelor's in Consumer Behavior and Marketplace Studies. Minors in Computer Science and Entrepreneurship
                         </p>
-                        <p className="text-red-400 font-black text-base sm:text-lg">
+                        <p className="font-black text-base sm:text-lg" style={{ color: "#CD535A" }}>
                           Expected Graduation: May 2025
                         </p>
                       </div>
                     </div>
 
                     <div className="space-y-6 sm:space-y-8">
-                      <div className="border-l-4 border-red-500 pl-6 sm:pl-8 py-4 sm:py-6">
+                      <div className="pl-6 sm:pl-8 py-4 sm:py-6" style={{ borderLeft: "4px solid #CD535A" }}>
                         <h4 className="font-black text-lg sm:text-xl text-white mb-3 sm:mb-4 tracking-tight" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
                           Relevant Coursework
                         </h4>
@@ -597,11 +623,16 @@ export default function AboutPage() {
                         whileHover={{ y: -5 }}
                       >
                         <h3 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-white tracking-tight" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
-                          🏈 Flag Football
+                          🏈 Flag Football & Tennis
                         </h3>
                         <p className="text-base sm:text-lg text-gray-300 mb-6 sm:mb-8 font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
                           I'm a big football fan (go pats), and I also like to play flag football and tennis.
                         </p>
+                        <div className="relative overflow-hidden rounded-lg">
+                          <div className="w-full h-48 bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+                            <span className="text-gray-400 text-lg font-medium">🏈 Tennis & Football</span>
+                          </div>
+                        </div>
                       </motion.div>
 
                       <motion.div
@@ -614,6 +645,15 @@ export default function AboutPage() {
                         <p className="text-base sm:text-lg text-gray-300 mb-6 sm:mb-8 font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
                           I pass the time with a chess match on chess.com
                         </p>
+                        <div className="relative overflow-hidden rounded-lg">
+                          <Image
+                            src="/Chess.jpg"
+                            alt="Chess Game"
+                            width={400}
+                            height={200}
+                            className="w-full h-48 object-cover"
+                          />
+                        </div>
                       </motion.div>
 
                       <motion.div
@@ -636,7 +676,7 @@ export default function AboutPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-8 md:px-16 border-t border-white/20">
+        <section className="py-24 sm:py-32 lg:py-40 px-4 sm:px-8 md:px-16 border-t border-white/20">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -650,7 +690,7 @@ export default function AboutPage() {
               >
                 <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-8 sm:mb-10 tracking-tight text-white" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
                   LET'S BUILD
-                  <span className="block text-red-500 mt-2 sm:mt-4">
+                  <span className="block mt-2 sm:mt-4" style={{ color: "#CD535A" }}>
                     SOMETHING AMAZING
                   </span>
                 </h2>
@@ -659,7 +699,8 @@ export default function AboutPage() {
                 </p>
                 <motion.a
                   href="mailto:jake.e.cochran@gmail.com"
-                  className="inline-flex bg-red-600 hover:bg-red-700 text-white px-6 sm:px-8 lg:px-12 xl:px-20 py-4 sm:py-6 lg:py-8 xl:py-10 font-black tracking-widest transition-all duration-300 items-center justify-center border border-red-500 rounded-xl text-sm xs:text-base sm:text-lg lg:text-xl xl:text-2xl"
+                  className="inline-flex text-white px-6 sm:px-8 lg:px-12 xl:px-20 py-4 sm:py-6 lg:py-8 xl:py-10 font-black tracking-widest transition-all duration-300 items-center justify-center border rounded-xl text-sm xs:text-base sm:text-lg lg:text-xl xl:text-2xl hover:opacity-90"
+                  style={{ backgroundColor: "#CD535A", borderColor: "#CD535A" }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >

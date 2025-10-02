@@ -403,7 +403,7 @@ export default function SkillsPage() {
                         whileHover={{ y: -5 }}
                       >
                         <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 sm:p-8 hover:border-red-500/50 transition-all duration-300 group-hover:bg-gray-800/50">
-                          <div className="flex items-center gap-4 mb-4">
+                          <div className="flex items-center gap-4">
                             <motion.div
                               className="w-3 h-3 rounded-full flex-shrink-0"
                               style={{ backgroundColor: "#CD535A" }}
@@ -424,27 +424,6 @@ export default function SkillsPage() {
                               {skill}
                             </span>
                           </div>
-                          
-                          {/* Progress Bar Animation */}
-                          <motion.div
-                            className="w-full h-1 bg-gray-700 rounded-full overflow-hidden"
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 + skillIndex * 0.05 + 0.3 }}
-                          >
-                            <motion.div
-                              className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full"
-                              initial={{ width: 0 }}
-                              whileInView={{ width: "100%" }}
-                              viewport={{ once: true }}
-                              transition={{
-                                duration: 1.5,
-                                delay: index * 0.1 + skillIndex * 0.05 + 0.5,
-                                ease: "easeOut",
-                              }}
-                            />
-                          </motion.div>
                         </div>
                       </motion.div>
                     ))}

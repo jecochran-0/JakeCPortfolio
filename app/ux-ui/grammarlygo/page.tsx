@@ -70,7 +70,7 @@ export default function GrammarlyGOCaseStudy() {
       style={{ backgroundColor: "#171717" }}
     >
       {/* Top Left Branding */}
-      <motion.div
+          <motion.div
         className="absolute top-4 left-4 sm:top-8 sm:left-8 z-20"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -78,7 +78,7 @@ export default function GrammarlyGOCaseStudy() {
       >
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a href="/">
-          <motion.div
+            <motion.div
             className="px-3 py-2 sm:px-6 sm:py-3 rounded-lg cursor-pointer"
             style={{ backgroundColor: "#B4323B" }}
             whileHover={{ scale: 1.02 }}
@@ -92,7 +92,7 @@ export default function GrammarlyGOCaseStudy() {
             </span>
           </motion.div>
         </a>
-      </motion.div>
+            </motion.div>
 
       {/* Mobile Menu Button */}
       <motion.div
@@ -139,6 +139,13 @@ export default function GrammarlyGOCaseStudy() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6">
           <MagneticLink
+            href="/"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            ariaLabel="Go to homepage"
+          >
+            HOME
+          </MagneticLink>
+          <MagneticLink
             href="/about"
             className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
             ariaLabel="Go to about page"
@@ -159,11 +166,11 @@ export default function GrammarlyGOCaseStudy() {
           >
             WORK
           </MagneticLink>
-        </div>
+            </div>
       </motion.div>
 
       {/* Mobile Menu Overlay */}
-      <motion.div
+            <motion.div
         className="fixed inset-0 z-20 md:hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: isMobileMenuOpen ? 1 : 0 }}
@@ -203,6 +210,16 @@ export default function GrammarlyGOCaseStudy() {
           {/* Navigation Links */}
           <div className="flex flex-col space-y-8">
             <motion.a
+              href="/"
+              className="text-white text-4xl font-black tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              HOME
+            </motion.a>
+            <motion.a
               href="/about"
               className="text-white text-4xl font-black tracking-wider uppercase"
               style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
@@ -224,7 +241,7 @@ export default function GrammarlyGOCaseStudy() {
             </motion.a>
           </div>
         </div>
-      </motion.div>
+            </motion.div>
 
       {/* Hero Section */}
       <motion.section
@@ -1428,7 +1445,7 @@ export default function GrammarlyGOCaseStudy() {
                   Session length with AI Editor open<br/>
                   Feature satisfaction score
                 </p>
-              </div>
+                    </div>
                   </div>
 
             {/* Solution 4 */}

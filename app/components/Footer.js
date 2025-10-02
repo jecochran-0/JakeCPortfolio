@@ -21,7 +21,7 @@ export default function Footer() {
     {
       name: "LinkedIn",
       icon: FaLinkedin,
-      href: "https://linkedin.com/in/jakecochran",
+      href: "https://www.linkedin.com/in/jake-cochran/",
     },
     {
       name: "Email",

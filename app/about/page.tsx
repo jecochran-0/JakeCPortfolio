@@ -45,7 +45,7 @@ export default function AboutPage() {
     { icon: FaGithub, href: "https://github.com/jecochran-0", label: "GitHub" },
     {
       icon: FaLinkedin,
-      href: "https://linkedin.com/in/jakecochran",
+      href: "https://www.linkedin.com/in/jake-cochran/",
       label: "LinkedIn",
     },
     { icon: FaEnvelope, href: "mailto:jake.e.cochran@gmail.com", label: "Email" },
@@ -210,19 +210,8 @@ export default function AboutPage() {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-8">
-                  <a href="/contact">
-                    <motion.div
-                      className="px-8 py-4 border border-white/20 hover:bg-white/10 transition-colors duration-200 font-bold text-white"
-                      style={{ fontFamily: "Montserrat, sans-serif" }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Get in touch
-                    </motion.div>
-                  </a>
-
-                  <div className="flex space-x-6">
+                <div className="flex justify-center items-center">
+                  <div className="flex space-x-8">
                     {socialLinks.map((link, index) => (
                       <motion.a
                         key={link.label}
@@ -236,7 +225,7 @@ export default function AboutPage() {
                         transition={{ delay: 0.8 + index * 0.1, duration: 0.3 }}
                         aria-label={`Visit my ${link.label} profile`}
                       >
-                        <link.icon className="text-2xl" />
+                        <link.icon className="text-4xl" />
                       </motion.a>
                     ))}
                   </div>
@@ -596,19 +585,8 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                <a href="/contact">
-                  <motion.div
-                    className="px-8 py-4 border border-white/20 hover:bg-white/10 transition-colors duration-200 font-bold text-white"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Get in touch
-                  </motion.div>
-                </a>
-
-                <div className="flex space-x-6">
+              <div className="flex justify-center items-center">
+                <div className="flex space-x-8">
                   {socialLinks.map((link, index) => (
                     <motion.a
                       key={link.label}
@@ -623,7 +601,7 @@ export default function AboutPage() {
                       viewport={{ once: true }}
                       aria-label={`Connect with me on ${link.label}`}
                     >
-                      <link.icon className="text-2xl" />
+                      <link.icon className="text-4xl" />
                     </motion.a>
                   ))}
                 </div>

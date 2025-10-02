@@ -308,7 +308,7 @@ const AzukiHomepage = () => {
                 </div>
                 <div className="flex gap-8">
                   <a
-                    href="https://linkedin.com/in/jakecochran"
+                    href="https://www.linkedin.com/in/jake-cochran/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white hover:opacity-70 transition-opacity"
@@ -484,7 +484,7 @@ const AzukiHomepage = () => {
                 {/* Social Links */}
                 <div className="flex gap-8">
                   <a
-                    href="https://linkedin.com/in/jakecochran"
+                    href="https://www.linkedin.com/in/jake-cochran/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white hover:opacity-70 transition-opacity"

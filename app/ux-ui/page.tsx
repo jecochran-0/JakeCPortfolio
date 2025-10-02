@@ -530,7 +530,7 @@ export default function UXUIPage() {
                   <FaGithub className="text-2xl" />
                 </a>
                 <a
-                  href="https://linkedin.com/in/jakecochran"
+                  href="https://www.linkedin.com/in/jake-cochran/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors duration-300"

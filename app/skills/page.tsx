@@ -305,7 +305,7 @@ export default function SkillsPage() {
         className="min-h-screen py-20 px-4 sm:px-8 md:px-16"
         style={{ backgroundColor: "#171717" }}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-full mx-auto px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20">
           {/* Hero Section */}
           <motion.section
             className="pt-32 sm:pt-40 md:pt-48 pb-20 sm:pb-32"
@@ -336,7 +336,7 @@ export default function SkillsPage() {
           </motion.section>
 
           {/* Skills Grid - Redesigned */}
-          <div className="space-y-24 sm:space-y-32">
+          <div className="space-y-16 sm:space-y-20">
             {skillCategories.map((category, index) => (
               <motion.section
                 key={category.category}
@@ -388,7 +388,7 @@ export default function SkillsPage() {
                   </motion.div>
 
                   {/* Skills Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-4 sm:gap-6 lg:gap-8">
                     {category.skills.map((skill, skillIndex) => (
                       <motion.div
                         key={skill}
@@ -402,7 +402,7 @@ export default function SkillsPage() {
                         }}
                         whileHover={{ y: -5 }}
                       >
-                        <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 sm:p-8 hover:border-red-500/50 transition-all duration-300 group-hover:bg-gray-800/50">
+                        <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4 sm:p-6 hover:border-red-500/50 transition-all duration-300 group-hover:bg-gray-800/50">
                           <div className="flex items-center gap-4">
                             <motion.div
                               className="w-3 h-3 rounded-full flex-shrink-0"
@@ -430,22 +430,6 @@ export default function SkillsPage() {
                   </div>
                 </div>
 
-                {/* Section Separator */}
-                {index < skillCategories.length - 1 && (
-                  <motion.div
-                    className="mt-20 sm:mt-24 flex items-center justify-center"
-                    initial={{ opacity: 0, scaleX: 0 }}
-                    whileInView={{ opacity: 1, scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 + 0.5, duration: 1.0 }}
-                  >
-                    <div className="flex items-center gap-4 w-full max-w-md">
-                      <div className="h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent flex-1" />
-                      <div className="w-2 h-2 bg-red-500 rounded-full" />
-                      <div className="h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent flex-1" />
-                    </div>
-                  </motion.div>
-                )}
               </motion.section>
             ))}
           </div>

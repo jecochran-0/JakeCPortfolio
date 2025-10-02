@@ -302,100 +302,177 @@ export default function SkillsPage() {
 
       {/* Main Content */}
       <div
-        className="min-h-screen py-20 px-6"
+        className="min-h-screen py-20 px-4 sm:px-8 md:px-16"
         style={{ backgroundColor: "#171717" }}
       >
-        <div className="max-w-6xl mx-auto space-y-16">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-24"
+        <div className="max-w-7xl mx-auto">
+          {/* Hero Section */}
+          <motion.section
+            className="pt-32 sm:pt-40 md:pt-48 pb-20 sm:pb-32"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <h1
-              className="text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-8 leading-none"
-              style={{ fontFamily: "Montserrat, sans-serif" }}
-            >
-              SKILLS
-            </h1>
-            <p
-              className="text-2xl text-gray-300 leading-relaxed max-w-4xl"
-              style={{ fontFamily: "Montserrat, sans-serif" }}
-            >
-              A comprehensive overview of my technical capabilities across
-              development and design disciplines.
-            </p>
-          </motion.div>
+            <div className="text-center mb-20">
+              <motion.h1
+                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white leading-tight tracking-tight mb-8"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 1.0 }}
+              >
+                SKILLS
+              </motion.h1>
+              <motion.p
+                className="text-xl sm:text-2xl text-gray-400 leading-relaxed max-w-4xl mx-auto font-light"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 1.0 }}
+              >
+                A comprehensive overview of my technical capabilities across development and design disciplines
+              </motion.p>
+            </div>
+          </motion.section>
 
-          {/* Skills Grid */}
-          <div className="space-y-32">
+          {/* Skills Grid - Redesigned */}
+          <div className="space-y-24 sm:space-y-32">
             {skillCategories.map((category, index) => (
-              <motion.div
+              <motion.section
                 key={category.category}
-                initial={{ opacity: 0, y: 20 }}
+                className="relative"
+                initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start"
+                transition={{ duration: 0.8, delay: index * 0.1 }}
               >
-                {/* Category Header - Left Column */}
-                <div className="lg:col-span-3 space-y-6">
-                  <div
-                    className="w-20 h-20 rounded-lg flex items-center justify-center mb-6"
-                    style={{
-                      backgroundColor: "#CD535A",
-                      fontFamily: "Montserrat, sans-serif",
-                    }}
-                  >
-                    <category.icon className="text-white text-3xl" />
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-5">
+                  <div className="grid grid-cols-8 gap-4 h-full">
+                    {Array.from({ length: 24 }).map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className="bg-white h-2 rounded-full"
+                        initial={{ scaleX: 0 }}
+                        whileInView={{ scaleX: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1 + i * 0.02, duration: 0.6 }}
+                      />
+                    ))}
                   </div>
-                  <h2
-                    className="text-3xl md:text-4xl font-bold text-white leading-tight"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                  >
-                    {category.category}
-                  </h2>
                 </div>
 
-                {/* Skills List - Right Column */}
-                <div className="lg:col-span-9">
-                  <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-12 gap-y-8">
+                <div className="relative z-10">
+                  {/* Category Header */}
+                  <motion.div
+                    className="flex items-center gap-8 mb-12 sm:mb-16"
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 + 0.2, duration: 0.8 }}
+                  >
+                    <motion.div
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center shadow-lg"
+                      style={{ backgroundColor: "#CD535A" }}
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <category.icon className="text-white text-2xl sm:text-3xl" />
+                    </motion.div>
+                    <h2
+                      className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight tracking-tight"
+                      style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                    >
+                      {category.category}
+                    </h2>
+                  </motion.div>
+
+                  {/* Skills Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
                     {category.skills.map((skill, skillIndex) => (
                       <motion.div
                         key={skill}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        className="group relative"
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{
-                          duration: 0.4,
-                          delay: index * 0.1 + skillIndex * 0.03,
+                          duration: 0.6,
+                          delay: index * 0.1 + skillIndex * 0.05,
                         }}
-                        className="flex items-center gap-4"
+                        whileHover={{ y: -5 }}
                       >
-                        <div
-                          className="w-3 h-3 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: "#CD535A" }}
-                        />
-                        <span
-                          className="text-xl text-gray-300 font-medium"
-                          style={{ fontFamily: "Montserrat, sans-serif" }}
-                        >
-                          {skill}
-                        </span>
+                        <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 sm:p-8 hover:border-red-500/50 transition-all duration-300 group-hover:bg-gray-800/50">
+                          <div className="flex items-center gap-4 mb-4">
+                            <motion.div
+                              className="w-3 h-3 rounded-full flex-shrink-0"
+                              style={{ backgroundColor: "#CD535A" }}
+                              animate={{
+                                scale: [1, 1.2, 1],
+                                opacity: [0.7, 1, 0.7],
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                delay: skillIndex * 0.2,
+                              }}
+                            />
+                            <span
+                              className="text-lg sm:text-xl text-white font-medium group-hover:text-red-400 transition-colors duration-300"
+                              style={{ fontFamily: "Montserrat, sans-serif" }}
+                            >
+                              {skill}
+                            </span>
+                          </div>
+                          
+                          {/* Progress Bar Animation */}
+                          <motion.div
+                            className="w-full h-1 bg-gray-700 rounded-full overflow-hidden"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1 + skillIndex * 0.05 + 0.3 }}
+                          >
+                            <motion.div
+                              className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full"
+                              initial={{ width: 0 }}
+                              whileInView={{ width: "100%" }}
+                              viewport={{ once: true }}
+                              transition={{
+                                duration: 1.5,
+                                delay: index * 0.1 + skillIndex * 0.05 + 0.5,
+                                ease: "easeOut",
+                              }}
+                            />
+                          </motion.div>
+                        </div>
                       </motion.div>
                     ))}
                   </div>
                 </div>
 
-                {/* Separator */}
+                {/* Section Separator */}
                 {index < skillCategories.length - 1 && (
-                  <div className="col-span-full pt-16 border-b border-white/20" />
+                  <motion.div
+                    className="mt-20 sm:mt-24 flex items-center justify-center"
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    whileInView={{ opacity: 1, scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 + 0.5, duration: 1.0 }}
+                  >
+                    <div className="flex items-center gap-4 w-full max-w-md">
+                      <div className="h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent flex-1" />
+                      <div className="w-2 h-2 bg-red-500 rounded-full" />
+                      <div className="h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent flex-1" />
+                    </div>
+                  </motion.div>
                 )}
-              </motion.div>
+              </motion.section>
             ))}
           </div>
+
+          {/* Bottom Spacing */}
+          <div className="h-20 sm:h-32" />
         </div>
       </div>
     </>

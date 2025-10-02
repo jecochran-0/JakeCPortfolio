@@ -29,7 +29,7 @@ export default function GrammarlyGOCaseStudy() {
     >
       {/* Hero Section */}
       <motion.section
-        className="relative flex items-start justify-start px-4 sm:px-8 md:px-16 pt-32 sm:pt-48 md:pt-60 pb-12 sm:pb-20"
+        className="relative flex items-start justify-start px-4 sm:px-8 md:px-16 pt-32 sm:pt-48 md:pt-60 pb-20 sm:pb-32 md:pb-40"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -37,44 +37,44 @@ export default function GrammarlyGOCaseStudy() {
         <div className="max-w-none mx-auto">
           {/* Main Hero Text */}
           <motion.div
-            className="mb-6 sm:mb-8"
+            className="mb-12 sm:mb-16 md:mb-20"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <h1
-              className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-tight tracking-tight mb-6 sm:mb-8"
+              className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-tight tracking-tight mb-12 sm:mb-16 md:mb-20"
               style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
             >
               GRAMMARLYGO
             </h1>
             <h2
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white mb-8 sm:mb-12 tracking-wide"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white mb-12 sm:mb-16 md:mb-20 tracking-wide"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
               Improving AI Retention: Turning One-Time Users into Loyal Daily Writers
             </h2>
-            <div className="flex flex-wrap gap-4 mb-8">
+            <div className="flex flex-wrap gap-6 mb-12 sm:mb-16 md:mb-20">
               <span
-                className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
+                className="px-6 py-3 text-sm font-bold uppercase tracking-wider"
                 style={{ backgroundColor: "#CD535A", fontFamily: "Bungee, Arial Black, sans-serif" }}
               >
                 UX Research
               </span>
               <span
-                className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
+                className="px-6 py-3 text-sm font-bold uppercase tracking-wider"
                 style={{ backgroundColor: "#4A90E2", fontFamily: "Bungee, Arial Black, sans-serif" }}
               >
                 Product Strategy
               </span>
               <span
-                className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
+                className="px-6 py-3 text-sm font-bold uppercase tracking-wider"
                 style={{ backgroundColor: "#7ED321", fontFamily: "Bungee, Arial Black, sans-serif" }}
               >
                 Business Impact
               </span>
               <span
-                className="px-4 py-2 text-sm font-bold uppercase tracking-wider"
+                className="px-6 py-3 text-sm font-bold uppercase tracking-wider"
                 style={{ backgroundColor: "#F5A623", fontFamily: "Bungee, Arial Black, sans-serif" }}
               >
                 Case Study
@@ -92,19 +92,19 @@ export default function GrammarlyGOCaseStudy() {
 
       {/* Background Section */}
       <motion.section
-        className="px-4 sm:px-8 md:px-16 py-12 sm:py-20"
+        className="px-4 sm:px-8 md:px-16 py-20 sm:py-32 md:py-40"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <div className="max-w-none">
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-16 sm:mb-20 md:mb-24"
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
             BACKGROUND
           </h2>
-          <div className="space-y-8 sm:space-y-12">
+          <div className="space-y-16 sm:space-y-20 md:space-y-24">
             <p
               className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
               style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -117,9 +117,9 @@ export default function GrammarlyGOCaseStudy() {
             >
               Despite high brand trust and broad distribution, GrammarlyGO suffers from low re-engagement:
             </p>
-            <div className="grid md:grid-cols-3 gap-8 sm:gap-12">
-              <div className="space-y-4">
-                <div className="text-4xl sm:text-5xl font-black text-red-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>60%</div>
+            <div className="grid md:grid-cols-3 gap-12 sm:gap-16 md:gap-20">
+              <div className="space-y-6">
+                <div className="text-4xl sm:text-5xl font-black text-red-400 mb-6" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>60%</div>
                 <p
                   className="text-gray-400 leading-relaxed text-lg font-light"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -127,8 +127,8 @@ export default function GrammarlyGOCaseStudy() {
                   of users try GrammarlyGO once but do not return in the next 7 days
                 </p>
               </div>
-              <div className="space-y-4">
-                <div className="text-4xl sm:text-5xl font-black text-yellow-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>25%</div>
+              <div className="space-y-6">
+                <div className="text-4xl sm:text-5xl font-black text-yellow-400 mb-6" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>25%</div>
                 <p
                   className="text-gray-400 leading-relaxed text-lg font-light"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -136,8 +136,8 @@ export default function GrammarlyGOCaseStudy() {
                   premium users show only slightly higher engagement than free users
                 </p>
               </div>
-              <div className="space-y-4">
-                <div className="text-4xl sm:text-5xl font-black text-blue-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>High</div>
+              <div className="space-y-6">
+                <div className="text-4xl sm:text-5xl font-black text-blue-400 mb-6" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>High</div>
                 <p
                   className="text-gray-400 leading-relaxed text-lg font-light"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -146,20 +146,20 @@ export default function GrammarlyGOCaseStudy() {
                 </p>
               </div>
             </div>
-            <div className="bg-gray-800/50 rounded-lg p-6 sm:p-8">
+            <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
               <h3
-                className="text-xl sm:text-2xl font-light text-white mb-4"
+                className="text-xl sm:text-2xl font-light text-white mb-8"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Your Role
               </h3>
               <p
-                className="text-gray-400 leading-relaxed text-lg font-light"
+                className="text-gray-400 leading-relaxed text-lg font-light mb-8"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 As a UX Designer working directly with the GrammarlyGO product team, you are tasked with understanding:
               </p>
-              <ul className="mt-4 space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
+              <ul className="space-y-4 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
                 <li className="text-lg">• Why new users disengage after first use</li>
                 <li className="text-lg">• What's missing in the current onboarding or interaction model</li>
                 <li className="text-lg">• What keeps some users returning and others not</li>
@@ -172,20 +172,20 @@ export default function GrammarlyGOCaseStudy() {
 
       {/* Problem Framing Section */}
       <motion.section
-        className="px-4 sm:px-8 md:px-16 py-12 sm:py-20"
+        className="px-4 sm:px-8 md:px-16 py-20 sm:py-32 md:py-40"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <div className="max-w-none">
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-16 sm:mb-20 md:mb-24"
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
             PROBLEM FRAMING
           </h2>
-          <div className="space-y-16 sm:space-y-20">
-            <div className="space-y-8">
+          <div className="space-y-20 sm:space-y-24 md:space-y-32">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -206,14 +206,14 @@ export default function GrammarlyGOCaseStudy() {
               </p>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Identify Priority Segments: Who should this research focus on?
               </h3>
-              <div className="grid md:grid-cols-3 gap-8 sm:gap-12">
+              <div className="grid md:grid-cols-3 gap-12 sm:gap-16 md:gap-20">
                 <div className="space-y-4">
                   <div className="text-4xl sm:text-5xl font-black text-red-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>60%</div>
                   <p
@@ -244,7 +244,7 @@ export default function GrammarlyGOCaseStudy() {
               </div>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -252,7 +252,7 @@ export default function GrammarlyGOCaseStudy() {
                 Define Hypotheses: What do you suspect is happening and why?
               </h3>
               <div className="space-y-6">
-                <div className="bg-gray-800/50 rounded-lg p-6">
+                <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                   <h4
                     className="text-lg font-light text-white mb-3"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -266,7 +266,7 @@ export default function GrammarlyGOCaseStudy() {
                     I suspect GrammarlyGO is too similar to Grammarly, users do not see a difference between the two and do not see a reason to engage with GrammarlyGO
                   </p>
                 </div>
-                <div className="bg-gray-800/50 rounded-lg p-6">
+                <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                   <h4
                     className="text-lg font-light text-white mb-3"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -280,7 +280,7 @@ export default function GrammarlyGOCaseStudy() {
                     I suspect that GrammarlyGO has too much user friction, the process of using the features takes too long for the user to use it seamlessly
                   </p>
                 </div>
-                <div className="bg-gray-800/50 rounded-lg p-6">
+                <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                   <h4
                     className="text-lg font-light text-white mb-3"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -297,7 +297,7 @@ export default function GrammarlyGOCaseStudy() {
               </div>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -317,28 +317,28 @@ export default function GrammarlyGOCaseStudy() {
 
       {/* Business Impact Analysis Section */}
       <motion.section
-        className="px-4 sm:px-8 md:px-16 py-12 sm:py-20"
+        className="px-4 sm:px-8 md:px-16 py-20 sm:py-32 md:py-40"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <div className="max-w-none">
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-16 sm:mb-20 md:mb-24"
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
             BUSINESS IMPACT
           </h2>
-          <div className="space-y-16 sm:space-y-20">
+          <div className="space-y-20 sm:space-y-24 md:space-y-32">
             {/* CAC Calculation */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Customer Acquisition Cost (CAC)
               </h3>
-              <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
+              <div className="grid md:grid-cols-2 gap-12 sm:gap-16 md:gap-20">
                 <div className="space-y-4">
                   <h4
                     className="text-xl font-light text-gray-300"
@@ -368,14 +368,14 @@ export default function GrammarlyGOCaseStudy() {
             </div>
 
             {/* LTV Calculation */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Lifetime Value (LTV)
               </h3>
-              <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
+              <div className="grid md:grid-cols-2 gap-12 sm:gap-16 md:gap-20">
                 <div className="space-y-4">
                   <ul className="space-y-3 text-gray-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
                     <li className="text-lg">• Grammarly Premium subscription: $12/month = $144/year</li>
@@ -398,7 +398,7 @@ export default function GrammarlyGOCaseStudy() {
             </div>
 
             {/* Impact of Disengagement */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -419,7 +419,7 @@ export default function GrammarlyGOCaseStudy() {
                 </ul>
               </div>
               
-              <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
+              <div className="grid md:grid-cols-2 gap-12 sm:gap-16 md:gap-20">
                 <div className="space-y-4">
                   <h4
                     className="text-xl font-light text-green-400"
@@ -463,20 +463,20 @@ export default function GrammarlyGOCaseStudy() {
 
       {/* Research Methodology Section */}
       <motion.section
-        className="px-4 sm:px-8 md:px-16 py-12 sm:py-20"
+        className="px-4 sm:px-8 md:px-16 py-20 sm:py-32 md:py-40"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8, duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <div className="max-w-none">
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-16 sm:mb-20 md:mb-24"
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
             RESEARCH METHODOLOGY
           </h2>
-          <div className="space-y-16 sm:space-y-20">
-            <div className="space-y-8">
+          <div className="space-y-20 sm:space-y-24 md:space-y-32">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -491,16 +491,16 @@ export default function GrammarlyGOCaseStudy() {
               </p>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Methods Selected
               </h3>
-              <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
+              <div className="grid md:grid-cols-2 gap-12 sm:gap-16 md:gap-20">
                 <div className="space-y-6">
-                  <div className="bg-gray-800/50 rounded-lg p-6">
+                  <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                     <h4
                       className="text-lg font-light text-white mb-3"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -515,7 +515,7 @@ export default function GrammarlyGOCaseStudy() {
                       <span className="font-bold text-blue-400">Goal:</span> Understand user behavior at scale — identify drop-offs and usage patterns
                     </p>
                   </div>
-                  <div className="bg-gray-800/50 rounded-lg p-6">
+                  <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                     <h4
                       className="text-lg font-light text-white mb-3"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -532,7 +532,7 @@ export default function GrammarlyGOCaseStudy() {
                   </div>
                 </div>
                 <div className="space-y-6">
-                  <div className="bg-gray-800/50 rounded-lg p-6">
+                  <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                     <h4
                       className="text-lg font-light text-white mb-3"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -547,7 +547,7 @@ export default function GrammarlyGOCaseStudy() {
                       <span className="font-bold text-purple-400">Goal:</span> Explore expectations, mental models, motivations, and trust
                     </p>
                   </div>
-                  <div className="bg-gray-800/50 rounded-lg p-6">
+                  <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                     <h4
                       className="text-lg font-light text-white mb-3"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -566,7 +566,7 @@ export default function GrammarlyGOCaseStudy() {
               </div>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -620,7 +620,7 @@ export default function GrammarlyGOCaseStudy() {
                   </p>
                 </div>
               </div>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -640,21 +640,21 @@ export default function GrammarlyGOCaseStudy() {
 
       {/* Research Results Section */}
       <motion.section
-        className="px-4 sm:px-8 md:px-16 py-12 sm:py-20"
+        className="px-4 sm:px-8 md:px-16 py-20 sm:py-32 md:py-40"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.0, duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <div className="max-w-none">
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-16 sm:mb-20 md:mb-24"
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
             RESEARCH RESULTS
           </h2>
-          <div className="space-y-16 sm:space-y-20">
+          <div className="space-y-20 sm:space-y-24 md:space-y-32">
             {/* Product Analytics */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -667,7 +667,7 @@ export default function GrammarlyGOCaseStudy() {
               >
                 Funnel: GrammarlyGO Usage – First 14 Days
               </h4>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Clicked "GrammarlyGO" button</span>
@@ -691,7 +691,7 @@ export default function GrammarlyGOCaseStudy() {
                   </div>
                 </div>
               </div>
-              <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
+              <div className="grid md:grid-cols-2 gap-12 sm:gap-16 md:gap-20">
                 <div className="space-y-4">
                   <h4
                     className="text-lg font-light text-white"
@@ -709,14 +709,14 @@ export default function GrammarlyGOCaseStudy() {
             </div>
 
             {/* Usability Testing */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 2. Unmoderated Usability Testing (Maze)
               </h3>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-4"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -742,7 +742,7 @@ export default function GrammarlyGOCaseStudy() {
                   <li className="text-lg">• 4/15 were unsure if their tone setting had any real effect</li>
                 </ul>
               </div>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-4"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -758,14 +758,14 @@ export default function GrammarlyGOCaseStudy() {
             </div>
 
             {/* User Interviews */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 3. User Interviews (10 participants: 6 disengaged, 2 power, 2 churned)
               </h3>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-4"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -792,7 +792,7 @@ export default function GrammarlyGOCaseStudy() {
                   <li className="text-lg">• Churned users switched to ChatGPT for more flexible responses</li>
                 </ul>
               </div>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-4"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -808,16 +808,16 @@ export default function GrammarlyGOCaseStudy() {
             </div>
 
             {/* In-Product Surveys */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 4. In-Product Intercept Survey (Hotjar | n = 342 responses)
               </h3>
-              <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
+              <div className="grid md:grid-cols-2 gap-12 sm:gap-16 md:gap-20">
                 <div className="space-y-6">
-                  <div className="bg-gray-800/50 rounded-lg p-6">
+                  <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                     <h4
                       className="text-lg font-light text-white mb-3"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -831,7 +831,7 @@ export default function GrammarlyGOCaseStudy() {
                       <li className="text-lg">• Not sure / exploring: 8%</li>
                     </ul>
                   </div>
-                  <div className="bg-gray-800/50 rounded-lg p-6">
+                  <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                     <h4
                       className="text-lg font-light text-white mb-3"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -845,7 +845,7 @@ export default function GrammarlyGOCaseStudy() {
                     </ul>
                   </div>
                 </div>
-                <div className="bg-gray-800/50 rounded-lg p-6">
+                <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                   <h4
                     className="text-lg font-light text-white mb-3"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -866,20 +866,20 @@ export default function GrammarlyGOCaseStudy() {
 
       {/* Key Insights Section */}
       <motion.section
-        className="px-4 sm:px-8 md:px-16 py-12 sm:py-20"
+        className="px-4 sm:px-8 md:px-16 py-20 sm:py-32 md:py-40"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <div className="max-w-none">
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-16 sm:mb-20 md:mb-24"
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
             KEY INSIGHTS
           </h2>
-          <div className="space-y-16 sm:space-y-20">
-            <div className="space-y-8">
+          <div className="space-y-20 sm:space-y-24 md:space-y-32">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -900,7 +900,7 @@ export default function GrammarlyGOCaseStudy() {
               </ul>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -952,21 +952,21 @@ export default function GrammarlyGOCaseStudy() {
 
       {/* Prioritized Problem Areas Section */}
       <motion.section
-        className="px-4 sm:px-8 md:px-16 py-12 sm:py-20"
+        className="px-4 sm:px-8 md:px-16 py-20 sm:py-32 md:py-40"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.4, duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <div className="max-w-none">
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-16 sm:mb-20 md:mb-24"
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
             PRIORITIZED PROBLEM AREAS
           </h2>
-          <div className="space-y-16 sm:space-y-20">
+          <div className="space-y-20 sm:space-y-24 md:space-y-32">
             {/* Problem 1 */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <div className="flex items-center mb-6">
                 <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>High Priority</span>
                 <h3
@@ -982,7 +982,7 @@ export default function GrammarlyGOCaseStudy() {
               >
                 <span className="font-bold text-red-400">Rationale:</span> Prevents expectation mismatch and early churn
               </p>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -999,7 +999,7 @@ export default function GrammarlyGOCaseStudy() {
             </div>
 
             {/* Problem 2 */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <div className="flex items-center mb-6">
                 <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>High Priority</span>
                 <h3
@@ -1015,7 +1015,7 @@ export default function GrammarlyGOCaseStudy() {
               >
                 <span className="font-bold text-red-400">Rationale:</span> Makes usage frictionless and increases re-engagement
               </p>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1032,7 +1032,7 @@ export default function GrammarlyGOCaseStudy() {
             </div>
 
             {/* Problem 3 */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <div className="flex items-center mb-6">
                 <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>Medium Priority</span>
                 <h3
@@ -1048,7 +1048,7 @@ export default function GrammarlyGOCaseStudy() {
               >
                 <span className="font-bold text-yellow-400">Rationale:</span> Empowers users with control without added complexity
               </p>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1064,7 +1064,7 @@ export default function GrammarlyGOCaseStudy() {
             </div>
 
             {/* Problem 4 */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <div className="flex items-center mb-6">
                 <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>Medium Priority</span>
                 <h3
@@ -1080,7 +1080,7 @@ export default function GrammarlyGOCaseStudy() {
               >
                 <span className="font-bold text-yellow-400">Rationale:</span> Aligns tool suggestions to user intent
               </p>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1100,21 +1100,21 @@ export default function GrammarlyGOCaseStudy() {
 
       {/* Solutions Section */}
       <motion.section
-        className="px-4 sm:px-8 md:px-16 py-12 sm:py-20"
+        className="px-4 sm:px-8 md:px-16 py-20 sm:py-32 md:py-40"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.6, duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <div className="max-w-none">
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-16 sm:mb-20 md:mb-24"
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
             SOLUTIONS
           </h2>
-          <div className="space-y-16 sm:space-y-20">
+          <div className="space-y-20 sm:space-y-24 md:space-y-32">
             {/* Solution 1 */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1127,7 +1127,7 @@ export default function GrammarlyGOCaseStudy() {
               >
                 Instead of onboarding screens, trigger GrammarlyGO at moments of struggle. Use ML to detect hesitation, backspacing, or long idle time. Offer GrammarlyGO with contextual suggestions based on what the user is writing.
               </p>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1139,7 +1139,7 @@ export default function GrammarlyGOCaseStudy() {
                   <li className="text-lg">• Ties AI to solving an immediate pain point, which builds trust.</li>
                 </ul>
               </div>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1153,7 +1153,7 @@ export default function GrammarlyGOCaseStudy() {
             </div>
 
             {/* Solution 2 */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1166,7 +1166,7 @@ export default function GrammarlyGOCaseStudy() {
               >
                 Show GrammarlyGO's draft evolving in real time with a "why we chose this" explanation. Let users preview multiple tones or structures without rerunning prompts. Display output as a "guided draft," not a black-box result.
               </p>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1178,7 +1178,7 @@ export default function GrammarlyGOCaseStudy() {
                   <li className="text-lg">• Mimics how tools like GitHub Copilot and ChatGPT let users feel more involved.</li>
                 </ul>
               </div>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1193,7 +1193,7 @@ export default function GrammarlyGOCaseStudy() {
             </div>
 
             {/* Solution 3 */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1206,7 +1206,7 @@ export default function GrammarlyGOCaseStudy() {
               >
                 Instead of just rewriting, offer an optional GrammarlyGO side editor. Users can write a rough draft, toggle a GrammarlyGO editor view, and see enhanced versions or paragraph-level suggestions.
               </p>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1218,7 +1218,7 @@ export default function GrammarlyGOCaseStudy() {
                   <li className="text-lg">• Helps with long-form content where users want help structuring or revising.</li>
                 </ul>
               </div>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1233,7 +1233,7 @@ export default function GrammarlyGOCaseStudy() {
             </div>
 
             {/* Solution 4 */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1246,7 +1246,7 @@ export default function GrammarlyGOCaseStudy() {
               >
                 Offer AI-first document templates for common use cases. Email, outreach, follow-up, project summary. Prompted with a short form like: Who is this for? What's your message?
               </p>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1258,7 +1258,7 @@ export default function GrammarlyGOCaseStudy() {
                   <li className="text-lg">• Tailors output based on input, which avoids generic results</li>
                 </ul>
               </div>
-              <div className="bg-gray-800/50 rounded-lg p-6">
+              <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1277,20 +1277,20 @@ export default function GrammarlyGOCaseStudy() {
 
       {/* Expected Impact Section */}
       <motion.section
-        className="px-4 sm:px-8 md:px-16 py-12 sm:py-20"
+        className="px-4 sm:px-8 md:px-16 py-20 sm:py-32 md:py-40"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.8, duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <div className="max-w-none">
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-16 sm:mb-20 md:mb-24"
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
             EXPECTED IMPACT
           </h2>
-          <div className="space-y-16 sm:space-y-20">
-            <div className="space-y-8">
+          <div className="space-y-20 sm:space-y-24 md:space-y-32">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1328,7 +1328,7 @@ export default function GrammarlyGOCaseStudy() {
               </div>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-12">
               <h3
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
                 style={{ fontFamily: "Montserrat, sans-serif" }}

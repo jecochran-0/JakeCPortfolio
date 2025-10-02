@@ -64,7 +64,6 @@ export default function Hero() {
   const mobileParallaxFar = useTransform(scrollY, [0, 500], [0, -100]);
   const mobileParallaxMid = useTransform(scrollY, [0, 500], [0, -200]);
   const mobileParallaxNear = useTransform(scrollY, [0, 500], [0, -300]);
-  const mobileParallaxShapes = useTransform(scrollY, [0, 500], [0, -400]);
 
   // Optimized typing animation with useCallback
   const updateTypingAnimation = useCallback(() => {
@@ -201,40 +200,6 @@ export default function Hero() {
     };
   }, [updateTypingAnimation]);
 
-  // Memoize pattern shapes to avoid recomputation on every re-render
-  const patternShapes = useMemo(() => {
-    if (isMobile) return [];
-    const count = 6;
-    return Array.from({ length: count }).map((_, idx) => {
-      const left = Math.random() * 100;
-      const top = Math.random() * 100;
-      const w = Math.random() * 100 + 30;
-      const h = Math.random() * 100 + 30;
-      const rotate = Math.random() * 360;
-      const xDrift = Math.random() * 20 - 10;
-      const yDrift = Math.random() * 15 - 7.5;
-      const colorIdx = idx % 4;
-      const colorClass =
-        colorIdx === 0
-          ? "bg-white/25"
-          : colorIdx === 1
-          ? "bg-white/45"
-          : colorIdx === 2
-          ? "bg-white/15"
-          : "bg-white/35";
-      return {
-        id: `pat-${idx}-${left.toFixed(2)}-${top.toFixed(2)}`,
-        left,
-        top,
-        w,
-        h,
-        rotate,
-        xDrift,
-        yDrift,
-        colorClass,
-      };
-    });
-  }, [isMobile]);
 
   if (!mounted) {
     return (
@@ -341,97 +306,14 @@ export default function Hero() {
               }}
             />
 
-            {/* Geometric Shapes Layer - Fastest Scroll Speed */}
-            <motion.div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                willChange: "transform",
-                transform: "translateZ(0)",
-                y: mobileParallaxShapes,
-              }}
-            >
-              {/* Top-left geometric shape */}
-              <div className="absolute top-20 left-10 w-16 h-16 border-2 border-orange-400/20 rotate-45" />
-              <div className="absolute top-24 left-16 w-8 h-8 bg-orange-400/10 border border-orange-400/30" />
-
-              {/* Top-right geometric shape */}
-              <div className="absolute top-16 right-16 w-12 h-12 border-2 border-cyan-400/20 -rotate-12" />
-              <div className="absolute top-20 right-20 w-6 h-6 bg-cyan-400/10 border border-cyan-400/30" />
-
-              {/* Bottom-left geometric shape */}
-              <div className="absolute bottom-24 left-20 w-10 h-10 border-2 border-blue-400/20 rotate-30" />
-              <div className="absolute bottom-28 left-24 w-5 h-5 bg-blue-400/10 border border-blue-400/30" />
-
-              {/* Bottom-right geometric shape */}
-              <div className="absolute bottom-20 right-12 w-14 h-14 border-2 border-green-400/20 -rotate-45" />
-              <div className="absolute bottom-24 right-16 w-7 h-7 bg-green-400/10 border border-green-400/30" />
-            </motion.div>
           </>
         )}
 
-        {/* Brutalist Pattern Overlay - desktop only and memoized */}
-        {!isMobile && (
-          <div className="absolute inset-0 opacity-15 brutalist-pattern-overlay">
-            <div className="absolute top-0 left-0 w-full h-full">
-              {patternShapes.map((shape) => (
-                <motion.div
-                  key={shape.id}
-                  className={`absolute ${shape.colorClass}`}
-                  style={{
-                    left: `${shape.left}%`,
-                    top: `${shape.top}%`,
-                    width: `${shape.w}px`,
-                    height: `${shape.h}px`,
-                    transform: `rotate(${shape.rotate}deg) translateZ(0)`,
-                    willChange: "transform, opacity",
-                    zIndex: 1,
-                  }}
-                  animate={{
-                    rotate: [0, 180, 360],
-                    scale: [1, 1.08, 1],
-                    opacity: [0.2, 0.6, 0.2],
-                    x: [0, shape.xDrift, 0],
-                    y: [0, shape.yDrift, 0],
-                  }}
-                  transition={{
-                    duration: 12 + (parseFloat(shape.left) % 6),
-                    repeat: Infinity,
-                    ease: "linear",
-                    delay: (parseFloat(shape.top) % 3) * 0.2,
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Hero Content - Mobile Optimized Layout with Performance */}
       {isMobile ? (
         <div className="absolute inset-0 flex flex-col justify-center items-center z-10 px-4 py-4">
-          {/* Floating Elements - Enhanced for Mobile */}
-          <div className="absolute inset-0 pointer-events-none">
-            {/* Red dot - prominent accent */}
-            <div className="absolute top-16 right-16 w-5 h-5 bg-red-500 rounded-full opacity-80" />
-
-            {/* Enhanced floating shapes for mobile */}
-            {[...Array(5)].map((_, i) => (
-              <div
-                key={`mobile-shape-${i}`}
-                className={`absolute ${
-                  i % 3 === 0
-                    ? "bg-white/60 w-3 h-3 rounded-full"
-                    : i % 3 === 1
-                    ? "bg-orange-300/50 w-2 h-2 rounded-sm"
-                    : "bg-teal-300/40 w-4 h-4 rounded-full"
-                }`}
-                style={{
-                  left: `${20 + ((i * 25) % 60)}%`,
-                  top: `${25 + ((i * 20) % 50)}%`,
-                }}
-              />
-            ))}
-          </div>
 
           {/* Main Content - Elite Mobile Spacing */}
           <div className="text-center w-full max-w-sm space-y-6">
@@ -536,9 +418,6 @@ export default function Hero() {
 
             {/* Quote Section - Elite Mobile Spacing */}
             <div className="text-center space-y-4 mt-8">
-              {/* Accent Dot - Elite Spacing */}
-              <div className="w-4 h-4 bg-red-500 rounded-full mx-auto" />
-
               {/* Quote - Elite Typography Spacing */}
               <blockquote className="text-white text-base leading-relaxed max-w-sm mx-auto font-medium">
                 If I had an hour to solve a problem I&apos;d spend 55 minutes
@@ -815,140 +694,7 @@ export default function Hero() {
         </div>
       )}
 
-      {/* Mobile-specific animated elements for visual interest - positioned within safe bounds */}
-      {isMobile && (
-        <div className="absolute inset-0 pointer-events-none mobile-animated-elements">
-          {/* Mobile floating shapes - positioned within safe mobile bounds */}
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={`mobile-${i}`}
-              className={`absolute rounded-full ${
-                i % 3 === 0
-                  ? "w-2 h-2 bg-white/60"
-                  : i % 3 === 1
-                  ? "w-1.5 h-1.5 bg-white/80"
-                  : "w-3 h-3 bg-white/40"
-              }`}
-              style={{
-                left: `${10 + ((i * 15) % 80)}%`,
-                top: `${15 + ((i * 20) % 70)}%`,
-                willChange: "transform, opacity",
-                transform: "translateZ(0)",
-                zIndex: (i % 2) + 1,
-              }}
-              animate={{
-                y: [0, -15, 0],
-                x: [0, (i % 3) - 1, 0],
-                opacity: [0.3, 0.8, 0.3],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                duration: 8 + (i % 4),
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: (i % 2) * 0.5,
-              }}
-            />
-          ))}
 
-          {/* Mobile accent lines - positioned within safe mobile bounds */}
-          {[...Array(4)].map((_, i) => (
-            <motion.div
-              key={`mobile-line-${i}`}
-              className="absolute bg-white/30"
-              style={{
-                left: `${15 + ((i * 20) % 70)}%`,
-                top: `${20 + (i % 3) * 15}%`,
-                width: `${15 + (i % 2) * 8}px`,
-                height: "1px",
-                willChange: "transform, opacity",
-                transform: "translateZ(0)",
-                zIndex: 1,
-              }}
-              animate={{
-                opacity: [0.2, 0.6, 0.2],
-                scaleX: [0.8, 1.2, 0.8],
-                rotate: [0, 3, 0],
-              }}
-              transition={{
-                duration: 6 + (i % 3),
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: (i % 2) * 0.8,
-              }}
-            />
-          ))}
-
-          {/* Mobile geometric accents - positioned within safe mobile bounds */}
-          {[...Array(3)].map((_, i) => (
-            <motion.div
-              key={`mobile-geo-${i}`}
-              className={`absolute border border-white/40 ${
-                i % 2 === 0 ? "rounded-sm" : "rounded-full"
-              }`}
-              style={{
-                left: `${20 + ((i * 25) % 60)}%`,
-                top: `${25 + ((i * 20) % 55)}%`,
-                width: `${8 + (i % 2) * 6}px`,
-                height: `${8 + (i % 2) * 6}px`,
-                willChange: "transform, opacity",
-                transform: "translateZ(0)",
-                zIndex: 1,
-              }}
-              animate={{
-                opacity: [0.3, 0.7, 0.3],
-                scale: [0.9, 1.1, 0.9],
-                rotate: [0, 90, 180, 270],
-              }}
-              transition={{
-                duration: 10 + (i % 4),
-                repeat: Infinity,
-                ease: "linear",
-                delay: (i % 3) * 1.2,
-              }}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* Floating elements - desktop only */}
-      {!isMobile && (
-        <div className="absolute inset-0 pointer-events-none floating-elements">
-          {[...Array(5)].map((_, i) => (
-            <motion.div
-              key={i}
-              className={`absolute rounded-full ${
-                i % 4 === 0
-                  ? "w-4 h-4 sm:w-5 sm:h-5 bg-white/50"
-                  : i % 4 === 1
-                  ? "w-2 h-2 sm:w-3 sm:h-3 bg-white/70"
-                  : i % 4 === 2
-                  ? "w-5 h-5 sm:w-6 sm:h-6 bg-white/30"
-                  : "w-3 h-3 sm:w-4 sm:h-4 bg-white/40"
-              }`}
-              style={{
-                left: `${(i * 17) % 100}%`,
-                top: `${(i * 29) % 100}%`,
-                willChange: "transform, opacity",
-                transform: "translateZ(0)",
-                zIndex: (i % 3) + 1,
-              }}
-              animate={{
-                y: [0, -30, 0],
-                x: [0, (i % 5) - 2, 0],
-                opacity: [0.2, 0.9, 0.2],
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: 12 + (i % 6),
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: (parseFloat(i) % 3) * 0.2,
-              }}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 }

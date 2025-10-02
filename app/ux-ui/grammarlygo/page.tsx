@@ -139,13 +139,6 @@ export default function GrammarlyGOCaseStudy() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6">
           <MagneticLink
-            href="/"
-            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            ariaLabel="Go to homepage"
-          >
-            HOME
-          </MagneticLink>
-          <MagneticLink
             href="/about"
             className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
             ariaLabel="Go to about page"
@@ -158,13 +151,6 @@ export default function GrammarlyGOCaseStudy() {
             ariaLabel="Go to skills page"
           >
             SKILLS
-          </MagneticLink>
-          <MagneticLink
-            href="/ux-ui"
-            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            ariaLabel="Go to UX/UI page"
-          >
-            UX/UI
           </MagneticLink>
           <MagneticLink
             href="/contact"
@@ -217,16 +203,6 @@ export default function GrammarlyGOCaseStudy() {
           {/* Navigation Links */}
           <div className="flex flex-col space-y-8">
             <motion.a
-              href="/"
-              className="text-white text-4xl font-black tracking-wider uppercase"
-              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-              onClick={() => setIsMobileMenuOpen(false)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              HOME
-            </motion.a>
-            <motion.a
               href="/about"
               className="text-white text-4xl font-black tracking-wider uppercase"
               style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
@@ -245,16 +221,6 @@ export default function GrammarlyGOCaseStudy() {
               whileTap={{ scale: 0.95 }}
             >
               SKILLS
-            </motion.a>
-            <motion.a
-              href="/ux-ui"
-              className="text-white text-4xl font-black tracking-wider uppercase"
-              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-              onClick={() => setIsMobileMenuOpen(false)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              UX/UI
             </motion.a>
           </div>
         </div>

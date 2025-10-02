@@ -397,17 +397,17 @@ export default function AboutPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12">
                 {[
                   {
-                    icon: "🎨",
+                    icon: "design",
                     title: "Design Sensibility",
                     description: "I approach problems with a designer's eye, focusing on user needs and creating intuitive interfaces.",
                   },
                   {
-                    icon: "💻",
+                    icon: "development",
                     title: "Developer Mindset",
                     description: "I can communicate in the technical world, making my UX process more efficient from the start, and I can also be the one to develop my designs.",
                   },
                   {
-                    icon: "🚀",
+                    icon: "problem-solving",
                     title: "Problem Solver",
                     description: "I thrive on challenges and finding elegant solutions to complex problems.",
                   },
@@ -421,8 +421,22 @@ export default function AboutPage() {
                     transition={{ delay: index * 0.2, duration: 0.6 }}
                     whileHover={{ y: -5 }}
                   >
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-6 sm:mb-8 text-2xl sm:text-3xl" style={{ backgroundColor: "#CD535A" }}>
-                      {skill.icon}
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-6 sm:mb-8" style={{ backgroundColor: "#CD535A" }}>
+                      {skill.icon === "design" && (
+                        <svg className="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
+                        </svg>
+                      )}
+                      {skill.icon === "development" && (
+                        <svg className="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                      )}
+                      {skill.icon === "problem-solving" && (
+                        <svg className="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                      )}
                     </div>
                     <h3 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-white tracking-tight" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
                       {skill.title}

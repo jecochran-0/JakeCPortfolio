@@ -2,8 +2,43 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { FaBars, FaTimes } from "react-icons/fa";
+
+// Magnetic Link Component for Navigation
+const MagneticLink = ({
+  children,
+  href,
+  className = "",
+  ariaLabel,
+}: {
+  children: React.ReactNode;
+  href: string;
+  className?: string;
+  ariaLabel?: string;
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  return (
+    <motion.a
+      href={href}
+      className={className}
+      aria-label={ariaLabel}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+    >
+      {children}
+    </motion.a>
+  );
+};
 
 export default function GrammarlyGOCaseStudy() {
   const [mounted, setMounted] = useState(false);
@@ -13,15 +48,9 @@ export default function GrammarlyGOCaseStudy() {
     setMounted(true);
   }, []);
 
-  // Close mobile menu on route change
+  // Close mobile menu when route changes
   useEffect(() => {
-    const handleRouteChange = () => {
-      setIsMobileMenuOpen(false);
-    };
-
-    // Listen for route changes
-    window.addEventListener('beforeunload', handleRouteChange);
-    return () => window.removeEventListener('beforeunload', handleRouteChange);
+    setIsMobileMenuOpen(false);
   }, []);
 
   if (!mounted) {
@@ -40,141 +69,193 @@ export default function GrammarlyGOCaseStudy() {
       className="min-h-screen"
       style={{ backgroundColor: "#171717" }}
     >
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 md:px-16 py-4 sm:py-6">
-        <div className="flex items-center justify-between">
-          {/* Brand */}
-          <Link href="/" className="flex items-center">
-            <motion.div
-              className="px-3 py-2 sm:px-6 sm:py-3 border-2 border-white text-white font-black text-sm sm:text-xl tracking-wider uppercase"
+      {/* Top Left Branding */}
+      <motion.div
+        className="absolute top-4 left-4 sm:top-8 sm:left-8 z-20"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      >
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a href="/">
+          <motion.div
+            className="px-3 py-2 sm:px-6 sm:py-3 rounded-lg cursor-pointer"
+            style={{ backgroundColor: "#B4323B" }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <span
+              className="text-white font-black text-sm sm:text-xl tracking-wider uppercase"
               style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
-              JAKE COCHRAN
-            </motion.div>
-          </Link>
+              Jake Cochran
+            </span>
+          </motion.div>
+        </a>
+      </motion.div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden sm:flex items-center space-x-8 md:space-x-12">
-            <Link href="/about">
-              <motion.span
-                className="text-white font-medium text-lg md:text-xl tracking-wide"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                ABOUT
-              </motion.span>
-            </Link>
-            <Link href="/dev">
-              <motion.span
-                className="text-white font-medium text-lg md:text-xl tracking-wide"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                WORK
-              </motion.span>
-            </Link>
-            <Link href="/skills">
-              <motion.span
-                className="text-white font-medium text-lg md:text-xl tracking-wide"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                SKILLS
-              </motion.span>
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="sm:hidden text-white text-2xl"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle mobile menu"
+      {/* Mobile Menu Button */}
+      <motion.div
+        className="absolute top-4 right-4 sm:top-8 sm:right-8 z-30"
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      >
+        {/* Mobile Menu Button */}
+        <motion.button
+          className="md:hidden w-12 h-12 rounded-full border border-white/30 flex items-center justify-center"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Toggle mobile menu"
+        >
+          <motion.div
+            className="w-6 h-6 flex flex-col justify-center items-center"
+            animate={{ rotate: isMobileMenuOpen ? 45 : 0 }}
           >
             <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
-            </motion.div>
-          </button>
+              className="w-4 h-0.5 bg-white mb-1"
+              animate={{
+                rotate: isMobileMenuOpen ? 45 : 0,
+                y: isMobileMenuOpen ? 6 : 0,
+              }}
+            />
+            <motion.div
+              className="w-4 h-0.5 bg-white"
+              animate={{
+                opacity: isMobileMenuOpen ? 0 : 1,
+              }}
+            />
+            <motion.div
+              className="w-4 h-0.5 bg-white mt-1"
+              animate={{
+                rotate: isMobileMenuOpen ? -45 : 0,
+                y: isMobileMenuOpen ? -6 : 0,
+              }}
+            />
+          </motion.div>
+        </motion.button>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center space-x-6">
+          <MagneticLink
+            href="/"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            ariaLabel="Go to homepage"
+          >
+            HOME
+          </MagneticLink>
+          <MagneticLink
+            href="/about"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            ariaLabel="Go to about page"
+          >
+            ABOUT
+          </MagneticLink>
+          <MagneticLink
+            href="/skills"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            ariaLabel="Go to skills page"
+          >
+            SKILLS
+          </MagneticLink>
+          <MagneticLink
+            href="/ux-ui"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            ariaLabel="Go to UX/UI page"
+          >
+            UX/UI
+          </MagneticLink>
+          <MagneticLink
+            href="/contact"
+            className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
+            ariaLabel="Go to contact page"
+          >
+            WORK
+          </MagneticLink>
         </div>
-      </nav>
+      </motion.div>
 
       {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <motion.div
-          className="fixed inset-0 bg-black/80 z-40 sm:hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
-      )}
+      <motion.div
+        className="fixed inset-0 z-20 md:hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isMobileMenuOpen ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+        style={{
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          pointerEvents: isMobileMenuOpen ? "auto" : "none",
+        }}
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
 
       {/* Mobile Menu Slide-out */}
       <motion.div
-        className={`fixed top-0 right-0 h-full w-80 bg-gray-900 z-50 sm:hidden ${
-          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-        initial={{ x: '100%' }}
-        animate={{ x: isMobileMenuOpen ? 0 : '100%' }}
-        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+        className="fixed top-0 right-0 h-full w-80 max-w-[85vw] z-30 md:hidden"
+        style={{ backgroundColor: "#171717" }}
+        initial={{ x: "100%" }}
+        animate={{ x: isMobileMenuOpen ? "0%" : "100%" }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
-        <div className="flex flex-col h-full">
-          {/* Mobile Menu Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-700">
-            <span
-              className="text-white font-black text-lg tracking-wider uppercase"
-              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-            >
-              MENU
-            </span>
-            <button
+        <div className="flex flex-col h-full p-8">
+          {/* Close button */}
+          <div className="flex justify-end mb-12">
+            <motion.button
+              className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-white text-xl"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               aria-label="Close mobile menu"
             >
-              <FaTimes />
-            </button>
+              <div className="w-4 h-4 flex flex-col justify-center items-center">
+                <div className="w-4 h-0.5 bg-white rotate-45" />
+                <div className="w-4 h-0.5 bg-white -rotate-45 -mt-0.5" />
+              </div>
+            </motion.button>
           </div>
 
-          {/* Mobile Menu Links */}
-          <div className="flex-1 flex flex-col justify-center px-6 space-y-8">
-            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)}>
-              <motion.a
-                className="text-white text-4xl font-black tracking-wider uppercase block"
-                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                ABOUT
-              </motion.a>
-            </Link>
-            <Link href="/dev" onClick={() => setIsMobileMenuOpen(false)}>
-              <motion.a
-                className="text-white text-4xl font-black tracking-wider uppercase block"
-                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                WORK
-              </motion.a>
-            </Link>
-            <Link href="/skills" onClick={() => setIsMobileMenuOpen(false)}>
-              <motion.a
-                className="text-white text-4xl font-black tracking-wider uppercase block"
-                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                SKILLS
-              </motion.a>
-            </Link>
+          {/* Navigation Links */}
+          <div className="flex flex-col space-y-8">
+            <motion.a
+              href="/"
+              className="text-white text-4xl font-black tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              HOME
+            </motion.a>
+            <motion.a
+              href="/about"
+              className="text-white text-4xl font-black tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              ABOUT
+            </motion.a>
+            <motion.a
+              href="/skills"
+              className="text-white text-4xl font-black tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              SKILLS
+            </motion.a>
+            <motion.a
+              href="/ux-ui"
+              className="text-white text-4xl font-black tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              UX/UI
+            </motion.a>
           </div>
         </div>
       </motion.div>
@@ -188,7 +269,7 @@ export default function GrammarlyGOCaseStudy() {
       >
         <div className="max-w-none mx-auto">
           {/* Main Hero Text */}
-          <motion.div
+            <motion.div
             className="mb-12 sm:mb-16 md:mb-20"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -212,7 +293,7 @@ export default function GrammarlyGOCaseStudy() {
                 style={{ backgroundColor: "#CD535A", fontFamily: "Bungee, Arial Black, sans-serif" }}
               >
                 UX Research
-              </span>
+                </span>
               <span
                 className="px-6 py-3 text-sm font-bold uppercase tracking-wider"
                 style={{ backgroundColor: "#4A90E2", fontFamily: "Bungee, Arial Black, sans-serif" }}
@@ -237,8 +318,8 @@ export default function GrammarlyGOCaseStudy() {
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
               This project simulates a real-world B2C SaaS research challenge and demonstrates the ability to lead a study that bridges AI, usability, and product adoption.
-            </p>
-          </motion.div>
+              </p>
+            </motion.div>
         </div>
       </motion.section>
 
@@ -286,8 +367,8 @@ export default function GrammarlyGOCaseStudy() {
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   premium users show only slightly higher engagement than free users
-                </p>
-              </div>
+                  </p>
+                </div>
               <div className="space-y-6">
                 <div className="text-4xl sm:text-5xl font-black text-blue-400 mb-6" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>High</div>
                 <p
@@ -295,9 +376,9 @@ export default function GrammarlyGOCaseStudy() {
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   confusion about what GrammarlyGO does differently from standard Grammarly
-                </p>
+                  </p>
+                </div>
               </div>
-            </div>
             <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
               <h3
                 className="text-xl sm:text-2xl font-light text-white mb-8"
@@ -317,9 +398,9 @@ export default function GrammarlyGOCaseStudy() {
                 <li className="text-lg">• What keeps some users returning and others not</li>
                 <li className="text-lg">• What changes could make GrammarlyGO feel essential rather than optional</li>
               </ul>
-            </div>
-          </div>
-        </div>
+                    </div>
+                    </div>
+                    </div>
       </motion.section>
 
       {/* Problem Framing Section */}
@@ -356,7 +437,7 @@ export default function GrammarlyGOCaseStudy() {
               >
                 60% of users disengaging after the first use means that the features had too much friction to be worth using, or the features were simply never too useful in the first place. A 60% disengagement rate means lost money through CAC and LTV.
               </p>
-            </div>
+                  </div>
 
             <div className="space-y-12">
               <h3
@@ -374,7 +455,7 @@ export default function GrammarlyGOCaseStudy() {
                   >
                     Users that have used GrammarlyGO once and then disengaged
                   </p>
-                </div>
+                    </div>
                 <div className="space-y-4">
                   <div className="text-4xl sm:text-5xl font-black text-green-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>20%</div>
                   <p
@@ -383,7 +464,7 @@ export default function GrammarlyGOCaseStudy() {
                   >
                     Power users that have used GrammarlyGO for 3 months minimum, and use it daily
                   </p>
-                </div>
+                    </div>
                 <div className="space-y-4">
                   <div className="text-4xl sm:text-5xl font-black text-yellow-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>20%</div>
                   <p
@@ -392,9 +473,9 @@ export default function GrammarlyGOCaseStudy() {
                   >
                     Users that have unsubscribed from GrammarlyGO, and ideally have switched to another competitor
                   </p>
-                </div>
-              </div>
-            </div>
+                    </div>
+                  </div>
+                    </div>
 
             <div className="space-y-12">
               <h3
@@ -417,7 +498,7 @@ export default function GrammarlyGOCaseStudy() {
                   >
                     I suspect GrammarlyGO is too similar to Grammarly, users do not see a difference between the two and do not see a reason to engage with GrammarlyGO
                   </p>
-                </div>
+                    </div>
                 <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                   <h4
                     className="text-lg font-light text-white mb-3"
@@ -431,7 +512,7 @@ export default function GrammarlyGOCaseStudy() {
                   >
                     I suspect that GrammarlyGO has too much user friction, the process of using the features takes too long for the user to use it seamlessly
                   </p>
-                </div>
+                    </div>
                 <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                   <h4
                     className="text-lg font-light text-white mb-3"
@@ -445,9 +526,9 @@ export default function GrammarlyGOCaseStudy() {
                   >
                     I suspect that GrammarlyGO's features are not useful enough, the user would rather opt to keep their writing as is, or take the time to revise it themselves
                   </p>
+                  </div>
                 </div>
               </div>
-            </div>
 
             <div className="space-y-12">
               <h3
@@ -462,9 +543,9 @@ export default function GrammarlyGOCaseStudy() {
               >
                 Understand why new users disengage from GrammarlyGO after first use, what friction exists in the user experience, and what changes would increase return usage.
               </p>
+                  </div>
+                  </div>
             </div>
-          </div>
-        </div>
       </motion.section>
 
       {/* Business Impact Analysis Section */}
@@ -480,7 +561,7 @@ export default function GrammarlyGOCaseStudy() {
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
             BUSINESS IMPACT
-          </h2>
+            </h2>
           <div className="space-y-20 sm:space-y-24 md:space-y-32">
             {/* CAC Calculation */}
             <div className="space-y-12">
@@ -489,7 +570,7 @@ export default function GrammarlyGOCaseStudy() {
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Customer Acquisition Cost (CAC)
-              </h3>
+                </h3>
               <div className="grid md:grid-cols-2 gap-12 sm:gap-16 md:gap-20">
                 <div className="space-y-4">
                   <h4
@@ -504,7 +585,7 @@ export default function GrammarlyGOCaseStudy() {
                     <li className="text-lg">• $500,000 on internal growth team salaries and tools</li>
                     <li className="font-bold text-white text-xl">Total acquisition cost: $3,000,000</li>
                     <li className="text-lg">• New Premium users acquired: 250,000</li>
-                  </ul>
+                </ul>
                 </div>
                 <div className="text-center">
                   <div className="text-6xl sm:text-7xl font-black text-blue-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>$12</div>
@@ -536,7 +617,7 @@ export default function GrammarlyGOCaseStudy() {
                     <li className="text-lg">• Assuming 80% profit margin after operational costs</li>
                     <li className="font-bold text-white text-xl">LTV = $216 × 0.8 = $172.80 per user</li>
                   </ul>
-                </div>
+                      </div>
                 <div className="text-center">
                   <div className="text-6xl sm:text-7xl font-black text-green-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>$172.80</div>
                   <p
@@ -545,8 +626,8 @@ export default function GrammarlyGOCaseStudy() {
                   >
                     LTV per engaged user
                   </p>
-                </div>
-              </div>
+                      </div>
+                    </div>
             </div>
 
             {/* Impact of Disengagement */}
@@ -584,14 +665,14 @@ export default function GrammarlyGOCaseStudy() {
                     <li className="text-lg">LTV: $172.80</li>
                     <li className="text-xl font-bold text-green-400">Profit: $160.80</li>
                   </ul>
-                </div>
+                    </div>
                 <div className="space-y-4">
                   <h4
                     className="text-xl font-light text-red-400"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
                     Disengaged User
-                  </h4>
+                    </h4>
                   <ul className="space-y-2 text-gray-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
                     <li className="text-lg">CAC: $12</li>
                     <li className="text-lg">LTV: $115.20</li>
@@ -609,7 +690,7 @@ export default function GrammarlyGOCaseStudy() {
                 </p>
               </div>
             </div>
-          </div>
+        </div>
         </div>
       </motion.section>
 
@@ -625,8 +706,8 @@ export default function GrammarlyGOCaseStudy() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-16 sm:mb-20 md:mb-24"
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
-            RESEARCH METHODOLOGY
-          </h2>
+              RESEARCH METHODOLOGY
+            </h2>
           <div className="space-y-20 sm:space-y-24 md:space-y-32">
             <div className="space-y-12">
               <h3
@@ -657,7 +738,7 @@ export default function GrammarlyGOCaseStudy() {
                       className="text-lg font-light text-white mb-3"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                     >
-                      Product Analytics Review
+                        Product Analytics Review
                     </h4>
                     <p
                       className="text-gray-400 leading-relaxed text-lg font-light"
@@ -672,7 +753,7 @@ export default function GrammarlyGOCaseStudy() {
                       className="text-lg font-light text-white mb-3"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                     >
-                      Unmoderated Usability Testing
+                        Unmoderated Usability Testing
                     </h4>
                     <p
                       className="text-gray-400 leading-relaxed text-lg font-light"
@@ -689,7 +770,7 @@ export default function GrammarlyGOCaseStudy() {
                       className="text-lg font-light text-white mb-3"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                     >
-                      Semi-Structured User Interviews
+                        Semi-Structured User Interviews
                     </h4>
                     <p
                       className="text-gray-400 leading-relaxed text-lg font-light"
@@ -704,7 +785,7 @@ export default function GrammarlyGOCaseStudy() {
                       className="text-lg font-light text-white mb-3"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                     >
-                      In-Product Intercept Surveys
+                        In-Product Intercept Surveys
                     </h4>
                     <p
                       className="text-gray-400 leading-relaxed text-lg font-light"
@@ -713,7 +794,7 @@ export default function GrammarlyGOCaseStudy() {
                       <span className="font-bold text-yellow-400">Type:</span> Quantitative<br/>
                       <span className="font-bold text-yellow-400">Goal:</span> Capture user intent and satisfaction at the point of usage
                     </p>
-                  </div>
+              </div>
                 </div>
               </div>
             </div>
@@ -732,62 +813,62 @@ export default function GrammarlyGOCaseStudy() {
                     className="text-xl font-light text-white"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
-                    Disengaged Users
+                          Disengaged Users
                   </h4>
                   <p
                     className="text-gray-400 leading-relaxed text-lg font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
-                    Tried GrammarlyGO once, haven't used since
-                  </p>
-                </div>
+                        Tried GrammarlyGO once, haven't used since
+                      </p>
+                    </div>
                 <div className="space-y-4">
                   <div className="text-4xl sm:text-5xl font-black text-green-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>20%</div>
                   <h4
                     className="text-xl font-light text-white"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
-                    Power Users
+                          Power Users
                   </h4>
                   <p
                     className="text-gray-400 leading-relaxed text-lg font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
                     Daily GrammarlyGO users, >3 months
-                  </p>
-                </div>
+                      </p>
+                    </div>
                 <div className="space-y-4">
                   <div className="text-4xl sm:text-5xl font-black text-yellow-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>20%</div>
                   <h4
                     className="text-xl font-light text-white"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
-                    Churned Users
+                          Churned Users
                   </h4>
                   <p
                     className="text-gray-400 leading-relaxed text-lg font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
-                    Canceled Grammarly Premium or switched to competitor
-                  </p>
-                </div>
-              </div>
+                        Canceled Grammarly Premium or switched to competitor
+                      </p>
+                    </div>
+                  </div>
               <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   Sourcing
-                </h4>
+                  </h4>
                 <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
                   <li className="text-lg">• Internal CRM data (usage tracking via product analytics)</li>
                   <li className="text-lg">• Email outreach + incentives ($25 gift card)</li>
                   <li className="text-lg">• For surveys: Random sample triggered in-product after first use</li>
-                </ul>
+                  </ul>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
+                    </div>
+                      </div>
       </motion.section>
 
       {/* Research Results Section */}
@@ -803,7 +884,7 @@ export default function GrammarlyGOCaseStudy() {
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
             RESEARCH RESULTS
-          </h2>
+            </h2>
           <div className="space-y-20 sm:space-y-24 md:space-y-32">
             {/* Product Analytics */}
             <div className="space-y-12">
@@ -817,32 +898,32 @@ export default function GrammarlyGOCaseStudy() {
                 className="text-xl font-light text-gray-300"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
-                Funnel: GrammarlyGO Usage – First 14 Days
-              </h4>
+                  Funnel: GrammarlyGO Usage – First 14 Days
+                </h4>
               <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Clicked "GrammarlyGO" button</span>
                     <span className="font-bold text-white">100% (Baseline)</span>
-                  </div>
+                          </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Select a writing mode (rewrite, shorten, etc.)</span>
                     <span className="font-bold text-yellow-400">58%</span>
-                  </div>
+                          </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Generated output</span>
                     <span className="font-bold text-orange-400">41%</span>
-                  </div>
+                        </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Applied output to document</span>
                     <span className="font-bold text-red-400">24%</span>
-                  </div>
+                        </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Returned to use GrammarlyGO again (7-day window)</span>
                     <span className="font-bold text-red-500">12%</span>
-                  </div>
-                </div>
-              </div>
+                              </div>
+                          </div>
+                        </div>
               <div className="grid md:grid-cols-2 gap-12 sm:gap-16 md:gap-20">
                 <div className="space-y-4">
                   <h4
@@ -850,13 +931,13 @@ export default function GrammarlyGOCaseStudy() {
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
                     Behavior Segments:
-                  </h4>
+                </h4>
                   <ul className="space-y-2 text-gray-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
                     <li className="text-lg">• Users using "Shorten" or "Rewrite Tone" features: 70% of returners</li>
                     <li className="text-lg">• "Professional tone" was selected 3× more than other tones</li>
                     <li className="text-lg">• 33% of first-time users exited before selecting a writing mode</li>
-                  </ul>
-                </div>
+                </ul>
+              </div>
               </div>
             </div>
 
@@ -906,8 +987,8 @@ export default function GrammarlyGOCaseStudy() {
                   <li className="text-lg italic">"I wasn't sure if it actually changed the tone or just fixed grammar."</li>
                   <li className="text-lg italic">"Why do I have to re-highlight every time? That's annoying."</li>
                 </ul>
+                </div>
               </div>
-            </div>
 
             {/* User Interviews */}
             <div className="space-y-12">
@@ -923,27 +1004,27 @@ export default function GrammarlyGOCaseStudy() {
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   Themes from Semi-Structured Questions:
-                </h4>
+                  </h4>
                 <ul className="space-y-2 text-gray-300 mb-6" style={{ fontFamily: "Montserrat, sans-serif" }}>
                   <li className="text-lg">• What were you hoping GrammarlyGO would help with?</li>
                   <li className="text-lg">• What was confusing or frustrating about your last use?</li>
                   <li className="text-lg">• When do you choose to use GrammarlyGO instead of classic Grammarly?</li>
                   <li className="text-lg">• What would make this worth using more often?</li>
-                </ul>
+                  </ul>
                 <h4
                   className="text-lg font-light text-white mb-4"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   Highlights:
-                </h4>
+                  </h4>
                 <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
                   <li className="text-lg">• Expectation mismatch: 7/10 thought GrammarlyGO was a chatbot experience</li>
                   <li className="text-lg">• Usefulness gap: 5/10 didn't feel the output added much value beyond their own edits</li>
                   <li className="text-lg">• Frustration with UI: 6/10 found the controls non-intuitive</li>
                   <li className="text-lg">• Power users appreciated tone control and speed, but set up their own shortcuts</li>
                   <li className="text-lg">• Churned users switched to ChatGPT for more flexible responses</li>
-                </ul>
-              </div>
+                  </ul>
+                </div>
               <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-4"
@@ -956,8 +1037,8 @@ export default function GrammarlyGOCaseStudy() {
                   <li className="text-lg italic">"I'd use it more if I didn't have to dig around to find it."</li>
                   <li className="text-lg italic">"I wanted suggestions, not full rewrites that sound weirdly robotic."</li>
                 </ul>
+                </div>
               </div>
-            </div>
 
             {/* In-Product Surveys */}
             <div className="space-y-12">
@@ -974,29 +1055,29 @@ export default function GrammarlyGOCaseStudy() {
                       className="text-lg font-light text-white mb-3"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                     >
-                      Q1: What were you trying to do with GrammarlyGO?
-                    </h4>
+                    Q1: What were you trying to do with GrammarlyGO?
+                  </h4>
                     <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
                       <li className="text-lg">• Speed up writing: 45%</li>
                       <li className="text-lg">• Improve tone: 30%</li>
                       <li className="text-lg">• Brainstorm: 17%</li>
                       <li className="text-lg">• Not sure / exploring: 8%</li>
                     </ul>
-                  </div>
+                      </div>
                   <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                     <h4
                       className="text-lg font-light text-white mb-3"
                       style={{ fontFamily: "Montserrat, sans-serif" }}
                     >
-                      Q2: Did it help you accomplish your goal?
-                    </h4>
+                    Q2: Did it help you accomplish your goal?
+                  </h4>
                     <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
                       <li className="text-lg">• Yes: 19%</li>
                       <li className="text-lg">• Partially: 42%</li>
                       <li className="text-lg">• No: 39%</li>
                     </ul>
+                      </div>
                   </div>
-                </div>
                 <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                   <h4
                     className="text-lg font-light text-white mb-3"
@@ -1011,8 +1092,8 @@ export default function GrammarlyGOCaseStudy() {
                   </ul>
                 </div>
               </div>
-            </div>
-          </div>
+                </div>
+              </div>
         </div>
       </motion.section>
 
@@ -1029,7 +1110,7 @@ export default function GrammarlyGOCaseStudy() {
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
             KEY INSIGHTS
-          </h2>
+            </h2>
           <div className="space-y-20 sm:space-y-24 md:space-y-32">
             <div className="space-y-12">
               <h3
@@ -1126,7 +1207,7 @@ export default function GrammarlyGOCaseStudy() {
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   1. Clarify Value Prop of GrammarlyGO vs. Classic Grammarly
-                </h3>
+              </h3>
               </div>
               <p
                 className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
@@ -1159,7 +1240,7 @@ export default function GrammarlyGOCaseStudy() {
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   2. Improve Discoverability in Product UI
-                </h3>
+              </h3>
               </div>
               <p
                 className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
@@ -1173,7 +1254,7 @@ export default function GrammarlyGOCaseStudy() {
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   Bottom Line Impact:
-                </h4>
+                        </h4>
                 <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
                   <li className="text-lg">• Increases repeat usage → key LTV driver (returning users stay longer)</li>
                   <li className="text-lg">• Reduces support costs → fewer users get lost or confused</li>
@@ -1211,9 +1292,9 @@ export default function GrammarlyGOCaseStudy() {
                   <li className="text-lg">• Builds trust in AI output → increases usage frequency</li>
                   <li className="text-lg">• Reduces task abandonment → improves session quality</li>
                   <li className="text-lg">• Differentiates GrammarlyGO from competitors → improves retention in a crowded AI market</li>
-                </ul>
-              </div>
-            </div>
+                          </ul>
+                        </div>
+                      </div>
 
             {/* Problem 4 */}
             <div className="space-y-12">
@@ -1225,7 +1306,7 @@ export default function GrammarlyGOCaseStudy() {
                 >
                   4. Personalize Onboarding Based on User Goal (speed, tone, brainstorm)
                 </h3>
-              </div>
+                    </div>
               <p
                 className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -1246,7 +1327,7 @@ export default function GrammarlyGOCaseStudy() {
                 </ul>
               </div>
             </div>
-          </div>
+        </div>
         </div>
       </motion.section>
 
@@ -1263,7 +1344,7 @@ export default function GrammarlyGOCaseStudy() {
             style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
           >
             SOLUTIONS
-          </h2>
+            </h2>
           <div className="space-y-20 sm:space-y-24 md:space-y-32">
             {/* Solution 1 */}
             <div className="space-y-12">
@@ -1290,7 +1371,7 @@ export default function GrammarlyGOCaseStudy() {
                   <li className="text-lg">• Activated when it's needed, not before. Respects user flow.</li>
                   <li className="text-lg">• Ties AI to solving an immediate pain point, which builds trust.</li>
                 </ul>
-              </div>
+                    </div>
               <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
@@ -1301,8 +1382,8 @@ export default function GrammarlyGOCaseStudy() {
                 <p className="text-gray-300 text-lg" style={{ fontFamily: "Montserrat, sans-serif" }}>
                   GrammarlyGO activation rate during "writer's block" moments
                 </p>
-              </div>
-            </div>
+                    </div>
+                  </div>
 
             {/* Solution 2 */}
             <div className="space-y-12">
@@ -1328,15 +1409,15 @@ export default function GrammarlyGOCaseStudy() {
                 <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
                   <li className="text-lg">• Increases transparency and control.</li>
                   <li className="text-lg">• Mimics how tools like GitHub Copilot and ChatGPT let users feel more involved.</li>
-                </ul>
-              </div>
+                      </ul>
+                    </div>
               <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   Metric to track:
-                </h4>
+                      </h4>
                 <p className="text-gray-300 text-lg" style={{ fontFamily: "Montserrat, sans-serif" }}>
                   Reduction in AI output abandonment<br/>
                   Increase in "output edited and used" rate
@@ -1368,8 +1449,8 @@ export default function GrammarlyGOCaseStudy() {
                 <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
                   <li className="text-lg">• Gives GrammarlyGO a defined space rather than injecting into main editor.</li>
                   <li className="text-lg">• Helps with long-form content where users want help structuring or revising.</li>
-                </ul>
-              </div>
+                      </ul>
+                    </div>
               <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
@@ -1382,7 +1463,7 @@ export default function GrammarlyGOCaseStudy() {
                   Feature satisfaction score
                 </p>
               </div>
-            </div>
+                  </div>
 
             {/* Solution 4 */}
             <div className="space-y-12">
@@ -1404,12 +1485,12 @@ export default function GrammarlyGOCaseStudy() {
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   Why it's better:
-                </h4>
+                    </h4>
                 <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
                   <li className="text-lg">• Helps users generate from a blank page, the hardest moment</li>
                   <li className="text-lg">• Tailors output based on input, which avoids generic results</li>
                 </ul>
-              </div>
+                  </div>
               <div className="bg-gray-800/50 rounded-lg p-8 sm:p-12">
                 <h4
                   className="text-lg font-light text-white mb-3"
@@ -1421,7 +1502,7 @@ export default function GrammarlyGOCaseStudy() {
                   Conversion rate from template to completed doc<br/>
                   GrammarlyGO usage rate for new users
                 </p>
-              </div>
+            </div>
             </div>
           </div>
         </div>
@@ -1525,7 +1606,7 @@ export default function GrammarlyGOCaseStudy() {
                   </tbody>
                 </table>
               </div>
-            </div>
+        </div>
 
             <div className="bg-gray-800/50 rounded-lg p-6 sm:p-8">
               <h3
@@ -1546,8 +1627,8 @@ export default function GrammarlyGOCaseStudy() {
               >
                 The proposed solutions focus on contextual activation, transparent output logic, dedicated editing space, and AI-first templates to address these core issues and improve user engagement with GrammarlyGO.
               </p>
-            </div>
-          </div>
+              </div>
+        </div>
         </div>
       </motion.section>
     </div>

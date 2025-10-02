@@ -346,21 +346,6 @@ export default function SkillsPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: index * 0.1 }}
               >
-                {/* Background Pattern */}
-                <div className="absolute inset-0 opacity-5">
-                  <div className="grid grid-cols-8 gap-4 h-full">
-                    {Array.from({ length: 24 }).map((_, i) => (
-                      <motion.div
-                        key={i}
-                        className="bg-white h-2 rounded-full"
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: index * 0.1 + i * 0.02, duration: 0.6 }}
-                      />
-                    ))}
-                  </div>
-                </div>
 
                 <div className="relative z-10">
                   {/* Category Header */}

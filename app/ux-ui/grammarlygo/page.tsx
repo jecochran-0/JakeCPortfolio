@@ -863,6 +863,541 @@ export default function GrammarlyGOCaseStudy() {
           </div>
         </div>
       </motion.section>
+
+      {/* Key Insights Section */}
+      <motion.section
+        className="px-4 sm:px-8 md:px-16 py-12 sm:py-20"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2, duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        <div className="max-w-none">
+          <h2
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+            style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+          >
+            KEY INSIGHTS
+          </h2>
+          <div className="space-y-16 sm:space-y-20">
+            <div className="space-y-8">
+              <h3
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Playback Summary
+              </h3>
+              <p
+                className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Our research uncovered a core issue: users expect GrammarlyGO to act like a conversation-based assistant (like ChatGPT), but instead find a rigid tool hidden behind complex UI. This leads to:
+              </p>
+              <ul className="space-y-3 text-gray-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                <li className="text-lg">• Low trust in the tool's usefulness</li>
+                <li className="text-lg">• Low visibility and discoverability</li>
+                <li className="text-lg">• Output that feels over-edited and impersonal</li>
+                <li className="text-lg">• Even engaged users work around the friction manually — meaning the product isn't supporting them efficiently either</li>
+              </ul>
+            </div>
+
+            <div className="space-y-8">
+              <h3
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Insight Clusters
+              </h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-gray-700">
+                      <th className="text-left py-3 px-4 font-bold text-blue-400" style={{ fontFamily: "Montserrat, sans-serif" }}>Theme</th>
+                      <th className="text-left py-3 px-4 font-bold text-green-400" style={{ fontFamily: "Montserrat, sans-serif" }}>Supporting Evidence</th>
+                      <th className="text-left py-3 px-4 font-bold text-purple-400" style={{ fontFamily: "Montserrat, sans-serif" }}>What It Means</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-gray-300">
+                    <tr className="border-b border-gray-800">
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Expectations mismatch</td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Interviews, Usability, Survey</td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Users think GrammarlyGO will act like ChatGPT, not a rewrite tool</td>
+                    </tr>
+                    <tr className="border-b border-gray-800">
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Discoverability issues</td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Analytics, Usability Testing</td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Users can't easily find GrammarlyGO or don't know they're using it</td>
+                    </tr>
+                    <tr className="border-b border-gray-800">
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Frustration with tone control & UI</td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Usability, Survey, Interviews</td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Tone options unclear; too many clicks to refine/edit content</td>
+                    </tr>
+                    <tr className="border-b border-gray-800">
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Output felt excessive or impersonal</td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Interviews, Survey</td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Users want tweaks, not full rewrites; don't trust "robotic" style</td>
+                    </tr>
+                    <tr className="border-b border-gray-800">
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Power users find workarounds</td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Interviews</td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Advanced users manually customize inputs, showing need for presets or macros</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Prioritized Problem Areas Section */}
+      <motion.section
+        className="px-4 sm:px-8 md:px-16 py-12 sm:py-20"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.4, duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        <div className="max-w-none">
+          <h2
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+            style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+          >
+            PRIORITIZED PROBLEM AREAS
+          </h2>
+          <div className="space-y-16 sm:space-y-20">
+            {/* Problem 1 */}
+            <div className="space-y-8">
+              <div className="flex items-center mb-6">
+                <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>High Priority</span>
+                <h3
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  1. Clarify Value Prop of GrammarlyGO vs. Classic Grammarly
+                </h3>
+              </div>
+              <p
+                className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                <span className="font-bold text-red-400">Rationale:</span> Prevents expectation mismatch and early churn
+              </p>
+              <div className="bg-gray-800/50 rounded-lg p-6">
+                <h4
+                  className="text-lg font-light text-white mb-3"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Bottom Line Impact:
+                </h4>
+                <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  <li className="text-lg">• Reduces churn after first use → protects LTV</li>
+                  <li className="text-lg">• Increases adoption of GrammarlyGO among paying users → drives usage-based retention</li>
+                  <li className="text-lg">• Improves feature ROI → ensures investment in AI is seen as valuable</li>
+                  <li className="text-lg">• Boosts conversion from free to Premium, if GrammarlyGO is perceived as a clear differentiator</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Problem 2 */}
+            <div className="space-y-8">
+              <div className="flex items-center mb-6">
+                <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>High Priority</span>
+                <h3
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  2. Improve Discoverability in Product UI
+                </h3>
+              </div>
+              <p
+                className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                <span className="font-bold text-red-400">Rationale:</span> Makes usage frictionless and increases re-engagement
+              </p>
+              <div className="bg-gray-800/50 rounded-lg p-6">
+                <h4
+                  className="text-lg font-light text-white mb-3"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Bottom Line Impact:
+                </h4>
+                <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  <li className="text-lg">• Increases repeat usage → key LTV driver (returning users stay longer)</li>
+                  <li className="text-lg">• Reduces support costs → fewer users get lost or confused</li>
+                  <li className="text-lg">• Drives feature stickiness → improves engagement scores used in renewal models</li>
+                  <li className="text-lg">• Amplifies freemium funnel performance → more value in early days = more upgrades</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Problem 3 */}
+            <div className="space-y-8">
+              <div className="flex items-center mb-6">
+                <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>Medium Priority</span>
+                <h3
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  3. Add Lightweight Editing Tools (Undo, Rephrase, Tone Presets)
+                </h3>
+              </div>
+              <p
+                className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                <span className="font-bold text-yellow-400">Rationale:</span> Empowers users with control without added complexity
+              </p>
+              <div className="bg-gray-800/50 rounded-lg p-6">
+                <h4
+                  className="text-lg font-light text-white mb-3"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Bottom Line Impact:
+                </h4>
+                <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  <li className="text-lg">• Builds trust in AI output → increases usage frequency</li>
+                  <li className="text-lg">• Reduces task abandonment → improves session quality</li>
+                  <li className="text-lg">• Differentiates GrammarlyGO from competitors → improves retention in a crowded AI market</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Problem 4 */}
+            <div className="space-y-8">
+              <div className="flex items-center mb-6">
+                <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>Medium Priority</span>
+                <h3
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  4. Personalize Onboarding Based on User Goal (speed, tone, brainstorm)
+                </h3>
+              </div>
+              <p
+                className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                <span className="font-bold text-yellow-400">Rationale:</span> Aligns tool suggestions to user intent
+              </p>
+              <div className="bg-gray-800/50 rounded-lg p-6">
+                <h4
+                  className="text-lg font-light text-white mb-3"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Bottom Line Impact:
+                </h4>
+                <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  <li className="text-lg">• Increases activation rate → users reach their "aha" moment faster</li>
+                  <li className="text-lg">• Improves first-week retention → strongest predictor of long-term LTV</li>
+                  <li className="text-lg">• Reduces cognitive friction → boosts satisfaction (CSAT), especially among new users</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Solutions Section */}
+      <motion.section
+        className="px-4 sm:px-8 md:px-16 py-12 sm:py-20"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.6, duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        <div className="max-w-none">
+          <h2
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+            style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+          >
+            SOLUTIONS
+          </h2>
+          <div className="space-y-16 sm:space-y-20">
+            {/* Solution 1 */}
+            <div className="space-y-8">
+              <h3
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                1. Contextual GrammarlyGO Activation
+              </h3>
+              <p
+                className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Instead of onboarding screens, trigger GrammarlyGO at moments of struggle. Use ML to detect hesitation, backspacing, or long idle time. Offer GrammarlyGO with contextual suggestions based on what the user is writing.
+              </p>
+              <div className="bg-gray-800/50 rounded-lg p-6">
+                <h4
+                  className="text-lg font-light text-white mb-3"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Why it's better:
+                </h4>
+                <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  <li className="text-lg">• Activated when it's needed, not before. Respects user flow.</li>
+                  <li className="text-lg">• Ties AI to solving an immediate pain point, which builds trust.</li>
+                </ul>
+              </div>
+              <div className="bg-gray-800/50 rounded-lg p-6">
+                <h4
+                  className="text-lg font-light text-white mb-3"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Metric to track:
+                </h4>
+                <p className="text-gray-300 text-lg" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  GrammarlyGO activation rate during "writer's block" moments
+                </p>
+              </div>
+            </div>
+
+            {/* Solution 2 */}
+            <div className="space-y-8">
+              <h3
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                2. Live Preview Panel with Transparent Output Logic
+              </h3>
+              <p
+                className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Show GrammarlyGO's draft evolving in real time with a "why we chose this" explanation. Let users preview multiple tones or structures without rerunning prompts. Display output as a "guided draft," not a black-box result.
+              </p>
+              <div className="bg-gray-800/50 rounded-lg p-6">
+                <h4
+                  className="text-lg font-light text-white mb-3"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Why it's better:
+                </h4>
+                <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  <li className="text-lg">• Increases transparency and control.</li>
+                  <li className="text-lg">• Mimics how tools like GitHub Copilot and ChatGPT let users feel more involved.</li>
+                </ul>
+              </div>
+              <div className="bg-gray-800/50 rounded-lg p-6">
+                <h4
+                  className="text-lg font-light text-white mb-3"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Metric to track:
+                </h4>
+                <p className="text-gray-300 text-lg" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  Reduction in AI output abandonment<br/>
+                  Increase in "output edited and used" rate
+                </p>
+              </div>
+            </div>
+
+            {/* Solution 3 */}
+            <div className="space-y-8">
+              <h3
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                3. Mini AI Editor Mode
+              </h3>
+              <p
+                className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Instead of just rewriting, offer an optional GrammarlyGO side editor. Users can write a rough draft, toggle a GrammarlyGO editor view, and see enhanced versions or paragraph-level suggestions.
+              </p>
+              <div className="bg-gray-800/50 rounded-lg p-6">
+                <h4
+                  className="text-lg font-light text-white mb-3"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Why it's better:
+                </h4>
+                <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  <li className="text-lg">• Gives GrammarlyGO a defined space rather than injecting into main editor.</li>
+                  <li className="text-lg">• Helps with long-form content where users want help structuring or revising.</li>
+                </ul>
+              </div>
+              <div className="bg-gray-800/50 rounded-lg p-6">
+                <h4
+                  className="text-lg font-light text-white mb-3"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Metric to track:
+                </h4>
+                <p className="text-gray-300 text-lg" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  Session length with AI Editor open<br/>
+                  Feature satisfaction score
+                </p>
+              </div>
+            </div>
+
+            {/* Solution 4 */}
+            <div className="space-y-8">
+              <h3
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                4. "Start with AI" Smart Templates
+              </h3>
+              <p
+                className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Offer AI-first document templates for common use cases. Email, outreach, follow-up, project summary. Prompted with a short form like: Who is this for? What's your message?
+              </p>
+              <div className="bg-gray-800/50 rounded-lg p-6">
+                <h4
+                  className="text-lg font-light text-white mb-3"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Why it's better:
+                </h4>
+                <ul className="space-y-2 text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  <li className="text-lg">• Helps users generate from a blank page, the hardest moment</li>
+                  <li className="text-lg">• Tailors output based on input, which avoids generic results</li>
+                </ul>
+              </div>
+              <div className="bg-gray-800/50 rounded-lg p-6">
+                <h4
+                  className="text-lg font-light text-white mb-3"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Metric to track:
+                </h4>
+                <p className="text-gray-300 text-lg" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  Conversion rate from template to completed doc<br/>
+                  GrammarlyGO usage rate for new users
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Expected Impact Section */}
+      <motion.section
+        className="px-4 sm:px-8 md:px-16 py-12 sm:py-20"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.8, duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        <div className="max-w-none">
+          <h2
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-8 sm:mb-12"
+            style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+          >
+            EXPECTED IMPACT
+          </h2>
+          <div className="space-y-16 sm:space-y-20">
+            <div className="space-y-8">
+              <h3
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Business Goals
+              </h3>
+              <div className="grid md:grid-cols-3 gap-8 sm:gap-12">
+                <div className="space-y-4">
+                  <div className="text-4xl sm:text-5xl font-black text-blue-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>25%</div>
+                  <p
+                    className="text-gray-400 leading-relaxed text-lg font-light"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    Improve GrammarlyGO retention within 6 months
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <div className="text-4xl sm:text-5xl font-black text-green-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>↑</div>
+                  <p
+                    className="text-gray-400 leading-relaxed text-lg font-light"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    Increase AI prompt usage per active user
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <div className="text-4xl sm:text-5xl font-black text-purple-400 mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>↓</div>
+                  <p
+                    className="text-gray-400 leading-relaxed text-lg font-light"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    Reduce user confusion between GrammarlyGO and core grammar features
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-8">
+              <h3
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Solution Prioritization
+              </h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-gray-700">
+                      <th className="text-left py-3 px-4 font-bold text-blue-400" style={{ fontFamily: "Montserrat, sans-serif" }}>Opportunity</th>
+                      <th className="text-left py-3 px-4 font-bold text-green-400" style={{ fontFamily: "Montserrat, sans-serif" }}>Priority</th>
+                      <th className="text-left py-3 px-4 font-bold text-purple-400" style={{ fontFamily: "Montserrat, sans-serif" }}>Impact</th>
+                      <th className="text-left py-3 px-4 font-bold text-yellow-400" style={{ fontFamily: "Montserrat, sans-serif" }}>Justification</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-gray-300">
+                    <tr className="border-b border-gray-800">
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Contextual GrammarlyGO Trigger</td>
+                      <td className="py-3 px-4"><span className="bg-red-500 text-white px-2 py-1 rounded text-xs" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>High</span></td>
+                      <td className="py-3 px-4"><span className="bg-red-500 text-white px-2 py-1 rounded text-xs" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>High</span></td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Activated during real need. Minimal friction.</td>
+                    </tr>
+                    <tr className="border-b border-gray-800">
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Live Preview Panel</td>
+                      <td className="py-3 px-4"><span className="bg-red-500 text-white px-2 py-1 rounded text-xs" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>High</span></td>
+                      <td className="py-3 px-4"><span className="bg-red-500 text-white px-2 py-1 rounded text-xs" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>High</span></td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Builds trust, improves perceived quality.</td>
+                    </tr>
+                    <tr className="border-b border-gray-800">
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Mini AI Editor Mode</td>
+                      <td className="py-3 px-4"><span className="bg-yellow-500 text-white px-2 py-1 rounded text-xs" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>Medium</span></td>
+                      <td className="py-3 px-4"><span className="bg-yellow-500 text-white px-2 py-1 rounded text-xs" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>Medium</span></td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Encourages use in complex workflows.</td>
+                    </tr>
+                    <tr className="border-b border-gray-800">
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>AI Smart Templates</td>
+                      <td className="py-3 px-4"><span className="bg-yellow-500 text-white px-2 py-1 rounded text-xs" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>Medium</span></td>
+                      <td className="py-3 px-4"><span className="bg-red-500 text-white px-2 py-1 rounded text-xs" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>High</span></td>
+                      <td className="py-3 px-4" style={{ fontFamily: "Montserrat, sans-serif" }}>Solves blank page problem. First-week adoption driver.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="bg-gray-800/50 rounded-lg p-6 sm:p-8">
+              <h3
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide mb-6"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Summary
+              </h3>
+              <p
+                className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light mb-6"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Our research uncovered a core issue: users expect GrammarlyGO to act like a conversation-based assistant (like ChatGPT), but instead find a rigid tool hidden behind complex UI. This leads to low trust, low visibility, and output that feels over-edited and impersonal.
+              </p>
+              <p
+                className="text-gray-400 leading-relaxed text-xl max-w-5xl font-light"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                The proposed solutions focus on contextual activation, transparent output logic, dedicated editing space, and AI-first templates to address these core issues and improve user engagement with GrammarlyGO.
+              </p>
+            </div>
+          </div>
+        </div>
+      </motion.section>
     </div>
   );
 }

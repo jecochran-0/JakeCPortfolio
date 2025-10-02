@@ -3,12 +3,25 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 export default function GrammarlyGOCaseStudy() {
   const [mounted, setMounted] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setIsMobileMenuOpen(false);
+    };
+
+    // Listen for route changes
+    window.addEventListener('beforeunload', handleRouteChange);
+    return () => window.removeEventListener('beforeunload', handleRouteChange);
   }, []);
 
   if (!mounted) {
@@ -27,6 +40,145 @@ export default function GrammarlyGOCaseStudy() {
       className="min-h-screen"
       style={{ backgroundColor: "#171717" }}
     >
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 md:px-16 py-4 sm:py-6">
+        <div className="flex items-center justify-between">
+          {/* Brand */}
+          <Link href="/" className="flex items-center">
+            <motion.div
+              className="px-3 py-2 sm:px-6 sm:py-3 border-2 border-white text-white font-black text-sm sm:text-xl tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              JAKE COCHRAN
+            </motion.div>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden sm:flex items-center space-x-8 md:space-x-12">
+            <Link href="/about">
+              <motion.span
+                className="text-white font-medium text-lg md:text-xl tracking-wide"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                ABOUT
+              </motion.span>
+            </Link>
+            <Link href="/dev">
+              <motion.span
+                className="text-white font-medium text-lg md:text-xl tracking-wide"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                WORK
+              </motion.span>
+            </Link>
+            <Link href="/skills">
+              <motion.span
+                className="text-white font-medium text-lg md:text-xl tracking-wide"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                SKILLS
+              </motion.span>
+            </Link>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="sm:hidden text-white text-2xl"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+          >
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+            </motion.div>
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <motion.div
+          className="fixed inset-0 bg-black/80 z-40 sm:hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Mobile Menu Slide-out */}
+      <motion.div
+        className={`fixed top-0 right-0 h-full w-80 bg-gray-900 z-50 sm:hidden ${
+          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+        initial={{ x: '100%' }}
+        animate={{ x: isMobileMenuOpen ? 0 : '100%' }}
+        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+      >
+        <div className="flex flex-col h-full">
+          {/* Mobile Menu Header */}
+          <div className="flex items-center justify-between p-6 border-b border-gray-700">
+            <span
+              className="text-white font-black text-lg tracking-wider uppercase"
+              style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+            >
+              MENU
+            </span>
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-white text-xl"
+              aria-label="Close mobile menu"
+            >
+              <FaTimes />
+            </button>
+          </div>
+
+          {/* Mobile Menu Links */}
+          <div className="flex-1 flex flex-col justify-center px-6 space-y-8">
+            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)}>
+              <motion.a
+                className="text-white text-4xl font-black tracking-wider uppercase block"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                ABOUT
+              </motion.a>
+            </Link>
+            <Link href="/dev" onClick={() => setIsMobileMenuOpen(false)}>
+              <motion.a
+                className="text-white text-4xl font-black tracking-wider uppercase block"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                WORK
+              </motion.a>
+            </Link>
+            <Link href="/skills" onClick={() => setIsMobileMenuOpen(false)}>
+              <motion.a
+                className="text-white text-4xl font-black tracking-wider uppercase block"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                SKILLS
+              </motion.a>
+            </Link>
+          </div>
+        </div>
+      </motion.div>
+
       {/* Hero Section */}
       <motion.section
         className="relative flex items-start justify-start px-4 sm:px-8 md:px-16 pt-32 sm:pt-48 md:pt-60 pb-20 sm:pb-32 md:pb-40"

@@ -42,13 +42,13 @@ export default function AboutPage() {
   }, []);
 
   const socialLinks = [
-    { icon: FaGithub, href: "https://github.com/jakecochran", label: "GitHub" },
+    { icon: FaGithub, href: "https://github.com/jecochran-0", label: "GitHub" },
     {
       icon: FaLinkedin,
       href: "https://linkedin.com/in/jakecochran",
       label: "LinkedIn",
     },
-    { icon: FaEnvelope, href: "mailto:jakecochran@gmail.com", label: "Email" },
+    { icon: FaEnvelope, href: "mailto:jake.e.cochran@gmail.com", label: "Email" },
   ];
 
   if (!mounted) {
@@ -227,6 +227,8 @@ export default function AboutPage() {
                       <motion.a
                         key={link.label}
                         href={link.href}
+                        target={link.label === "Email" ? "_self" : "_blank"}
+                        rel={link.label === "Email" ? "" : "noopener noreferrer"}
                         className="text-white hover:text-gray-300 transition-colors duration-200"
                         whileHover={{ scale: 1.1 }}
                         initial={{ opacity: 0, scale: 0 }}
@@ -611,6 +613,8 @@ export default function AboutPage() {
                     <motion.a
                       key={link.label}
                       href={link.href}
+                      target={link.label === "Email" ? "_self" : "_blank"}
+                      rel={link.label === "Email" ? "" : "noopener noreferrer"}
                       className="text-white hover:text-gray-300 transition-colors duration-200"
                       whileHover={{ scale: 1.1 }}
                       initial={{ opacity: 0, scale: 0 }}

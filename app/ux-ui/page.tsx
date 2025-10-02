@@ -521,28 +521,25 @@ export default function UXUIPage() {
               {/* Social Links */}
               <div className="flex justify-center space-x-6">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/jecochran-0"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors duration-300"
                   aria-label="GitHub"
                 >
                   <FaGithub className="text-2xl" />
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://linkedin.com/in/jakecochran"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors duration-300"
                   aria-label="LinkedIn"
                 >
                   <FaLinkedin className="text-2xl" />
                 </a>
                 <a
-                  href="https://twitter.com"
-                  className="text-gray-400 hover:text-white transition-colors duration-300"
-                  aria-label="Twitter"
-                >
-                  <FaTwitter className="text-2xl" />
-                </a>
-                <a
-                  href="mailto:hello@jakecochran.com"
+                  href="mailto:jake.e.cochran@gmail.com"
                   className="text-gray-400 hover:text-white transition-colors duration-300"
                   aria-label="Email"
                 >

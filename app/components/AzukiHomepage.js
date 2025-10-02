@@ -316,7 +316,7 @@ const AzukiHomepage = () => {
                     <FaLinkedin size={32} />
                   </a>
                   <a
-                    href="https://github.com/jakecochran"
+                    href="https://github.com/jecochran-0"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white hover:opacity-70 transition-opacity"
@@ -492,7 +492,7 @@ const AzukiHomepage = () => {
                     <FaLinkedin size={40} />
                   </a>
                   <a
-                    href="https://github.com/jakecochran"
+                    href="https://github.com/jecochran-0"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white hover:opacity-70 transition-opacity"

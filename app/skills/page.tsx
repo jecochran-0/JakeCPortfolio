@@ -62,10 +62,7 @@ export default function SkillsPage() {
       skills: [
         "Node.js",
         "RESTful APIs",
-        "Express",
-        "Database Design",
         "API Integration",
-        "MongoDB",
       ],
     },
     {
@@ -90,13 +87,12 @@ export default function SkillsPage() {
         "Responsive Design",
         "CSS Grid",
         "Flexbox",
-        "Framer Motion",
       ],
     },
     {
       category: "Version Control & Tools",
       icon: FaGitAlt,
-      skills: ["Git", "GitHub", "Agile", "Jira", "Project Management", "CI/CD"],
+      skills: ["Git", "GitHub", "Agile", "Jira"],
     },
     {
       category: "Additional Skills",

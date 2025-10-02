@@ -531,7 +531,9 @@ export default function AboutPage() {
                   >
                     <div className="mb-6">
                       <div className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-4 text-2xl" style={{ backgroundColor: "#CD535A" }}>
-                        💻
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
                       </div>
                       <h4 className="text-xl sm:text-2xl font-black text-white mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
                         DEVELOPMENT
@@ -551,7 +553,9 @@ export default function AboutPage() {
                   >
                     <div className="mb-6">
                       <div className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-4 text-2xl" style={{ backgroundColor: "#CD535A" }}>
-                        🎨
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
+                        </svg>
                       </div>
                       <h4 className="text-xl sm:text-2xl font-black text-white mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
                         DESIGN
@@ -583,11 +587,8 @@ export default function AboutPage() {
                   <p className="text-lg text-gray-300 mb-2" style={{ fontFamily: "Montserrat, sans-serif" }}>
                     Bachelor's in Consumer Behavior and Marketplace Studies
                   </p>
-                  <p className="text-lg text-gray-300 mb-4" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  <p className="text-lg text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
                     Minors in Computer Science and Entrepreneurship
-                  </p>
-                  <p className="text-lg font-bold" style={{ color: "#CD535A", fontFamily: "Montserrat, sans-serif" }}>
-                    Expected Graduation: May 2025
                   </p>
                 </motion.div>
               </div>

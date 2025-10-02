@@ -160,9 +160,9 @@ export default function GrammarlyGOCaseStudy() {
             SKILLS
           </MagneticLink>
           <MagneticLink
-            href="/contact"
+            href="/dev"
             className="px-4 py-2 border border-white/30 text-white hover:text-gray-300 hover:border-white/50 transition-all duration-300 font-light text-sm tracking-wider rounded-lg"
-            ariaLabel="Go to contact page"
+            ariaLabel="Go to development page"
           >
             WORK
           </MagneticLink>

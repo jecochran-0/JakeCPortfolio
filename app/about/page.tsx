@@ -50,7 +50,11 @@ export default function AboutPage() {
       href: "https://www.linkedin.com/in/jake-cochran/",
       label: "LinkedIn",
     },
-    { icon: FaEnvelope, href: "mailto:jake.e.cochran@gmail.com", label: "Email" },
+    {
+      icon: FaEnvelope,
+      href: "mailto:jake.e.cochran@gmail.com",
+      label: "Email",
+    },
   ];
 
   if (!mounted) {
@@ -286,96 +290,113 @@ export default function AboutPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-              {/* Profile Badge */}
-              <motion.div
-                className="inline-block text-white px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 font-black text-xs sm:text-sm tracking-widest uppercase border rounded-lg"
-                style={{ backgroundColor: "#CD535A", borderColor: "#CD535A" }}
-                initial={{ opacity: 0, x: -50, scale: 0.8 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                About Me
-              </motion.div>
-
-              {/* Main Title */}
-              <div className="space-y-8 sm:space-y-12">
-                <motion.h1
-                  className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-none tracking-tight text-white"
-                  style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 1.0 }}
+                {/* Profile Badge */}
+                <motion.div
+                  className="inline-block text-white px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 font-black text-xs sm:text-sm tracking-widest uppercase border rounded-lg"
+                  style={{ backgroundColor: "#CD535A", borderColor: "#CD535A" }}
+                  initial={{ opacity: 0, x: -50, scale: 0.8 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <span className="text-white">
-                    {"HEY, I'M".split("").map((letter, index) => (
-                      <motion.span
-                        key={index}
-                        className="inline-block"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 + index * 0.08, duration: 0.3 }}
-                      >
-                        {letter === " " ? "\u00A0" : letter}
-                      </motion.span>
-                    ))}
-                  </span>
-                  <br />
-                  <span className="block mt-2 sm:mt-4" style={{ color: "#CD535A" }}>
-                    {"JAKE".split("").map((letter, index) => (
-                      <motion.span
-                        key={index}
-                        className="inline-block"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.8 + index * 0.08, duration: 0.3 }}
-                      >
-                        {letter === " " ? "\u00A0" : letter}
-                      </motion.span>
-                    ))}
-                  </span>
-                </motion.h1>
+                  About Me
+                </motion.div>
 
-                <motion.p
-                  className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 leading-relaxed max-w-5xl font-medium"
-                  style={{ fontFamily: "Montserrat, sans-serif" }}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.5, duration: 0.8 }}
-                >
-                  I'm from both the worlds of UX/UI design and software development. 
-                  I can lead the development of an app start to finish or be the bridge to connect two teams.
-                </motion.p>
-              </div>
-
-              {/* Social Links */}
-              <motion.div
-                className="flex justify-center items-center"
-                initial={{ opacity: 0, y: 50, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ delay: 2.0, duration: 0.8, type: "spring", stiffness: 80 }}
-              >
-                <div className="flex space-x-8">
-                  {socialLinks.map((link, index) => (
-                    <motion.a
-                      key={link.label}
-                      href={link.href}
-                      target={link.label === "Email" ? "_self" : "_blank"}
-                      rel={link.label === "Email" ? "" : "noopener noreferrer"}
-                      className="text-white hover:text-red-400 transition-colors duration-200"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 2.2 + index * 0.1, duration: 0.3 }}
-                      aria-label={`Visit my ${link.label} profile`}
+                {/* Main Title */}
+                <div className="space-y-8 sm:space-y-12">
+                  <motion.h1
+                    className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-none tracking-tight text-white"
+                    style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 1.0 }}
+                  >
+                    <span className="text-white">
+                      {"HEY, I'M".split("").map((letter, index) => (
+                        <motion.span
+                          key={index}
+                          className="inline-block"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            delay: 0.3 + index * 0.08,
+                            duration: 0.3,
+                          }}
+                        >
+                          {letter === " " ? "\u00A0" : letter}
+                        </motion.span>
+                      ))}
+                    </span>
+                    <br />
+                    <span
+                      className="block mt-2 sm:mt-4"
+                      style={{ color: "#CD535A" }}
                     >
-                      <link.icon className="text-4xl" />
-                    </motion.a>
-                  ))}
+                      {"JAKE".split("").map((letter, index) => (
+                        <motion.span
+                          key={index}
+                          className="inline-block"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            delay: 0.8 + index * 0.08,
+                            duration: 0.3,
+                          }}
+                        >
+                          {letter === " " ? "\u00A0" : letter}
+                        </motion.span>
+                      ))}
+                    </span>
+                  </motion.h1>
+
+                  <motion.p
+                    className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 leading-relaxed max-w-5xl font-medium"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.5, duration: 0.8 }}
+                  >
+                    I'm from both the worlds of UX/UI design and software
+                    development. I can lead the development of an app start to
+                    finish or be the bridge to connect two teams.
+                  </motion.p>
                 </div>
-              </motion.div>
+
+                {/* Social Links */}
+                <motion.div
+                  className="flex justify-center items-center"
+                  initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{
+                    delay: 2.0,
+                    duration: 0.8,
+                    type: "spring",
+                    stiffness: 80,
+                  }}
+                >
+                  <div className="flex space-x-8">
+                    {socialLinks.map((link, index) => (
+                      <motion.a
+                        key={link.label}
+                        href={link.href}
+                        target={link.label === "Email" ? "_self" : "_blank"}
+                        rel={
+                          link.label === "Email" ? "" : "noopener noreferrer"
+                        }
+                        className="text-white hover:text-red-400 transition-colors duration-200"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 2.2 + index * 0.1, duration: 0.3 }}
+                        aria-label={`Visit my ${link.label} profile`}
+                      >
+                        <link.icon className="text-4xl" />
+                      </motion.a>
+                    ))}
+                  </div>
+                </motion.div>
               </motion.div>
             </div>
           </div>
@@ -390,7 +411,10 @@ export default function AboutPage() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-black mb-16 sm:mb-20 text-center tracking-tight text-white" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+              <h2
+                className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-black mb-16 sm:mb-20 text-center tracking-tight text-white"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              >
                 WHAT I BRING
               </h2>
 
@@ -399,17 +423,20 @@ export default function AboutPage() {
                   {
                     icon: "design",
                     title: "Design Sensibility",
-                    description: "I approach problems with a designer's eye, focusing on user needs and creating intuitive interfaces.",
+                    description:
+                      "I approach problems with a designer's eye, focusing on user needs and creating intuitive interfaces.",
                   },
                   {
                     icon: "development",
                     title: "Developer Mindset",
-                    description: "I can communicate in the technical world, making my UX process more efficient from the start, and I can also be the one to develop my designs.",
+                    description:
+                      "I can communicate in the technical world, making my UX process more efficient from the start, and I can also be the one to develop my designs.",
                   },
                   {
                     icon: "problem-solving",
                     title: "Problem Solver",
-                    description: "I thrive on challenges and finding elegant solutions to complex problems.",
+                    description:
+                      "I thrive on challenges and finding elegant solutions to complex problems.",
                   },
                 ].map((skill, index) => (
                   <motion.div
@@ -421,27 +448,66 @@ export default function AboutPage() {
                     transition={{ delay: index * 0.2, duration: 0.6 }}
                     whileHover={{ y: -5 }}
                   >
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-6 sm:mb-8" style={{ backgroundColor: "#CD535A" }}>
+                    <div
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-6 sm:mb-8"
+                      style={{ backgroundColor: "#CD535A" }}
+                    >
                       {skill.icon === "design" && (
-                        <svg className="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
+                        <svg
+                          className="w-8 h-8 sm:w-10 sm:h-10 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"
+                          />
                         </svg>
                       )}
                       {skill.icon === "development" && (
-                        <svg className="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        <svg
+                          className="w-8 h-8 sm:w-10 sm:h-10 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                          />
                         </svg>
                       )}
                       {skill.icon === "problem-solving" && (
-                        <svg className="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        <svg
+                          className="w-8 h-8 sm:w-10 sm:h-10 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13 10V3L4 14h7v7l9-11h-7z"
+                          />
                         </svg>
                       )}
                     </div>
-                    <h3 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-white tracking-tight" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+                    <h3
+                      className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-white tracking-tight"
+                      style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                    >
                       {skill.title}
                     </h3>
-                    <p className="text-base sm:text-lg text-gray-300 font-medium leading-relaxed" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                    <p
+                      className="text-base sm:text-lg text-gray-300 font-medium leading-relaxed"
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
                       {skill.description}
                     </p>
                   </motion.div>
@@ -460,7 +526,10 @@ export default function AboutPage() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-black mb-16 sm:mb-20 text-center tracking-tight text-white" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+              <h2
+                className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-black mb-16 sm:mb-20 text-center tracking-tight text-white"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              >
                 MY STORY
               </h2>
 
@@ -469,15 +538,29 @@ export default function AboutPage() {
                 whileHover={{ y: -5 }}
               >
                 <div className="max-w-4xl mx-auto">
-                  <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                    I'm a new grad from the University of Wisconsin Madison with a unique perspective that bridges design and development. My journey began when I wanted to build a computer and have a sketchbook as a kid. I have an itch to logically solve problems and the urge to create.
+                  <p
+                    className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed font-medium"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    I'm a new grad from the University of Wisconsin Madison with
+                    a unique perspective that bridges design and development. My
+                    journey began when I wanted to build a computer and have a
+                    sketchbook as a kid. I have an itch to logically solve
+                    problems and the urge to create.
                   </p>
-                  <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 sm:mb-12 leading-relaxed font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                    What drives me is the reaction of user's enjoying an end product.
+                  <p
+                    className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 sm:mb-12 leading-relaxed font-medium"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    What drives me is the reaction of user's enjoying an end
+                    product.
                   </p>
 
                   <div className="pt-6 sm:pt-8 border-t border-gray-600/50">
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-black mb-4 sm:mb-6 text-white tracking-tight" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+                    <h3
+                      className="text-lg sm:text-xl md:text-2xl font-black mb-4 sm:mb-6 text-white tracking-tight"
+                      style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                    >
                       When I'm not coding...
                     </h3>
                     <div className="flex flex-wrap gap-3 sm:gap-4">
@@ -507,7 +590,10 @@ export default function AboutPage() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-black mb-20 sm:mb-24 text-center tracking-tight text-white" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+              <h2
+                className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-black mb-20 sm:mb-24 text-center tracking-tight text-white"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              >
                 EXPERIENCE
               </h2>
 
@@ -521,16 +607,30 @@ export default function AboutPage() {
                   transition={{ duration: 0.6, delay: 0.1 }}
                 >
                   <div className="inline-flex items-center gap-3 mb-8">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#CD535A" }}></div>
-                    <span className="text-sm font-bold uppercase tracking-wider text-gray-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: "#CD535A" }}
+                    ></div>
+                    <span
+                      className="text-sm font-bold uppercase tracking-wider text-gray-400"
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
                       CURRENT FOCUS
                     </span>
                   </div>
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-6" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+                  <h3
+                    className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-6"
+                    style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                  >
                     FULL-STACK DEVELOPMENT & UX/UI DESIGN
                   </h3>
-                  <p className="text-lg sm:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                    Currently focused on creating comprehensive digital experiences that combine thoughtful design with robust development.
+                  <p
+                    className="text-lg sm:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    Currently focused on creating comprehensive digital
+                    experiences that combine thoughtful design with robust
+                    development.
                   </p>
                 </motion.div>
 
@@ -544,15 +644,36 @@ export default function AboutPage() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                   >
                     <div className="mb-6">
-                      <div className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-4 text-2xl" style={{ backgroundColor: "#CD535A" }}>
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      <div
+                        className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-4 text-2xl"
+                        style={{ backgroundColor: "#CD535A" }}
+                      >
+                        <svg
+                          className="w-8 h-8 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                          />
                         </svg>
                       </div>
-                      <h4 className="text-xl sm:text-2xl font-black text-white mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+                      <h4
+                        className="text-xl sm:text-2xl font-black text-white mb-4"
+                        style={{
+                          fontFamily: "Bungee, Arial Black, sans-serif",
+                        }}
+                      >
                         DEVELOPMENT
                       </h4>
-                      <p className="text-gray-300 leading-relaxed" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                      <p
+                        className="text-gray-300 leading-relaxed"
+                        style={{ fontFamily: "Montserrat, sans-serif" }}
+                      >
                         React, Next.js, TypeScript, Node.js
                       </p>
                     </div>
@@ -566,15 +687,36 @@ export default function AboutPage() {
                     transition={{ duration: 0.6, delay: 0.3 }}
                   >
                     <div className="mb-6">
-                      <div className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-4 text-2xl" style={{ backgroundColor: "#CD535A" }}>
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
+                      <div
+                        className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-4 text-2xl"
+                        style={{ backgroundColor: "#CD535A" }}
+                      >
+                        <svg
+                          className="w-8 h-8 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"
+                          />
                         </svg>
                       </div>
-                      <h4 className="text-xl sm:text-2xl font-black text-white mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+                      <h4
+                        className="text-xl sm:text-2xl font-black text-white mb-4"
+                        style={{
+                          fontFamily: "Bungee, Arial Black, sans-serif",
+                        }}
+                      >
                         DESIGN
                       </h4>
-                      <p className="text-gray-300 leading-relaxed" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                      <p
+                        className="text-gray-300 leading-relaxed"
+                        style={{ fontFamily: "Montserrat, sans-serif" }}
+                      >
                         User Research, Wireframing, Prototyping, Design Systems
                       </p>
                     </div>
@@ -590,18 +732,33 @@ export default function AboutPage() {
                   transition={{ duration: 0.6, delay: 0.4 }}
                 >
                   <div className="inline-flex items-center gap-3 mb-8">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#CD535A" }}></div>
-                    <span className="text-sm font-bold uppercase tracking-wider text-gray-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: "#CD535A" }}
+                    ></div>
+                    <span
+                      className="text-sm font-bold uppercase tracking-wider text-gray-400"
+                      style={{ fontFamily: "Montserrat, sans-serif" }}
+                    >
                       EDUCATION
                     </span>
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-black text-white mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+                  <h3
+                    className="text-2xl sm:text-3xl font-black text-white mb-4"
+                    style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                  >
                     UNIVERSITY OF WISCONSIN MADISON
                   </h3>
-                  <p className="text-lg text-gray-300 mb-2" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  <p
+                    className="text-lg text-gray-300 mb-2"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
                     Bachelor's in Consumer Behavior and Marketplace Studies
                   </p>
-                  <p className="text-lg text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  <p
+                    className="text-lg text-gray-300"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
                     Minors in Computer Science and Entrepreneurship
                   </p>
                 </motion.div>
@@ -623,13 +780,22 @@ export default function AboutPage() {
                 className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-8 sm:p-12 lg:p-20 hover:border-red-500/50 transition-all duration-300"
                 whileHover={{ y: -5 }}
               >
-                <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-8 sm:mb-10 tracking-tight text-white" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+                <h2
+                  className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-8 sm:mb-10 tracking-tight text-white"
+                  style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+                >
                   LET'S BUILD
-                  <span className="block mt-2 sm:mt-4" style={{ color: "#CD535A" }}>
+                  <span
+                    className="block mt-2 sm:mt-4"
+                    style={{ color: "#CD535A" }}
+                  >
                     SOMETHING AMAZING
                   </span>
                 </h2>
-                <p className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 mb-12 sm:mb-16 leading-relaxed font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                <p
+                  className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 mb-12 sm:mb-16 leading-relaxed font-medium"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
                   I'm always open to new opportunities and collaborations.
                 </p>
                 <motion.a
@@ -646,7 +812,6 @@ export default function AboutPage() {
             </motion.div>
           </div>
         </section>
-
       </main>
     </>
   );

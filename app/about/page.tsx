@@ -37,7 +37,6 @@ const SmoothScroll = () => {
 export default function AboutPage() {
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("professional");
 
   useEffect(() => {
     setMounted(true);
@@ -468,9 +467,6 @@ export default function AboutPage() {
                       When I'm not coding...
                     </h3>
                     <div className="flex flex-wrap gap-3 sm:gap-4">
-                      <span className="inline-flex items-center px-3 sm:px-4 py-2 bg-blue-500/20 text-blue-300 border border-blue-500/30 text-sm sm:text-base font-bold rounded-lg">
-                        Music Production
-                      </span>
                       <span className="inline-flex items-center px-3 sm:px-4 py-2 bg-red-500/20 text-red-300 border border-red-500/30 text-sm sm:text-base font-bold rounded-lg">
                         Flag Football
                       </span>
@@ -488,7 +484,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Experience Tabs Section */}
+        {/* Experience Section */}
         <section className="py-24 sm:py-32 lg:py-40 px-4 sm:px-8 md:px-16 border-t border-white/20">
           <div className="max-w-7xl mx-auto">
             <motion.div
@@ -497,179 +493,103 @@ export default function AboutPage() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-black mb-16 sm:mb-20 text-center tracking-tight text-white" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+              <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-black mb-20 sm:mb-24 text-center tracking-tight text-white" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
                 EXPERIENCE
               </h2>
 
-              {/* Tab Buttons */}
-              <div className="flex flex-wrap justify-center mb-12 sm:mb-16">
-                <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-2">
-                  <button
-                    onClick={() => setActiveTab("professional")}
-                    className={`px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-black transition-all duration-300 border-2 rounded-lg ${
-                      activeTab === "professional"
-                        ? "text-white border-gray-600"
-                        : "bg-transparent text-gray-300 border-gray-600 hover:bg-gray-700/50"
-                    }`}
-                    style={activeTab === "professional" ? { backgroundColor: "#CD535A", borderColor: "#CD535A" } : {}}
-                  >
-                    💼 PROFESSIONAL
-                  </button>
-                  <button
-                    onClick={() => setActiveTab("education")}
-                    className={`px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-black transition-all duration-300 border-2 rounded-lg ${
-                      activeTab === "education"
-                        ? "text-white border-gray-600"
-                        : "bg-transparent text-gray-300 border-gray-600 hover:bg-gray-700/50"
-                    }`}
-                    style={activeTab === "education" ? { backgroundColor: "#CD535A", borderColor: "#CD535A" } : {}}
-                  >
-                    🎓 EDUCATION
-                  </button>
-                  <button
-                    onClick={() => setActiveTab("personal")}
-                    className={`px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-black transition-all duration-300 border-2 rounded-lg ${
-                      activeTab === "personal"
-                        ? "text-white border-gray-600"
-                        : "bg-transparent text-gray-300 border-gray-600 hover:bg-gray-700/50"
-                    }`}
-                    style={activeTab === "personal" ? { backgroundColor: "#CD535A", borderColor: "#CD535A" } : {}}
-                  >
-                    👤 PERSONAL
-                  </button>
-                </div>
-              </div>
+              <div className="space-y-16 sm:space-y-20">
+                {/* Professional Experience */}
+                <motion.div
+                  className="text-center"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                  <div className="inline-flex items-center gap-3 mb-8">
+                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#CD535A" }}></div>
+                    <span className="text-sm font-bold uppercase tracking-wider text-gray-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                      CURRENT FOCUS
+                    </span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-6" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+                    FULL-STACK DEVELOPMENT & UX/UI DESIGN
+                  </h3>
+                  <p className="text-lg sm:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                    Currently focused on creating comprehensive digital experiences that combine thoughtful design with robust development.
+                  </p>
+                </motion.div>
 
-              {/* Tab Content */}
-              <div className="min-h-[400px]">
-                {/* Professional Journey */}
-                {activeTab === "professional" && (
+                {/* Skills Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 sm:p-8 lg:p-12"
+                    className="text-center"
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
                   >
-                    <div className="text-center">
-                      <h3 className="text-2xl sm:text-3xl font-black text-white mb-6" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
-                        Professional Journey
-                      </h3>
-                      <p className="text-lg text-gray-300 mb-8" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                        Currently focused on creating comprehensive digital experiences that combine thoughtful design with robust development.
+                    <div className="mb-6">
+                      <div className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-4 text-2xl" style={{ backgroundColor: "#CD535A" }}>
+                        💻
+                      </div>
+                      <h4 className="text-xl sm:text-2xl font-black text-white mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+                        DEVELOPMENT
+                      </h4>
+                      <p className="text-gray-300 leading-relaxed" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                        React, Next.js, TypeScript, Node.js
                       </p>
-                      <div className="space-y-4">
-                        <div className="bg-gray-700/50 rounded-lg p-4">
-                          <h4 className="text-xl font-bold text-white mb-2" style={{ fontFamily: "Montserrat, sans-serif" }}>Full-Stack Development</h4>
-                          <p className="text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>React, Next.js, TypeScript, Node.js</p>
-                        </div>
-                        <div className="bg-gray-700/50 rounded-lg p-4">
-                          <h4 className="text-xl font-bold text-white mb-2" style={{ fontFamily: "Montserrat, sans-serif" }}>UX/UI Design</h4>
-                          <p className="text-gray-300" style={{ fontFamily: "Montserrat, sans-serif" }}>User Research, Wireframing, Prototyping, Design Systems</p>
-                        </div>
-                      </div>
                     </div>
                   </motion.div>
-                )}
 
-                {/* Education Journey */}
-                {activeTab === "education" && (
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 sm:p-8 lg:p-12"
+                    className="text-center"
+                    initial={{ opacity: 0, x: 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
                   >
-                    <div className="flex items-center justify-center mb-8 sm:mb-12">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mr-6 sm:mr-8 text-2xl sm:text-3xl" style={{ backgroundColor: "#CD535A" }}>
-                        🎓
+                    <div className="mb-6">
+                      <div className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-4 text-2xl" style={{ backgroundColor: "#CD535A" }}>
+                        🎨
                       </div>
-                      <div>
-                        <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
-                          University of Wisconsin Madison
-                        </h3>
-                        <p className="text-base sm:text-lg text-gray-300 font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                          Bachelor's in Consumer Behavior and Marketplace Studies. Minors in Computer Science and Entrepreneurship
-                        </p>
-                        <p className="font-black text-base sm:text-lg" style={{ color: "#CD535A" }}>
-                          Expected Graduation: May 2025
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-6 sm:space-y-8">
-                      <div className="pl-6 sm:pl-8 py-4 sm:py-6" style={{ borderLeft: "4px solid #CD535A" }}>
-                        <h4 className="font-black text-lg sm:text-xl text-white mb-3 sm:mb-4 tracking-tight" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
-                          Relevant Coursework
-                        </h4>
-                        <p className="text-base sm:text-lg text-gray-300 font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                          Mobile Applications, User Interface Design, Data Structures & Algorithms, Software Engineering, Consumer Insights
-                        </p>
-                      </div>
+                      <h4 className="text-xl sm:text-2xl font-black text-white mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+                        DESIGN
+                      </h4>
+                      <p className="text-gray-300 leading-relaxed" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                        User Research, Wireframing, Prototyping, Design Systems
+                      </p>
                     </div>
                   </motion.div>
-                )}
+                </div>
 
-                {/* Personal Journey */}
-                {activeTab === "personal" && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="max-w-4xl mx-auto"
-                  >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
-                      <motion.div
-                        className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 sm:p-8 hover:border-red-500/50 transition-all duration-300"
-                        whileHover={{ y: -5 }}
-                      >
-                        <h3 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-white tracking-tight" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
-                          🏈 Flag Football & Tennis
-                        </h3>
-                        <p className="text-base sm:text-lg text-gray-300 mb-6 sm:mb-8 font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                          I'm a big football fan (go pats), and I also like to play flag football and tennis.
-                        </p>
-                        <div className="relative overflow-hidden rounded-lg">
-                          <div className="w-full h-48 bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
-                            <span className="text-gray-400 text-lg font-medium">🏈 Tennis & Football</span>
-                          </div>
-                        </div>
-                      </motion.div>
-
-                      <motion.div
-                        className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 sm:p-8 hover:border-red-500/50 transition-all duration-300"
-                        whileHover={{ y: -5 }}
-                      >
-                        <h3 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-white tracking-tight" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
-                          ♟️ Chess
-                        </h3>
-                        <p className="text-base sm:text-lg text-gray-300 mb-6 sm:mb-8 font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                          I pass the time with a chess match on chess.com
-                        </p>
-                        <div className="relative overflow-hidden rounded-lg">
-                          <Image
-                            src="/Chess.jpg"
-                            alt="Chess Game"
-                            width={400}
-                            height={200}
-                            className="w-full h-48 object-cover"
-                          />
-                        </div>
-                      </motion.div>
-
-                      <motion.div
-                        className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 sm:p-8 hover:border-red-500/50 transition-all duration-300 md:col-span-2"
-                        whileHover={{ y: -5 }}
-                      >
-                        <h3 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-white tracking-tight" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
-                          🎮 Gaming & Game Design
-                        </h3>
-                        <p className="text-base sm:text-lg text-gray-300 font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                          I've played video games since I was a kid, I've become familiar with game design interfaces and principles. Maybe you've seen me in the top ranks of a game you've played.
-                        </p>
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                )}
+                {/* Education */}
+                <motion.div
+                  className="text-center pt-8"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                >
+                  <div className="inline-flex items-center gap-3 mb-8">
+                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#CD535A" }}></div>
+                    <span className="text-sm font-bold uppercase tracking-wider text-gray-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                      EDUCATION
+                    </span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-black text-white mb-4" style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}>
+                    UNIVERSITY OF WISCONSIN MADISON
+                  </h3>
+                  <p className="text-lg text-gray-300 mb-2" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                    Bachelor's in Consumer Behavior and Marketplace Studies
+                  </p>
+                  <p className="text-lg text-gray-300 mb-4" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                    Minors in Computer Science and Entrepreneurship
+                  </p>
+                  <p className="text-lg font-bold" style={{ color: "#CD535A", fontFamily: "Montserrat, sans-serif" }}>
+                    Expected Graduation: May 2025
+                  </p>
+                </motion.div>
               </div>
             </motion.div>
           </div>

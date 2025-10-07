@@ -2,8 +2,21 @@
 
 import React, { lazy, Suspense, useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { FaCode, FaLaptopCode, FaRocket } from "react-icons/fa";
+import {
+  FaCode,
+  FaLaptopCode,
+  FaRocket,
+  FaArrowRight,
+  FaGithub,
+  FaLinkedin,
+} from "react-icons/fa";
 import Link from "next/link";
+import { Fredoka } from "next/font/google";
+
+const fredoka = Fredoka({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 // Lazy load components
 const Projects = lazy(() => import("../components/Projects"));
@@ -11,6 +24,29 @@ const Projects = lazy(() => import("../components/Projects"));
 export default function DevPage() {
   const [isMobile, setIsMobile] = useState(false);
   const [heroReady, setHeroReady] = useState(false);
+  const [currentText, setCurrentText] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
+  const [displayText, setDisplayText] = useState("");
+  const animationRef = useRef(null);
+
+  // Fonts to cycle through for typing effect - varied and distinct
+  const fonts = [
+    "Bungee, Arial Black, sans-serif", // Bold, brutalist
+    "Georgia, serif", // Classic serif
+    "Fredoka, cursive", // Bubble/rounded
+    "Roboto Mono, monospace", // Monospace
+    "Playfair Display, serif", // Elegant serif
+    "Nunito, sans-serif", // Friendly sans-serif
+    "Courier New, monospace", // Classic monospace
+    "Merriweather, serif", // Readable serif
+    "Source Sans Pro, sans-serif", // Clean sans-serif
+    "Oswald, sans-serif", // Condensed sans-serif
+  ];
+
+  const texts = ["DEVELOPMENT"];
+  const fullText = texts[currentText] || "DEVELOPMENT";
+  const typingSpeed = 80;
+  const deletingSpeed = 40;
   const heroRef = useRef<HTMLDivElement | null>(null);
   const [badgePos, setBadgePos] = useState({ x: 0, y: 0 });
 
@@ -32,25 +68,67 @@ export default function DevPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Animation variants - simplified for mobile
+  // Typing effect for DEVELOPMENT word (copied from Hero.js with font cycling)
+  useEffect(() => {
+    if (!heroReady || !fullText) return;
+
+    if (isTyping) {
+      if (displayText.length < fullText.length) {
+        animationRef.current = setTimeout(() => {
+          setDisplayText(fullText.slice(0, displayText.length + 1));
+        }, typingSpeed);
+      } else {
+        animationRef.current = setTimeout(() => {
+          setIsTyping(false);
+        }, 1500);
+      }
+    } else {
+      if (displayText.length > 0) {
+        animationRef.current = setTimeout(() => {
+          setDisplayText(displayText.slice(0, displayText.length - 1));
+        }, deletingSpeed);
+      } else {
+        animationRef.current = setTimeout(() => {
+          setCurrentText((prev) => (prev + 1) % fonts.length);
+          setIsTyping(true);
+        }, 300);
+      }
+    }
+
+    return () => {
+      if (animationRef.current) {
+        clearTimeout(animationRef.current);
+      }
+    };
+  }, [
+    displayText,
+    isTyping,
+    fullText,
+    fonts.length,
+    heroReady,
+    typingSpeed,
+    deletingSpeed,
+  ]);
+
+  // Animation variants - rising transitions
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: isMobile ? 0.08 : 0.12,
-        delayChildren: isMobile ? 0.06 : 0.12,
+        staggerChildren: 0.3,
+        delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: isMobile ? 8 : 16 },
+    hidden: { opacity: 0, y: 100 },
     show: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: isMobile ? 0.28 : 0.4,
+        duration: 0.8,
         ease: [0.25, 0.46, 0.45, 0.94],
       },
     },
@@ -68,269 +146,238 @@ export default function DevPage() {
   };
 
   return (
-    <div className="pt-20">
-      {/* Hero Section - brutalist white block */}
-      <div
-        className="relative bg-white text-black overflow-hidden"
-        ref={heroRef}
-        onMouseMove={handleHeroMouseMove}
-      >
-        {/* subtle interactive background matching theme */}
-        <div className="interactive-bg absolute inset-0 opacity-30 pointer-events-none"></div>
-
-        {/* Oversized ghost typography */}
-        <motion.div
-          className="pointer-events-none absolute inset-0 flex items-center justify-center px-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={heroReady ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
+    <div className="min-h-screen bg-white text-black">
+      {/* Hero Section - Professional Brutalist Layout */}
+      <section className="relative py-20 sm:py-28 lg:py-36 xl:py-44 bg-white">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
           <motion.div
-            className="text-black/5 font-black tracking-[-0.1em] leading-none select-none text-[25vw] xs:text-[22vw] sm:text-[18vw] md:text-[15vw] lg:text-[12vw] xl:text-[10vw] text-center"
-            animate={{ x: heroReady ? [0, 8, -8, 0] : 0 }}
-            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          >
-            BUILD • SHIP • SCALE
-          </motion.div>
-        </motion.div>
-
-        <div className="relative container mx-auto px-4 py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24">
-          <div className="flex flex-col items-center text-center max-w-5xl mx-auto z-10">
-            <motion.h1
-              initial="hidden"
-              animate={heroReady ? "show" : "hidden"}
-              variants={itemVariants}
-              className="mb-3 sm:mb-4 leading-none tracking-tighter text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-black"
-              style={{ willChange: "transform, opacity" }}
-            >
-              SOFTWARE <span className="text-orange-400">DEVELOPMENT</span>
-            </motion.h1>
-
-            {/* Mini interactive chips */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate={heroReady ? "show" : "hidden"}
-              className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4 mt-3 sm:mt-4 mb-4 sm:mb-6"
-            >
-              {["Frontend", "Clean Code", "Performance"].map((chip) => (
-                <motion.span
-                  key={chip}
-                  variants={itemVariants}
-                  whileHover={{ y: -3, rotate: -1 }}
-                  transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                  className="px-2 sm:px-3 py-1.5 sm:py-2 bg-orange-100 text-orange-800 border-2 border-black font-black text-xs sm:text-sm tracking-wide"
-                >
-                  {chip}
-                </motion.span>
-              ))}
-            </motion.div>
-
-            <motion.p
-              initial="hidden"
-              animate={heroReady ? "show" : "hidden"}
-              variants={itemVariants}
-              className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-800 mb-6 sm:mb-8 md:mb-10 leading-relaxed max-w-3xl px-2 sm:px-0"
-              style={{ willChange: "transform, opacity" }}
-            >
-              I build clean, efficient, and maintainable applications with a
-              focus on user experience. My engineering approach prioritizes
-              modular code, performance, and accessibility.
-            </motion.p>
-
-            {/* Moderate interactive: magnetic badge following cursor */}
-            <motion.div
-              animate={heroReady ? { x: badgePos.x, y: badgePos.y } : {}}
-              transition={{
-                type: "spring",
-                stiffness: 120,
-                damping: 14,
-                mass: 0.6,
-              }}
-              className="card-brutal p-3 sm:p-4 md:p-5 bg-white text-black inline-flex items-center gap-2 sm:gap-3 select-none"
-              style={{ willChange: "transform" }}
-            >
-              <span className="inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-orange-400 text-black border-3 sm:border-4 border-black">
-                <FaCode className="text-sm sm:text-base" />
-              </span>
-              <span className="font-black tracking-wider text-xs sm:text-sm md:text-base">
-                MAGNETIC INTERFACE
-              </span>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-
-      {/* Development Approach section with brutalist cards */}
-      <section className="py-12 sm:py-16 md:py-20 bg-white text-black">
-        <div className="container mx-auto px-4">
-          <motion.h2
-            initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: isMobile ? 0.3 : 0.5,
-              ease: [0.25, 0.46, 0.45, 0.94],
-            }}
-            className="text-title text-center mb-16 tracking-tight text-black"
-            style={{ willChange: "transform, opacity" }}
-          >
-            MY DEVELOPMENT APPROACH
-          </motion.h2>
-
-          <motion.div
-            variants={containerVariants}
             initial="hidden"
-            animate="show"
-            className="max-w-6xl mx-auto"
+            animate={heroReady ? "show" : "hidden"}
+            variants={containerVariants}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="space-y-12 sm:space-y-16 lg:space-y-20"
           >
-            <div className="flex flex-col md:flex-row gap-8">
-              <motion.div
+            {/* Main Title Section */}
+            <div className="space-y-4 sm:space-y-6">
+              <motion.h1
+                className="font-black leading-tight tracking-tight"
+                style={{
+                  fontWeight: 900,
+                  fontFamily: "Bungee, Arial Black, sans-serif",
+                }}
                 variants={itemVariants}
-                whileHover={{ y: -6 }}
-                transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                className="card-brutal p-8 rounded-none"
-                style={{ willChange: "transform" }}
               >
-                <div className="w-16 h-16 bg-orange-400 border-4 border-black flex items-center justify-center mb-6 mx-auto text-black">
-                  <FaLaptopCode className="text-2xl" />
-                </div>
-                <h3 className="text-xl font-black text-center mb-4 tracking-wide text-black">
-                  Frontend Excellence
-                </h3>
-                <p className="text-lg text-gray-800 text-center">
-                  Creating responsive, accessible interfaces with modern
-                  frameworks and performance optimization techniques.
-                </p>
-              </motion.div>
-
-              <motion.div
-                variants={itemVariants}
-                whileHover={{ y: -6 }}
-                transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                className="card-brutal p-8 rounded-none"
-                style={{ willChange: "transform" }}
-              >
-                <div className="w-16 h-16 bg-orange-400 border-4 border-black flex items-center justify-center mb-6 mx-auto text-black">
-                  <FaCode className="text-2xl" />
-                </div>
-                <h3 className="text-xl font-black text-center mb-4 tracking-wide text-black">
-                  Clean Code Philosophy
-                </h3>
-                <p className="text-lg text-gray-800 text-center">
-                  Writing maintainable, tested code that scales with consistent
-                  patterns and thorough documentation.
-                </p>
-              </motion.div>
-
-              <motion.div
-                variants={itemVariants}
-                whileHover={{ y: -6 }}
-                transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                className="card-brutal p-8 rounded-none"
-                style={{ willChange: "transform" }}
-              >
-                <div className="w-16 h-16 bg-orange-400 border-4 border-black flex items-center justify-center mb-6 mx-auto text-black">
-                  <FaRocket className="text-2xl" />
-                </div>
-                <h3 className="text-xl font-black text-center mb-4 tracking-wide text-black">
-                  Performance Optimization
-                </h3>
-                <p className="text-lg text-gray-800 text-center">
-                  Optimizing for speed, accessibility, and resource efficiency
-                  through measured improvements and best practices.
-                </p>
-              </motion.div>
+                <span className="block text-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl mb-2">
+                  SOFTWARE
+                </span>
+                <span
+                  className="block text-blue-600 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
+                  style={{ fontFamily: fonts[currentText % fonts.length] }}
+                >
+                  {displayText}
+                  <span className="animate-pulse">|</span>
+                </span>
+              </motion.h1>
             </div>
+
+            {/* Technology Stack Section */}
+            <motion.div
+              variants={itemVariants}
+              initial="hidden"
+              animate={heroReady ? "show" : "hidden"}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="space-y-4"
+            >
+              <h3
+                className="text-sm font-bold text-gray-600 uppercase tracking-wider"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                TECH STACK
+              </h3>
+              <div className="flex flex-wrap gap-4 sm:gap-6">
+                {[
+                  { word: "REACT", delay: 0.4 },
+                  { word: "NODE.JS", delay: 0.5 },
+                  { word: "TYPESCRIPT", delay: 0.6 },
+                  { word: "NEXT.JS", delay: 0.7 },
+                ].map((item) => (
+                  <motion.div
+                    key={item.word}
+                    variants={itemVariants}
+                    initial="hidden"
+                    animate={heroReady ? "show" : "hidden"}
+                    transition={{ duration: 0.4, delay: item.delay }}
+                    className="px-6 py-4 bg-white text-black border-4 border-black font-black text-sm tracking-wide shadow-brutal hover:bg-gray-50 transition-colors duration-200"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    {item.word}
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Call to Action */}
+            <motion.div
+              variants={itemVariants}
+              initial="hidden"
+              animate={heroReady ? "show" : "hidden"}
+              transition={{ duration: 0.6, delay: 0.8 }}
+            >
+              <Link
+                href="#projects"
+                className="inline-flex items-center px-10 py-5 bg-blue-600 text-white border-4 border-black shadow-brutal font-black text-base tracking-wide hover:bg-blue-500 transition-colors duration-200"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                VIEW PROJECTS
+                <FaArrowRight className="ml-4" />
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Projects Section with enhanced styling */}
-      <div className="relative bg-white text-black">
-        {/* Background pattern for visual interest - shifted to orange/neutral */}
-        <div className="absolute inset-0 opacity-40 overflow-hidden pointer-events-none">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-orange-200 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/3 -left-24 w-80 h-80 bg-gray-100 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-60 h-60 bg-orange-100 rounded-full blur-3xl"></div>
-        </div>
-
-        {/* Projects content with enhanced container */}
-        <div className="relative z-10">
-          <div className="container mx-auto px-4 py-16">
+      {/* Projects Section */}
+      <section id="projects" className="py-20 sm:py-24 lg:py-32 bg-gray-50">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+          {/* Section Header */}
+          <div className="text-center mb-16">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="text-title text-center mb-8 text-black"
-              style={{ willChange: "transform, opacity" }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4"
             >
-              MY PROJECTS
+              Featured Projects
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.5,
-                delay: 0.1,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-              className="text-lg text-gray-900 max-w-2xl mx-auto mb-16 text-center"
-              style={{ willChange: "transform, opacity" }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-lg text-gray-600 max-w-4xl mx-auto"
             >
-              A showcase of applications built with modern technologies and best
-              practices in web development.
+              A collection of applications built with modern technologies and
+              best practices
             </motion.p>
           </div>
 
-          {/* Projects component with brutalist-friendly wrapper */}
-          <div className="bg-white py-8">
+          {/* Projects Content */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             <Suspense
               fallback={
-                <div className="h-[500px] flex items-center justify-center">
-                  <div className="card-brutal p-6 text-center">
-                    <div className="skeleton w-24 h-24 rounded-none mx-auto mb-4"></div>
-                    <div className="skeleton h-6 w-48 rounded-none mx-auto"></div>
-                  </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {[1, 2].map((i) => (
+                    <div
+                      key={i}
+                      className="bg-white rounded-xl shadow-lg p-8 animate-pulse"
+                    >
+                      <div className="h-64 bg-gray-200 rounded-lg mb-6"></div>
+                      <div className="h-6 bg-gray-200 rounded mb-4"></div>
+                      <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                    </div>
+                  ))}
                 </div>
               }
             >
               <Projects />
             </Suspense>
-          </div>
-        </div>
-      </div>
-
-      {/* CTA Section - match About CTA style */}
-      <section className="py-20 bg-white text-black">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="max-w-4xl mx-auto text-center"
-            style={{ willChange: "transform, opacity" }}
-          >
-            <div className="card-brutal p-10 md:p-14">
-              <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-black mb-6 tracking-tighter text-black">
-                SEE MY <span className="text-orange-400">DESIGN WORK</span>
-              </h2>
-              <p className="text-subtitle mb-10 text-gray-800">
-                Explore UX/UI projects to see how I bridge design and code.
-              </p>
-              <Link href="/ux-ui">
-                <motion.button
-                  whileHover={{ scale: 1.03, y: -4 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                  className="btn-brutal btn-brutal-interactive bg-orange-400 text-black border-4 border-black"
-                >
-                  View UX/UI Projects
-                </motion.button>
-              </Link>
-            </div>
           </motion.div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-black text-white py-16 sm:py-20">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+            {/* Brand Section */}
+            <div className="space-y-4">
+              <h3
+                className="text-2xl font-black tracking-wide"
+                style={{ fontFamily: "Bungee, Arial Black, sans-serif" }}
+              >
+                JAKE COCHRAN
+              </h3>
+              <p className="text-gray-300 text-sm leading-relaxed max-w-sm">
+                Full-stack developer and UX/UI designer creating exceptional
+                digital experiences.
+              </p>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="space-y-4">
+              <h4 className="text-lg font-black tracking-wide uppercase">
+                Navigation
+              </h4>
+              <div className="space-y-3">
+                <Link
+                  href="/"
+                  className="block text-gray-300 hover:text-white transition-colors duration-200 text-sm"
+                >
+                  Home
+                </Link>
+                <Link
+                  href="/about"
+                  className="block text-gray-300 hover:text-white transition-colors duration-200 text-sm"
+                >
+                  About
+                </Link>
+                <Link
+                  href="/ux-ui"
+                  className="block text-gray-300 hover:text-white transition-colors duration-200 text-sm"
+                >
+                  UX/UI Work
+                </Link>
+                <Link
+                  href="/dev"
+                  className="block text-gray-300 hover:text-white transition-colors duration-200 text-sm"
+                >
+                  Development
+                </Link>
+              </div>
+            </div>
+
+            {/* Contact & Social */}
+            <div className="space-y-4">
+              <h4 className="text-lg font-black tracking-wide uppercase">
+                Get In Touch
+              </h4>
+              <div className="space-y-3">
+                <a
+                  href="mailto:jake.e.cochran@gmail.com"
+                  className="block text-gray-300 hover:text-white transition-colors duration-200 text-sm"
+                >
+                  jake.e.cochran@gmail.com
+                </a>
+                <div className="flex space-x-4">
+                  <a
+                    href="https://github.com/jecochran-0"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-white transition-colors duration-200"
+                  >
+                    <FaGithub className="text-xl" />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/jake-cochran/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-white transition-colors duration-200"
+                  >
+                    <FaLinkedin className="text-xl" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

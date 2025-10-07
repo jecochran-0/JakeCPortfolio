@@ -36,10 +36,10 @@ export default function Hero() {
 
   const backgrounds = useMemo(
     () => [
-      "linear-gradient(135deg, #e55a2b 0%, #ff6b35 50%, #ffa726 100%)",
-      "linear-gradient(135deg, #3db8a8 0%, #4ecdc4 50%, #81c784 100%)",
-      "linear-gradient(135deg, #2e86ab 0%, #45b7d1 50%, #66bb6a 100%)",
-      "linear-gradient(135deg, #d84315 0%, #fc5c65 50%, #ef5350 100%)",
+      "linear-gradient(135deg, #c4622a 0%, #d97706 50%, #ea580c 100%)", // Matte Orange
+      "linear-gradient(135deg, #2d7d77 0%, #0f766e 50%, #134e4a 100%)", // Matte Teal
+      "linear-gradient(135deg, #1e5a8a 0%, #2563eb 50%, #1d4ed8 100%)", // Matte Blue
+      "linear-gradient(135deg, #b91c1c 0%, #dc2626 50%, #ef4444 100%)", // Matte Red
     ],
     []
   );
@@ -200,7 +200,6 @@ export default function Hero() {
     };
   }, [updateTypingAnimation]);
 
-
   if (!mounted) {
     return (
       <div className="relative min-h-screen overflow-hidden">
@@ -242,10 +241,15 @@ export default function Hero() {
             background: backgrounds[currentText],
             scale: bgScaleValue,
             opacity: bgOpacityValue,
-            willChange: "transform, opacity",
+            willChange: "transform, opacity, background",
             transform: "translateZ(0)",
           }}
-          transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{
+            duration: 1.0,
+            ease: [0.25, 0.46, 0.45, 0.94],
+            background: { duration: 0.8, ease: "easeInOut" },
+          }}
+          animate={{ background: backgrounds[currentText] }}
         />
 
         {/* Mobile Background Enhancement */}
@@ -305,16 +309,13 @@ export default function Hero() {
                 y: mobileParallaxNear,
               }}
             />
-
           </>
         )}
-
       </div>
 
       {/* Hero Content - Mobile Optimized Layout with Performance */}
       {isMobile ? (
         <div className="absolute inset-0 flex flex-col justify-center items-center z-10 px-4 py-4">
-
           {/* Main Content - Elite Mobile Spacing */}
           <div className="text-center w-full max-w-sm space-y-6">
             {/* Hero Name Section - Diagonal Overlap */}
@@ -329,26 +330,39 @@ export default function Hero() {
               {/* COCHRAN - Card positioned diagonally for overlap */}
               <div className="relative z-10 ml-6 -mt-8">
                 <div
-                  className="card-brutal inline-block border-3 border-black shadow-brutal"
+                  className="card-brutal inline-block border-3 border-black shadow-brutal relative overflow-hidden"
                   style={{
-                    boxShadow: "6px 6px 0px rgba(0, 0, 0, 0.9)",
+                    boxShadow: `20px 20px 12px rgba(0, 0, 0, 0.15), ${Math.round(
+                      20 + mobileTilt.y * 1.2
+                    )}px ${Math.round(20 + mobileTilt.x * 0.8)}px ${Math.max(
+                      0,
+                      12 +
+                        Math.abs(mobileTilt.x) * 0.4 +
+                        Math.abs(mobileTilt.y) * 0.4
+                    )}px rgba(0, 0, 0, ${Math.min(
+                      0.25,
+                      0.15 +
+                        Math.abs(mobileTilt.x) * 0.006 +
+                        Math.abs(mobileTilt.y) * 0.006
+                    )})`,
                     transform: `rotate(1deg) perspective(800px) rotateX(${mobileTilt.x}deg) rotateY(${mobileTilt.y}deg)`,
                     background:
                       currentText === 0
-                        ? "#1f2937"
+                        ? "#c4622a"
                         : currentText === 1
-                        ? "#1e40af"
+                        ? "#2d7d77"
                         : currentText === 2
-                        ? "#dc2626"
-                        : "#7c3aed",
+                        ? "#1e5a8a"
+                        : "#b91c1c",
                     minWidth: "240px",
                     borderRadius: "0",
-                    transition: "transform 0.1s ease-out",
+                    transition:
+                      "transform 0.1s ease-out, box-shadow 0.1s ease-out, background 0.6s ease-in-out",
                     padding: "16px 24px",
                     border: "3px solid black",
                   }}
                 >
-                  <h1 className="text-5xl sm:text-6xl leading-none tracking-tight font-black text-white">
+                  <h1 className="text-5xl sm:text-6xl leading-none tracking-tight font-black text-white relative z-10">
                     COCHRAN
                   </h1>
                 </div>
@@ -457,7 +471,7 @@ export default function Hero() {
                       delay: 0.1,
                       ease: [0.2, 0, 0, 1],
                     }}
-                    className="mb-20 sm:mb-24 lg:mb-32 xl:mb-40 hero-spacing mt-2 sm:mt-4 lg:mt-8 xl:mt-10"
+                    className="mb-16 sm:mb-20 lg:mb-24 xl:mb-28 2xl:mb-32 hero-spacing mt-2 sm:mt-4 lg:mt-6 xl:mt-8 2xl:mt-10"
                   >
                     {/* JAKE - Primary Text */}
                     <motion.div
@@ -471,7 +485,7 @@ export default function Hero() {
                       className="relative z-20 mb-0 pointer-events-none"
                     >
                       <h1
-                        className="hero-name text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] 2xl:text-[12rem] leading-[0.9] tracking-tighter font-black text-white"
+                        className="hero-name text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-8xl xl:text-9xl 2xl:text-[10rem] leading-[0.85] tracking-tighter font-black text-white"
                         style={{
                           letterSpacing: "-0.02em",
                           fontFamily:
@@ -492,27 +506,33 @@ export default function Hero() {
                         delay: 0.3,
                         ease: [0.2, 0, 0, 1],
                       }}
-                      className="relative z-10 -mt-8 sm:-mt-10 lg:-mt-12 xl:-mt-16 ml-8 sm:ml-10 lg:ml-12 xl:ml-16"
+                      className="relative z-10 -mt-6 sm:-mt-8 lg:-mt-10 xl:-mt-12 2xl:-mt-14 ml-6 sm:ml-8 lg:ml-10 xl:ml-12 2xl:ml-14"
                     >
                       <div
-                        className="card-brutal cochran-card inline-block px-6 sm:px-8 lg:px-10 xl:px-12 py-4 sm:py-6 lg:py-8 xl:py-10 border-3 border-black shadow-brutal hover:scale-105 transition-all duration-300 ease-out relative"
+                        className="card-brutal cochran-card inline-block px-6 sm:px-8 lg:px-10 xl:px-12 2xl:px-14 py-4 sm:py-6 lg:py-8 xl:py-10 2xl:py-12 border-3 border-black shadow-brutal hover:scale-105 transition-all duration-300 ease-out relative overflow-hidden"
                         style={{
-                          boxShadow: "6px 6px 0px rgba(0, 0, 0, 0.9)",
+                          boxShadow:
+                            "var(--dynamic-shadow, 20px 20px 12px rgba(0, 0, 0, 0.15))",
                           transform:
                             "rotate(0.5deg) scale(var(--scale, 1)) perspective(800px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg))",
                           background:
                             currentText === 0
-                              ? "#1f2937"
+                              ? "#c4622a"
                               : currentText === 1
-                              ? "#1e40af"
+                              ? "#2d7d77"
                               : currentText === 2
-                              ? "#dc2626"
-                              : "#7c3aed",
+                              ? "#1e5a8a"
+                              : "#b91c1c",
                           "--scale": "1",
                           "--rotate-x": "0deg",
                           "--rotate-y": "0deg",
+                          "--dynamic-shadow":
+                            "20px 20px 12px rgba(0, 0, 0, 0.15)",
+                          "--cursor-glow-x": "50%",
+                          "--cursor-glow-y": "50%",
+                          "--glow-opacity": "0",
                           transition:
-                            "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                            "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.6s ease-in-out",
                         }}
                         onMouseMove={(e) => {
                           if (!isMobile) {
@@ -533,18 +553,59 @@ export default function Hero() {
                               Math.abs(deltaX) * 1.2
                             ); // Enhance edge sensitivity
 
+                            const rotateX = deltaY * -12;
+                            const rotateY = deltaX * 12 * edgeMultiplier;
+
                             // Use CSS custom properties for smooth transitions
                             e.currentTarget.style.setProperty(
                               "--rotate-x",
-                              `${deltaY * -12}deg`
+                              `${rotateX}deg`
                             );
                             e.currentTarget.style.setProperty(
                               "--rotate-y",
-                              `${deltaX * 12 * edgeMultiplier}deg`
+                              `${rotateY}deg`
                             );
                             e.currentTarget.style.setProperty(
                               "--scale",
                               "1.05"
+                            );
+
+                            // Calculate dynamic shadow based on tilt angle
+                            const shadowX = Math.round(20 + rotateY * 1.2);
+                            const shadowY = Math.round(20 + rotateX * 0.8);
+                            const shadowBlur = Math.max(
+                              0,
+                              12 +
+                                Math.abs(rotateX) * 0.4 +
+                                Math.abs(rotateY) * 0.4
+                            );
+                            const shadowOpacity = Math.min(
+                              0.25,
+                              0.15 +
+                                Math.abs(rotateX) * 0.006 +
+                                Math.abs(rotateY) * 0.006
+                            );
+
+                            const dynamicShadow = `${shadowX}px ${shadowY}px ${shadowBlur}px rgba(0, 0, 0, ${shadowOpacity})`;
+                            e.currentTarget.style.setProperty(
+                              "--dynamic-shadow",
+                              dynamicShadow
+                            );
+
+                            // Calculate cursor position for glow effect
+                            const glowX = ((x / rect.width) * 100).toFixed(1);
+                            const glowY = ((y / rect.height) * 100).toFixed(1);
+                            e.currentTarget.style.setProperty(
+                              "--cursor-glow-x",
+                              `${glowX}%`
+                            );
+                            e.currentTarget.style.setProperty(
+                              "--cursor-glow-y",
+                              `${glowY}%`
+                            );
+                            e.currentTarget.style.setProperty(
+                              "--glow-opacity",
+                              "1"
                             );
                           }
                         }}
@@ -560,6 +621,14 @@ export default function Hero() {
                               "0deg"
                             );
                             e.currentTarget.style.setProperty("--scale", "1");
+                            e.currentTarget.style.setProperty(
+                              "--dynamic-shadow",
+                              "20px 20px 12px rgba(0, 0, 0, 0.15)"
+                            );
+                            e.currentTarget.style.setProperty(
+                              "--glow-opacity",
+                              "0"
+                            );
                           }
                         }}
                         onMouseEnter={(e) => {
@@ -590,6 +659,26 @@ export default function Hero() {
                             ) {
                               e.currentTarget.style.setProperty("--scale", "1");
                             }
+                            if (
+                              !e.currentTarget.style.getPropertyValue(
+                                "--dynamic-shadow"
+                              )
+                            ) {
+                              e.currentTarget.style.setProperty(
+                                "--dynamic-shadow",
+                                "20px 20px 12px rgba(0, 0, 0, 0.15)"
+                              );
+                            }
+                            if (
+                              !e.currentTarget.style.getPropertyValue(
+                                "--glow-opacity"
+                              )
+                            ) {
+                              e.currentTarget.style.setProperty(
+                                "--glow-opacity",
+                                "0"
+                              );
+                            }
                           }
                         }}
                       >
@@ -605,7 +694,7 @@ export default function Hero() {
                           }}
                         />
                         <h1
-                          className="hero-name text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[10rem] leading-[0.9] tracking-tighter font-black text-white relative z-10"
+                          className="hero-name text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl 2xl:text-9xl leading-[0.85] tracking-tighter font-black text-white relative z-10"
                           style={{
                             letterSpacing: "-0.02em",
                             fontFamily:
@@ -614,6 +703,17 @@ export default function Hero() {
                         >
                           COCHRAN
                         </h1>
+
+                        {/* White Glow Effect */}
+                        <div
+                          className="absolute inset-0 pointer-events-none z-5"
+                          style={{
+                            background: `radial-gradient(circle at var(--cursor-glow-x) var(--cursor-glow-y), rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.25) 15%, transparent 30%)`,
+                            opacity: "var(--glow-opacity, 0)",
+                            transition:
+                              "background 0.1s ease-out, opacity 0.2s ease-out",
+                          }}
+                        />
                       </div>
                     </motion.div>
                   </motion.div>
@@ -623,15 +723,15 @@ export default function Hero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="hero-spacing mb-16 sm:mb-20 lg:mb-24 xl:mb-28 ml-0"
+                    className="hero-spacing mb-12 sm:mb-16 lg:mb-20 xl:mb-24 2xl:mb-28 ml-0"
                   >
                     <div
-                      className="card-brutal inline-block px-3 sm:px-4 lg:px-6 xl:px-8 py-2 sm:py-2 lg:py-3 xl:py-4 min-w-[200px] sm:min-w-[240px] lg:min-w-[360px]"
+                      className="card-brutal inline-block px-3 sm:px-4 lg:px-6 xl:px-8 2xl:px-10 py-2 sm:py-2 lg:py-3 xl:py-4 2xl:py-5 min-w-[200px] sm:min-w-[240px] lg:min-w-[360px] xl:min-w-[400px] 2xl:min-w-[440px]"
                       style={{
                         boxShadow: "12px 12px 0px rgba(0, 0, 0, 0.9)",
                       }}
                     >
-                      <h2 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-black font-black tracking-wide">
+                      <h2 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-xl xl:text-2xl 2xl:text-3xl text-black font-black tracking-wide">
                         {displayText}
                         {mounted && <span className="animate-pulse">|</span>}
                       </h2>
@@ -644,7 +744,7 @@ export default function Hero() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                  className="mb-20 sm:mb-24 lg:mb-32 xl:mb-40 hero-spacing ml-0"
+                  className="mb-16 sm:mb-20 lg:mb-24 xl:mb-28 2xl:mb-32 hero-spacing ml-0"
                 >
                   <HeroButtons />
                 </motion.div>
@@ -693,8 +793,6 @@ export default function Hero() {
           </div>
         </div>
       )}
-
-
     </div>
   );
 }

@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Archivo_Black } from "next/font/google";
+import { Inter, Space_Grotesk, Archivo_Black, Fredoka } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import PageTransition, {
   NavigationProvider,
 } from "./components/PageTransition";
 import DynamicCursor from "./components/DynamicCursor";
-import ScrollIndicator from "./components/ScrollIndicator";
 import PerformanceMonitor from "./components/PerformanceMonitor";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,6 +16,10 @@ const spaceGrotesk = Space_Grotesk({
 const archivoBlack = Archivo_Black({
   weight: "400",
   subsets: ["latin"],
+});
+const fredoka = Fredoka({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -129,7 +132,6 @@ export default function RootLayout({
           <Navbar />
           <PageTransition>{children}</PageTransition>
           <DynamicCursor />
-          <ScrollIndicator />
         </NavigationProvider>
       </body>
     </html>

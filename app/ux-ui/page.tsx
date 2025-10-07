@@ -651,11 +651,37 @@ export default function UXUIPage() {
                     </div>
 
                     <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed tracking-wide mb-6 sm:mb-8 flex-grow font-medium">
-                      Turning one-time AI users into loyal daily writers through
+                      A comprehensive user research project that transformed
+                      one-time AI users into loyal daily writers through
                       strategic UX improvements and user-centered design.
                     </p>
 
-                    {/* Preview block intentionally removed per request */}
+                    {/* User Research Focus */}
+                    <div className="mb-6 sm:mb-8">
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        <span className="bg-blue-100 text-blue-800 border-2 border-black text-xs px-3 py-1 font-bold">
+                          USER RESEARCH
+                        </span>
+                        <span className="bg-purple-100 text-purple-800 border-2 border-black text-xs px-3 py-1 font-bold">
+                          UX STRATEGY
+                        </span>
+                        <span className="bg-green-100 text-green-800 border-2 border-black text-xs px-3 py-1 font-bold">
+                          BEHAVIORAL ANALYSIS
+                        </span>
+                      </div>
+
+                      {/* Project Image */}
+                      <div className="relative aspect-[16/9] border-4 border-black overflow-hidden">
+                        <Image
+                          src="/Grammarly-Go.png"
+                          alt="GrammarlyGO User Research Project"
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          priority={true}
+                        />
+                      </div>
+                    </div>
 
                     <Link href="/ux-ui/grammarlygo">
                       <motion.button

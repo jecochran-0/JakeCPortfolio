@@ -19,12 +19,14 @@ export default function ScrollIndicator() {
 
   // Calculate scroll percentage safely - must be called before any conditionals
   const scrollPercentage = useMemo(() => {
-    if (typeof window === "undefined" || typeof document === "undefined") return 0;
-    
+    if (typeof window === "undefined" || typeof document === "undefined")
+      return 0;
+
     const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const docHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
     if (docHeight <= 0) return 0;
-    
+
     return Math.min((scrollTop / docHeight) * 100, 100);
   }, [scrollY]);
 
@@ -37,7 +39,7 @@ export default function ScrollIndicator() {
   useEffect(() => {
     // Mark as mounted to prevent SSR issues
     setIsMounted(true);
-    
+
     // Early return if mobile - don't run any scroll monitoring
     const checkMobile = () => {
       if (typeof window === "undefined") return;
@@ -111,10 +113,7 @@ export default function ScrollIndicator() {
       {/* Scroll Progress Circle */}
       <div className="relative w-16 h-16">
         {/* Background Circle */}
-        <svg
-          className="w-full h-full transform -rotate-90"
-          viewBox="0 0 36 36"
-        >
+        <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
           <path
             d="M18 2.0845
               a 15.9155 15.9155 0 0 1 0 31.831
@@ -148,19 +147,6 @@ export default function ScrollIndicator() {
           </span>
         </div>
       </div>
-
-      {/* Scroll Direction Indicator */}
-      <motion.div
-        className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white/60 rounded-full"
-        animate={{
-          y: scrollY > 100 ? [0, -4, 0] : [0, 4, 0],
-        }}
-        transition={{
-          duration: 1.5,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
     </motion.div>
   );
 }
@@ -169,13 +155,16 @@ export default function ScrollIndicator() {
 function calculateScrollPercentage() {
   // This function is only called on desktop, so we can safely access window
   if (typeof window === "undefined" || typeof document === "undefined") return;
-  
+
   const scrollTop = window.scrollY;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
   if (docHeight <= 0) return;
-  
+
   const scrollPercent = (scrollTop / docHeight) * 100;
-  
+
   // Update CSS custom property for potential use elsewhere
-  document.documentElement.style.setProperty("--scroll-percentage", `${scrollPercent}%`);
+  document.documentElement.style.setProperty(
+    "--scroll-percentage",
+    `${scrollPercent}%`
+  );
 }

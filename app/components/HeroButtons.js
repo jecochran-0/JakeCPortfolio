@@ -57,10 +57,12 @@ export default memo(function HeroButtons() {
       }}
     >
       <motion.button
-        className="btn-brutal btn-brutal-interactive w-full sm:w-auto text-sm sm:text-base lg:text-lg px-6 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 min-h-[48px] font-bold"
+        className="btn-brutal btn-brutal-interactive w-full sm:w-auto text-sm sm:text-base lg:text-lg xl:text-xl 2xl:text-2xl px-6 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 xl:px-10 xl:py-5 2xl:px-12 2xl:py-6 min-h-[48px] lg:min-h-[56px] xl:min-h-[64px] 2xl:min-h-[72px] font-bold"
         {...animationVariants.button}
         onClick={handleViewWork}
         style={{
+          background: "var(--color-white)",
+          color: "var(--color-black)",
           willChange: "transform, box-shadow",
           transform: "translateZ(0)",
           boxShadow: "8px 8px 0px rgba(0, 0, 0, 0.85)",
@@ -77,7 +79,7 @@ export default memo(function HeroButtons() {
       </motion.button>
 
       <motion.button
-        className="btn-brutal btn-brutal-interactive w-full sm:w-auto text-sm sm:text-base lg:text-lg px-6 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 min-h-[48px] font-bold"
+        className="btn-brutal btn-brutal-interactive w-full sm:w-auto text-sm sm:text-base lg:text-lg xl:text-xl 2xl:text-2xl px-6 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 xl:px-10 xl:py-5 2xl:px-12 2xl:py-6 min-h-[48px] lg:min-h-[56px] xl:min-h-[64px] 2xl:min-h-[72px] font-bold"
         style={{
           background: "var(--color-white)",
           color: "var(--color-black)",

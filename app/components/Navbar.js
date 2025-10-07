@@ -142,7 +142,7 @@ export default function Navbar() {
           height: navbarHeight,
           opacity: 1, // Always visible
           backdropFilter: `blur(${navbarBlur}px)`,
-          background: isScrolled ? "rgba(0, 0, 0, 0.9)" : "transparent",
+          background: "transparent",
           willChange: "transform, opacity, backdrop-filter",
           transform: "translateZ(0)", // Hardware acceleration
         }}
@@ -172,7 +172,7 @@ export default function Navbar() {
                       isActive
                         ? "nav-active"
                         : pathname === "/"
-                        ? "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm"
+                        ? "bg-white text-black border-2 border-black hover:bg-gray-100 shadow-brutal"
                         : "bg-white text-black border-2 border-black hover:bg-gray-100 shadow-brutal"
                     }`}
                     style={{
@@ -308,7 +308,7 @@ export default function Navbar() {
                           className={`w-full flex items-center space-x-4 p-4 sm:p-5 rounded-none transition-all duration-300 text-left min-h-[60px] border-4 border-black shadow-brutal hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-brutal-hover mobile-nav-item ${
                             isActive
                               ? "bg-orange-400 text-black font-black shadow-brutal-large active"
-                              : "bg-white text-black hover:bg-gray-50"
+                              : "bg-white text-black hover:bg-gray-100"
                           }`}
                           style={{
                             willChange: "transform",
